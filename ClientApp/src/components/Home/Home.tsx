@@ -1,13 +1,17 @@
-﻿import React, { FunctionComponent } from 'react';
+﻿import React, { FunctionComponent, Props } from 'react';
+import { useHistory } from "react-router-dom";
 import { Route } from 'react-router';
 import { Row, Col, Typography, Layout, PageHeader, Button } from 'antd';
 
 const { Header, Content, Footer, Sider } = Layout;
 const { Title, Text } = Typography;
 
-export const Home: FunctionComponent<Props & Route, State> = (props) => {
-    const gotoContact = () => { props.history.push('/contact'); }
-    const gotoList = () => { props.history.push('/list'); }
+export const Home: FunctionComponent = () => {
+
+    let history = useHistory();
+
+    const gotoContact = () => { history.push('/contact'); }
+    const gotoList = () => { history.push('/list'); }
 
     return (
         <div>
