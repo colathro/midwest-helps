@@ -1,3 +1,3 @@
-import React, { FunctionComponent } from 'react';
+import React from 'react';
 
-export const Layout: FunctionComponent = props => <div>{props.children}</div>;
+export const Layout: React.FC = props => <div>{props.children}</div>;
