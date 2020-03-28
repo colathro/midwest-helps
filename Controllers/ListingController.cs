@@ -12,7 +12,7 @@ namespace getthehotdish.Controllers
     [Route("/api/[controller]")]
     public class ListingController : ControllerBase
     {
-
+        private const string partitionKey = "ND";
 
         private readonly ILogger<ListingController> _logger;
         private DataContext _dataContext;
@@ -24,12 +24,35 @@ namespace getthehotdish.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        [Route("page/{page}")]
+        public async Task<ICollection<Listing>> Get(int page)
         {
-            _logger.LogInformation("Get Request. 🎁");
+            _logger.LogInformation($"PAGE GET Request: {page}");
 
-            _dataContext.Listings.Add(new Listing { Id = Guid.NewGuid(), PartitionKey = "Test"});
+            var listings = _dataContext.Listings.Where(l => l.PartitionKey == partitionKey).ToList();
 
+            return listings;
+        }
+
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<Listing> Get(string id)
+        {
+            _logger.LogInformation($"ID GET Request: {id}");
+
+            var listing = _dataContext.Listings.Where(l => l.Id == Guid.Parse(id) && l.PartitionKey == partitionKey).First();
+
+            return listing;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] Listing listing)
+        {
+            _logger.LogInformation($"LISTNG POST Request: {listing.BusinessName}");
+
+            listing.PartitionKey = partitionKey;
+
+            _dataContext.Listings.Add(listing);
             await _dataContext.SaveChangesAsync();
 
             return Ok();
