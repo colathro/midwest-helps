@@ -11,5 +11,4 @@
   "[typescriptreact]": {
     "editor.formatOnSave": true
   },
-  "prettier.jsxSingleQuote": true,
 }
