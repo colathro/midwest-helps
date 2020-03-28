@@ -1,75 +1,13 @@
 ﻿import React from 'react';
-import Faker from 'faker';
 import { useHistory } from 'react-router-dom';
 import { Row, Col, Typography, Layout, Button } from 'antd';
-import {
-  CompanyCardProps,
-  CompanyCategory,
-  CompanyInteraction,
-  CompanyCard
-} from '../CompanyCard/CompanyCard';
+import { CompanyCard } from '../CompanyCard';
 
 import './Home.scss';
+import { getFakeCompanies } from '../../dataFaking';
 
 const { Header, Content } = Layout;
 const { Title } = Typography;
-
-// TODO: Remove fake data
-const companyCategories: CompanyCategory[] = [
-  'brewery',
-  'coffee',
-  'entertainment',
-  'grocery',
-  'other',
-  'religion',
-  'restaurant',
-  'retail',
-  'wellness'
-];
-
-const companyInteractions: CompanyInteraction[] = [
-  'appointment',
-  'curbside',
-  'delivery',
-  'livestream',
-  'takeout'
-];
-
-const getFakeInteractions = (numInteractions: number) => {
-  // if longer than the length of options, make it be the length of the options
-  numInteractions =
-    numInteractions <= companyInteractions.length
-      ? numInteractions
-      : companyInteractions.length;
-
-  const interactions: CompanyInteraction[] = [];
-  const tempInteractions = [...companyInteractions];
-  for (let i = 0; i < numInteractions; i++) {
-    const interactionIndex = Faker.random.number(tempInteractions.length - 1);
-    interactions.push(tempInteractions[interactionIndex]);
-    tempInteractions.splice(interactionIndex, 1);
-  }
-
-  return interactions;
-};
-
-const companies: CompanyCardProps[] = [];
-for (let i = 0; i < 10; i++) {
-  companies.push({
-    title: Faker.company.companyName(),
-    category:
-      companyCategories[Faker.random.number(companyCategories.length - 1)],
-    lastUpdate: Faker.date.recent(),
-    message: Faker.company.catchPhrase(),
-    interactions: getFakeInteractions(
-      Faker.random.number(companyInteractions.length)
-    ),
-    phone: Faker.random.boolean() ? Faker.phone.phoneNumber() : undefined,
-    webUrl: Faker.random.boolean() ? Faker.internet.url() : undefined,
-    giftCardUrl: Faker.random.boolean() ? Faker.internet.url() : undefined
-  });
-}
-// End of data faking
 
 export const Home: React.FC = () => {
   let history = useHistory();
@@ -123,7 +61,7 @@ export const Home: React.FC = () => {
       <Content>
         <Row justify="center">
           <Col span={12}>
-            {companies.map((companyProps, index) => (
+            {getFakeCompanies(10).map((companyProps, index) => (
               <CompanyCard {...companyProps} key={index} />
             ))}
           </Col>
