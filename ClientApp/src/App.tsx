@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React from 'react';
 import { Route } from 'react-router';
 import { Home } from './components/Home';
 import './custom.scss';
@@ -9,7 +9,7 @@ import { Typography } from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
 const { Title } = Typography;
 
-export const App: FunctionComponent = () => (
+export const App: React.FC = () => (
   <Layout>
     <Header className="header">
       <Title style={{color:"white"}}>Hotdish</Title>
