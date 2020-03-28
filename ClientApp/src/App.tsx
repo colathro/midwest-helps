@@ -19,7 +19,9 @@ export const App: FunctionComponent = () => (
         <Sider className="site-layout-background" width={200}>
           Sider
         </Sider>
-        <Content style={{ padding: '0 24px', minHeight: 280 }}>Content</Content>
+        <Content style={{ padding: '0 24px', minHeight: 280 }}>
+          <Route exact path='/' component={Home} />
+        </Content>
       </Layout>
     </Content>
     <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
