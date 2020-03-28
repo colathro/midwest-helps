@@ -38,22 +38,20 @@ export const Home: React.FC = () => {
       <Content className="header-greeting">
         <Row justify="center">
           <Col span={18}>
-            <Content className="content-layout">
-              <Title level={1}>
-                Support your community from where you're at.
-              </Title>
-              <Typography>
-                The temporary shut down of Fargo/Moorhead businesses due to
-                COVID-19 has many folks struggling. This site is meant to be a
-                resource for the people of this city to dish up on the latest
-                info and continue to support their favorite local spots.
-              </Typography>
-              <Typography>
-                This information is crowdsourced, so please verify the accuracy
-                independently. If you see a mistake or need to update a post,
-                please contact us.
-              </Typography>
-            </Content>
+            <Title level={1}>
+              Support your community from where you're at.
+            </Title>
+            <Typography>
+              The temporary shut down of Fargo/Moorhead businesses due to
+              COVID-19 has many folks struggling. This site is meant to be a
+              resource for the people of this city to dish up on the latest info
+              and continue to support their favorite local spots.
+            </Typography>
+            <Typography>
+              This information is crowdsourced, so please verify the accuracy
+              independently. If you see a mistake or need to update a post,
+              please contact us.
+            </Typography>
           </Col>
         </Row>
       </Content>
