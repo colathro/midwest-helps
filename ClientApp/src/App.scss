@@ -1,9 +1,26 @@
 /* Provide sufficient contrast against white background */
 @import '~antd/dist/antd.css';
 
-.site-layout-background {
-  background: #fff;
-  padding: '24px 0';
+h1.title {
+  color: white;
+}
+
+main.content-layout {
+  padding: 50px 30px 50px 80px;
+}
+
+section.site-layout-background {
+  background: white;
+  padding: 25px;
+}
+
+main.content-home {
+  padding: 0px 25px;
+  min-height: 280px;
+}
+
+footer.footer-layout {
+  text-align: center;
 }
 
 a {

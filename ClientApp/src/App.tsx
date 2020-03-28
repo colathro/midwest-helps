@@ -12,18 +12,15 @@ const { Title } = Typography;
 export const App: React.FC = () => (
   <Layout>
     <Header className="header">
-      <Title>Hotdish</Title>
+      <Title className="title">Hotdish</Title>
     </Header>
-    <Content>
+    <Content className="content-layout">
       <Layout className="site-layout-background">
-        <Sider className="site-layout-background" width={200}>
-          Sider
-        </Sider>
-        <Content>
+        <Content className="content-home">
           <Route exact path='/' component={Home} />
         </Content>
       </Layout>
     </Content>
-    <Footer>Ant Design ©2018 Created by Ant UED</Footer>
+    <Footer className="footer-layout">Ant Design ©2018 Created by Ant UED</Footer>
   </Layout>
 );
