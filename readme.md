@@ -7,7 +7,8 @@ Unique Identifiers are GUIDs and will be generated server side on POST. Cosmos P
 Get record by ID:
 https://localhost:44386/api/listing/db8298af-6f7a-4ab4-9255-48112243a702
 
-Output:
+Output
+```json
 {
     "id": "db8298af-6f7a-4ab4-9255-48112243a702",
     "partitionKey": "ND",
@@ -24,7 +25,7 @@ Output:
     "liveStream": false,
     "appointmentOnly": false
 }
-
+```
 --------------------
 
 ## Get Page of Records
@@ -32,6 +33,7 @@ Get Page of Records:
 https://localhost:44386/api/listing/page/1
 
 Output:
+```json
 [
     {
         "id": "db8298af-6f7a-4ab4-9255-48112243a702",
@@ -66,7 +68,7 @@ Output:
         "appointmentOnly": false
     }
 ]
-
+```
 --------------------
 
 ## Post New Listing
@@ -74,20 +76,20 @@ Post New Business Listing
 https://localhost:44386/api/listing/
 
 Content-Type:application/json
-
+```json
 {
-	"BusinessName": "TacoBell",
-	"BusinessType": 1,
-	"PhoneNumber": "7014910059",
-	"LiveStreamUrl": "Twitch.tv/colathro",
-	"OrderUrl": "Grubhub.com",
-	"MessageToCustomer": "WE ARE OPEN PLEAS ECOME EAT.",
-	"CurbSide": true,
-	"TakeOut": true,
-	"DriveThru": true,
-	"Deliverry": true,
-	"LiveStream": true,
-	"AppointmentOnly": true,
+    "BusinessName": "TacoBell",
+    "BusinessType": 1,
+    "PhoneNumber": "7014910059",
+    "LiveStreamUrl": "Twitch.tv/colathro",
+    "OrderUrl": "Grubhub.com",
+    "MessageToCustomer": "WE ARE OPEN PLEAS ECOME EAT.",
+    "CurbSide": true,
+    "TakeOut": true,
+    "DriveThru": true,
+    "Deliverry": true,
+    "LiveStream": true,
+    "AppointmentOnly": true,
     "UberEats": true,
     "Grubhub": true,
     "DoorDash": true,
@@ -95,6 +97,6 @@ Content-Type:application/json
     "FoodDudes": true,
     "BiteSquad": true
 }
-
+```
 Output: 
 200 OK
