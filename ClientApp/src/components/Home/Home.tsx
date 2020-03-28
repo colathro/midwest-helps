@@ -1,9 +1,10 @@
-﻿/* eslint-disable jsx-a11y/accessible-emoji */
-import React from 'react';
+﻿import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { Row, Col, Typography, Layout, Button } from 'antd';
 
-const { Header, Content, Footer } = Layout;
+import './Home.scss';
+
+const { Header, Content } = Layout;
 const { Title } = Typography;
 
 export const Home: React.FC = () => {
@@ -63,14 +64,6 @@ export const Home: React.FC = () => {
           ></Col>
         </Row>
       </Content>
-      <Footer>
-        <Row justify="center">
-          <Col span={18}>
-            🧡 Made by Jordan, Michael, Tyler, Josie, Daniel, Louie, and Colton
-            💌 Hello@getthehotdish.com
-          </Col>
-        </Row>
-      </Footer>
     </div>
   );
 };
