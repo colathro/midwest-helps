@@ -5,6 +5,8 @@ header.header-layout {
     background: #582BD9;
     position: fixed;
     width: 100%;
+    z-index: 51;
+    height: 72px;
 }
 
 header.header-no-padding{
@@ -12,8 +14,8 @@ header.header-no-padding{
 }
 
 h3.header-title-margin {
-    margin-top: 12px;
-    margin-bottom: 12px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 h1.title {
