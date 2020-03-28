@@ -20,20 +20,10 @@ export const Home: React.FC = () => {
       <Header className="header-layout header-no-padding">
         <Row>
           <Col span={18} offset={3}>
-            <Title
-              className="title header-title-margin"
-              level={3}
-              style={{ display: 'inline-block' }}
-            >
+            <Title className="title header-title-margin" level={3}>
               Hotdish
             </Title>
-            <div
-              style={{
-                float: 'right',
-                display: 'inline-block',
-                marginTop: '4px'
-              }}
-            >
+            <div className="button-group">
               <Button onClick={gotoContact} type="link" ghost>
                 Contact
               </Button>
@@ -68,10 +58,9 @@ export const Home: React.FC = () => {
       </Content>
       <Content className="content-layout-main">
         <Layout className="layout-white-background">
-          <Content
-            className="content-home"
-            style={{ height: '4000px' }}
-          ></Content>
+          <Content className="content-home">
+
+          </Content>
         </Layout>
       </Content>
       <Footer className="footer-layout">
