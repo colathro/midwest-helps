@@ -1,8 +1,10 @@
 ﻿import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { Row, Col, Typography, Layout, Button } from 'antd';
+import { CompanyCard } from '../CompanyCard';
 
 import './Home.scss';
+import { getFakeCompanies } from '../../dataFaking';
 
 const { Header, Content } = Layout;
 const { Title } = Typography;
@@ -58,10 +60,11 @@ export const Home: React.FC = () => {
       </Content>
       <Content>
         <Row justify="center">
-          <Col
-            span={24}
-            style={{ height: '2000px' }} // TEMPORARY
-          ></Col>
+          <Col span={12}>
+            {getFakeCompanies(10).map((companyProps, index) => (
+              <CompanyCard {...companyProps} key={index} />
+            ))}
+          </Col>
         </Row>
       </Content>
     </div>

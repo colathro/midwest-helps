@@ -1,0 +1,46 @@
+.company-card {
+  margin-top: 8px;
+  .ant-card-head {
+    border-bottom: none;
+  }
+  .ant-card-head-title {
+    font-size: 24px;
+    font-weight: 700;
+  }
+}
+
+.category-tag {
+  margin-top: -40px;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: -0.1px;
+}
+
+.company-links {
+  margin-top: -32px;
+  float: right;
+}
+
+.interaction-tags {
+  & > div {
+    border-radius: 4px;
+    display: inline-block;
+    padding: 4px 8px;
+    margin-right: 4px;
+  }
+  .delivery-tag {
+    background-color: #f1d4fc;
+  }
+  .takeout-tag {
+    background-color: #fce2d4;
+  }
+  .curbside-tag {
+    background-color: #d4fcda;
+  }
+  .appointment-tag {
+    background-color: #d4d8fc;
+  }
+  .livestream-tag {
+    background-color: #fcd4d4;
+  }
+}

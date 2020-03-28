@@ -6,6 +6,10 @@ $header-height: 72px;
   z-index: 1;
   width: 100%;
   height: $header-height;
+
+  h3 {
+    color: white;
+  }
 }
 
 .right-nav {
@@ -27,6 +31,9 @@ main.header-greeting {
   background: $primary-color;
   padding-top: $header-height + $vertical-padding;
   padding-bottom: $vertical-padding;
+  h1 {
+    color: white;
+  }
   article {
     font-size: 16px;
     color: white;
