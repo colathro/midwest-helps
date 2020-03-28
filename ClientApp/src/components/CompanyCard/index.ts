@@ -1,1 +1,1 @@
-export { CompanyCard, CompanyCategory, Interaction } from './CompanyCard';
+export { CompanyCard } from './CompanyCard';

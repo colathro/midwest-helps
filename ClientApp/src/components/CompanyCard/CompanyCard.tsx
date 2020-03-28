@@ -1,8 +1,6 @@
 import React from 'react';
 import { Card } from 'antd';
 
-import './CompanyCard.scss';
-
 export interface CompanyCardProps {
   title: string;
   categories: CompanyCategory[];
