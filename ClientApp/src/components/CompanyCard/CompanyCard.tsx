@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card } from 'antd';
 
-import './companyCard.scss';
+import './CompanyCard.scss';
 
 export interface CompanyCardProps {
   title: string;
@@ -14,25 +14,23 @@ export interface CompanyCardProps {
   giftCardUrl?: string;
 }
 
-export enum CompanyCategory {
-  Brewery,
-  Coffee,
-  Entertainment,
-  Grocery,
-  Other,
-  Religion,
-  Restaurant,
-  Retail,
-  Wellness
-}
+export type CompanyCategory =
+  | 'brewery'
+  | 'coffee'
+  | 'entertainment'
+  | 'grocery'
+  | 'other'
+  | 'religion'
+  | 'restaurant'
+  | 'retail'
+  | 'wellness';
 
-export enum Interaction {
-  Appointment,
-  Curbside,
-  Delivery,
-  Livestream,
-  Takeout
-}
+export type Interaction =
+  | 'appointment'
+  | 'curbside'
+  | 'delivery'
+  | 'livestream'
+  | 'takeout';
 
 export const CompanyCard: React.FC<CompanyCardProps> = props => {
   return <Card>{props.title}</Card>;
