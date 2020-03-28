@@ -1,22 +1,62 @@
 /* Provide sufficient contrast against white background */
 @import '~antd/dist/antd.css';
 
+header.header-layout{
+  background: #582BD9;
+  position: fixed;
+  width: 100%;
+}
+
 h1.title {
   color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  font-style: normal;
+}
+
+h3.title {
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  font-style: normal;
+}
+
+h3.header-title {
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  font-style: normal;
+}
+
+h4.title {
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  font-style: normal;
 }
 
 main.content-layout {
-  padding: 50px 30px 50px 80px;
+  background: #582BD9;
+  padding: 100px 100px 100px 100px;
+  min-height: 300px;
+  align-items: center;
 }
 
-section.site-layout-background {
+main.content-layout-main {
+  padding: 50px 100px 50px 100px;
+  align-items: center;
+}
+
+section.layout-white-background {
   background: white;
-  padding: 25px;
+  align-items: center;
+}
+
+section.layout-purple-background {
+  background: #582BD9;
+  align-items: center;
 }
 
 main.content-home {
   padding: 0px 25px;
   min-height: 280px;
+  align-items: center;
 }
 
 footer.footer-layout {
