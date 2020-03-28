@@ -1,4 +1,10 @@
 /* Provide sufficient contrast against white background */
+@import '~antd/dist/antd.css';
+
+.site-layout-background {
+  background: #fff;
+}
+
 a {
   color: #0366d6;
 }
