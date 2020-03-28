@@ -1,10 +1,19 @@
 /* Provide sufficient contrast against white background */
 @import '~antd/dist/antd.css';
 
-header.header-layout{
-  background: #582BD9;
-  position: fixed;
-  width: 100%;
+header.header-layout {
+    background: #582BD9;
+    position: fixed;
+    width: 100%;
+}
+
+header.header-no-padding{
+    padding: 0px 0px 0px 0px;
+}
+
+h3.header-title-margin {
+    margin-top: 12px;
+    margin-bottom: 12px;
 }
 
 h1.title {
@@ -32,47 +41,54 @@ h4.title {
 }
 
 main.content-layout {
-  background: #582BD9;
-  padding: 100px 100px 100px 100px;
-  min-height: 300px;
-  align-items: center;
+    background: #582BD9;
+    margin: 10vh 0px 0px 0px;
+    min-height: 300px;
+    align-items: center;
 }
 
-main.content-layout-main {
-  padding: 50px 100px 50px 100px;
-  align-items: center;
+
+main.greetings-content-layout {
+    background: #582BD9;
+    min-height: 300px;
+    align-items: center;
 }
 
-section.layout-white-background {
-  background: white;
-  align-items: center;
-}
+    main.content-layout-main {
+        padding: 50px 100px 50px 100px;
+        align-items: center;
+    }
 
-section.layout-purple-background {
-  background: #582BD9;
-  align-items: center;
-}
+    section.layout-white-background {
+        background: white;
+        align-items: center;
+    }
 
-main.content-home {
-  padding: 0px 25px;
-  min-height: 280px;
-  align-items: center;
-}
+    section.layout-purple-background {
+        background: #582BD9;
+        align-items: center;
+    }
 
-footer.footer-layout {
-  text-align: center;
-}
+    main.content-home {
+        padding: 0px 25px;
+        min-height: 280px;
+        align-items: center;
+    }
 
-a {
-  color: #0366d6;
-}
+    footer.footer-layout {
+        text-align: center;
+    }
 
-code {
-  color: #E01A76;
-}
+    a {
+        color: #0366d6;
+    }
 
-.btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
-}
+    code {
+        color: #E01A76;
+    }
+
+    .btn-primary {
+        color: #fff;
+        background-color: #1b6ec2;
+        border-color: #1861ac;
+    }
