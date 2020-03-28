@@ -30,6 +30,9 @@ namespace getthehotdish.DataAccess
                 .HasNoDiscriminator();
 
             modelBuilder.Entity<Listing>()
+                .HasAlternateKey(l => l.Id);
+
+            modelBuilder.Entity<Listing>()
                 .HasPartitionKey(o => o.PartitionKey);
         }
     }
