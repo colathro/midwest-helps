@@ -7,7 +7,7 @@ export interface TextFieldProps {
   type: TextFieldType;
   subTitle?: string;
   required?: boolean;
-  tileInline?: boolean;
+  titleInline?: boolean;
   subTileInline?: boolean;
 }
 
@@ -15,7 +15,8 @@ export type TextFieldType =
   | 'name'
   | 'email'
   | 'phone'
-  | 'website';
+  | 'website'
+  | 'text';
 
 export declare type RuleType = 
 | 'string' 
