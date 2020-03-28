@@ -1,103 +1,38 @@
-/* Provide sufficient contrast against white background */
-@import '~antd/dist/antd.css';
+$primary-color: #582bd9;
+$header-height: 72px;
 
-header.header-layout {
-  background: #582BD9;
+.header-fixed {
   position: fixed;
+  z-index: 1;
   width: 100%;
-  z-index: 51;
-  height: 72px;
+  height: $header-height;
 }
 
-header.header-no-padding{
-  padding: 0px 0px 0px 0px;
-}
-
-h3.header-title-margin {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  display: inline-block;
-}
-
-h1.title {
-  color: white;
-  font-family: Arial, Helvetica, sans-serif;
-  font-style: normal;
-}
-
-h3.title {
-  color: white;
-  font-family: Arial, Helvetica, sans-serif;
-  font-style: normal;
+.right-nav {
+  float: right;
+  margin-top: 4px;
+  .nav-link {
+    color: white;
+  }
 }
 
 h3.header-title {
-  color: white;
-  font-family: Arial, Helvetica, sans-serif;
-  font-style: normal;
+  display: inline-block;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
-h4.title {
-  color: white;
-  font-family: Arial, Helvetica, sans-serif;
-  font-style: normal;
+main.header-greeting {
+  $vertical-padding: 24px;
+  background: $primary-color;
+  padding-top: $header-height + $vertical-padding;
+  padding-bottom: $vertical-padding;
+  article {
+    font-size: 16px;
+    color: white;
+  }
 }
 
-main.content-layout {
-  background: #582BD9;
-  margin: 10vh 0px 0px 0px;
-  min-height: 300px;
-  align-items: center;
-}
-
-
-main.greetings-content-layout {
-  background: #582BD9;
-  min-height: 300px;
-  align-items: center;
-}
-
-main.content-layout-main {
-  padding: 50px 100px 50px 100px;
-  align-items: center;
-}
-
-section.layout-white-background {
-  background: white;
-  align-items: center;
-}
-
-section.layout-purple-background {
-  background: #582BD9;
-  align-items: center;
-}
-
-main.content-home {
-  padding: 0px 25px;
-  min-height: 280px;
-  align-items: center;
-  height: 4000px
-}
-
-div.button-group {
-  float: right;
-  margin-top: 4px;
-}
-
-footer.footer-layout {
+footer {
   text-align: center;
-}
-
-a {
-  color: #0366d6;
-}
-
-code {
-  color: #E01A76;
-}
-
-.btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
 }
