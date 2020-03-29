@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.ApplicationInsights;
 using getthehotdish.Controllers;
 using getthehotdish.Models;
+using System.Configuration;
 
 namespace getthehotdish
 {
@@ -36,7 +37,6 @@ namespace getthehotdish
                 databaseName: "getthehotdish")
             );
 
-
             services.AddLogging(builder =>
             {
                 builder.AddApplicationInsights("d05672ef-8c2d-406e-bd03-bdc0888ed25d");
@@ -55,7 +55,19 @@ namespace getthehotdish
             // Notification Settings.
             var notificationSettingsSection =
                 Configuration.GetSection("NotificationSettings");
-            services.Configure<NotificationSettings>(notificationSettingsSection);
+
+            var notificationSettings = new NotificationSettings();
+            Configuration.Bind("NotificationSettings", notificationSettings);
+            notificationSettings.EmailNotificationSettings.EmailPassword = Configuration["NOTIFICATION_EMAIL_PASSWORD"];
+
+            services.Configure<NotificationSettings>(settings => {
+                settings.EmailNotificationSettings = new EmailNotificationSettings(
+                    notificationSettings.EmailNotificationSettings.SmtpClient,
+                    notificationSettings.EmailNotificationSettings.Port,
+                    notificationSettings.EmailNotificationSettings.Name,
+                    notificationSettings.EmailNotificationSettings.EmailSender,
+                    Configuration["NOTIFICATION_EMAIL_PASSWORD"]);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

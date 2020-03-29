@@ -17,5 +17,19 @@ namespace getthehotdish.Models
         public string Name { get; set; }
         public string EmailSender { get; set; }
         public string EmailPassword { get; set; }
+        
+        public EmailNotificationSettings()
+        {
+
+        }
+
+        public EmailNotificationSettings(string smtpClient, int port, string name, string emailSender, string emailPassword)
+        {
+            SmtpClient = smtpClient;
+            Port = port;
+            Name = name;
+            EmailSender = emailSender;
+            EmailPassword = emailPassword;
+        }
     }
 }
