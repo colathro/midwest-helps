@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using getthehotdish.DataAccess;
 using getthehotdish.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -25,9 +24,14 @@ namespace getthehotdish.Controllers
         {
             _logger.LogInformation($"Send email request from {request.Name} ({request.Email}): {request.Message}");
 
-            await _notification.SendMessageReceivedEmailAsync(request.Name, request.Email, request.Message);
-
-            return Ok();
+            try
+            {
+                await _notification.SendMessageReceivedEmailAsync(request.Name, request.Email, request.Message);
+                return Ok();
+            } catch
+            {
+                return BadRequest();
+            }
         }
     }
 }

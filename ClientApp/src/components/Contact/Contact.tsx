@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Input, Button, Row, Col, Typography } from "antd";
+import { Form, Modal, Button, Row, Col, Typography } from "antd";
 import { LeftOutlined } from "@ant-design/icons";
 import { useHistory } from "react-router-dom";
 import { TextField } from "../FormFields/TextField";
@@ -16,6 +16,21 @@ export const Contact: React.FC = () => {
     sendMessage(values);
   };
 
+  function success() {
+    Modal.success({
+      content: "Your message was sent successfully.",
+      onOk: () => goHome()
+    });
+  }
+
+  function error() {
+    Modal.error({
+      title: "Oops",
+      content: "There was a problem sending your message. Try again later.",
+      onOk: () => goHome()
+    });
+  }
+
   function sendMessage(data: any) {
     const requestOptions = {
       method: "POST",
@@ -26,7 +41,14 @@ export const Contact: React.FC = () => {
       .then(response => response)
       .then(data => {
         console.log("RESPONSE", data);
-        goHome();
+        if (data.ok) {
+          success();
+        } else {
+          error();
+        }
+      })
+      .catch(function() {
+        error();
       });
   }
 
