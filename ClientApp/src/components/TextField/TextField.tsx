@@ -60,12 +60,6 @@ export const TextField: React.FC<TextFieldProps> = props => {
     message: "Please input your " + props.title
   });
 
-  let optional;
-
-  if (!props.required) {
-    optional = <Text>(Optional)</Text>;
-  }
-
   return (
     <span>
       <Form.Item name={props.name} label={props.title} rules={rules}>
