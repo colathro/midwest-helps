@@ -3,30 +3,6 @@ import { Form, Button } from "antd";
 import { TextField } from "../TextField";
 import { CheckboxGroup } from "../CheckboxGroup";
 
-const formItemLayout = {
-  labelCol: {
-    xs: { span: 24 },
-    sm: { span: 8 }
-  },
-  wrapperCol: {
-    xs: { span: 24 },
-    sm: { span: 16 }
-  }
-};
-
-const tailFormItemLayout = {
-  wrapperCol: {
-    xs: {
-      span: 24,
-      offset: 0
-    },
-    sm: {
-      span: 16,
-      offset: 8
-    }
-  }
-};
-
 export const CreateBusinessForm: React.FC = props => {
   const onFinish = (business: any) => {
     console.log("Success:", business);
@@ -95,7 +71,7 @@ export const CreateBusinessForm: React.FC = props => {
 
   return (
     <Form
-      {...formItemLayout}
+      layout="vertical"
       name="create-business-form"
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
@@ -105,43 +81,36 @@ export const CreateBusinessForm: React.FC = props => {
         name="name"
         title="Business name"
         type="name"
-        titleInline={false}
+        placeHolder="Enter the name of your business"
         required={true}
       />
       <TextField
         name="phone"
         title="Phone"
         type="phone"
-        titleInline={false}
-        subTitle="(Optional)"
-        subTileInline={true}
+        placeHolder="701-555-1234"
         required={false}
       />
       <TextField
         name="liveStreamUrl"
         title="Live stream link"
         type="url"
-        titleInline={false}
-        subTitle="(Optional)"
-        subTileInline={true}
+        placeHolder="www.youtube.com"
         required={false}
       />
       <TextField
         name="orderUrl"
         title="Order link"
         type="url"
-        titleInline={false}
-        subTitle="(Optional)"
-        subTileInline={true}
+        placeHolder="www.businessname.com/order"
         required={false}
       />
       <TextField
         name="message"
         title="Message to customers"
         type="text"
-        titleInline={false}
         subTitle="Give details like hours and how customers can get your product or service."
-        subTileInline={false}
+        placeHolder="Provide details like hours and any special instructions you want customers to know about"
         required={true}
       />
       <CheckboxGroup
@@ -152,12 +121,10 @@ export const CreateBusinessForm: React.FC = props => {
       <CheckboxGroup
         name="checkboxGroupAppDelivery"
         title="Do you used app based delivery?"
-        subTitle="(Optional)"
-        subTileInline={true}
         checkboxItems={checkboxAppDeliveryItems}
       />
-      <Form.Item {...tailFormItemLayout}>
-        <Button type="primary" htmlType="submit">
+      <Form.Item>
+        <Button type="primary" htmlType="submit" block>
           Submit
         </Button>
       </Form.Item>

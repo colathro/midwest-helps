@@ -1,14 +1,15 @@
 import React from "react";
-import { Form, Input } from "antd";
+import { Form, Input, Typography } from "antd";
+const { Title, Text } = Typography;
+const { TextArea } = Input;
 
 export interface TextFieldProps {
   name: string;
   title: string;
   type: TextFieldType;
   subTitle?: string;
+  placeHolder?: string;
   required?: boolean;
-  titleInline?: boolean;
-  subTileInline?: boolean;
 }
 
 export type TextFieldType = "name" | "email" | "phone" | "url" | "text";
@@ -59,9 +60,28 @@ export const TextField: React.FC<TextFieldProps> = props => {
     message: "Please input your " + props.title
   });
 
+  let optional;
+
+  if (!props.required) {
+    optional = <Text>(Optional)</Text>;
+  }
+
   return (
-    <Form.Item name={props.name} label={props.title} rules={rules}>
-      <Input min={8} max={12} />
-    </Form.Item>
+    <span>
+      <Form.Item name={props.name} label={props.title} rules={rules}>
+        {(() => {
+          if (!props.required) {
+            return <Text type="secondary">(Optional)</Text>;
+          } else {
+            return <Text></Text>;
+          }
+        })()}
+        {props.type === "text" ? (
+          <TextArea rows={5} placeholder={props.placeHolder} />
+        ) : (
+          <Input min={8} max={12} placeholder={props.placeHolder} />
+        )}
+      </Form.Item>
+    </span>
   );
 };

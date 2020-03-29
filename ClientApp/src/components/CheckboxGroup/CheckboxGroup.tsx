@@ -7,8 +7,6 @@ export interface CheckboxGroupProps {
   checkboxItems: CheckboxItem[];
   subTitle?: string;
   required?: boolean;
-  titleInline?: boolean;
-  subTileInline?: boolean;
 }
 
 export interface CheckboxItem {
@@ -20,8 +18,8 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = props => {
     <Form.Item name={props.name} label={props.title}>
       <Checkbox.Group>
         <Row>
-          {props.checkboxItems.map(item => (
-            <Col key={item.name} span={16}>
+          {props.checkboxItems.map((item, index) => (
+            <Col key={index} span={16}>
               <Checkbox value={item.name}>{item.name}</Checkbox>
             </Col>
           ))}
