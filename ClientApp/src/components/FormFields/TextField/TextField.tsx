@@ -1,7 +1,7 @@
-import React from 'react';
-import { Form, Input } from 'antd';
+import React from "react";
+import { Form, Input } from "antd";
 
-import '../FormFields.scss';
+import "../FormFields.scss";
 
 export interface TextFieldProps {
   name: string;
@@ -12,48 +12,47 @@ export interface TextFieldProps {
   required?: boolean;
 }
 
-export type TextFieldType = 'name' | 'email' | 'phone' | 'url' | 'text';
+export type TextFieldType = "name" | "email" | "phone" | "url" | "text";
 
 export declare type RuleType =
-  | 'string'
-  | 'number'
-  | 'boolean'
-  | 'regexp'
-  | 'integer'
-  | 'url'
-  | 'email';
+  | "string"
+  | "number"
+  | "boolean"
+  | "regexp"
+  | "integer"
+  | "url"
+  | "email";
 
 const { TextArea } = Input;
 
 export const TextField: React.FC<TextFieldProps> = props => {
   let rules = [];
 
-  if (props.type === 'email') {
+  if (props.type === "email") {
     rules.push({
-      type: 'email' as RuleType,
-      message: 'The input is not valid ' + props.title
+      type: "email" as RuleType,
+      message: "The input is not valid " + props.title.toLowerCase()
     });
-  } else if (props.type === 'url') {
+  } else if (props.type === "url") {
     rules.push({
-      type: 'url' as RuleType,
-      message: 'The input is not valid ' + props.title
+      type: "url" as RuleType,
+      message: "The input is not valid " + props.title.toLowerCase()
     });
-  } else if (props.type === 'phone') {
+  } else if (props.type === "phone") {
     rules.push({
-      type: 'regexp' as RuleType,
-      pattern: new RegExp('^[0-9]*$'),
-      message: 'The input is not valid ' + props.title
+      pattern: new RegExp(/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/),
+      message: "The input is not valid " + props.title.toLowerCase()
     });
   } else {
     rules.push({
-      type: 'string' as RuleType,
-      message: 'The input is not valid ' + props.title
+      type: "string" as RuleType,
+      message: "The input is not valid " + props.title.toLowerCase()
     });
   }
 
   rules.push({
     required: props.required,
-    message: 'Please input your ' + props.title
+    message: "Please input your " + props.title.toLowerCase()
   });
 
   return (
@@ -63,11 +62,12 @@ export const TextField: React.FC<TextFieldProps> = props => {
         label={props.title}
         rules={rules}
         className="hotdish-input"
+        extra={props.subTitle}
       >
-        {props.type === 'text' ? (
-          <TextArea rows={5} placeholder={props.placeHolder} />
+        {props.type === "text" ? (
+          <TextArea rows={5} placeholder={props.placeHolder} allowClear />
         ) : (
-          <Input min={8} max={12} placeholder={props.placeHolder} />
+          <Input min={8} max={12} placeholder={props.placeHolder} allowClear />
         )}
       </Form.Item>
     </span>

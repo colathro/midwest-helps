@@ -1,7 +1,7 @@
-import React from 'react';
-import { Form, Select } from 'antd';
+import React from "react";
+import { Form, Select } from "antd";
 
-import '../FormFields.scss';
+import "../FormFields.scss";
 
 export interface SelectFieldProps {
   name: string;
@@ -23,7 +23,12 @@ export const SelectField: React.FC<SelectFieldProps> = props => {
     <Form.Item
       name={props.name}
       label={props.title}
-      rules={[{ required: true }]}
+      rules={[
+        {
+          required: props.required,
+          message: "Please input your " + props.title.toLowerCase()
+        }
+      ]}
       className="hotdish-input"
     >
       <Select placeholder={props.placeHolder} allowClear>
