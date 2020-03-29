@@ -54,6 +54,8 @@ export const CreateBusinessForm: React.FC = props => {
     const postRequest = {
       BusinessName: business.name,
       BusinessType: business.category,
+      Website: business.website,
+      Hours: business.hours,
       PhoneNumber: business.phone.replace(/\D/g, ""),
       LiveStreamUrl: business.liveStreamUrl,
       OrderUrl: business.orderUrl,
@@ -71,7 +73,8 @@ export const CreateBusinessForm: React.FC = props => {
       DoorDash: business.checkboxGroupAppDelivery.includes("Door Dash"),
       Postmates: business.checkboxGroupAppDelivery.includes("Postmates"),
       FoodDudes: business.checkboxGroupAppDelivery.includes("Food Dudes"),
-      BiteSquad: business.checkboxGroupAppDelivery.includes("Bite Squad")
+      BiteSquad: business.checkboxGroupAppDelivery.includes("Bite Squad"),
+      GiftCardUrl: business.giftCardUrl
     };
 
     createBusiness(postRequest);
