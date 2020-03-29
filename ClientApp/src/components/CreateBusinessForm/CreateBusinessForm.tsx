@@ -2,6 +2,39 @@ import React from "react";
 import { Form, Button } from "antd";
 import { TextField } from "../TextField";
 import { CheckboxGroup } from "../CheckboxGroup";
+import { SelectField } from "../SelectField";
+
+const checkboxProductChannelItems = [
+  { name: "Curb-side" },
+  { name: "Take-out" },
+  { name: "Drive-thru" },
+  { name: "Delivery" },
+  { name: "Live-stream" },
+  { name: "By appointment only" }
+];
+
+const checkboxAppDeliveryItems = [
+  { name: "Uber Eats" },
+  { name: "GrubHub" },
+  { name: "Door Dash" },
+  { name: "Postmates" },
+  { name: "Food Dudes" },
+  { name: "Bite Squad" }
+];
+
+const categories = [
+  { name: "🎨 — Art & Culture", value: 1 },
+  { name: "🍸 — Bar & Brewery", value: 2 },
+  { name: "💈 — Beauty", value: 3 },
+  { name: "☕ — Coffee", value: 4 },
+  { name: "🎸 — Entertainment", value: 5 },
+  { name: "🛒 — Grocery", value: 6 },
+  { name: "🙏 — Religion & Spiritual", value: 7 },
+  { name: "🍔 — Restaurant", value: 8 },
+  { name: "👕 — Retail", value: 9 },
+  { name: "🧡 — Wellness", value: 10 },
+  { name: "📦 — Other", value: 11 }
+];
 
 export const CreateBusinessForm: React.FC = props => {
   const onFinish = (business: any) => {
@@ -51,24 +84,6 @@ export const CreateBusinessForm: React.FC = props => {
       });
   }
 
-  const checkboxProductChannelItems = [
-    { name: "Curb-side" },
-    { name: "Take-out" },
-    { name: "Drive-thru" },
-    { name: "Delivery" },
-    { name: "Live-stream" },
-    { name: "By appointment only" }
-  ];
-
-  const checkboxAppDeliveryItems = [
-    { name: "Uber Eats" },
-    { name: "GrubHub" },
-    { name: "Door Dash" },
-    { name: "Postmates" },
-    { name: "Food Dudes" },
-    { name: "Bite Squad" }
-  ];
-
   return (
     <Form
       layout="vertical"
@@ -77,6 +92,13 @@ export const CreateBusinessForm: React.FC = props => {
       onFinishFailed={onFinishFailed}
       scrollToFirstError
     >
+      <SelectField
+        name="category"
+        title="Business category"
+        items={categories}
+        placeHolder="Select a category for your business"
+        required={true}
+      ></SelectField>
       <TextField
         name="name"
         title="Business name"
@@ -95,14 +117,14 @@ export const CreateBusinessForm: React.FC = props => {
         name="liveStreamUrl"
         title="Live stream link"
         type="url"
-        placeHolder="www.youtube.com"
+        placeHolder="https://youtube.com"
         required={false}
       />
       <TextField
         name="orderUrl"
         title="Order link"
         type="url"
-        placeHolder="www.businessname.com/order"
+        placeHolder="https://businessname.com/order"
         required={false}
       />
       <TextField

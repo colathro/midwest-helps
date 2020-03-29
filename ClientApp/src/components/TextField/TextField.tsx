@@ -63,13 +63,6 @@ export const TextField: React.FC<TextFieldProps> = props => {
   return (
     <span>
       <Form.Item name={props.name} label={props.title} rules={rules}>
-        {(() => {
-          if (!props.required) {
-            return <Text type="secondary">(Optional)</Text>;
-          } else {
-            return <Text></Text>;
-          }
-        })()}
         {props.type === "text" ? (
           <TextArea rows={5} placeholder={props.placeHolder} />
         ) : (
