@@ -6,9 +6,17 @@ $header-height: 72px;
   z-index: 1;
   width: 100%;
   height: $header-height;
+  background-color: $primary-color;
+
+  @media screen and (max-width: 768px) {
+    padding: 0 12px;
+  }
 
   h3 {
     color: white;
+    display: inline-block;
+    margin-top: 20px;
+    margin-bottom: 20px;
   }
 }
 
@@ -17,13 +25,28 @@ $header-height: 72px;
   margin-top: 4px;
   .nav-link {
     color: white;
+    &:hover {
+      color: darken(white, 10%);
+    }
   }
-}
 
-h3.header-title {
-  display: inline-block;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  .ant-btn-primary {
+    background-color: white;
+    border-color: white;
+    color: $primary-color;
+    font-weight: bold;
+
+    &:hover {
+      background-color: darken(white, 10%);
+      border-color: darken(white, 10%);
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    button {
+      padding: 4px 10px;
+    }
+  }
 }
 
 main.header-greeting {
