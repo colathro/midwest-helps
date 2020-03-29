@@ -1,5 +1,7 @@
-import React from "react";
-import { Form, Checkbox, Row, Col } from "antd";
+import React from 'react';
+import { Form, Checkbox, Row, Col } from 'antd';
+
+import '../FormFields.scss';
 
 export interface CheckboxGroupProps {
   name: string;
@@ -15,7 +17,7 @@ export interface CheckboxItem {
 
 export const CheckboxGroup: React.FC<CheckboxGroupProps> = props => {
   return (
-    <Form.Item name={props.name} label={props.title}>
+    <Form.Item name={props.name} label={props.title} className="hotdish-input">
       <Checkbox.Group>
         <Row>
           {props.checkboxItems.map((item, index) => (

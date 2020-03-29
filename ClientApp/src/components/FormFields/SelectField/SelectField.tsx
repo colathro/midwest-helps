@@ -1,6 +1,7 @@
-import React from "react";
-import { Form, Typography, Select } from "antd";
-const { Option } = Select;
+import React from 'react';
+import { Form, Select } from 'antd';
+
+import '../FormFields.scss';
 
 export interface SelectFieldProps {
   name: string;
@@ -15,12 +16,15 @@ export interface SelectItem {
   value: number;
 }
 
+const { Option } = Select;
+
 export const SelectField: React.FC<SelectFieldProps> = props => {
   return (
     <Form.Item
       name={props.name}
       label={props.title}
       rules={[{ required: true }]}
+      className="hotdish-input"
     >
       <Select placeholder={props.placeHolder} allowClear>
         {props.items.map((item, index) => (

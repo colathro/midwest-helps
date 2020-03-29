@@ -1,44 +1,44 @@
-import React from "react";
-import { Form, Button } from "antd";
-import { TextField } from "../TextField";
-import { CheckboxGroup } from "../CheckboxGroup";
-import { SelectField } from "../SelectField";
+import React from 'react';
+import { Form, Button } from 'antd';
+import { TextField } from '../FormFields/TextField';
+import { CheckboxGroup } from '../FormFields/CheckboxGroup';
+import { SelectField } from '../FormFields/SelectField';
 
 const checkboxProductChannelItems = [
-  { name: "Curb-side" },
-  { name: "Take-out" },
-  { name: "Drive-thru" },
-  { name: "Delivery" },
-  { name: "Live-stream" },
-  { name: "By appointment only" }
+  { name: 'Curb-side' },
+  { name: 'Take-out' },
+  { name: 'Drive-thru' },
+  { name: 'Delivery' },
+  { name: 'Live-stream' },
+  { name: 'By appointment only' }
 ];
 
 const checkboxAppDeliveryItems = [
-  { name: "Uber Eats" },
-  { name: "GrubHub" },
-  { name: "Door Dash" },
-  { name: "Postmates" },
-  { name: "Food Dudes" },
-  { name: "Bite Squad" }
+  { name: 'Uber Eats' },
+  { name: 'GrubHub' },
+  { name: 'Door Dash' },
+  { name: 'Postmates' },
+  { name: 'Food Dudes' },
+  { name: 'Bite Squad' }
 ];
 
 const categories = [
-  { name: "🎨 — Art & Culture", value: 1 },
-  { name: "🍸 — Bar & Brewery", value: 2 },
-  { name: "💈 — Beauty", value: 3 },
-  { name: "☕ — Coffee", value: 4 },
-  { name: "🎸 — Entertainment", value: 5 },
-  { name: "🛒 — Grocery", value: 6 },
-  { name: "🙏 — Religion & Spiritual", value: 7 },
-  { name: "🍔 — Restaurant", value: 8 },
-  { name: "👕 — Retail", value: 9 },
-  { name: "🧡 — Wellness", value: 10 },
-  { name: "📦 — Other", value: 11 }
+  { name: '🎨 — Art & Culture', value: 1 },
+  { name: '🍸 — Bar & Brewery', value: 2 },
+  { name: '💈 — Beauty', value: 3 },
+  { name: '☕ — Coffee', value: 4 },
+  { name: '🎸 — Entertainment', value: 5 },
+  { name: '🛒 — Grocery', value: 6 },
+  { name: '🙏 — Religion & Spiritual', value: 7 },
+  { name: '🍔 — Restaurant', value: 8 },
+  { name: '👕 — Retail', value: 9 },
+  { name: '🧡 — Wellness', value: 10 },
+  { name: '📦 — Other', value: 11 }
 ];
 
 export const CreateBusinessForm: React.FC = props => {
   const onFinish = (business: any) => {
-    console.log("Success:", business);
+    console.log('Success:', business);
 
     const postRequest = {
       BusinessName: business.name,
@@ -47,39 +47,39 @@ export const CreateBusinessForm: React.FC = props => {
       LiveStreamUrl: business.liveStreamUrl,
       OrderUrl: business.orderUrl,
       MessageToCustomer: business.message,
-      CurbSide: business.checkboxGroupProductChannel.includes("Curb-side"),
-      TakeOut: business.checkboxGroupProductChannel.includes("Take-out"),
-      DriveThru: business.checkboxGroupProductChannel.includes("Drive-thru"),
-      Delivery: business.checkboxGroupProductChannel.includes("Delivery"),
-      LiveStream: business.checkboxGroupProductChannel.includes("Live-stream"),
+      CurbSide: business.checkboxGroupProductChannel.includes('Curb-side'),
+      TakeOut: business.checkboxGroupProductChannel.includes('Take-out'),
+      DriveThru: business.checkboxGroupProductChannel.includes('Drive-thru'),
+      Delivery: business.checkboxGroupProductChannel.includes('Delivery'),
+      LiveStream: business.checkboxGroupProductChannel.includes('Live-stream'),
       AppointmentOnly: business.checkboxGroupProductChannel.includes(
-        "By appointment only"
+        'By appointment only'
       ),
-      UberEats: business.checkboxGroupAppDelivery.includes("Uber Eats"),
-      Grubhub: business.checkboxGroupAppDelivery.includes("GrubHub"),
-      DoorDash: business.checkboxGroupAppDelivery.includes("Door Dash"),
-      Postmates: business.checkboxGroupAppDelivery.includes("Postmates"),
-      FoodDudes: business.checkboxGroupAppDelivery.includes("Food Dudes"),
-      BiteSquad: business.checkboxGroupAppDelivery.includes("Bite Squad")
+      UberEats: business.checkboxGroupAppDelivery.includes('Uber Eats'),
+      Grubhub: business.checkboxGroupAppDelivery.includes('GrubHub'),
+      DoorDash: business.checkboxGroupAppDelivery.includes('Door Dash'),
+      Postmates: business.checkboxGroupAppDelivery.includes('Postmates'),
+      FoodDudes: business.checkboxGroupAppDelivery.includes('Food Dudes'),
+      BiteSquad: business.checkboxGroupAppDelivery.includes('Bite Squad')
     };
 
     createBusiness(postRequest);
   };
 
   const onFinishFailed = (errorInfo: any) => {
-    console.log("Failed:", errorInfo);
+    console.log('Failed:', errorInfo);
   };
 
   function createBusiness(data: any) {
     const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     };
-    fetch("/api/listing/", requestOptions)
+    fetch('/api/listing/', requestOptions)
       .then(response => response)
       .then(data => {
-        console.log("RESPONSE", data);
+        console.log('RESPONSE', data);
         window.location.href = window.location.origin;
       });
   }
