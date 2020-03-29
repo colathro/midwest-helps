@@ -1,11 +1,5 @@
-import React from 'react';
-import {
-  Form,
-  Checkbox,
-  Row,
-  Col,
-} from 'antd';
-
+import React from "react";
+import { Form, Checkbox, Row, Col } from "antd";
 
 export interface CheckboxGroupProps {
   name: string;
@@ -24,17 +18,15 @@ export interface CheckboxItem {
 export const CheckboxGroup: React.FC<CheckboxGroupProps> = props => {
   return (
     <Form.Item name={props.name} label={props.title}>
-        <Checkbox.Group>
-          <Row>
+      <Checkbox.Group>
+        <Row>
           {props.checkboxItems.map(item => (
-            <Col span={16}>
-              <Checkbox value={item.name}>
-                {item.name}
-              </Checkbox>
+            <Col key={item.name} span={16}>
+              <Checkbox value={item.name}>{item.name}</Checkbox>
             </Col>
           ))}
-          </Row>
-        </Checkbox.Group>
-      </Form.Item>
+        </Row>
+      </Checkbox.Group>
+    </Form.Item>
   );
 };
