@@ -26,11 +26,9 @@ export const Home: React.FC = () => {
   return (
     <div>
       <Header className="header-fixed">
-        <Row>
-          <Col span={18} offset={3}>
-            <Title className="header-title" level={3}>
-              Hotdish
-            </Title>
+        <Row justify="center">
+          <Col xl={18} lg={18} md={20} sm={22} xs={24}>
+            <Title level={3}>Hotdish</Title>
             <div className="right-nav">
               <Button onClick={gotoContact} type="link" className="nav-link">
                 Contact
@@ -44,7 +42,7 @@ export const Home: React.FC = () => {
       </Header>
       <Content className="header-greeting">
         <Row justify="center">
-          <Col span={18}>
+          <Col xl={16} lg={16} md={18} sm={20} xs={22}>
             <Title level={1}>
               Support your community from where you're at.
             </Title>
@@ -54,6 +52,7 @@ export const Home: React.FC = () => {
               resource for the people of this city to dish up on the latest info
               and continue to support their favorite local spots.
             </Typography>
+            <br />
             <Typography>
               This information is crowdsourced, so please verify the accuracy
               independently. If you see a mistake or need to update a post,
@@ -64,7 +63,7 @@ export const Home: React.FC = () => {
       </Content>
       <Content>
         <Row justify="center">
-          <Col span={12}>
+          <Col xl={12} lg={14} md={16} sm={18} xs={24}>
             {getFakeCompanies(10).map((companyProps, index) => (
               <CompanyCard {...companyProps} key={index} />
             ))}
