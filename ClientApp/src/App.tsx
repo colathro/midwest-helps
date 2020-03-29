@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { Layout, Row, Col } from 'antd';
 import { Home } from './components/Home';
 import { Contact } from './components/Contact';
@@ -13,9 +13,11 @@ const { Footer, Content } = Layout;
 export const App: React.FC = () => (
   <Layout>
     <Content className="main-content">
-      <Route exact path="/" component={Home} />
-      <Route path="/contact" component={Contact} />
-      <Route path="/list" component={List} />
+      <Switch>
+        <Route exact path="/contact" component={Contact} />
+        <Route exact path="/list" component={List} />
+        <Route path="/" component={Home} />
+      </Switch>
     </Content>
     <Footer>
       <Row justify="center">

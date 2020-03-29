@@ -1,17 +1,23 @@
 ﻿import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { Row, Col, Typography, Layout, Button } from 'antd';
 import { CompanyCard } from '../CompanyCard';
+import { CompanyFilters } from '../CompanyFilters';
+import { CompanyCategory } from '../CompanyCard/CompanyCard';
+
+import { getFakeCompanies } from '../../dataFaking';
 
 import './Home.scss';
-import { getFakeCompanies } from '../../dataFaking';
-import { CompanyFilters } from '../CompanyFilters';
 
 const { Header, Content } = Layout;
 const { Title } = Typography;
 
+const useQuery = () => new URLSearchParams(useLocation().search);
+
 export const Home: React.FC = () => {
   let history = useHistory();
+  let query = useQuery();
+  let filter = query.get('filter') as CompanyCategory;
 
   const gotoContact = () => {
     history.push('/contact');
@@ -65,7 +71,7 @@ export const Home: React.FC = () => {
       <Content>
         <Row justify="center">
           <Col xl={12} lg={14} md={16} sm={18} xs={24}>
-            <CompanyFilters />
+            <CompanyFilters filter={filter} />
             {getFakeCompanies(10).map((companyProps, index) => (
               <CompanyCard {...companyProps} key={index} />
             ))}
