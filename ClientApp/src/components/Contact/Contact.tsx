@@ -2,6 +2,7 @@ import React from "react";
 import { Form, Input, Button, Row, Col, Typography } from "antd";
 import { LeftOutlined } from "@ant-design/icons";
 import { useHistory } from "react-router-dom";
+import { TextField } from "../FormFields/TextField";
 
 import "./Contact.scss";
 
@@ -52,30 +53,27 @@ export const Contact: React.FC = () => {
           We'll get back to you as soon as possible.
         </Typography>
         <Form name="contact" onFinish={onFinish}>
-          <Form.Item
-            label="Name"
+          <TextField
             name="name"
-            rules={[
-              { required: true, message: "Please don't forget your name!" }
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Email"
+            title="Name"
+            type="name"
+            placeHolder="John Doe"
+            required={true}
+          />
+          <TextField
             name="email"
-            rules={[
-              {
-                required: true,
-                message: "Give us your email so we can get back to you!"
-              }
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item label="Message" name="message">
-            <Input.TextArea />
-          </Form.Item>
+            title="Email"
+            type="email"
+            placeHolder="johndoe@gmail.com"
+            required={true}
+          />
+          <TextField
+            name="message"
+            title="Message"
+            type="text"
+            placeHolder="Please tell us how we can help you"
+            required={true}
+          />
           <Form.Item>
             <Button type="primary" htmlType="submit">
               Submit
