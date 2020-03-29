@@ -19,6 +19,10 @@ export const Home: React.FC = () => {
     history.push('/list');
   };
 
+  fetch(`${process.env.REACT_APP_API_URL}/api/listing/page/1`)
+    .then(response => response.json())
+    .then(data => console.log('RESPONSE', data));
+
   return (
     <div>
       <Header className="header-fixed">
