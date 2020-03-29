@@ -41,7 +41,7 @@ export const CreateBusinessForm: React.FC = props => {
       CurbSide: business.checkboxGroupProductChannel.includes("Curb-side"),
       TakeOut: business.checkboxGroupProductChannel.includes("Take-out"),
       DriveThru: business.checkboxGroupProductChannel.includes("Drive-thru"),
-      Deliverry: business.checkboxGroupProductChannel.includes("Delivery"),
+      Delivery: business.checkboxGroupProductChannel.includes("Delivery"),
       LiveStream: business.checkboxGroupProductChannel.includes("Live-stream"),
       AppointmentOnly: business.checkboxGroupProductChannel.includes(
         "By appointment only"
@@ -67,8 +67,8 @@ export const CreateBusinessForm: React.FC = props => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data)
     };
-    fetch("https://jsonplaceholder.typicode.com/posts", requestOptions)
-      .then(response => response.json())
+    fetch("/api/listing/", requestOptions)
+      .then(response => response)
       .then(data => {
         console.log("RESPONSE", data);
         window.location.href = window.location.origin;
