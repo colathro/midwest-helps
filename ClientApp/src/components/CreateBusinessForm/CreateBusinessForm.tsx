@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Button, Typography } from "antd";
+import { Form, Button, Typography, Modal } from "antd";
 import { TextField } from "../FormFields/TextField";
 import { CheckboxGroup } from "../FormFields/CheckboxGroup";
 import { SelectField } from "../FormFields/SelectField";
@@ -77,6 +77,21 @@ export const CreateBusinessForm: React.FC = props => {
     createBusiness(postRequest);
   };
 
+  function success() {
+    Modal.success({
+      content: "Your business was submitted successfully.",
+      onOk: () => goHome()
+    });
+  }
+
+  function error() {
+    Modal.error({
+      title: "Oops",
+      content: "There was a problem submitting your business. Try again later.",
+      onOk: () => goHome()
+    });
+  }
+
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
   };
@@ -91,7 +106,14 @@ export const CreateBusinessForm: React.FC = props => {
       .then(response => response)
       .then(data => {
         console.log("RESPONSE", data);
-        goHome();
+        if (data.ok) {
+          success();
+        } else {
+          error();
+        }
+      })
+      .catch(function() {
+        error();
       });
   }
 

@@ -52,10 +52,16 @@ namespace getthehotdish.Controllers
 
             listing.PartitionKey = partitionKey;
 
-            _dataContext.Listings.Add(listing);
-            await _dataContext.SaveChangesAsync();
-
-            return Ok();
+            try
+            {
+                _dataContext.Listings.Add(listing);
+                await _dataContext.SaveChangesAsync();
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
     }
 }
