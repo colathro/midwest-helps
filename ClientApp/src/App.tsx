@@ -17,7 +17,7 @@ export const App: React.FC = () => (
     <Route path="/list" component={List} />
     <Footer>
       <Row justify="center">
-        <Col span={18}>
+        <Col xl={16} lg={16} md={18} sm={20} xs={24}>
           🧡 Made by Jordan, Michael, Tyler, Josie, Daniel, Louie, and Colton 💌
           Hello@getthehotdish.com
         </Col>
