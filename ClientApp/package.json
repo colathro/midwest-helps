@@ -43,6 +43,7 @@
     "test": "cross-env CI=true react-app-rewired test --env=jsdom",
     "lint": "eslint ./src/"
   },
+  "proxy": "http://localhost:5000",
   "browserslist": {
     "production": [
       ">0.2%",
