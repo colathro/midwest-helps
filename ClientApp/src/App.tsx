@@ -8,13 +8,15 @@ import { List } from './components/List';
 
 import './App.scss';
 
-const { Footer } = Layout;
+const { Footer, Content } = Layout;
 
 export const App: React.FC = () => (
   <Layout>
-    <Route exact path="/" component={Home} />
-    <Route path="/contact" component={Contact} />
-    <Route path="/list" component={List} />
+    <Content className="main-content">
+      <Route exact path="/" component={Home} />
+      <Route path="/contact" component={Contact} />
+      <Route path="/list" component={List} />
+    </Content>
     <Footer>
       <Row justify="center">
         <Col xl={16} lg={16} md={18} sm={20} xs={24}>
