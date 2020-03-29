@@ -1,8 +1,10 @@
 import React from "react";
-import { Form, Button } from "antd";
+import { Form, Button, Typography } from "antd";
 import { TextField } from "../FormFields/TextField";
 import { CheckboxGroup } from "../FormFields/CheckboxGroup";
 import { SelectField } from "../FormFields/SelectField";
+
+const { Title } = Typography;
 
 const checkboxProductChannelItems = [
   { name: "Curb-side" },
@@ -34,6 +36,12 @@ const categories = [
   { name: "👕 — Retail", value: 9 },
   { name: "🧡 — Wellness", value: 10 },
   { name: "📦 — Other", value: 11 }
+];
+
+const hours = [
+  { name: "✔ — Regular", value: 1 },
+  { name: "⏱ — Limited", value: 2 },
+  { name: "❌ — Closed", value: 3 }
 ];
 
 export const CreateBusinessForm: React.FC = props => {
@@ -107,6 +115,21 @@ export const CreateBusinessForm: React.FC = props => {
         required={true}
       />
       <TextField
+        name="website"
+        title="Business website"
+        type="name"
+        placeHolder="www.businessname.com"
+        required={false}
+      />
+      <SelectField
+        name="hours"
+        title="Business hours"
+        items={hours}
+        placeHolder="Select your business hours"
+        required={false}
+      ></SelectField>
+      <Title level={4}>Ordering options</Title>
+      <TextField
         name="phone"
         title="Phone"
         type="phone"
@@ -146,6 +169,15 @@ export const CreateBusinessForm: React.FC = props => {
         name="checkboxGroupAppDelivery"
         title="Do you used app based delivery?"
         checkboxItems={checkboxAppDeliveryItems}
+      />
+      <Title level={4}>Gift card options</Title>
+      <TextField
+        name="giftCardUrl"
+        title="Gift card link"
+        type="url"
+        placeHolder="https://businessname.com/giftcard"
+        subTitle="If people can buy gift cards, enter the link here"
+        required={false}
       />
       <Form.Item>
         <Button type="primary" htmlType="submit" block>
