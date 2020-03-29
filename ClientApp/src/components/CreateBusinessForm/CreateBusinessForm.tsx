@@ -3,6 +3,7 @@ import { Form, Button, Typography } from "antd";
 import { TextField } from "../FormFields/TextField";
 import { CheckboxGroup } from "../FormFields/CheckboxGroup";
 import { SelectField } from "../FormFields/SelectField";
+import { useHistory } from "react-router-dom";
 
 const { Title } = Typography;
 
@@ -45,6 +46,8 @@ const hours = [
 ];
 
 export const CreateBusinessForm: React.FC = props => {
+  let history = useHistory();
+
   const onFinish = (business: any) => {
     console.log("Success:", business);
 
@@ -88,9 +91,13 @@ export const CreateBusinessForm: React.FC = props => {
       .then(response => response)
       .then(data => {
         console.log("RESPONSE", data);
-        window.location.href = window.location.origin;
+        goHome();
       });
   }
+
+  const goHome = () => {
+    history.push("/");
+  };
 
   return (
     <Form

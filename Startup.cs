@@ -9,6 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.ApplicationInsights;
+using getthehotdish.Controllers;
+using getthehotdish.Models;
 
 namespace getthehotdish
 {
@@ -47,6 +49,13 @@ namespace getthehotdish
             {
                 configuration.RootPath = "ClientApp/build";
             });
+
+            services.AddSingleton<NotificationController>();
+
+            // Notification Settings.
+            var notificationSettingsSection =
+                Configuration.GetSection("NotificationSettings");
+            services.Configure<NotificationSettings>(notificationSettingsSection);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

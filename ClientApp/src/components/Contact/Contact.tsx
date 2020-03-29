@@ -1,9 +1,9 @@
-import React from 'react';
-import { Form, Input, Button, Row, Col, Typography } from 'antd';
-import { LeftOutlined } from '@ant-design/icons';
-import { useHistory } from 'react-router-dom';
+import React from "react";
+import { Form, Input, Button, Row, Col, Typography } from "antd";
+import { LeftOutlined } from "@ant-design/icons";
+import { useHistory } from "react-router-dom";
 
-import './Contact.scss';
+import "./Contact.scss";
 
 const { Title } = Typography;
 
@@ -12,10 +12,25 @@ export const Contact: React.FC = () => {
 
   const onFinish = (values: any) => {
     console.log(values);
+    sendMessage(values);
   };
 
+  function sendMessage(data: any) {
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    };
+    fetch("/api/contact/", requestOptions)
+      .then(response => response)
+      .then(data => {
+        console.log("RESPONSE", data);
+        goHome();
+      });
+  }
+
   const goHome = () => {
-    history.push('/');
+    history.push("/");
   };
 
   return (
@@ -52,7 +67,7 @@ export const Contact: React.FC = () => {
             rules={[
               {
                 required: true,
-                message: 'Give us your email so we can get back to you!'
+                message: "Give us your email so we can get back to you!"
               }
             ]}
           >
