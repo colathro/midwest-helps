@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
 import React from 'react';
-import { Route } from 'react-router';
+import { Route } from 'react-router-dom';
 import { Layout, Row, Col } from 'antd';
 import { Home } from './components/Home';
 import { Contact } from './components/Contact';

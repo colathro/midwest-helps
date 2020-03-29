@@ -5,7 +5,7 @@ export interface CompanyCategoryTagProps {
   category: CompanyCategory;
 }
 
-const typeStrings: { [key in CompanyCategory]: string } = {
+const companyCategoryStrings: { [key in CompanyCategory]: string } = {
   brewery: '🍸 Brewery & Distillery',
   coffee: '☕ Coffee',
   entertainment: '🎸 Entertainment',
@@ -18,5 +18,5 @@ const typeStrings: { [key in CompanyCategory]: string } = {
 };
 
 export const CompanyCategoryTag: React.FC<CompanyCategoryTagProps> = props => (
-  <p className="category-tag">{typeStrings[props.category]}</p>
+  <p className="category-tag">{companyCategoryStrings[props.category]}</p>
 );

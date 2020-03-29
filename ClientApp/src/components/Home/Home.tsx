@@ -5,6 +5,7 @@ import { CompanyCard } from '../CompanyCard';
 
 import './Home.scss';
 import { getFakeCompanies } from '../../dataFaking';
+import { CompanyFilters } from '../CompanyFilters';
 
 const { Header, Content } = Layout;
 const { Title } = Typography;
@@ -64,6 +65,7 @@ export const Home: React.FC = () => {
       <Content>
         <Row justify="center">
           <Col xl={12} lg={14} md={16} sm={18} xs={24}>
+            <CompanyFilters />
             {getFakeCompanies(10).map((companyProps, index) => (
               <CompanyCard {...companyProps} key={index} />
             ))}
