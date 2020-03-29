@@ -69,7 +69,10 @@ export const CreateBusinessForm: React.FC = props => {
     };
     fetch("https://jsonplaceholder.typicode.com/posts", requestOptions)
       .then(response => response.json())
-      .then(data => console.log("RESPONSE", data));
+      .then(data => {
+        console.log("RESPONSE", data);
+        window.location.href = window.location.origin;
+      });
   }
 
   const checkboxProductChannelItems = [
