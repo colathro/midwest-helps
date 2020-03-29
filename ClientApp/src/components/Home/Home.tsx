@@ -19,7 +19,7 @@ export const Home: React.FC = () => {
     history.push('/list');
   };
 
-  fetch(`/api/listing/page/1`)
+  fetch('/api/listing/page/1')
     .then(response => response.json())
     .then(data => console.log('RESPONSE', data));
 
