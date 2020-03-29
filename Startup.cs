@@ -24,6 +24,8 @@ namespace getthehotdish
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
+
             services.AddControllersWithViews();
 
             services.AddDbContext<DataContext>(options => 
@@ -53,6 +55,10 @@ namespace getthehotdish
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseCors(builder =>
+                    builder.WithOrigins("http://localhost:3000")
+                    .AllowAnyMethod()
+                    .AllowCredentials());
             }
             else
             {
@@ -80,7 +86,7 @@ namespace getthehotdish
 
                 if (env.IsDevelopment())
                 {
-                    spa.UseReactDevelopmentServer(npmScript: "start");
+                    spa.UseProxyToSpaDevelopmentServer("http://localhost:3000");
                 }
             });
         }
