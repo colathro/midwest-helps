@@ -5,7 +5,7 @@ Unique Identifiers are GUIDs and will be generated server side on POST. Cosmos P
 ## Get Single Record
 
 Get record by ID:
-https://localhost:44386/api/listing/db8298af-6f7a-4ab4-9255-48112243a702
+https://localhost:5000/api/listing/db8298af-6f7a-4ab4-9255-48112243a702
 
 Output
 ```json
@@ -30,7 +30,7 @@ Output
 
 ## Get Page of Records
 Get Page of Records:
-https://localhost:44386/api/listing/page/1
+https://localhost:5000/api/listing/page/1
 
 Output:
 ```json
@@ -73,7 +73,7 @@ Output:
 
 ## Post New Listing
 Post New Business Listing
-https://localhost:44386/api/listing/
+https://localhost:5000/api/listing/
 
 Content-Type:application/json
 ```json
