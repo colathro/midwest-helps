@@ -5,19 +5,23 @@ import { CompanyCategory } from '../CompanyCard/CompanyCard';
 
 import './CompanyFilters.scss';
 
-const companyCategories: CompanyCategory[] = [
+type CompanyCategoryAndDefault = CompanyCategory | 'all';
+
+const companyCategories: CompanyCategoryAndDefault[] = [
+  'all',
   'brewery',
   'coffee',
   'entertainment',
   'grocery',
-  'other',
   'religion',
   'restaurant',
   'retail',
-  'wellness'
+  'wellness',
+  'other'
 ];
 
-const companyCategoryTags: { [key in CompanyCategory]: any } = {
+const companyCategoryTags: { [key in CompanyCategoryAndDefault]: any } = {
+  all: { emoji: '🏙', label: 'All' },
   brewery: { emoji: '🍸', label: 'Brewery & Distillery' },
   coffee: { emoji: '☕', label: 'Coffee' },
   entertainment: { emoji: '🎸', label: 'Entertainment' },
