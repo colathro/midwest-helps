@@ -1,11 +1,13 @@
 import React from "react";
-import { Form, Button, Typography, Modal } from "antd";
+import { Form, Button, Typography, Modal, Collapse } from "antd";
 import { TextField } from "../FormFields/TextField";
 import { CheckboxGroup } from "../FormFields/CheckboxGroup";
 import { SelectField } from "../FormFields/SelectField";
 import { useHistory } from "react-router-dom";
+import "./CreateBusinessForm.scss";
 
 const { Title } = Typography;
+const { Panel } = Collapse;
 
 const checkboxProductChannelItems = [
   { name: "Curb-side" },
@@ -57,6 +59,8 @@ export const CreateBusinessForm: React.FC = props => {
       Website: business.website,
       Hours: business.hours,
       PhoneNumber: business.phone.replace(/\D/g, ""),
+      FacebookdUrl: business.facebookUrl,
+      InstagramUrl: business.instagramUrl,
       LiveStreamUrl: business.liveStreamUrl,
       OrderUrl: business.orderUrl,
       MessageToCustomer: business.message,
@@ -169,22 +173,42 @@ export const CreateBusinessForm: React.FC = props => {
         subTitle="If people can order by phone, enter the number here"
         required={false}
       />
-      <TextField
-        name="liveStreamUrl"
-        title="Live stream link"
-        type="url"
-        placeHolder="https://youtube.com"
-        subTitle="If people can live stream your event or service, enter the link here"
-        required={false}
-      />
-      <TextField
-        name="orderUrl"
-        title="Order link"
-        type="url"
-        placeHolder="https://businessname.com/order"
-        subTitle="If people can order online, enter the order link here"
-        required={false}
-      />
+      <Collapse>
+        <Panel header="Business links" key="1">
+          <TextField
+            name="facebookUrl"
+            title="Facebook link"
+            type="url"
+            placeHolder="https://www.facebook.com/businessname"
+            subTitle="If your business has a Facebook page that you would like to share, enter the link here"
+            required={false}
+          />
+          <TextField
+            name="instagramUrl"
+            title="Instagram link"
+            type="url"
+            placeHolder="https://www.instagram.com/businessname"
+            subTitle="If your business has a Instagram page that you would like to share, enter the link here"
+            required={false}
+          />
+          <TextField
+            name="liveStreamUrl"
+            title="Live stream link"
+            type="url"
+            placeHolder="https://youtube.com"
+            subTitle="If people can live stream your event or service, enter the link here"
+            required={false}
+          />
+          <TextField
+            name="orderUrl"
+            title="Order link"
+            type="url"
+            placeHolder="https://businessname.com/order"
+            subTitle="If people can order online, enter the order link here"
+            required={false}
+          />
+        </Panel>
+      </Collapse>
       <TextField
         name="message"
         title="Message to customers"
