@@ -173,6 +173,7 @@ export const CreateBusinessForm: React.FC = props => {
             title="Business website"
             type="name"
             placeHolder="www.businessname.com"
+            subTitle="If your business has a web page that you would like to share, enter the link here"
             required={false}
           />
           <TextField
