@@ -17,11 +17,11 @@
 }
 
 .company-links {
-  margin-top: -32px;
   float: right;
 }
 
 .interaction-tags {
+  display: inline-block;
   & > div {
     border-radius: 4px;
     display: inline-block;

@@ -1,10 +1,10 @@
-import React from "react";
-import { Card } from "antd";
+import React from 'react';
+import { Card } from 'antd';
 
-import "./CompanyCard.scss";
-import { CompanyCategoryTag } from "./CompanyCategoryTag";
-import { CompanyLinks } from "./CompanyLinks";
-import { CompanyInteractions } from "./CompanyInteractions";
+import './CompanyCard.scss';
+import { CompanyCategoryTag } from './CompanyCategoryTag';
+import { CompanyLinks } from './CompanyLinks';
+import { CompanyInteractions } from './CompanyInteractions';
 
 export interface CompanyCardProps {
   businessName: string;
@@ -23,45 +23,47 @@ export interface CompanyCardProps {
 }
 
 export type CompanyDeliveryApp =
-  | "uberEats"
-  | "grubhub"
-  | "doorDash"
-  | "postmates"
-  | "foodDudes"
-  | "biteSquad";
+  | 'uberEats'
+  | 'grubhub'
+  | 'doorDash'
+  | 'postmates'
+  | 'foodDudes'
+  | 'biteSquad';
 
 export type CompanyCategory =
-  | "brewery"
-  | "coffee"
-  | "entertainment"
-  | "grocery"
-  | "other"
-  | "religion"
-  | "restaurant"
-  | "retail"
-  | "wellness"
-  | "art"
-  | "beauty";
+  | 'brewery'
+  | 'coffee'
+  | 'entertainment'
+  | 'grocery'
+  | 'other'
+  | 'religion'
+  | 'restaurant'
+  | 'retail'
+  | 'wellness'
+  | 'art'
+  | 'beauty';
 
 export type CompanyInteraction =
-  | "appointment"
-  | "curbSide"
-  | "delivery"
-  | "liveStream"
-  | "takeOut"
-  | "driveThru";
+  | 'appointment'
+  | 'curbSide'
+  | 'delivery'
+  | 'liveStream'
+  | 'takeOut'
+  | 'driveThru';
 
 export const CompanyCard: React.FC<CompanyCardProps> = props => {
   return (
     <Card title={props.businessName} className="company-card" bordered={false}>
       <CompanyCategoryTag category={props.businessCategory} />
-      <CompanyLinks
-        giftCardUrl={props.giftCardUrl}
-        phone={props.phoneNumber}
-        webUrl={props.website}
-      />
       <p>{props.messageToCustomer}</p>
-      <CompanyInteractions interactions={props.interactions} />
+      <div className="company-tags">
+        <CompanyInteractions interactions={props.interactions} />
+        <CompanyLinks
+          giftCardUrl={props.giftCardUrl}
+          phone={props.phoneNumber}
+          webUrl={props.website}
+        />
+      </div>
     </Card>
   );
 };
