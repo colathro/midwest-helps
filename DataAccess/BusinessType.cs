@@ -10,6 +10,8 @@ namespace getthehotdish.DataAccess
         Religious = 5,
         Restaurant = 6,
         Retail = 7,
-        Wellness = 8
+        Wellness = 8,
+        Art = 9,
+        Beauty = 10,
     }
 }

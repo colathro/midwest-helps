@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using getthehotdish.DataAccess;
+using getthehotdish.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -41,7 +42,7 @@ namespace getthehotdish.Controllers
         }
 
         [HttpGet]
-        [Route("{id}")]
+        [Route("get/{id}")]
         public async Task<Listing> Get(string id)
         {
             _logger.LogInformation($"ID GET Request: {id}");
@@ -67,6 +68,23 @@ namespace getthehotdish.Controllers
             catch
             {
                 return BadRequest();
+            }
+        }
+
+        [HttpGet]
+        [Route("search/{businessName}")]
+        public async Task<ICollection<Listing>> Search(string businessName)
+        {
+            _logger.LogInformation($"PAGE Search Request: {businessName}");
+
+            try
+            {
+                var listings = _dataContext.Listings.Where(l => l.PartitionKey == partitionKey && l.BusinessName == businessName).ToList();
+                return listings;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
     }

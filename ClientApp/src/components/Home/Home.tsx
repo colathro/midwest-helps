@@ -1,29 +1,108 @@
 ﻿import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { Row, Col, Typography, Layout, Button, Spin } from "antd";
+import { Row, Col, Typography, Layout, Button, Spin, Input, Alert } from "antd";
 import { CompanyCard } from "../CompanyCard";
 
 import "./Home.scss";
 
+const { Search } = Input;
 const { Header, Content } = Layout;
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 export const Home: React.FC = () => {
   let history = useHistory();
 
-  const [businesslist, setData] = useState<any[]>([]);
+  const [allBusiness, setAllBusiness] = useState<any[]>([]);
+  const [businesslist, setBusinesslist] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
-  async function fetchUrl() {
-    const response = await fetch("/api/listing/page/1");
-    const json = await response.json();
-    setData(json);
-    setLoading(false);
+  async function fetchUrl(url: string) {
+    const response = await fetch(url);
+    const data = await response.json();
+    if (response.ok) {
+      const processedData = processResponseData(data);
+      setAllBusiness(processedData);
+      setBusinesslist(processedData);
+      setLoading(false);
+      setError(false);
+    } else {
+      setLoading(false);
+      setError(true);
+    }
   }
 
   useEffect(() => {
-    fetchUrl();
+    fetchUrl("/api/listing/page/1");
   }, []);
+
+  function processResponseData(data: any[]) {
+    const categories = [
+      { name: "brewery", value: 0 },
+      { name: "coffee", value: 1 },
+      { name: "entertainment", value: 2 },
+      { name: "grocery", value: 3 },
+      { name: "religion", value: 4 },
+      { name: "restaurant", value: 5 },
+      { name: "retail", value: 6 },
+      { name: "wellness", value: 7 },
+      { name: "other", value: 8 },
+      { name: "art", value: 9 },
+      { name: "beauty", value: 10 }
+    ];
+
+    const processedData = data.map((business, index) => {
+      const companyInteraction: any[] = [];
+
+      if (business.appointmentOnly) {
+        companyInteraction.push("appointment");
+      }
+      if (business.curbSide) {
+        companyInteraction.push("curbSide");
+      }
+      if (business.delivery) {
+        companyInteraction.push("delivery");
+      }
+      if (business.liveStream) {
+        companyInteraction.push("liveStream");
+      }
+      if (business.takeOut) {
+        companyInteraction.push("takeOut");
+      }
+      if (business.driveThru) {
+        companyInteraction.push("driveThru");
+      }
+
+      const category = categories.find(
+        category => category.value === business.businessType
+      );
+
+      return {
+        businessName: business.businessName,
+        businessCategory: category?.name,
+        hours: business.hours,
+        phoneNumber: business.phoneNumber,
+        website: business.website,
+        messageToCustomer: business.messageToCustomer,
+        giftCardUrl: business.giftCardUrl,
+        interactions: companyInteraction
+      };
+    });
+
+    return processedData;
+  }
+
+  const onSearch = (value: string) => {
+    if (value) {
+      setBusinesslist(
+        allBusiness.filter(business =>
+          business.businessName.toLowerCase().includes(value)
+        )
+      );
+    } else {
+      setBusinesslist(allBusiness);
+    }
+  };
 
   const gotoContact = () => {
     history.push("/contact");
@@ -76,9 +155,22 @@ export const Home: React.FC = () => {
             <Spin size="large" tip="Loading..." />
           ) : (
             <Col xl={12} lg={14} md={16} sm={18} xs={24}>
-              {businesslist.map((companyProps, index) => (
-                <CompanyCard {...companyProps} key={index} />
-              ))}
+              <Search
+                placeholder="input search text"
+                onSearch={value => onSearch(value)}
+                enterButton
+              />
+              {!error &&
+                businesslist.map((companyProps, index) => (
+                  <CompanyCard {...companyProps} key={index} />
+                ))}
+              {error && (
+                <Alert
+                  message="Somethign went wrong"
+                  description="There was an error loading the page. Refresh the browser and try it again. If the error persists contact the admin."
+                  type="error"
+                />
+              )}
             </Col>
           )}
         </Row>

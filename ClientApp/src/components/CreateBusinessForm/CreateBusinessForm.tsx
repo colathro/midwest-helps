@@ -28,17 +28,17 @@ const checkboxAppDeliveryItems = [
 ];
 
 const categories = [
-  { name: "🎨 — Art & Culture", value: 0 },
-  { name: "🍸 — Bar & Brewery", value: 1 },
-  { name: "💈 — Beauty", value: 2 },
-  { name: "☕ — Coffee", value: 3 },
-  { name: "🎸 — Entertainment", value: 4 },
-  { name: "🛒 — Grocery", value: 5 },
-  { name: "🙏 — Religion & Spiritual", value: 6 },
-  { name: "🍔 — Restaurant", value: 7 },
-  { name: "👕 — Retail", value: 8 },
-  { name: "🧡 — Wellness", value: 9 },
-  { name: "📦 — Other", value: 10 }
+  { name: "🍸 — Bar & Brewery", value: 0 },
+  { name: "☕ — Coffee", value: 1 },
+  { name: "🎸 — Entertainment", value: 2 },
+  { name: "🛒 — Grocery", value: 3 },
+  { name: "🙏 — Religion & Spiritual", value: 4 },
+  { name: "🍔 — Restaurant", value: 5 },
+  { name: "👕 — Retail", value: 6 },
+  { name: "🧡 — Wellness", value: 7 },
+  { name: "📦 — Other", value: 8 },
+  { name: "🎨 — Art & Culture", value: 9 },
+  { name: "💈 — Beauty", value: 10 }
 ];
 
 const hours = [
@@ -224,7 +224,7 @@ export const CreateBusinessForm: React.FC = props => {
       />
       <CheckboxGroup
         name="checkboxGroupAppDelivery"
-        title="Do you used app based delivery?"
+        title="Do you use app based delivery?"
         checkboxItems={checkboxAppDeliveryItems}
       />
       <Title level={4}>Gift card options</Title>
