@@ -150,13 +150,6 @@ export const CreateBusinessForm: React.FC = props => {
         placeHolder="Enter the name of your business"
         required={true}
       />
-      <TextField
-        name="website"
-        title="Business website"
-        type="name"
-        placeHolder="www.businessname.com"
-        required={false}
-      />
       <SelectField
         name="hours"
         title="Business hours"
@@ -175,6 +168,13 @@ export const CreateBusinessForm: React.FC = props => {
       />
       <Collapse>
         <Panel header="Business links" key="1">
+          <TextField
+            name="website"
+            title="Business website"
+            type="name"
+            placeHolder="www.businessname.com"
+            required={false}
+          />
           <TextField
             name="facebookUrl"
             title="Facebook link"
