@@ -1,83 +1,83 @@
-import React from "react";
-import { Form, Button, Typography, Modal, Collapse } from "antd";
-import { TextField } from "../FormFields/TextField";
-import { CheckboxGroup } from "../FormFields/CheckboxGroup";
-import { SelectField } from "../FormFields/SelectField";
-import { useHistory } from "react-router-dom";
-import "./CreateBusinessForm.scss";
+import React from 'react';
+import { Form, Button, Typography, Modal, Collapse } from 'antd';
+import { TextField } from '../FormFields/TextField';
+import { CheckboxGroup } from '../FormFields/CheckboxGroup';
+import { SelectField } from '../FormFields/SelectField';
+import { useHistory } from 'react-router-dom';
+import './CreateBusinessForm.scss';
 
 const { Title } = Typography;
 const { Panel } = Collapse;
 
 const checkboxProductChannelItems = [
-  { name: "Curb-side" },
-  { name: "Take-out" },
-  { name: "Drive-thru" },
-  { name: "Delivery" },
-  { name: "Live-stream" },
-  { name: "By appointment only" }
+  { name: 'Curb-side' },
+  { name: 'Take-out' },
+  { name: 'Drive-thru' },
+  { name: 'Delivery' },
+  { name: 'Live-stream' },
+  { name: 'By appointment only' }
 ];
 
 const checkboxAppDeliveryItems = [
-  { name: "Uber Eats" },
-  { name: "GrubHub" },
-  { name: "Door Dash" },
-  { name: "Postmates" },
-  { name: "Food Dudes" },
-  { name: "Bite Squad" }
+  { name: 'Uber Eats' },
+  { name: 'GrubHub' },
+  { name: 'Door Dash' },
+  { name: 'Postmates' },
+  { name: 'Food Dudes' },
+  { name: 'Bite Squad' }
 ];
 
 const categories = [
-  { name: "🍸 — Bar & Brewery", value: 0 },
-  { name: "☕ — Coffee", value: 1 },
-  { name: "🎸 — Entertainment", value: 2 },
-  { name: "🛒 — Grocery", value: 3 },
-  { name: "🙏 — Religion & Spiritual", value: 4 },
-  { name: "🍔 — Restaurant", value: 5 },
-  { name: "👕 — Retail", value: 6 },
-  { name: "🧡 — Wellness", value: 7 },
-  { name: "📦 — Other", value: 8 },
-  { name: "🎨 — Art & Culture", value: 9 },
-  { name: "💈 — Beauty", value: 10 }
+  { name: '🍸 — Bar & Brewery', value: 0 },
+  { name: '☕ — Coffee', value: 1 },
+  { name: '🎸 — Entertainment', value: 2 },
+  { name: '🛒 — Grocery', value: 3 },
+  { name: '🙏 — Religion & Spiritual', value: 4 },
+  { name: '🍔 — Restaurant', value: 5 },
+  { name: '👕 — Retail', value: 6 },
+  { name: '🧡 — Wellness', value: 7 },
+  { name: '📦 — Other', value: 8 },
+  { name: '🎨 — Art & Culture', value: 9 },
+  { name: '💈 — Beauty', value: 10 }
 ];
 
 const hours = [
-  { name: "✔ — Regular", value: 1 },
-  { name: "⏱ — Limited", value: 2 },
-  { name: "❌ — Closed", value: 3 }
+  { name: '✔ — Regular', value: 1 },
+  { name: '⏱ — Limited', value: 2 },
+  { name: '❌ — Closed', value: 3 }
 ];
 
 export const CreateBusinessForm: React.FC = props => {
   let history = useHistory();
 
   const onFinish = (business: any) => {
-    console.log("Success:", business);
+    console.log('Success:', business);
 
     const postRequest = {
       BusinessName: business.name,
       BusinessType: business.category,
       Website: business.website,
       Hours: business.hours,
-      PhoneNumber: business.phone.replace(/\D/g, ""),
+      PhoneNumber: business.phone.replace(/\D/g, ''),
       FacebookdUrl: business.facebookUrl,
       InstagramUrl: business.instagramUrl,
       LiveStreamUrl: business.liveStreamUrl,
       OrderUrl: business.orderUrl,
       MessageToCustomer: business.message,
-      CurbSide: business.checkboxGroupProductChannel.includes("Curb-side"),
-      TakeOut: business.checkboxGroupProductChannel.includes("Take-out"),
-      DriveThru: business.checkboxGroupProductChannel.includes("Drive-thru"),
-      Delivery: business.checkboxGroupProductChannel.includes("Delivery"),
-      LiveStream: business.checkboxGroupProductChannel.includes("Live-stream"),
+      CurbSide: business.checkboxGroupProductChannel.includes('Curb-side'),
+      TakeOut: business.checkboxGroupProductChannel.includes('Take-out'),
+      DriveThru: business.checkboxGroupProductChannel.includes('Drive-thru'),
+      Delivery: business.checkboxGroupProductChannel.includes('Delivery'),
+      LiveStream: business.checkboxGroupProductChannel.includes('Live-stream'),
       AppointmentOnly: business.checkboxGroupProductChannel.includes(
-        "By appointment only"
+        'By appointment only'
       ),
-      UberEats: business.checkboxGroupAppDelivery.includes("Uber Eats"),
-      Grubhub: business.checkboxGroupAppDelivery.includes("GrubHub"),
-      DoorDash: business.checkboxGroupAppDelivery.includes("Door Dash"),
-      Postmates: business.checkboxGroupAppDelivery.includes("Postmates"),
-      FoodDudes: business.checkboxGroupAppDelivery.includes("Food Dudes"),
-      BiteSquad: business.checkboxGroupAppDelivery.includes("Bite Squad"),
+      UberEats: business.checkboxGroupAppDelivery.includes('Uber Eats'),
+      Grubhub: business.checkboxGroupAppDelivery.includes('GrubHub'),
+      DoorDash: business.checkboxGroupAppDelivery.includes('Door Dash'),
+      Postmates: business.checkboxGroupAppDelivery.includes('Postmates'),
+      FoodDudes: business.checkboxGroupAppDelivery.includes('Food Dudes'),
+      BiteSquad: business.checkboxGroupAppDelivery.includes('Bite Squad'),
       GiftCardUrl: business.giftCardUrl
     };
 
@@ -86,33 +86,33 @@ export const CreateBusinessForm: React.FC = props => {
 
   function success() {
     Modal.success({
-      content: "Your business was submitted successfully.",
+      content: 'Your business was submitted successfully.',
       onOk: () => goHome()
     });
   }
 
   function error() {
     Modal.error({
-      title: "Oops",
-      content: "There was a problem submitting your business. Try again later.",
+      title: 'Oops',
+      content: 'There was a problem submitting your business. Try again later.',
       onOk: () => goHome()
     });
   }
 
   const onFinishFailed = (errorInfo: any) => {
-    console.log("Failed:", errorInfo);
+    console.log('Failed:', errorInfo);
   };
 
   function createBusiness(data: any) {
     const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     };
-    fetch("/api/listing/", requestOptions)
+    fetch('/api/listing/', requestOptions)
       .then(response => response)
       .then(data => {
-        console.log("RESPONSE", data);
+        console.log('RESPONSE', data);
         if (data.ok) {
           success();
         } else {
@@ -125,7 +125,7 @@ export const CreateBusinessForm: React.FC = props => {
   }
 
   const goHome = () => {
-    history.push("/");
+    history.push('/');
   };
 
   return (
@@ -167,7 +167,7 @@ export const CreateBusinessForm: React.FC = props => {
         required={false}
       />
       <Collapse>
-        <Panel header="Business links" key="1">
+        <Panel header="Business links" id="business-links-collapse" key="1">
           <TextField
             name="website"
             title="Business website"

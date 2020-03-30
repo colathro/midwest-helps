@@ -2,6 +2,11 @@ div.ant-collapse-item {
   background: #582bd9;
 }
 
-.ant-collapse > .ant-collapse-item > .ant-collapse-header {
+#business-links-collapse .ant-collapse-header {
   color: white;
+}
+
+.ant-collapse {
+  margin-top: 32px;
+  margin-bottom: 24px;
 }
