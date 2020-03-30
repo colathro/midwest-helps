@@ -1,27 +1,36 @@
-﻿import React from 'react';
-import { useHistory } from 'react-router-dom';
-import { Row, Col, Typography, Layout, Button } from 'antd';
-import { CompanyCard } from '../CompanyCard';
+﻿import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import { Row, Col, Typography, Layout, Button, Spin } from "antd";
+import { CompanyCard } from "../CompanyCard";
 
-import './Home.scss';
-import { getFakeCompanies } from '../../dataFaking';
+import "./Home.scss";
 
 const { Header, Content } = Layout;
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 export const Home: React.FC = () => {
   let history = useHistory();
 
+  const [businesslist, setData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  async function fetchUrl() {
+    const response = await fetch("/api/listing/page/1");
+    const json = await response.json();
+    setData(json);
+    setLoading(false);
+  }
+
+  useEffect(() => {
+    fetchUrl();
+  }, []);
+
   const gotoContact = () => {
-    history.push('/contact');
+    history.push("/contact");
   };
   const gotoList = () => {
-    history.push('/list');
+    history.push("/list");
   };
-
-  fetch('/api/listing/page/1')
-    .then(response => response.json())
-    .then(data => console.log('RESPONSE', data));
 
   return (
     <div>
@@ -63,11 +72,15 @@ export const Home: React.FC = () => {
       </Content>
       <Content>
         <Row justify="center">
-          <Col xl={12} lg={14} md={16} sm={18} xs={24}>
-            {getFakeCompanies(10).map((companyProps, index) => (
-              <CompanyCard {...companyProps} key={index} />
-            ))}
-          </Col>
+          {loading ? (
+            <Spin size="large" tip="Loading..." />
+          ) : (
+            <Col xl={12} lg={14} md={16} sm={18} xs={24}>
+              {businesslist.map((companyProps, index) => (
+                <CompanyCard {...companyProps} key={index} />
+              ))}
+            </Col>
+          )}
         </Row>
       </Content>
     </div>

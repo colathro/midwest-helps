@@ -29,9 +29,15 @@ namespace getthehotdish.Controllers
         {
             _logger.LogInformation($"PAGE GET Request: {page}");
 
-            var listings = _dataContext.Listings.Where(l => l.PartitionKey == partitionKey).ToList();
-
-            return listings;
+            try
+            {
+                var listings = _dataContext.Listings.Where(l => l.PartitionKey == partitionKey).ToList();
+                return listings;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         [HttpGet]
