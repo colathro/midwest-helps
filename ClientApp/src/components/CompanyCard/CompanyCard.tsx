@@ -7,12 +7,13 @@ import { CompanyLinks } from './CompanyLinks';
 import { CompanyInteractions } from './CompanyInteractions';
 
 export interface CompanyCardProps {
-  businessName: string;
-  businessCategory: CompanyCategory;
+  id: string;
+  name: string;
+  category: CompanyCategory;
   hours?: number;
   phoneNumber?: string;
   website?: string;
-  messageToCustomer?: string;
+  message?: string;
   facebookUrl?: string;
   instagramUrl?: string;
   liveStreamUrl?: string;
@@ -53,9 +54,9 @@ export type CompanyInteraction =
 
 export const CompanyCard: React.FC<CompanyCardProps> = props => {
   return (
-    <Card title={props.businessName} className="company-card" bordered={false}>
-      <CompanyCategoryTag category={props.businessCategory} />
-      <p>{props.messageToCustomer}</p>
+    <Card title={props.name} className="company-card" bordered={false}>
+      <CompanyCategoryTag category={props.category} />
+      <p>{props.message}</p>
       <div className="company-tags">
         <CompanyInteractions interactions={props.interactions} />
         <CompanyLinks
