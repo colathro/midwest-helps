@@ -2,6 +2,7 @@
 import { useHistory } from 'react-router-dom';
 import { Row, Col, Typography, Layout, Button, Spin, Input, Alert } from 'antd';
 import { CompanyCard } from '../CompanyCard';
+import { CompanyCardProps } from '../CompanyCard/CompanyCard';
 
 import './Home.scss';
 
@@ -12,8 +13,8 @@ const { Title } = Typography;
 export const Home: React.FC = () => {
   let history = useHistory();
 
-  const [allBusiness, setAllBusiness] = useState<any[]>([]);
-  const [businesslist, setBusinesslist] = useState<any[]>([]);
+  const [allBusiness, setAllBusiness] = useState<CompanyCardProps[]>([]);
+  const [businesslist, setBusinesslist] = useState<CompanyCardProps[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
@@ -21,9 +22,8 @@ export const Home: React.FC = () => {
     const response = await fetch(url);
     const data = await response.json();
     if (response.ok) {
-      const processedData = processResponseData(data);
-      setAllBusiness(processedData);
-      setBusinesslist(processedData);
+      setAllBusiness(data);
+      setBusinesslist(data);
       setLoading(false);
       setError(false);
     } else {
@@ -34,69 +34,13 @@ export const Home: React.FC = () => {
 
   useEffect(() => {
     fetchUrl('/api/listing/page/1');
-  }, []);
-
-  function processResponseData(data: any[]) {
-    const categories = [
-      { name: 'brewery', value: 0 },
-      { name: 'coffee', value: 1 },
-      { name: 'entertainment', value: 2 },
-      { name: 'grocery', value: 3 },
-      { name: 'religion', value: 4 },
-      { name: 'restaurant', value: 5 },
-      { name: 'retail', value: 6 },
-      { name: 'wellness', value: 7 },
-      { name: 'other', value: 8 },
-      { name: 'art', value: 9 },
-      { name: 'beauty', value: 10 }
-    ];
-
-    const processedData = data.map((business, index) => {
-      const companyInteraction: any[] = [];
-
-      if (business.appointmentOnly) {
-        companyInteraction.push('appointment');
-      }
-      if (business.curbSide) {
-        companyInteraction.push('curbSide');
-      }
-      if (business.delivery) {
-        companyInteraction.push('delivery');
-      }
-      if (business.liveStream) {
-        companyInteraction.push('liveStream');
-      }
-      if (business.takeOut) {
-        companyInteraction.push('takeOut');
-      }
-      if (business.driveThru) {
-        companyInteraction.push('driveThru');
-      }
-
-      const category = categories.find(
-        category => category.value === business.businessType
-      );
-
-      return {
-        businessName: business.businessName,
-        businessCategory: category?.name,
-        hours: business.hours,
-        phoneNumber: business.phoneNumber,
-        website: business.website,
-        messageToCustomer: business.messageToCustomer,
-        giftCardUrl: business.giftCardUrl,
-        interactions: companyInteraction
-      };
-    });
-
-    return processedData;
-  }
+  });
 
   const onSearch = (value: string) => {
     if (value) {
       setBusinesslist(
         allBusiness.filter(business =>
-          business.businessName.toLowerCase().includes(value)
+          business.name.toLowerCase().includes(value)
         )
       );
     } else {
@@ -133,8 +77,8 @@ export const Home: React.FC = () => {
           enterButton
           className="company-search"
         />
-        {businesslist.map((companyProps, index) => (
-          <CompanyCard {...companyProps} key={index} />
+        {businesslist.map(companyProps => (
+          <CompanyCard {...companyProps} key={companyProps.id} />
         ))}
       </Col>
     );
