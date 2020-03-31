@@ -14,12 +14,12 @@ Please follow these instructions before making any code changes on the front end
 * When creating a component that will be referenced by other components, try to follow this folder structure
     ```
     src
-    -> components
-    -> [ComponentName]
-        -> index.ts // contains all exports
-        -> [ComponentName].tsx // main component
-        -> [ComponentName].scss // any component-specific styles (don't forget to import it in the main component)
-        -> [SubcomponentName].tsx // any child/subcomponent that is solely used by the main component
+      -> components
+        -> [ComponentName]
+          -> index.ts // contains all exports
+          -> [ComponentName].tsx // main component
+          -> [ComponentName].scss // any component-specific styles (don't forget to import it in the main component)
+          -> [SubcomponentName].tsx // any child/subcomponent that is solely used by the main component
     ```
 * Use types often. If you need good examples of how to create prop types/etc please look at existing components
 * Use functional components and [React Hooks](https://reactjs.org/docs/hooks-intro.html)
