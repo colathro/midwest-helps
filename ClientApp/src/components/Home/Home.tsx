@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+﻿import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Row, Col, Typography, Layout, Button, Spin, Input, Alert } from 'antd';
 import { CompanyCard } from '../CompanyCard';
@@ -18,6 +18,10 @@ export const Home: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
+  if (allBusiness.length === 0) {
+    fetchUrl('/api/listing/page/1');
+  }
+
   async function fetchUrl(url: string) {
     const response = await fetch(url);
     const data = await response.json();
@@ -31,10 +35,6 @@ export const Home: React.FC = () => {
       setError(true);
     }
   }
-
-  useEffect(() => {
-    fetchUrl('/api/listing/page/1');
-  });
 
   const onSearch = (value: string) => {
     if (value) {
