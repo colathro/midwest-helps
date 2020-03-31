@@ -26,14 +26,19 @@ namespace getthehotdish.Controllers
 
         [HttpGet]
         [Route("page/{page}")]
-        public async Task<ICollection<Listing>> Get(int page)
+        public async Task<ICollection<Business>> Get(int page)
         {
             _logger.LogInformation($"PAGE GET Request: {page}");
 
             try
             {
                 var listings = _dataContext.Listings.Where(l => l.PartitionKey == partitionKey).ToList();
-                return listings;
+                List<Business> businesses = new List<Business>();
+                foreach (var listing in listings)
+                {
+                    businesses.Add(new Business(listing));
+                }
+                return businesses;
             }
             catch (Exception ex)
             {
@@ -43,13 +48,13 @@ namespace getthehotdish.Controllers
 
         [HttpGet]
         [Route("get/{id}")]
-        public async Task<Listing> Get(string id)
+        public async Task<Business> Get(string id)
         {
             _logger.LogInformation($"ID GET Request: {id}");
 
             var listing = _dataContext.Listings.Where(l => l.Id == Guid.Parse(id) && l.PartitionKey == partitionKey).First();
 
-            return listing;
+            return new Business(listing);
         }
 
         [HttpPost]
@@ -87,5 +92,6 @@ namespace getthehotdish.Controllers
                 throw ex;
             }
         }
+
     }
 }

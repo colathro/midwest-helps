@@ -1,9 +1,10 @@
-﻿import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import { Row, Col, Typography, Layout, Button, Spin, Input, Alert } from "antd";
-import { CompanyCard } from "../CompanyCard";
+﻿import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { Row, Col, Typography, Layout, Button, Spin, Input, Alert } from 'antd';
+import { CompanyCard } from '../CompanyCard';
+import { CompanyCardProps } from '../CompanyCard/CompanyCard';
 
-import "./Home.scss";
+import './Home.scss';
 
 const { Search } = Input;
 const { Header, Content } = Layout;
@@ -12,8 +13,8 @@ const { Title } = Typography;
 export const Home: React.FC = () => {
   let history = useHistory();
 
-  const [allBusiness, setAllBusiness] = useState<any[]>([]);
-  const [businesslist, setBusinesslist] = useState<any[]>([]);
+  const [allBusiness, setAllBusiness] = useState<CompanyCardProps[]>([]);
+  const [businesslist, setBusinesslist] = useState<CompanyCardProps[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
@@ -21,9 +22,8 @@ export const Home: React.FC = () => {
     const response = await fetch(url);
     const data = await response.json();
     if (response.ok) {
-      const processedData = processResponseData(data);
-      setAllBusiness(processedData);
-      setBusinesslist(processedData);
+      setAllBusiness(data);
+      setBusinesslist(data);
       setLoading(false);
       setError(false);
     } else {
@@ -33,70 +33,14 @@ export const Home: React.FC = () => {
   }
 
   useEffect(() => {
-    fetchUrl("/api/listing/page/1");
-  }, []);
-
-  function processResponseData(data: any[]) {
-    const categories = [
-      { name: "brewery", value: 0 },
-      { name: "coffee", value: 1 },
-      { name: "entertainment", value: 2 },
-      { name: "grocery", value: 3 },
-      { name: "religion", value: 4 },
-      { name: "restaurant", value: 5 },
-      { name: "retail", value: 6 },
-      { name: "wellness", value: 7 },
-      { name: "other", value: 8 },
-      { name: "art", value: 9 },
-      { name: "beauty", value: 10 }
-    ];
-
-    const processedData = data.map((business, index) => {
-      const companyInteraction: any[] = [];
-
-      if (business.appointmentOnly) {
-        companyInteraction.push("appointment");
-      }
-      if (business.curbSide) {
-        companyInteraction.push("curbSide");
-      }
-      if (business.delivery) {
-        companyInteraction.push("delivery");
-      }
-      if (business.liveStream) {
-        companyInteraction.push("liveStream");
-      }
-      if (business.takeOut) {
-        companyInteraction.push("takeOut");
-      }
-      if (business.driveThru) {
-        companyInteraction.push("driveThru");
-      }
-
-      const category = categories.find(
-        category => category.value === business.businessType
-      );
-
-      return {
-        businessName: business.businessName,
-        businessCategory: category?.name,
-        hours: business.hours,
-        phoneNumber: business.phoneNumber,
-        website: business.website,
-        messageToCustomer: business.messageToCustomer,
-        giftCardUrl: business.giftCardUrl,
-        interactions: companyInteraction
-      };
-    });
-
-    return processedData;
-  }
+    fetchUrl('/api/listing/page/1');
+  });
 
   const onSearch = (value: string) => {
     if (value) {
       setBusinesslist(
         allBusiness.filter(business =>
-          business.businessName.toLowerCase().includes(value)
+          business.name.toLowerCase().includes(value)
         )
       );
     } else {
@@ -105,11 +49,40 @@ export const Home: React.FC = () => {
   };
 
   const gotoContact = () => {
-    history.push("/contact");
+    history.push('/contact');
   };
   const gotoList = () => {
-    history.push("/list");
+    history.push('/list');
   };
+
+  let companies;
+  if (loading) {
+    companies = (
+      <Spin className="companies-loading" size="large" tip="Loading..." />
+    );
+  } else if (error) {
+    companies = (
+      <Alert
+        message="Something went wrong"
+        description="There was an error loading the page. Refresh the browser and try it again. If the error persists, contact the admin."
+        type="error"
+      />
+    );
+  } else {
+    companies = (
+      <Col xl={12} lg={14} md={16} sm={18} xs={24}>
+        <Search
+          placeholder="Search for a company"
+          onSearch={value => onSearch(value)}
+          enterButton
+          className="company-search"
+        />
+        {businesslist.map(companyProps => (
+          <CompanyCard {...companyProps} key={companyProps.id} />
+        ))}
+      </Col>
+    );
+  }
 
   return (
     <div>
@@ -132,7 +105,7 @@ export const Home: React.FC = () => {
         <Row justify="center">
           <Col xl={16} lg={16} md={18} sm={20} xs={22}>
             <Title level={1}>
-              Support your community from where you're at.
+              Dishin' out hot updates for businesses in Fargo
             </Title>
             <Typography>
               The temporary shut down of Fargo/Moorhead businesses due to
@@ -150,30 +123,7 @@ export const Home: React.FC = () => {
         </Row>
       </Content>
       <Content>
-        <Row justify="center">
-          {loading ? (
-            <Spin size="large" tip="Loading..." />
-          ) : (
-            <Col xl={12} lg={14} md={16} sm={18} xs={24}>
-              <Search
-                placeholder="input search text"
-                onSearch={value => onSearch(value)}
-                enterButton
-              />
-              {!error &&
-                businesslist.map((companyProps, index) => (
-                  <CompanyCard {...companyProps} key={index} />
-                ))}
-              {error && (
-                <Alert
-                  message="Somethign went wrong"
-                  description="There was an error loading the page. Refresh the browser and try it again. If the error persists contact the admin."
-                  type="error"
-                />
-              )}
-            </Col>
-          )}
-        </Row>
+        <Row justify="center">{companies}</Row>
       </Content>
     </div>
   );
