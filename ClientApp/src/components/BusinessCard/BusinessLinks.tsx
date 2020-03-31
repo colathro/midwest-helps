@@ -2,14 +2,14 @@
 import React from 'react';
 import { Button } from 'antd';
 
-export interface CompanyLinksProps {
+export interface BusinessLinksProps {
   giftCardUrl?: string;
   phone?: string;
   webUrl?: string;
 }
 
-export const CompanyLinks: React.FC<CompanyLinksProps> = props => (
-  <div className="company-links">
+export const BusinessLinks: React.FC<BusinessLinksProps> = props => (
+  <div className="business-links">
     {props.giftCardUrl && (
       <Button type="dashed" href={props.giftCardUrl}>
         🎁
