@@ -1,10 +1,10 @@
-import React from "react";
-import { Form, Button, Typography, Collapse } from "antd";
-import { TextField } from "../../FormFields/TextField";
-import { CheckboxGroup } from "../../FormFields/CheckboxGroup";
-import { SelectField } from "../../FormFields/SelectField";
-import { useHistory } from "react-router-dom";
-import "./BuildBusinessForm.scss";
+import React from 'react';
+import { Form, Button, Typography, Collapse } from 'antd';
+import { TextField } from '../../FormFields/TextField';
+import { CheckboxGroup } from '../../FormFields/CheckboxGroup';
+import { SelectField } from '../../FormFields/SelectField';
+import { useHistory } from 'react-router-dom';
+import './BuildBusinessForm.scss';
 
 export interface BuildBusinessFormProps {
   isUpdate: boolean;
@@ -24,41 +24,41 @@ const { Title } = Typography;
 const { Panel } = Collapse;
 
 const checkboxProductChannelItems = [
-  { name: "Curb-side" },
-  { name: "Take-out" },
-  { name: "Drive-thru" },
-  { name: "Delivery" },
-  { name: "Live-stream" },
-  { name: "By appointment only" }
+  { name: 'Curb-side' },
+  { name: 'Take-out' },
+  { name: 'Drive-thru' },
+  { name: 'Delivery' },
+  { name: 'Live-stream' },
+  { name: 'By appointment only' }
 ];
 
 const checkboxAppDeliveryItems = [
-  { name: "Uber Eats" },
-  { name: "GrubHub" },
-  { name: "Door Dash" },
-  { name: "Postmates" },
-  { name: "Food Dudes" },
-  { name: "Bite Squad" }
+  { name: 'Uber Eats' },
+  { name: 'GrubHub' },
+  { name: 'Door Dash' },
+  { name: 'Postmates' },
+  { name: 'Food Dudes' },
+  { name: 'Bite Squad' }
 ];
 
 const categories = [
-  { name: "🍸 — Bar & Brewery", value: 0 },
-  { name: "☕ — Coffee", value: 1 },
-  { name: "🎸 — Entertainment", value: 2 },
-  { name: "🛒 — Grocery", value: 3 },
-  { name: "🙏 — Religion & Spiritual", value: 4 },
-  { name: "🍔 — Restaurant", value: 5 },
-  { name: "👕 — Retail", value: 6 },
-  { name: "🧡 — Wellness", value: 7 },
-  { name: "📦 — Other", value: 8 },
-  { name: "🎨 — Art & Culture", value: 9 },
-  { name: "💈 — Beauty", value: 10 }
+  { name: '🍸 — Bar & Brewery', value: 0 },
+  { name: '☕ — Coffee', value: 1 },
+  { name: '🎸 — Entertainment', value: 2 },
+  { name: '🛒 — Grocery', value: 3 },
+  { name: '🙏 — Religion & Spiritual', value: 4 },
+  { name: '🍔 — Restaurant', value: 5 },
+  { name: '👕 — Retail', value: 6 },
+  { name: '🧡 — Wellness', value: 7 },
+  { name: '📦 — Other', value: 8 },
+  { name: '🎨 — Art & Culture', value: 9 },
+  { name: '💈 — Beauty', value: 10 }
 ];
 
 const hours = [
-  { name: "✔ — Regular", value: 1 },
-  { name: "⏱ — Limited", value: 2 },
-  { name: "❌ — Closed", value: 3 }
+  { name: '✔ — Regular', value: 1 },
+  { name: '⏱ — Limited', value: 2 },
+  { name: '❌ — Closed', value: 3 }
 ];
 
 export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = props => {
@@ -120,7 +120,7 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = props => {
 
       {props.displayUrls && (
         <Collapse>
-          <Panel header="Business links" key="1">
+          <Panel header="Business links" id="business-links-collapse" key="1">
             <TextField
               name="website"
               title="Business website"
