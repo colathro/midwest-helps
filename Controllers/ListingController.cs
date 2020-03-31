@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using getthehotdish.DataAccess;
+using getthehotdish.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -25,24 +26,35 @@ namespace getthehotdish.Controllers
 
         [HttpGet]
         [Route("page/{page}")]
-        public async Task<ICollection<Listing>> Get(int page)
+        public async Task<ICollection<Business>> Get(int page)
         {
             _logger.LogInformation($"PAGE GET Request: {page}");
 
-            var listings = _dataContext.Listings.Where(l => l.PartitionKey == partitionKey).ToList();
-
-            return listings;
+            try
+            {
+                var listings = _dataContext.Listings.Where(l => l.PartitionKey == partitionKey).ToList();
+                List<Business> businesses = new List<Business>();
+                foreach (var listing in listings)
+                {
+                    businesses.Add(new Business(listing));
+                }
+                return businesses;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         [HttpGet]
-        [Route("{id}")]
-        public async Task<Listing> Get(string id)
+        [Route("get/{id}")]
+        public async Task<Business> Get(string id)
         {
             _logger.LogInformation($"ID GET Request: {id}");
 
             var listing = _dataContext.Listings.Where(l => l.Id == Guid.Parse(id) && l.PartitionKey == partitionKey).First();
 
-            return listing;
+            return new Business(listing);
         }
 
         [HttpPost]
@@ -52,10 +64,34 @@ namespace getthehotdish.Controllers
 
             listing.PartitionKey = partitionKey;
 
-            _dataContext.Listings.Add(listing);
-            await _dataContext.SaveChangesAsync();
-
-            return Ok();
+            try
+            {
+                _dataContext.Listings.Add(listing);
+                await _dataContext.SaveChangesAsync();
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
+
+        [HttpGet]
+        [Route("search/{businessName}")]
+        public async Task<ICollection<Listing>> Search(string businessName)
+        {
+            _logger.LogInformation($"PAGE Search Request: {businessName}");
+
+            try
+            {
+                var listings = _dataContext.Listings.Where(l => l.PartitionKey == partitionKey && l.BusinessName == businessName).ToList();
+                return listings;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }

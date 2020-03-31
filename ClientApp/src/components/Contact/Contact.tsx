@@ -1,9 +1,10 @@
-import React from 'react';
-import { Form, Input, Button, Row, Col, Typography } from 'antd';
-import { LeftOutlined } from '@ant-design/icons';
-import { useHistory } from 'react-router-dom';
+import React from "react";
+import { Form, Modal, Button, Row, Col, Typography } from "antd";
+import { LeftOutlined } from "@ant-design/icons";
+import { useHistory } from "react-router-dom";
+import { TextField } from "../FormFields/TextField";
 
-import './Contact.scss';
+import "./Contact.scss";
 
 const { Title } = Typography;
 
@@ -12,10 +13,47 @@ export const Contact: React.FC = () => {
 
   const onFinish = (values: any) => {
     console.log(values);
+    sendMessage(values);
   };
 
+  function success() {
+    Modal.success({
+      content: "Your message was sent successfully.",
+      onOk: () => goHome()
+    });
+  }
+
+  function error() {
+    Modal.error({
+      title: "Oops",
+      content: "There was a problem sending your message. Try again later.",
+      onOk: () => goHome()
+    });
+  }
+
+  function sendMessage(data: any) {
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    };
+    fetch("/api/contact/", requestOptions)
+      .then(response => response)
+      .then(data => {
+        console.log("RESPONSE", data);
+        if (data.ok) {
+          success();
+        } else {
+          error();
+        }
+      })
+      .catch(function() {
+        error();
+      });
+  }
+
   const goHome = () => {
-    history.push('/');
+    history.push("/");
   };
 
   return (
@@ -37,30 +75,27 @@ export const Contact: React.FC = () => {
           We'll get back to you as soon as possible.
         </Typography>
         <Form name="contact" onFinish={onFinish}>
-          <Form.Item
-            label="Name"
+          <TextField
             name="name"
-            rules={[
-              { required: true, message: "Please don't forget your name!" }
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Email"
+            title="Name"
+            type="name"
+            placeHolder="John Doe"
+            required={true}
+          />
+          <TextField
             name="email"
-            rules={[
-              {
-                required: true,
-                message: 'Give us your email so we can get back to you!'
-              }
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item label="Message" name="message">
-            <Input.TextArea />
-          </Form.Item>
+            title="Email"
+            type="email"
+            placeHolder="johndoe@gmail.com"
+            required={true}
+          />
+          <TextField
+            name="message"
+            title="Message"
+            type="text"
+            placeHolder="Please tell us how we can help you"
+            required={true}
+          />
           <Form.Item>
             <Button type="primary" htmlType="submit">
               Submit

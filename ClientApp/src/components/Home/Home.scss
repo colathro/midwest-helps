@@ -53,7 +53,7 @@ main.header-greeting {
   $vertical-padding: 24px;
   background: $primary-color;
   padding-top: $header-height + $vertical-padding;
-  padding-bottom: $vertical-padding;
+  padding-bottom: $vertical-padding + 24px;
   h1 {
     color: white;
   }
@@ -61,4 +61,14 @@ main.header-greeting {
     font-size: 16px;
     color: white;
   }
+}
+
+.companies-loading {
+  margin-top: 40px;
+  margin-bottom: 24px;
+}
+
+.business-search {
+  margin-top: 12px;
+  margin-bottom: 4px;
 }

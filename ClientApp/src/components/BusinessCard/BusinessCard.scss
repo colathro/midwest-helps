@@ -1,4 +1,4 @@
-.company-card {
+.business-card {
   margin-top: 8px;
   .ant-card-head {
     border-bottom: none;
@@ -16,12 +16,12 @@
   letter-spacing: -0.1px;
 }
 
-.company-links {
-  margin-top: -32px;
+.business-links {
   float: right;
 }
 
 .interaction-tags {
+  display: inline-block;
   & > div {
     border-radius: 4px;
     display: inline-block;

@@ -1,14 +1,12 @@
-﻿import React from 'react';
+﻿import React, { useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { Row, Col, Typography, Layout, Button } from 'antd';
-import { CompanyCard } from '../CompanyCard';
-import { CompanyFilters } from '../CompanyFilters';
-import { CompanyCategory } from '../CompanyCard/CompanyCard';
-
-import { getFakeCompanies } from '../../dataFaking';
+import { Row, Col, Typography, Layout, Button, Spin, Alert } from 'antd';
+import { BusinessCard } from '../BusinessCard';
+import { Business, BusinessCategory } from '../../types';
 
 import './Home.scss';
 
+// const { Search } = Input; TODO: once search is ready for prime time, we'll put it back in
 const { Header, Content } = Layout;
 const { Title } = Typography;
 
@@ -17,7 +15,41 @@ const useQuery = () => new URLSearchParams(useLocation().search);
 export const Home: React.FC = () => {
   let history = useHistory();
   let query = useQuery();
-  let filter = query.get('filter') as CompanyCategory;
+  let filter = query.get('filter') as BusinessCategory;
+
+  const [allBusiness, setAllBusiness] = useState<Business[]>([]);
+  // const [businesslist, setBusinesslist] = useState<Business[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  if (allBusiness.length === 0) {
+    fetchUrl('/api/listing/page/1');
+  }
+
+  async function fetchUrl(url: string) {
+    const response = await fetch(url);
+    const data = await response.json();
+    if (response.ok) {
+      setAllBusiness(data);
+      setLoading(false);
+      setError(false);
+    } else {
+      setLoading(false);
+      setError(true);
+    }
+  }
+
+  // const onSearch = (value: string) => {
+  //   if (value) {
+  //     setBusinesslist(
+  //       allBusiness.filter(business =>
+  //         business.name.toLowerCase().includes(value)
+  //       )
+  //     );
+  //   } else {
+  //     setBusinesslist(allBusiness);
+  //   }
+  // };
 
   const gotoContact = () => {
     history.push('/contact');
@@ -26,9 +58,34 @@ export const Home: React.FC = () => {
     history.push('/list');
   };
 
-  fetch('/api/listing/page/1')
-    .then(response => response.json())
-    .then(data => console.log('RESPONSE', data));
+  let companies;
+  if (loading) {
+    companies = (
+      <Spin className="companies-loading" size="large" tip="Loading..." />
+    );
+  } else if (error) {
+    companies = (
+      <Alert
+        message="Something went wrong"
+        description="There was an error loading the page. Refresh the browser and try it again. If the error persists, contact the admin."
+        type="error"
+      />
+    );
+  } else {
+    companies = (
+      <Col xl={12} lg={14} md={16} sm={18} xs={24}>
+        {/* <Search
+          placeholder="Search for a business"
+          onSearch={value => onSearch(value)}
+          enterButton
+          className="business-search"
+        /> */}
+        {allBusiness.map(business => (
+          <BusinessCard {...business} key={business.id} />
+        ))}
+      </Col>
+    );
+  }
 
   return (
     <div>
@@ -51,7 +108,7 @@ export const Home: React.FC = () => {
         <Row justify="center">
           <Col xl={16} lg={16} md={18} sm={20} xs={22}>
             <Title level={1}>
-              Support your community from where you're at.
+              Dishin' out hot updates for businesses in Fargo
             </Title>
             <Typography>
               The temporary shut down of Fargo/Moorhead businesses due to
@@ -69,14 +126,7 @@ export const Home: React.FC = () => {
         </Row>
       </Content>
       <Content>
-        <Row justify="center">
-          <Col xl={12} lg={14} md={16} sm={18} xs={24}>
-            <CompanyFilters filter={filter} />
-            {getFakeCompanies(10).map((companyProps, index) => (
-              <CompanyCard {...companyProps} key={index} />
-            ))}
-          </Col>
-        </Row>
+        <Row justify="center">{companies}</Row>
       </Content>
     </div>
   );
