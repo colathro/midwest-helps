@@ -1,12 +1,12 @@
 ﻿import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Row, Col, Typography, Layout, Button, Spin, Input, Alert } from 'antd';
+import { Row, Col, Typography, Layout, Button, Spin, Alert } from 'antd';
 import { BusinessCard } from '../BusinessCard';
 import { Business } from '../../types';
 
 import './Home.scss';
 
-const { Search } = Input;
+// const { Search } = Input; TODO: once search is ready for prime time, we'll put it back in
 const { Header, Content } = Layout;
 const { Title } = Typography;
 
