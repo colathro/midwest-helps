@@ -16,6 +16,6 @@ In order to see it in all its glory, you must run both the back-end and the fron
 ### The back-end
 *TODO*
 ### The front-end
-Please refer to the [client development readme](ClientApp/readme.md) before making any code changes.
-
-
+Please refer to the [client development readme](ClientApp/README.md) before making any code changes.
+## New Features and Bugs
+Please use the [repository issues page](https://github.com/colathro/getthehotdish/issues) to record any future work
