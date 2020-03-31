@@ -129,22 +129,3 @@ namespace getthehotdish.Models
         }
     }
 }
-
-/*
- * 
-export interface CompanyCardProps {
-  businessName: string;
-  businessCategory: CompanyCategory;
-  hours?: number;
-  phoneNumber?: string;
-  website?: string;
-  messageToCustomer?: string;
-  facebookUrl?: string;
-  instagramUrl?: string;
-  liveStreamUrl?: string;
-  orderUrl?: string;
-  giftCardUrl?: string;
-  interactions: CompanyInteraction[];
-  deliveryApps?: CompanyDeliveryApp[];
-}
- */
