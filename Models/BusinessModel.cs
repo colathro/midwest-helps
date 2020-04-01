@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace getthehotdish.Models
 {
-    public class Business
+    public class BusinessModel
     {
         public Guid Id { get; set; }
         public string PartitionKey { get; set; }
@@ -22,7 +22,7 @@ namespace getthehotdish.Models
         public List<string> Interactions { get; set; }
         public List<string> DeliveryApps { get; set; }
 
-        public Business(Listing listing)
+        public BusinessModel(Listing listing)
         {
             Id = listing.Id;
             PartitionKey = listing.PartitionKey;
@@ -91,7 +91,7 @@ namespace getthehotdish.Models
             }
         }
         
-        public static implicit operator Listing(Business b)
+        public static implicit operator Listing(BusinessModel b)
         {
             Listing ret = new Listing();
 
