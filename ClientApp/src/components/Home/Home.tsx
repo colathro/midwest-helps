@@ -1,8 +1,9 @@
 ﻿import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { Row, Col, Typography, Layout, Button, Spin, Alert } from 'antd';
+import { useHistory } from 'react-router-dom'; // useLocation
+import { Row, Col, Typography, Layout, Button, Spin, Alert } from 'antd'; // Search
 import { BusinessCard } from '../BusinessCard';
-import { Business } from '../../types';
+import { Business } from '../../types'; // BusinessCategory
+// import { BusinessFilter } from '../BusinessFilter';
 
 import './Home.scss';
 
@@ -10,8 +11,12 @@ import './Home.scss';
 const { Header, Content } = Layout;
 const { Title } = Typography;
 
+// const useQuery = () => new URLSearchParams(useLocation().search);
+
 export const Home: React.FC = () => {
   let history = useHistory();
+  // let query = useQuery();
+  // let filter = query.get('filter') as BusinessCategory;
 
   const [allBusiness, setAllBusiness] = useState<Business[]>([]);
   // const [businesslist, setBusinesslist] = useState<Business[]>([]);
@@ -76,6 +81,7 @@ export const Home: React.FC = () => {
           enterButton
           className="business-search"
         /> */}
+        {/* <BusinessFilter filter={filter} /> */}
         {allBusiness.map(business => (
           <BusinessCard {...business} key={business.id} />
         ))}
