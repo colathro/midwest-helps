@@ -5,10 +5,11 @@ import { CheckboxGroup } from '../../FormFields/CheckboxGroup';
 import { SelectField } from '../../FormFields/SelectField';
 import { useHistory } from 'react-router-dom';
 import './BuildBusinessForm.scss';
+import { Business } from '../../../types';
 
 export interface BuildBusinessFormProps {
-  isUpdate: boolean;
   onSubmit: Function;
+  businessModel?: Business | null;
   displayBusinessName?: boolean;
   displayBusinessType?: boolean;
   displayHours?: boolean;
@@ -89,6 +90,7 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = props => {
           type="name"
           placeHolder="Enter the name of your business"
           required={true}
+          defaultValue={props.businessModel?.name}
         />
       )}
       {props.displayHours && (
@@ -113,6 +115,7 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = props => {
           placeHolder="701-555-1234"
           subTitle="If people can order by phone, enter the number here"
           required={false}
+          defaultValue={props.businessModel?.phoneNumber}
         />
       )}
 
@@ -126,6 +129,7 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = props => {
               placeHolder="www.businessname.com"
               subTitle="If your business has a web page that you would like to share, enter the link here"
               required={false}
+              defaultValue={props.businessModel?.website}
             />
             <TextField
               name="facebookUrl"
@@ -134,6 +138,7 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = props => {
               placeHolder="https://www.facebook.com/businessname"
               subTitle="If your business has a Facebook page that you would like to share, enter the link here"
               required={false}
+              defaultValue={props.businessModel?.facebookUrl}
             />
             <TextField
               name="instagramUrl"
@@ -142,6 +147,7 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = props => {
               placeHolder="https://www.instagram.com/businessname"
               subTitle="If your business has a Instagram page that you would like to share, enter the link here"
               required={false}
+              defaultValue={props.businessModel?.instagramUrl}
             />
             <TextField
               name="liveStreamUrl"
@@ -150,6 +156,7 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = props => {
               placeHolder="https://youtube.com"
               subTitle="If people can live stream your event or service, enter the link here"
               required={false}
+              defaultValue={props.businessModel?.liveStreamUrl}
             />
             <TextField
               name="orderUrl"
@@ -158,6 +165,7 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = props => {
               placeHolder="https://businessname.com/order"
               subTitle="If people can order online, enter the order link here"
               required={false}
+              defaultValue={props.businessModel?.orderUrl}
             />
           </Panel>
         </Collapse>
@@ -169,6 +177,7 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = props => {
           type="text"
           placeHolder="Provide details like hours and any special instructions you want customers to know about"
           required={true}
+          defaultValue={props.businessModel?.message}
         />
       )}
 
@@ -198,10 +207,11 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = props => {
             placeHolder="https://businessname.com/giftcard"
             subTitle="If people can buy gift cards, enter the link here"
             required={false}
+            defaultValue={props.businessModel?.giftCardUrl}
           />
         )}
 
-      {!props.isUpdate && (
+      {!props.businessModel && (
         <Form.Item>
           <Button type="primary" htmlType="submit" block>
             Submit

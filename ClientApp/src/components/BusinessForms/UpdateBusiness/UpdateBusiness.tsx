@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Typography, Modal, Button } from 'antd';
 import { useHistory } from 'react-router-dom';
 import { BuildBusinessForm } from '../BuildBusinessForm/BuildBusinessForm';
+import { Business } from '../../../types';
 
 export interface UpdateBusinessProps {
   businessId: string;
@@ -14,6 +15,13 @@ export const UpdateBusiness: React.FC<UpdateBusinessProps> = props => {
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
 
+  let business: Business | null = null;
+
+  useEffect(() => {
+    setVisible(props.displayUpdate);
+    fetchUrl('/api/listing/get/' + props.businessId);
+  }, [props.displayUpdate]);
+
   const handleCancel = () => {
     setVisible(false);
   };
@@ -21,34 +29,7 @@ export const UpdateBusiness: React.FC<UpdateBusinessProps> = props => {
   const handleOk = (business: any) => {
     setLoading(true);
 
-    const postRequest = {
-      Id: business.id,
-      BusinessName: business.name,
-      BusinessType: business.category,
-      Website: business.website,
-      Hours: business.hours,
-      PhoneNumber: business.phone.replace(/\D/g, ''),
-      FacebookdUrl: business.facebookUrl,
-      InstagramUrl: business.instagramUrl,
-      LiveStreamUrl: business.liveStreamUrl,
-      OrderUrl: business.orderUrl,
-      MessageToCustomer: business.message,
-      CurbSide: business.checkboxGroupProductChannel.includes('Curb-side'),
-      TakeOut: business.checkboxGroupProductChannel.includes('Take-out'),
-      DriveThru: business.checkboxGroupProductChannel.includes('Drive-thru'),
-      Delivery: business.checkboxGroupProductChannel.includes('Delivery'),
-      LiveStream: business.checkboxGroupProductChannel.includes('Live-stream'),
-      AppointmentOnly: business.checkboxGroupProductChannel.includes(
-        'By appointment only'
-      ),
-      UberEats: business.checkboxGroupAppDelivery.includes('Uber Eats'),
-      Grubhub: business.checkboxGroupAppDelivery.includes('GrubHub'),
-      DoorDash: business.checkboxGroupAppDelivery.includes('Door Dash'),
-      Postmates: business.checkboxGroupAppDelivery.includes('Postmates'),
-      FoodDudes: business.checkboxGroupAppDelivery.includes('Food Dudes'),
-      BiteSquad: business.checkboxGroupAppDelivery.includes('Bite Squad'),
-      GiftCardUrl: business.giftCardUrl
-    };
+    const postRequest = {};
 
     updateBusiness(postRequest);
     setLoading(false);
@@ -95,7 +76,7 @@ export const UpdateBusiness: React.FC<UpdateBusinessProps> = props => {
     const response = await fetch(url);
     const data = await response.json();
     if (response.ok) {
-      setVisible(props.displayUpdate);
+      business = data;
     } else {
       error();
     }
@@ -104,8 +85,6 @@ export const UpdateBusiness: React.FC<UpdateBusinessProps> = props => {
   const goHome = () => {
     history.push('/');
   };
-
-  fetchUrl('/api/listing/get/1');
 
   return (
     <Modal
@@ -128,8 +107,8 @@ export const UpdateBusiness: React.FC<UpdateBusinessProps> = props => {
       ]}
     >
       <BuildBusinessForm
-        isUpdate={true}
         onSubmit={handleOk}
+        businessModel={business}
         displayHours={true}
         displayPhoneNumber={true}
         displayUrls={true}

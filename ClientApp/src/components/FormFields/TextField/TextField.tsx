@@ -10,6 +10,7 @@ export interface TextFieldProps {
   subTitle?: string;
   placeHolder?: string;
   required?: boolean;
+  defaultValue?: string;
 }
 
 export type TextFieldType = 'name' | 'email' | 'phone' | 'url' | 'text';
