@@ -1,102 +1,24 @@
-﻿## API DOCS
+﻿# getthehotdish
+The one-stop shop for showing how all the local businesses are handling COVID-19
 
-Unique Identifiers are GUIDs and will be generated server side on POST. Cosmos PartitionKey is set server side.
+## Running the project locally
+In order to see it in all its glory, you must run both the back-end and the front-end. However, both can be run by themselves without being dependent on the other (e.g. just running the back-end and test API calls with Postman or something)
+### The back-end
+1. Open `getthehotdish.csproj` in Visual Studio, then run the `getthehotdish` project
+2. This runs the back-end on `localhost:5000`
+### The front-end
+1. Install [Node](https://nodejs.org/en/download/) and [Yarn](https://classic.yarnpkg.com/en/docs/install)
+2. Open a terminal to the `ClientApp` directory and run the command `yarn`
+   * (this installs all package dependencies)
+3. Once that command is done, run `yarn start`, which runs the front-end on `localhost:3000` (and opens a browser tab to that location)
 
-## Get Single Record
+## Developing
+### The back-end
+*TODO*
+### The front-end
+Please refer to the [client development readme](ClientApp/README.md) before making any code changes.
+## New Features and Bugs
+Please use the [repository issues page](https://github.com/colathro/getthehotdish/issues) to record any future work
 
-Get record by ID:
-https://localhost:5000/api/listing/db8298af-6f7a-4ab4-9255-48112243a702
-
-Output
-```json
-{
-    "id": "db8298af-6f7a-4ab4-9255-48112243a702",
-    "partitionKey": "ND",
-    "businessName": null,
-    "businessType": 0,
-    "phoneNumber": null,
-    "livestreamURL": null,
-    "orderURL": null,
-    "messageToCustomer": null,
-    "curbSide": false,
-    "takeOut": false,
-    "driveThru": false,
-    "delivery": false,
-    "liveStream": false,
-    "appointmentOnly": false
-}
-```
---------------------
-
-## Get Page of Records
-Get Page of Records:
-https://localhost:5000/api/listing/page/1
-
-Output:
-```json
-[
-    {
-        "id": "db8298af-6f7a-4ab4-9255-48112243a702",
-        "partitionKey": "ND",
-        "businessName": null,
-        "businessType": 0,
-        "phoneNumber": null,
-        "livestreamURL": null,
-        "orderURL": null,
-        "messageToCustomer": null,
-        "curbSide": false,
-        "takeOut": false,
-        "driveThru": false,
-        "delivery": false,
-        "liveStream": false,
-        "appointmentOnly": false
-    },
-    {
-        "id": "db8298af-6f7a-4ab4-9255-48112243a702",
-        "partitionKey": "ND",
-        "businessName": null,
-        "businessType": 0,
-        "phoneNumber": null,
-        "livestreamURL": null,
-        "orderURL": null,
-        "messageToCustomer": null,
-        "curbSide": false,
-        "takeOut": false,
-        "driveThru": false,
-        "delivery": false,
-        "liveStream": false,
-        "appointmentOnly": false
-    }
-]
-```
---------------------
-
-## Post New Listing
-Post New Business Listing
-https://localhost:5000/api/listing/
-
-Content-Type:application/json
-```json
-{
-    "BusinessName": "TacoBell",
-    "BusinessType": 1,
-    "PhoneNumber": "7014910059",
-    "LiveStreamUrl": "Twitch.tv/colathro",
-    "OrderUrl": "Grubhub.com",
-    "MessageToCustomer": "WE ARE OPEN PLEAS ECOME EAT.",
-    "CurbSide": true,
-    "TakeOut": true,
-    "DriveThru": true,
-    "Deliverry": true,
-    "LiveStream": true,
-    "AppointmentOnly": true,
-    "UberEats": true,
-    "Grubhub": true,
-    "DoorDash": true,
-    "Postmates": true,
-    "FoodDudes": true,
-    "BiteSquad": true
-}
-```
-Output: 
-200 OK
+## API Docs
+Check out the [wiki page](https://github.com/colathro/getthehotdish/wiki/API-Docs)

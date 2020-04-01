@@ -1,30 +1,38 @@
-﻿import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import { Row, Col, Typography, Layout, Button, Spin, Input, Alert } from 'antd';
-import { CompanyCard } from '../CompanyCard';
-import { CompanyCardProps } from '../CompanyCard/CompanyCard';
+﻿import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom'; // useLocation
+import { Row, Col, Typography, Layout, Button, Spin, Alert } from 'antd'; // Search
+import { BusinessCard } from '../BusinessCard';
+import { Business } from '../../types'; // BusinessCategory
+// import { BusinessFilter } from '../BusinessFilter';
 
 import './Home.scss';
 
-const { Search } = Input;
+// const { Search } = Input; TODO: once search is ready for prime time, we'll put it back in
 const { Header, Content } = Layout;
 const { Title } = Typography;
 let loadData = true;
 
+// const useQuery = () => new URLSearchParams(useLocation().search);
+
 export const Home: React.FC = () => {
   let history = useHistory();
+  // let query = useQuery();
+  // let filter = query.get('filter') as BusinessCategory;
 
-  const [allBusiness, setAllBusiness] = useState<CompanyCardProps[]>([]);
-  const [businesslist, setBusinesslist] = useState<CompanyCardProps[]>([]);
+  const [allBusiness, setAllBusiness] = useState<Business[]>([]);
+  // const [businesslist, setBusinesslist] = useState<Business[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+
+  if (allBusiness.length === 0) {
+    fetchUrl('/api/listing/page/1');
+  }
 
   async function fetchUrl(url: string) {
     const response = await fetch(url);
     const data = await response.json();
     if (response.ok) {
       setAllBusiness(data);
-      setBusinesslist(data);
       setLoading(false);
       setError(false);
       loadData = false;
@@ -35,17 +43,17 @@ export const Home: React.FC = () => {
     }
   }
 
-  const onSearch = (value: string) => {
-    if (value) {
-      setBusinesslist(
-        allBusiness.filter(business =>
-          business.name.toLowerCase().includes(value)
-        )
-      );
-    } else {
-      setBusinesslist(allBusiness);
-    }
-  };
+  // const onSearch = (value: string) => {
+  //   if (value) {
+  //     setBusinesslist(
+  //       allBusiness.filter(business =>
+  //         business.name.toLowerCase().includes(value)
+  //       )
+  //     );
+  //   } else {
+  //     setBusinesslist(allBusiness);
+  //   }
+  // };
 
   const gotoContact = () => {
     history.push('/contact');
@@ -70,14 +78,15 @@ export const Home: React.FC = () => {
   } else {
     companies = (
       <Col xl={12} lg={14} md={16} sm={18} xs={24}>
-        <Search
-          placeholder="Search for a company"
+        {/* <Search
+          placeholder="Search for a business"
           onSearch={value => onSearch(value)}
           enterButton
-          className="company-search"
-        />
-        {businesslist.map(companyProps => (
-          <CompanyCard {...companyProps} key={companyProps.id} />
+          className="business-search"
+        /> */}
+        {/* <BusinessFilter filter={filter} /> */}
+        {allBusiness.map(business => (
+          <BusinessCard {...business} key={business.id} />
         ))}
       </Col>
     );

@@ -1,1 +1,0 @@
-export { CompanyCard } from './CompanyCard';
