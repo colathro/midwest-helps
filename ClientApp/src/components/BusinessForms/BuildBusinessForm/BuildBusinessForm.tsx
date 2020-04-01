@@ -62,8 +62,6 @@ const hours = [
 ];
 
 export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = props => {
-  let history = useHistory();
-
   const onFinish = (business: any) => {
     props.onSubmit(business);
   };
@@ -82,7 +80,7 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = props => {
           items={categories}
           placeHolder="Select a category for your business"
           required={true}
-        ></SelectField>
+        />
       )}
       {props.displayBusinessName && (
         <TextField
@@ -100,7 +98,7 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = props => {
           items={hours}
           placeHolder="Select your business hours"
           required={false}
-        ></SelectField>
+        />
       )}
 
       {(props.displayPhoneNumber || props.displayUrls) && (
@@ -203,11 +201,13 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = props => {
           />
         )}
 
-      <Form.Item>
-        <Button type="primary" htmlType="submit" block>
-          Submit
-        </Button>
-      </Form.Item>
+      {!props.isUpdate && (
+        <Form.Item>
+          <Button type="primary" htmlType="submit" block>
+            Submit
+          </Button>
+        </Form.Item>
+      )}
     </Form>
   );
 };

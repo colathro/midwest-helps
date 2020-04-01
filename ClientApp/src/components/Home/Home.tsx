@@ -9,6 +9,7 @@ import './Home.scss';
 const { Search } = Input;
 const { Header, Content } = Layout;
 const { Title } = Typography;
+let loadData = true;
 
 export const Home: React.FC = () => {
   let history = useHistory();
@@ -26,15 +27,13 @@ export const Home: React.FC = () => {
       setBusinesslist(data);
       setLoading(false);
       setError(false);
+      loadData = false;
     } else {
       setLoading(false);
       setError(true);
+      loadData = false;
     }
   }
-
-  useEffect(() => {
-    fetchUrl('/api/listing/page/1');
-  });
 
   const onSearch = (value: string) => {
     if (value) {
@@ -82,6 +81,10 @@ export const Home: React.FC = () => {
         ))}
       </Col>
     );
+  }
+
+  if (loadData) {
+    fetchUrl('/api/listing/page/1');
   }
 
   return (
