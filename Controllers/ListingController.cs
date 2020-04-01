@@ -70,7 +70,7 @@ namespace getthehotdish.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] Listing listing)
         {
-            _logger.LogInformation($"LISTNG POST Request: {listing.BusinessName}");
+            _logger.LogInformation($"LISTING POST Request: {listing.BusinessName}");
 
             listing.PartitionKey = partitionKey;
 
