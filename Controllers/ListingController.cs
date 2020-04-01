@@ -26,18 +26,13 @@ namespace getthehotdish.Controllers
 
         [HttpGet]
         [Route("page/{page}")]
-        public async Task<ICollection<Business>> Get(int page)
+        public async Task<ICollection<BusinessModel>> Get(int page)
         {
             _logger.LogInformation($"PAGE GET Request: {page}");
 
             try
             {
-                var listings = _dataContext.Listings.Where(l => l.PartitionKey == partitionKey).ToList();
-                List<Business> businesses = new List<Business>();
-                foreach (var listing in listings)
-                {
-                    businesses.Add(new Business(listing));
-                }
+                var businesses = _dataContext.Listings.Where(l => l.PartitionKey == partitionKey).Select(l => new BusinessModel(l)).ToList();
                 return businesses;
             }
             catch (Exception ex)
@@ -48,13 +43,28 @@ namespace getthehotdish.Controllers
 
         [HttpGet]
         [Route("get/{id}")]
-        public async Task<Business> Get(string id)
+        public async Task<BusinessModel> Get(string id)
         {
             _logger.LogInformation($"ID GET Request: {id}");
 
-            var listing = _dataContext.Listings.Where(l => l.Id == Guid.Parse(id) && l.PartitionKey == partitionKey).First();
+            try
+            {
+                var listing = _dataContext.Listings.Where(l => l.Id == Guid.Parse(id) && l.PartitionKey == partitionKey).FirstOrDefault();
 
-            return new Business(listing);
+                if (listing != null)
+                {
+                    return new BusinessModel(listing);
+                }
+                else
+                {
+                    return null;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         [HttpPost]
@@ -70,9 +80,9 @@ namespace getthehotdish.Controllers
                 await _dataContext.SaveChangesAsync();
                 return Ok();
             }
-            catch
+            catch (Exception ex)
             {
-                return BadRequest();
+                throw ex;
             }
         }
 
