@@ -16,17 +16,7 @@ namespace getthehotdish.DataAccess
         public string LivestreamURL { get; set; }
         public string OrderURL { get; set; }
         public string MessageToCustomer { get; set; }
-        public bool CurbSide { get; set; }
-        public bool TakeOut { get; set; }
-        public bool DriveThru { get; set; }
-        public bool Delivery { get; set; }
-        public bool LiveStream { get; set; }
-        public bool AppointmentOnly { get; set; }
-        public bool UberEats { get; set; }
-        public bool Grubhub { get; set; }
-        public bool DoorDash { get; set; }
-        public bool Postmates { get; set; }
-        public bool FoodDudes { get; set; }
-        public bool BiteSquad { get; set; }
+        public DeliveryAppType DeliveryApps { get; set; }
+        public BusinessChannelType BusinessChannels { get; set; }
     }
 }

@@ -39,8 +39,11 @@ namespace getthehotdish.Controllers
 
             builder.HtmlBody = string.Format(@"<p>Hi team,<br>
                                 <p>A message was sent by {0} ({1}) on the Hotdish portal.<br>
-                                <p>{0} says: '-{2}'<br>
-                                <p>Don't forget to reach out to him and provide assistance<br>", senderName, senderEmail, message);
+                                <p>{0} says:{2}
+                                <br>
+                                {2}
+                                <br>
+                                <p>Don't forget to reach out to them and provide assistance.", senderName, senderEmail, message);
 
             return builder.ToMessageBody();
         }
