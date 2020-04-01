@@ -43,3 +43,19 @@ export type BusinessInteraction =
   | 'liveStream'
   | 'takeOut'
   | 'driveThru';
+
+export const BUSINESS_CATEGORY_STRINGS: {
+  [key in BusinessCategory]: string;
+} = {
+  art: '🎨 Art & Culture',
+  brewery: '🍸 Brewery & Distillery',
+  beauty: '💈 Beauty',
+  coffee: '☕ Coffee',
+  entertainment: '🎸 Entertainment',
+  grocery: '🛒 Grocery',
+  other: '📦 Other',
+  religion: '🙏 Religion & Spiritual',
+  restaurant: '🍔 Restaurant & Bar',
+  retail: '👕 Retail',
+  wellness: '🧡 Wellness'
+};
