@@ -39,55 +39,55 @@ namespace getthehotdish.Models
             GiftCardUrl = listing.GiftCardUrl;
 
             Interactions = new List<string>();
-            if (listing.AppointmentOnly)
+            if (listing.BusinessChannels.HasFlag(BusinessChannelType.AppointmentOnly))
             {
-                Interactions.Add("appointment");
+                Interactions.Add(BusinessChannelType.AppointmentOnly.ToString());
             }
-            if (listing.CurbSide)
+            if (listing.BusinessChannels.HasFlag(BusinessChannelType.CurbSide))
             {
-                Interactions.Add("curbSide");
+                Interactions.Add(BusinessChannelType.CurbSide.ToString());
             }
-            if (listing.LiveStream)
+            if (listing.BusinessChannels.HasFlag(BusinessChannelType.LiveStream))
             {
-                Interactions.Add("liveStream");
+                Interactions.Add(BusinessChannelType.LiveStream.ToString());
             }
-            if (listing.TakeOut)
+            if (listing.BusinessChannels.HasFlag(BusinessChannelType.TakeOut))
             {
-                Interactions.Add("takeOut");
+                Interactions.Add(BusinessChannelType.TakeOut.ToString());
             }
-            if (listing.Delivery)
+            if (listing.BusinessChannels.HasFlag(BusinessChannelType.Delivery))
             {
-                Interactions.Add("delivery");
+                Interactions.Add(BusinessChannelType.Delivery.ToString());
             }
-            if (listing.DriveThru)
+            if (listing.BusinessChannels.HasFlag(BusinessChannelType.DriveThru))
             {
-                Interactions.Add("driveThru");
+                Interactions.Add(BusinessChannelType.DriveThru.ToString());
             }
 
             DeliveryApps = new List<string>();
-            if (listing.UberEats)
+            if (listing.DeliveryApps.HasFlag(DeliveryAppType.UberEats))
             {
-                DeliveryApps.Add("UberEats");
+                DeliveryApps.Add(DeliveryAppType.UberEats.ToString());
             }
-            if (listing.Grubhub)
+            if (listing.DeliveryApps.HasFlag(DeliveryAppType.Grubhub))
             {
-                DeliveryApps.Add("GrubHub");
+                DeliveryApps.Add(DeliveryAppType.Grubhub.ToString());
             }
-            if (listing.DoorDash)
+            if (listing.DeliveryApps.HasFlag(DeliveryAppType.DoorDash))
             {
-                DeliveryApps.Add("DoorDash");
+                DeliveryApps.Add(DeliveryAppType.DoorDash.ToString());
             }
-            if (listing.Postmates)
+            if (listing.DeliveryApps.HasFlag(DeliveryAppType.Postmates))
             {
-                DeliveryApps.Add("Postmates");
+                DeliveryApps.Add(DeliveryAppType.Postmates.ToString());
             }
-            if (listing.FoodDudes)
+            if (listing.DeliveryApps.HasFlag(DeliveryAppType.FoodDudes))
             {
-                DeliveryApps.Add("FoodDudes");
+                DeliveryApps.Add(DeliveryAppType.FoodDudes.ToString());
             }
-            if (listing.BiteSquad)
+            if (listing.DeliveryApps.HasFlag(DeliveryAppType.BiteSquad))
             {
-                DeliveryApps.Add("BiteSquad");
+                DeliveryApps.Add(DeliveryAppType.BiteSquad.ToString());
             }
         }
         
@@ -112,18 +112,52 @@ namespace getthehotdish.Models
             ret.LivestreamURL = b.LiveStreamUrl;
             ret.OrderURL = b.OrderUrl;
             ret.MessageToCustomer = b.Message;
-            ret.CurbSide = b.Interactions.Contains("curbSide");
-            ret.TakeOut = b.Interactions.Contains("takeOut");
-            ret.DriveThru = b.Interactions.Contains("driveThru");
-            ret.Delivery = b.Interactions.Contains("delivery");
-            ret.LiveStream = b.LiveStreamUrl.Length > 0;
-            ret.AppointmentOnly = b.Interactions.Contains("appointment");
-            ret.UberEats = b.DeliveryApps.Contains("UberEats");
-            ret.Grubhub = b.DeliveryApps.Contains("GrubHub");
-            ret.DoorDash = b.DeliveryApps.Contains("DoorDash");
-            ret.Postmates = b.DeliveryApps.Contains("Postmates");
-            ret.FoodDudes = b.DeliveryApps.Contains("FoodDudes");
-            ret.BiteSquad = b.DeliveryApps.Contains("BiteSquad");
+
+            if (b.Interactions.Contains("curbSide"))
+            {
+                ret.BusinessChannels = ret.BusinessChannels | BusinessChannelType.CurbSide;
+            }
+            if (b.Interactions.Contains("takeOut"))
+            {
+                ret.BusinessChannels = ret.BusinessChannels | BusinessChannelType.TakeOut;
+            }
+            if (b.Interactions.Contains("delivery"))
+            {
+                ret.BusinessChannels = ret.BusinessChannels | BusinessChannelType.Delivery;
+            }
+            if (b.LiveStreamUrl.Length > 0)
+            {
+                ret.BusinessChannels = ret.BusinessChannels | BusinessChannelType.LiveStream;
+            }
+            if (b.Interactions.Contains("appointment"))
+            {
+                ret.BusinessChannels = ret.BusinessChannels | BusinessChannelType.AppointmentOnly;
+            }
+
+            if (b.DeliveryApps.Contains("UberEats"))
+            {
+                ret.DeliveryApps = ret.DeliveryApps | DeliveryAppType.UberEats;
+            }
+            if (b.DeliveryApps.Contains("GrubHub"))
+            {
+                ret.DeliveryApps = ret.DeliveryApps | DeliveryAppType.Grubhub;
+            }
+            if (b.DeliveryApps.Contains("DoorDash"))
+            {
+                ret.DeliveryApps = ret.DeliveryApps | DeliveryAppType.DoorDash;
+            }
+            if (b.DeliveryApps.Contains("Postmates"))
+            {
+                ret.DeliveryApps = ret.DeliveryApps | DeliveryAppType.Postmates;
+            }
+            if (b.DeliveryApps.Contains("FoodDudes"))
+            {
+                ret.DeliveryApps = ret.DeliveryApps | DeliveryAppType.FoodDudes;
+            }
+            if (b.DeliveryApps.Contains("BiteSquad"))
+            {
+                ret.DeliveryApps = ret.DeliveryApps | DeliveryAppType.BiteSquad;
+            }
 
             return ret;
         }
