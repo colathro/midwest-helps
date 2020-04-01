@@ -1,8 +1,6 @@
 using getthehotdish.DataAccess;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,18 +9,20 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.ApplicationInsights;
 using getthehotdish.Controllers;
 using getthehotdish.Models;
-using System.Configuration;
+using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace getthehotdish
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IHostingEnvironment environment)
         {
             Configuration = configuration;
+            Environment = environment;
         }
 
         public IConfiguration Configuration { get; }
+        public IHostingEnvironment Environment { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -34,7 +34,7 @@ namespace getthehotdish
             services.AddDbContext<DataContext>(options => 
                 options.UseCosmos("https://getthehotdish.documents.azure.com:443/",
                 Configuration["COSMOS_API_KEY"],
-                databaseName: "getthehotdish")
+                databaseName: "getthehotdish" + (Environment.IsDevelopment() ? "DEV" : ""))
             );
 
             services.AddLogging(builder =>
