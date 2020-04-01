@@ -4,18 +4,15 @@ import { useHistory } from 'react-router-dom';
 import { BuildBusinessForm } from '../BuildBusinessForm/BuildBusinessForm';
 
 export interface UpdateBusinessProps {
+  businessId: string;
   displayUpdate: boolean;
 }
 
 export const UpdateBusiness: React.FC<UpdateBusinessProps> = props => {
   let history = useHistory();
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    setVisible(props.displayUpdate);
-  }, [props.displayUpdate]);
 
   const handleCancel = () => {
     setVisible(false);
@@ -68,7 +65,7 @@ export const UpdateBusiness: React.FC<UpdateBusinessProps> = props => {
   function error() {
     Modal.error({
       title: 'Oops',
-      content: 'There was a problem submitting your business. Try again later.',
+      content: 'There was a problem updating your business. Try again later.',
       onOk: () => goHome()
     });
   }
@@ -94,9 +91,21 @@ export const UpdateBusiness: React.FC<UpdateBusinessProps> = props => {
       });
   }
 
+  async function fetchUrl(url: string) {
+    const response = await fetch(url);
+    const data = await response.json();
+    if (response.ok) {
+      setVisible(props.displayUpdate);
+    } else {
+      error();
+    }
+  }
+
   const goHome = () => {
     history.push('/');
   };
+
+  fetchUrl('/api/listing/get/1');
 
   return (
     <Modal
