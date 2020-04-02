@@ -5,8 +5,12 @@ import { CheckboxGroup } from '../../FormFields/CheckboxGroup';
 import { SelectField } from '../../FormFields/SelectField';
 import { useHistory } from 'react-router-dom';
 import './BuildBusinessForm.scss';
-import { Business } from '../../../types';
-import { checkBoxContent } from '../../FormFields/CheckboxGroup/CheckboxGroup';
+import {
+  Business,
+  BusinessInteraction,
+  BusinessDeliveryApp
+} from '../../../types';
+import { CheckboxItem } from '../../FormFields/CheckboxGroup/CheckboxGroup';
 
 export interface BuildBusinessFormProps {
   onSubmit: (business: Business) => void;
@@ -46,31 +50,140 @@ const hours = [
 ];
 
 export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = props => {
-  let checkboxProductChannelItems: checkBoxContent[] = [];
-  let checkboxAppDeliveryItems: checkBoxContent[] = [];
+  let checkboxProductChannelItems: CheckboxItem[] = [];
+  let checkboxAppDeliveryItems: CheckboxItem[] = [];
 
-  // checkboxProductChannelItems.push({ name: 'Curb-side', checked: props.businessModel?.interactions })
-  // if(props.businessModel){
+  checkboxProductChannelItems.push({
+    label: 'Appointment',
+    value: 'Appointment',
+    checked: props.businessModel
+      ? props.businessModel.interactions.includes(
+          'Appointment' as BusinessInteraction
+        )
+      : false
+  });
 
-  // }
+  checkboxProductChannelItems.push({
+    label: 'Curb-side',
+    value: 'Curb-side',
+    checked: props.businessModel
+      ? props.businessModel.interactions.includes(
+          'CurbSide' as BusinessInteraction
+        )
+      : false
+  });
 
-  let checkboxProductChannelItemst = [
-    { name: 'Curb-side' },
-    { name: 'Take-out' },
-    { name: 'Drive-thru' },
-    { name: 'Delivery' },
-    { name: 'Live-stream' },
-    { name: 'By appointment only' }
-  ];
+  checkboxProductChannelItems.push({
+    label: 'Live-stream',
+    value: 'Live-stream',
+    checked: props.businessModel
+      ? props.businessModel.interactions.includes(
+          'LiveStream' as BusinessInteraction
+        )
+      : false
+  });
 
-  let checkboxAppDeliveryItemst = [
-    { name: 'Uber Eats' },
-    { name: 'GrubHub' },
-    { name: 'Door Dash' },
-    { name: 'Postmates' },
-    { name: 'Food Dudes' },
-    { name: 'Bite Squad' }
-  ];
+  checkboxProductChannelItems.push({
+    label: 'Take-out',
+    value: 'Take-out',
+    checked: props.businessModel
+      ? props.businessModel.interactions.includes(
+          'TakeOut' as BusinessInteraction
+        )
+      : false
+  });
+
+  checkboxProductChannelItems.push({
+    label: 'Drive-thru',
+    value: 'Drive-thru',
+    checked: props.businessModel
+      ? props.businessModel.interactions.includes(
+          'DriveThru' as BusinessInteraction
+        )
+      : false
+  });
+
+  checkboxProductChannelItems.push({
+    label: 'Delivery',
+    value: 'Delivery',
+    checked: props.businessModel
+      ? props.businessModel.interactions.includes(
+          'Delivery' as BusinessInteraction
+        )
+      : false
+  });
+
+  checkboxAppDeliveryItems.push({
+    label: 'Uber Eats',
+    value: 'Uber Eats',
+    checked: props.businessModel
+      ? props.businessModel.deliveryApps
+        ? props.businessModel.deliveryApps.includes(
+            'UberEats' as BusinessDeliveryApp
+          )
+        : false
+      : false
+  });
+
+  checkboxAppDeliveryItems.push({
+    label: 'GrubHub',
+    value: 'GrubHub',
+    checked: props.businessModel
+      ? props.businessModel.deliveryApps
+        ? props.businessModel.deliveryApps.includes(
+            'GrubHub' as BusinessDeliveryApp
+          )
+        : false
+      : false
+  });
+
+  checkboxAppDeliveryItems.push({
+    label: 'Door Dash',
+    value: 'Door Dash',
+    checked: props.businessModel
+      ? props.businessModel.deliveryApps
+        ? props.businessModel.deliveryApps.includes(
+            'DoorDash' as BusinessDeliveryApp
+          )
+        : false
+      : false
+  });
+
+  checkboxAppDeliveryItems.push({
+    label: 'Postmates',
+    value: 'Postmates',
+    checked: props.businessModel
+      ? props.businessModel.deliveryApps
+        ? props.businessModel.deliveryApps.includes(
+            'Postmates' as BusinessDeliveryApp
+          )
+        : false
+      : false
+  });
+
+  checkboxAppDeliveryItems.push({
+    label: 'Food Dudes',
+    value: 'Food Dudes',
+    checked: props.businessModel
+      ? props.businessModel.deliveryApps
+        ? props.businessModel.deliveryApps.includes(
+            'FoodDudes' as BusinessDeliveryApp
+          )
+        : false
+      : false
+  });
+
+  checkboxAppDeliveryItems.push({
+    label: 'Bite Squad',
+    value: 'Bite Squad',
+    checked: props.businessModel
+      ? props.businessModel.deliveryApps
+        ? props.businessModel.deliveryApps.includes(
+            'BiteSquad' as BusinessDeliveryApp
+          )
+        : false
+      : false
+  });
 
   const onFinish = (business: any) => {
     props.onSubmit(business);

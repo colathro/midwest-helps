@@ -39,9 +39,9 @@ namespace getthehotdish.Models
             GiftCardUrl = listing.GiftCardUrl;
 
             Interactions = new List<string>();
-            if (listing.BusinessChannels.HasFlag(BusinessChannelType.AppointmentOnly))
+            if (listing.BusinessChannels.HasFlag(BusinessChannelType.Appointment))
             {
-                Interactions.Add(BusinessChannelType.AppointmentOnly.ToString());
+                Interactions.Add(BusinessChannelType.Appointment.ToString());
             }
             if (listing.BusinessChannels.HasFlag(BusinessChannelType.CurbSide))
             {
@@ -129,9 +129,9 @@ namespace getthehotdish.Models
             {
                 ret.BusinessChannels = ret.BusinessChannels | BusinessChannelType.LiveStream;
             }
-            if (b.Interactions.Contains(BusinessChannelType.AppointmentOnly.ToString()))
+            if (b.Interactions.Contains(BusinessChannelType.Appointment.ToString()))
             {
-                ret.BusinessChannels = ret.BusinessChannels | BusinessChannelType.AppointmentOnly;
+                ret.BusinessChannels = ret.BusinessChannels | BusinessChannelType.Appointment;
             }
 
             if (b.DeliveryApps.Contains(DeliveryAppType.UberEats.ToString()))

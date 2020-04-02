@@ -7,19 +7,19 @@ export interface BusinessInteractionsProps {
 
 export const BusinessInteractions: React.FC<BusinessInteractionsProps> = props => (
   <div className="interaction-tags">
-    {props.interactions.includes('delivery') && (
+    {props.interactions.includes('Delivery') && (
       <div className="delivery-tag">Delivery</div>
     )}
-    {props.interactions.includes('takeOut') && (
+    {props.interactions.includes('TakeOut') && (
       <div className="takeout-tag">Takeout</div>
     )}
-    {props.interactions.includes('curbSide') && (
+    {props.interactions.includes('CurbSide') && (
       <div className="curbside-tag">Curbside</div>
     )}
-    {props.interactions.includes('appointment') && (
+    {props.interactions.includes('Appointment') && (
       <div className="appointment-tag">Appointment</div>
     )}
-    {props.interactions.includes('liveStream') && (
+    {props.interactions.includes('LiveStream') && (
       <div className="livestream-tag">Livestream</div>
     )}
   </div>

@@ -29,20 +29,20 @@ export type BusinessCategory =
   | 'beauty';
 
 export type BusinessDeliveryApp =
-  | 'uberEats'
-  | 'grubhub'
-  | 'doorDash'
-  | 'postmates'
-  | 'foodDudes'
-  | 'biteSquad';
+  | 'UberEats'
+  | 'Grubhub'
+  | 'DoorDash'
+  | 'Postmates'
+  | 'FoodDudes'
+  | 'BiteSquad';
 
 export type BusinessInteraction =
-  | 'appointment'
-  | 'curbSide'
-  | 'delivery'
-  | 'liveStream'
-  | 'takeOut'
-  | 'driveThru';
+  | 'Appointment'
+  | 'CurbSide'
+  | 'Delivery'
+  | 'LiveStream'
+  | 'TakeOut'
+  | 'DriveThru';
 
 export const BUSINESS_CATEGORY_STRINGS: {
   [key in BusinessCategory]: string;
