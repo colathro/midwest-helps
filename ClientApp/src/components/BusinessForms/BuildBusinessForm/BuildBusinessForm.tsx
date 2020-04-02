@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactText } from 'react';
 import { Form, Button, Typography, Collapse } from 'antd';
 import { TextField } from '../../FormFields/TextField';
 import { CheckboxGroup } from '../../FormFields/CheckboxGroup';
@@ -203,6 +203,10 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = props => {
     }
   ];
 
+  const defaultCategory: string = props.businessModel
+    ? props.businessModel.category
+    : '';
+
   const hours: LabeledValue[] = [
     {
       label: BUSINESS_HOURS['Closed'],
@@ -217,6 +221,10 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = props => {
       value: 'Regular'
     }
   ];
+
+  const defaultBusinessHours: string = props.businessModel
+    ? (props.businessModel.hours as string)
+    : '';
 
   const onFinish = (business: any) => {
     props.onSubmit(business);
@@ -236,6 +244,7 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = props => {
           items={categories}
           placeHolder="Select a category for your business"
           required={true}
+          defaultValue={defaultCategory}
         />
       )}
       {props.displayBusinessName && (
@@ -255,6 +264,7 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = props => {
           items={hours}
           placeHolder="Select your business hours"
           required={false}
+          defaultValue={defaultBusinessHours}
         />
       )}
 

@@ -2,7 +2,7 @@ export interface Business {
   id: string;
   name: string;
   category: BusinessCategory;
-  hours?: number;
+  hours?: BusinessHours;
   phoneNumber?: string;
   website?: string;
   message?: string;

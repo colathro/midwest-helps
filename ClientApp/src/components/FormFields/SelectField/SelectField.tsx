@@ -10,7 +10,7 @@ export interface SelectFieldProps {
   items: LabeledValue[];
   placeHolder?: string;
   required?: boolean;
-  defaultValue?: LabeledValue;
+  defaultValue?: string;
 }
 
 const { Option } = Select;
@@ -28,7 +28,11 @@ export const SelectField: React.FC<SelectFieldProps> = props => {
       ]}
       className="hotdish-input"
     >
-      <Select placeholder={props.placeHolder} allowClear>
+      <Select
+        placeholder={props.placeHolder}
+        defaultValue={props.defaultValue}
+        allowClear
+      >
         {props.items.map((item, index) => (
           <Option key={index} value={item.value}>
             {item.label}
