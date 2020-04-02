@@ -4,10 +4,18 @@ namespace getthehotdish.DataAccess
 {
     public class Listing
     {
+
         [System.ComponentModel.DataAnnotations.Key]
         public Guid Id { get; set; }
         public string PartitionKey { get; set; }
         public string BusinessName { get; set; }
+        public string BusinessNameSearch { 
+            get 
+            {
+                return this.BusinessName.ToLower();
+            }
+            set { }
+        }
         public BusinessType BusinessType { get; set; }
         public int Hours { get; set; }
         public string GiftCardUrl { get; set; }
