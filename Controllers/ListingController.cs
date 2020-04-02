@@ -26,14 +26,32 @@ namespace getthehotdish.Controllers
 
         [HttpGet]
         [Route("page/{page}")]
-        public async Task<ICollection<BusinessModel>> Get(int page)
+        public async Task<ICollection<BusinessModel>> Get(int page, [FromQuery] int? businesstype = null, [FromQuery] string name = null)
         {
             _logger.LogInformation($"PAGE GET Request: {page}");
 
             try
             {
-                var businesses = _dataContext.Listings.Where(l => l.PartitionKey == partitionKey).Select(l => new BusinessModel(l)).ToList();
-                return businesses;
+                if (businesstype != null && name != null)
+                {
+                    var businesses = _dataContext.Listings.Where(l => l.PartitionKey == partitionKey && l.BusinessType == (BusinessType)businesstype && l.BusinessNameSearch.Contains(name)).Select(l => new BusinessModel(l));
+                    return await PaginatedList<BusinessModel>.CreateAsync(businesses, page, 10);
+                }
+                else if (businesstype != null)
+                {
+                    var businesses = _dataContext.Listings.Where(l => l.PartitionKey == partitionKey && l.BusinessType == (BusinessType)businesstype).Select(l => new BusinessModel(l));
+                    return await PaginatedList<BusinessModel>.CreateAsync(businesses, page, 10);
+                }
+                else if (name != null)
+                {
+                    var businesses = _dataContext.Listings.Where(l => l.PartitionKey == partitionKey && l.BusinessNameSearch.Contains(name)).Select(l => new BusinessModel(l));
+                    return await PaginatedList<BusinessModel>.CreateAsync(businesses, page, 10);
+                }
+                else
+                {
+                    var businesses = _dataContext.Listings.Where(l => l.PartitionKey == partitionKey).Select(l => new BusinessModel(l));
+                    return await PaginatedList<BusinessModel>.CreateAsync(businesses, page, 10);
+                }
             }
             catch (Exception ex)
             {
