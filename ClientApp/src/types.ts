@@ -16,17 +16,19 @@ export interface Business {
 }
 
 export type BusinessCategory =
-  | 'brewery'
-  | 'coffee'
-  | 'entertainment'
-  | 'grocery'
-  | 'other'
-  | 'religion'
-  | 'restaurant'
-  | 'retail'
-  | 'wellness'
-  | 'art'
-  | 'beauty';
+  | 'Brewery'
+  | 'Coffee'
+  | 'Entertainment'
+  | 'Grocery'
+  | 'Other'
+  | 'Religion'
+  | 'Restaurant'
+  | 'Retail'
+  | 'Wellness'
+  | 'Art'
+  | 'Beauty';
+
+export type BusinessHours = 'Closed' | 'Limited' | 'Regular';
 
 export type BusinessDeliveryApp =
   | 'UberEats'
@@ -47,15 +49,23 @@ export type BusinessInteraction =
 export const BUSINESS_CATEGORY_STRINGS: {
   [key in BusinessCategory]: string;
 } = {
-  art: '🎨 Art & Culture',
-  brewery: '🍸 Brewery & Distillery',
-  beauty: '💈 Beauty',
-  coffee: '☕ Coffee',
-  entertainment: '🎸 Entertainment',
-  grocery: '🛒 Grocery',
-  other: '📦 Other',
-  religion: '🙏 Religion & Spiritual',
-  restaurant: '🍔 Restaurant & Bar',
-  retail: '👕 Retail',
-  wellness: '🧡 Wellness'
+  Art: '🎨 Art & Culture',
+  Brewery: '🍸 Brewery & Distillery',
+  Beauty: '💈 Beauty',
+  Coffee: '☕ Coffee',
+  Entertainment: '🎸 Entertainment',
+  Grocery: '🛒 Grocery',
+  Other: '📦 Other',
+  Religion: '🙏 Religion & Spiritual',
+  Restaurant: '🍔 Restaurant & Bar',
+  Retail: '👕 Retail',
+  Wellness: '🧡 Wellness'
+};
+
+export const BUSINESS_HOURS: {
+  [key in BusinessHours]: string;
+} = {
+  Closed: '❌ — Closed',
+  Limited: '⏱ — Limited',
+  Regular: '✔ — Regular'
 };

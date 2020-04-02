@@ -1,6 +1,7 @@
 ﻿using getthehotdish.DataAccess;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace getthehotdish.Models
 {
@@ -10,7 +11,7 @@ namespace getthehotdish.Models
         public string PartitionKey { get; set; }
         public string Name { get; set; }
         public string Category { get; set; }
-        public int Hours { get; set; }
+        public string Hours { get; set; }
         public string PhoneNumber { get; set; }
         public string Website { get; set; }
         public string Message { get; set; }
@@ -28,7 +29,7 @@ namespace getthehotdish.Models
             PartitionKey = listing.PartitionKey;
             Name = listing.BusinessName;
             Category = Enum.GetName(typeof(BusinessType), listing.BusinessType);
-            Hours = listing.Hours;
+            Hours = Enum.GetName(typeof(BusinessHoursType), listing.Hours);
             PhoneNumber = listing.PhoneNumber;
             Website = listing.Website;
             Message = listing.MessageToCustomer;
@@ -98,14 +99,8 @@ namespace getthehotdish.Models
             ret.Id = b.Id;
             ret.PartitionKey = b.PartitionKey;
             ret.BusinessName = b.Name;
-            foreach (string category in Enum.GetNames(typeof(BusinessType)))
-            {
-                if (category.ToLower() == b.Category.ToLower())
-                {
-                    ret.BusinessType = (BusinessType)Enum.Parse(typeof(BusinessType), category);
-                }
-            }
-            ret.Hours = b.Hours;
+            ret.BusinessType = Enum.GetNames(typeof(BusinessType)).Where(h => h.ToLower() == b.Hours.ToLower()).Select(c => (BusinessType)Enum.Parse(typeof(BusinessType), c)).FirstOrDefault();
+            ret.Hours = Enum.GetNames(typeof(BusinessHoursType)).Where(h => h.ToLower() == b.Hours.ToLower()).Select(c => (BusinessHoursType)Enum.Parse(typeof(BusinessHoursType), c)).FirstOrDefault();
             ret.GiftCardUrl = b.GiftCardUrl;
             ret.Website = b.Website;
             ret.PhoneNumber = b.PhoneNumber;
