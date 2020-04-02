@@ -1,0 +1,22 @@
+.ContributorCard {
+  max-width: 132px;
+
+  .ant-card {
+    border-radius: 10px;
+  }
+  .ant-card-body {
+    padding: 12px;
+  }
+  .ContributorPicture {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+  }
+  #ContributorName {
+    padding-top: 12px;
+    font-size: 0.75em;
+  }
+  #ContributorRole {
+    font-weight: bold;
+  }
+}
