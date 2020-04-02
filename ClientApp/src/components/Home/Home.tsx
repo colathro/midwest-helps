@@ -18,7 +18,6 @@ export const Home: React.FC = () => {
   let filter = query.get('filter') as BusinessCategory;
 
   const [allBusiness, setAllBusiness] = useState<Business[]>([]);
-  // const [businesslist, setBusinesslist] = useState<Business[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
