@@ -32,7 +32,7 @@ export const UpdateBusiness: React.FC<UpdateBusinessProps> = props => {
 
     const postRequest = {};
 
-    updateBusiness('/api/listing/', postRequest);
+    // updateBusiness('/api/listing/', postRequest);
     setLoading(false);
     setVisible(false);
     success();

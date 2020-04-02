@@ -43,7 +43,7 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = props => {
     },
     {
       label: 'Curb-side',
-      value: 'Curb-side',
+      value: 'CurbSide',
       checked: props.businessModel
         ? props.businessModel.interactions.includes(
             'CurbSide' as BusinessInteraction
@@ -52,7 +52,7 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = props => {
     },
     {
       label: 'Live-stream',
-      value: 'Live-stream',
+      value: 'LiveStream',
       checked: props.businessModel
         ? props.businessModel.interactions.includes(
             'LiveStream' as BusinessInteraction
@@ -61,7 +61,7 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = props => {
     },
     {
       label: 'Take-out',
-      value: 'Take-out',
+      value: 'TakeOut',
       checked: props.businessModel
         ? props.businessModel.interactions.includes(
             'TakeOut' as BusinessInteraction
@@ -70,7 +70,7 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = props => {
     },
     {
       label: 'Drive-thru',
-      value: 'Drive-thru',
+      value: 'DriveThru',
       checked: props.businessModel
         ? props.businessModel.interactions.includes(
             'DriveThru' as BusinessInteraction
@@ -90,7 +90,7 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = props => {
   const checkboxAppDeliveryItems: CheckboxItem[] = [
     {
       label: 'Uber Eats',
-      value: 'Uber Eats',
+      value: 'UberEats',
       checked: props.businessModel
         ? props.businessModel.deliveryApps
           ? props.businessModel.deliveryApps.includes(
@@ -112,7 +112,7 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = props => {
     },
     {
       label: 'Door Dash',
-      value: 'Door Dash',
+      value: 'DoorDash',
       checked: props.businessModel
         ? props.businessModel.deliveryApps
           ? props.businessModel.deliveryApps.includes(
@@ -135,7 +135,7 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = props => {
 
     {
       label: 'Food Dudes',
-      value: 'Food Dudes',
+      value: 'FoodDudes',
       checked: props.businessModel
         ? props.businessModel.deliveryApps
           ? props.businessModel.deliveryApps.includes(
@@ -146,7 +146,7 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = props => {
     },
     {
       label: 'Bite Squad',
-      value: 'Bite Squad',
+      value: 'BiteSquad',
       checked: props.businessModel
         ? props.businessModel.deliveryApps
           ? props.businessModel.deliveryApps.includes(
