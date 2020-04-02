@@ -73,11 +73,6 @@ export const Contact: React.FC = () => {
       </Row>
       <Row justify="center">
         <Col xl={10} lg={12} md={16} sm={18} xs={22}>
-          <ContributorCards></ContributorCards>
-        </Col>
-      </Row>
-      <Row justify="center">
-        <Col xl={10} lg={12} md={16} sm={18} xs={22}>
           <Title level={2}>Contact</Title>
           <Typography>
             If you — as a patron or as a business owner — see a mistake, want to
@@ -113,6 +108,11 @@ export const Contact: React.FC = () => {
               </Button>
             </Form.Item>
           </Form>
+        </Col>
+      </Row>
+      <Row justify="center">
+        <Col xl={10} lg={12} md={16} sm={18} xs={22}>
+          <ContributorCards></ContributorCards>
         </Col>
       </Row>
     </Layout>
