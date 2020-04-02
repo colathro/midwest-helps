@@ -11,6 +11,11 @@ export interface CheckboxGroupProps {
   required?: boolean;
 }
 
+export interface checkBoxContent {
+  name: string;
+  checked: boolean;
+}
+
 export interface CheckboxItem {
   name: string;
 }

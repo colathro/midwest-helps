@@ -6,9 +6,10 @@ import { SelectField } from '../../FormFields/SelectField';
 import { useHistory } from 'react-router-dom';
 import './BuildBusinessForm.scss';
 import { Business } from '../../../types';
+import { checkBoxContent } from '../../FormFields/CheckboxGroup/CheckboxGroup';
 
 export interface BuildBusinessFormProps {
-  onSubmit: Function;
+  onSubmit: (business: Business) => void;
   businessModel?: Business | null;
   displayBusinessName?: boolean;
   displayBusinessType?: boolean;
@@ -23,24 +24,6 @@ export interface BuildBusinessFormProps {
 
 const { Title } = Typography;
 const { Panel } = Collapse;
-
-const checkboxProductChannelItems = [
-  { name: 'Curb-side' },
-  { name: 'Take-out' },
-  { name: 'Drive-thru' },
-  { name: 'Delivery' },
-  { name: 'Live-stream' },
-  { name: 'By appointment only' }
-];
-
-const checkboxAppDeliveryItems = [
-  { name: 'Uber Eats' },
-  { name: 'GrubHub' },
-  { name: 'Door Dash' },
-  { name: 'Postmates' },
-  { name: 'Food Dudes' },
-  { name: 'Bite Squad' }
-];
 
 const categories = [
   { name: '🍸 — Bar & Brewery', value: 0 },
@@ -63,6 +46,32 @@ const hours = [
 ];
 
 export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = props => {
+  let checkboxProductChannelItems: checkBoxContent[] = [];
+  let checkboxAppDeliveryItems: checkBoxContent[] = [];
+
+  // checkboxProductChannelItems.push({ name: 'Curb-side', checked: props.businessModel?.interactions })
+  // if(props.businessModel){
+
+  // }
+
+  let checkboxProductChannelItemst = [
+    { name: 'Curb-side' },
+    { name: 'Take-out' },
+    { name: 'Drive-thru' },
+    { name: 'Delivery' },
+    { name: 'Live-stream' },
+    { name: 'By appointment only' }
+  ];
+
+  let checkboxAppDeliveryItemst = [
+    { name: 'Uber Eats' },
+    { name: 'GrubHub' },
+    { name: 'Door Dash' },
+    { name: 'Postmates' },
+    { name: 'Food Dudes' },
+    { name: 'Bite Squad' }
+  ];
+
   const onFinish = (business: any) => {
     props.onSubmit(business);
   };

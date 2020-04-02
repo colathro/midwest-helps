@@ -10,7 +10,6 @@ import './Home.scss';
 // const { Search } = Input; TODO: once search is ready for prime time, we'll put it back in
 const { Header, Content } = Layout;
 const { Title } = Typography;
-let loadData = true;
 
 // const useQuery = () => new URLSearchParams(useLocation().search);
 
@@ -35,11 +34,9 @@ export const Home: React.FC = () => {
       setAllBusiness(data);
       setLoading(false);
       setError(false);
-      loadData = false;
     } else {
       setLoading(false);
       setError(true);
-      loadData = false;
     }
   }
 
@@ -90,10 +87,6 @@ export const Home: React.FC = () => {
         ))}
       </Col>
     );
-  }
-
-  if (loadData) {
-    fetchUrl('/api/listing/page/1');
   }
 
   return (
