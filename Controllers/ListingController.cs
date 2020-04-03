@@ -87,14 +87,15 @@ namespace getthehotdish.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Listing listing)
+        public async Task<IActionResult> Post([FromBody] BusinessModel businessModel)
         {
-            _logger.LogInformation($"LISTING POST Request: {listing.BusinessName}");
-
-            listing.PartitionKey = partitionKey;
+            _logger.LogInformation($"LISTING POST Request: {businessModel.Name}");
 
             try
             {
+                Listing listing = businessModel;
+                listing.PartitionKey = partitionKey;
+
                 _dataContext.Listings.Add(listing);
                 await _dataContext.SaveChangesAsync();
                 return Ok();
