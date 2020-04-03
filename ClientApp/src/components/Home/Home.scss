@@ -63,6 +63,15 @@ main.header-greeting {
   }
 }
 
+.company-content {
+  position: relative;
+}
+
+#top-of-companies {
+  position: absolute;
+  top: -72px;
+}
+
 .companies-loading {
   margin-top: 40px;
   margin-bottom: 24px;

@@ -131,8 +131,9 @@ export const Home: React.FC = () => {
           </Col>
         </Row>
       </Content>
-      <Content>
+      <Content className="company-content">
         <Row justify="center" gutter={8}>
+          <div id="top-of-companies" />
           {companies}
         </Row>
       </Content>
