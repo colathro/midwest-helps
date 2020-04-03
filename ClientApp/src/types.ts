@@ -47,19 +47,19 @@ export type BusinessInteraction =
   | 'DriveThru';
 
 export const BUSINESS_CATEGORY_STRINGS: {
-  [key in BusinessCategory]: string;
+  [key in BusinessCategory]: { name: string; value: number };
 } = {
-  Art: '🎨 Art & Culture',
-  Brewery: '🍸 Brewery & Distillery',
-  Beauty: '💈 Beauty',
-  Coffee: '☕ Coffee',
-  Entertainment: '🎸 Entertainment',
-  Grocery: '🛒 Grocery',
-  Other: '📦 Other',
-  Religion: '🙏 Religion & Spiritual',
-  Restaurant: '🍔 Restaurant & Bar',
-  Retail: '👕 Retail',
-  Wellness: '🧡 Wellness'
+  Brewery: { name: '🍸 Brewery & Distillery', value: 0 },
+  Coffee: { name: '☕ Coffee', value: 1 },
+  Restaurant: { name: '🍔 Restaurant & Bar', value: 6 },
+  Art: { name: '🎨 Art & Culture', value: 9 },
+  Beauty: { name: '💈 Beauty', value: 10 },
+  Entertainment: { name: '🎸 Entertainment', value: 2 },
+  Grocery: { name: '🛒 Grocery', value: 3 },
+  Religion: { name: '🙏 Religion & Spiritual', value: 5 },
+  Retail: { name: '👕 Retail', value: 7 },
+  Wellness: { name: '🧡 Wellness', value: 8 },
+  Other: { name: '📦 Other', value: 4 }
 };
 
 export const BUSINESS_HOURS: {
