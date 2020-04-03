@@ -6,5 +6,8 @@ export interface BusinessCategoryTagProps {
 }
 
 export const BusinessCategoryTag: React.FC<BusinessCategoryTagProps> = props => (
-  <p className="category-tag">{BUSINESS_CATEGORY_STRINGS[props.category]}</p>
+  <p className="category-tag">
+    {BUSINESS_CATEGORY_STRINGS[props.category] &&
+      BUSINESS_CATEGORY_STRINGS[props.category].name}
+  </p>
 );

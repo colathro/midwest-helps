@@ -1,24 +1,40 @@
 ﻿import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { Row, Col, Typography, Layout, Button, Spin, Alert } from 'antd';
 import { BusinessCard } from '../BusinessCard';
-import { Business } from '../../types';
+import {
+  Business,
+  BusinessCategory,
+  BUSINESS_CATEGORY_STRINGS
+} from '../../types';
+import { BusinessFilter } from '../BusinessFilter';
 
 import './Home.scss';
 
 const { Header, Content } = Layout;
 const { Title } = Typography;
 
+const useQuery = () => new URLSearchParams(useLocation().search);
+
 export const Home: React.FC = () => {
   let history = useHistory();
+  let query = useQuery();
+  let filter = parseInt(query.get('businesstype') || '-1');
+  if (
+    filter < -1 ||
+    filter >= Object.entries(BUSINESS_CATEGORY_STRINGS).length
+  ) {
+    filter = -1;
+  }
 
   const [allBusiness, setAllBusiness] = useState<Business[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    fetchUrl('/api/listing/page/1');
-  }, []);
+    const filterParam = filter >= 0 ? `?businesstype=${filter}` : '';
+    fetchUrl(`/api/listing/page/1${filterParam}`);
+  }, [filter]);
 
   async function fetchUrl(url: string) {
     const response = await fetch(url);
@@ -56,6 +72,7 @@ export const Home: React.FC = () => {
   } else {
     companies = (
       <Col xl={12} lg={14} md={16} sm={18} xs={24}>
+        <BusinessFilter filter={filter} />
         {allBusiness.map(business => (
           <BusinessCard {...business} key={business.id} />
         ))}
