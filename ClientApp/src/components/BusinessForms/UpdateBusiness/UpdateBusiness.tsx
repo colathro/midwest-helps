@@ -44,8 +44,6 @@ export const UpdateBusiness: React.FC<UpdateBusinessProps> = props => {
     };
 
     put('/api/listing/' + business.id, putRequest);
-    setVisible(false);
-    success();
   };
 
   function success() {
@@ -76,9 +74,13 @@ export const UpdateBusiness: React.FC<UpdateBusinessProps> = props => {
     };
 
     const response = await fetch(url, requestOptions);
-    if (!response.ok) {
+    setVisible(false);
+    if (response.ok) {
+      success();
+    } else {
       error();
     }
+    props.bussinessCardCallback(props.business);
   }
 
   const goHome = () => {

@@ -18,16 +18,18 @@ export interface CheckboxItem {
 }
 
 export const CheckboxGroup: React.FC<CheckboxGroupProps> = props => {
+  const defaultValues: string[] = props.checkboxItems
+    .filter(c => c.checked)
+    .map(c => {
+      return c.value;
+    });
+
   return (
     <Form.Item name={props.name} label={props.title} className="hotdish-input">
       <Col span={8}>
         <Checkbox.Group
           options={props.checkboxItems}
-          defaultValue={props.checkboxItems
-            .filter(c => c.checked)
-            .map(c => {
-              return c.value;
-            })}
+          defaultValue={defaultValues}
         />
       </Col>
     </Form.Item>

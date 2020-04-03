@@ -238,7 +238,7 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = props => {
       category: props.businessModel.category,
       name: props.businessModel.name,
       hours: props.businessModel.hours,
-      phone: props.businessModel.phoneNumber,
+      phoneNumber: props.businessModel.phoneNumber,
       website: props.businessModel.website,
       facebookUrl: props.businessModel.facebookUrl,
       instagramUrl: props.businessModel.instagramUrl,
@@ -297,7 +297,7 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = props => {
 
       {props.displayPhoneNumber && (
         <TextField
-          name="phone"
+          name="phoneNumber"
           title="Phone"
           type="phone"
           placeHolder="701-555-1234"
