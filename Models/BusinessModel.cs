@@ -118,60 +118,8 @@ namespace getthehotdish.Models
             ret.Id = b.Id;
             ret.PartitionKey = b.PartitionKey;
             ret.BusinessName = b.Name;
-            ret.BusinessType = Enum.GetNames(typeof(BusinessType)).Where(h => h.ToLower() == b.Hours.ToLower()).Select(c => (BusinessType)Enum.Parse(typeof(BusinessType), c)).FirstOrDefault();
-            ret.Hours = Enum.GetNames(typeof(BusinessHoursType)).Where(h => h.ToLower() == b.Hours.ToLower()).Select(c => (BusinessHoursType)Enum.Parse(typeof(BusinessHoursType), c)).FirstOrDefault();
-            ret.GiftCardUrl = b.GiftCardUrl;
-            ret.Website = b.Website;
-            ret.PhoneNumber = b.PhoneNumber;
-            ret.LivestreamURL = b.LiveStreamUrl;
-            ret.OrderURL = b.OrderUrl;
-            ret.MessageToCustomer = b.Message;
-
-            if (b.Interactions.Contains(BusinessChannelType.CurbSide.ToString()))
-            {
-                ret.BusinessChannels = ret.BusinessChannels | BusinessChannelType.CurbSide;
-            }
-            if (b.Interactions.Contains(BusinessChannelType.TakeOut.ToString()))
-            {
-                ret.BusinessChannels = ret.BusinessChannels | BusinessChannelType.TakeOut;
-            }
-            if (b.Interactions.Contains(BusinessChannelType.Delivery.ToString()))
-            {
-                ret.BusinessChannels = ret.BusinessChannels | BusinessChannelType.Delivery;
-            }
-            if (b.LiveStreamUrl.Length > 0)
-            {
-                ret.BusinessChannels = ret.BusinessChannels | BusinessChannelType.LiveStream;
-            }
-            if (b.Interactions.Contains(BusinessChannelType.Appointment.ToString()))
-            {
-                ret.BusinessChannels = ret.BusinessChannels | BusinessChannelType.Appointment;
-            }
-
-            if (b.DeliveryApps.Contains(DeliveryAppType.UberEats.ToString()))
-            {
-                ret.DeliveryApps = ret.DeliveryApps | DeliveryAppType.UberEats;
-            }
-            if (b.DeliveryApps.Contains(DeliveryAppType.Grubhub.ToString()))
-            {
-                ret.DeliveryApps = ret.DeliveryApps | DeliveryAppType.Grubhub;
-            }
-            if (b.DeliveryApps.Contains(DeliveryAppType.DoorDash.ToString()))
-            {
-                ret.DeliveryApps = ret.DeliveryApps | DeliveryAppType.DoorDash;
-            }
-            if (b.DeliveryApps.Contains(DeliveryAppType.Postmates.ToString()))
-            {
-                ret.DeliveryApps = ret.DeliveryApps | DeliveryAppType.Postmates;
-            }
-            if (b.DeliveryApps.Contains(DeliveryAppType.FoodDudes.ToString()))
-            {
-                ret.DeliveryApps = ret.DeliveryApps | DeliveryAppType.FoodDudes;
-            }
-            if (b.DeliveryApps.Contains(DeliveryAppType.BiteSquad.ToString()))
-            {
-                ret.DeliveryApps = ret.DeliveryApps | DeliveryAppType.BiteSquad;
-            }
+            ret.BusinessType = Enum.GetNames(typeof(BusinessType)).Where(h => h.ToLower() == b.Category.ToLower()).Select(c => (BusinessType)Enum.Parse(typeof(BusinessType), c)).FirstOrDefault();
+            ret.SetUpdateFields(b);
 
             return ret;
         }

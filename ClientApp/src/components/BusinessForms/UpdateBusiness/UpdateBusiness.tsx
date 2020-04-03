@@ -9,7 +9,7 @@ export interface UpdateBusinessProps {
   bussinessCardCallback: (business: Business) => void;
 }
 
-export const UpdateBusiness: React.FC<UpdateBusinessProps> = props => {
+export const UpdateBusiness: React.FC<UpdateBusinessProps> = (props) => {
   let history = useHistory();
 
   const [loading, setLoading] = useState(false);
@@ -31,7 +31,9 @@ export const UpdateBusiness: React.FC<UpdateBusinessProps> = props => {
       name: props.business.name,
       category: props.business.category,
       hours: business.hours || 'None',
-      phoneNumber: business.phoneNumber || '',
+      phoneNumber: business.phoneNumber
+        ? business.phoneNumber.replace(/\D/g, '')
+        : '',
       website: business.website || '',
       message: business.message || '',
       facebookUrl: business.facebookUrl || '',
@@ -40,7 +42,7 @@ export const UpdateBusiness: React.FC<UpdateBusinessProps> = props => {
       orderUrl: business.orderUrl || '',
       giftCardUrl: business.giftCardUrl || '',
       interactions: business.interactions || [],
-      deliveryApps: business.deliveryApps || []
+      deliveryApps: business.deliveryApps || [],
     };
 
     put('/api/listing/' + business.id, putRequest);
@@ -50,7 +52,7 @@ export const UpdateBusiness: React.FC<UpdateBusinessProps> = props => {
     Modal.success({
       content: 'Your business was submitted successfully.',
       onOk: () => goHome(),
-      onCancel: () => goHome()
+      onCancel: () => goHome(),
     });
   }
 
@@ -59,7 +61,7 @@ export const UpdateBusiness: React.FC<UpdateBusinessProps> = props => {
       title: 'Oops',
       content: 'There was a problem updating your business. Try again later.',
       onOk: () => goHome(),
-      onCancel: () => goHome()
+      onCancel: () => goHome(),
     });
   }
 
@@ -68,9 +70,9 @@ export const UpdateBusiness: React.FC<UpdateBusinessProps> = props => {
       method: 'PUT',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
     };
 
     const response = await fetch(url, requestOptions);

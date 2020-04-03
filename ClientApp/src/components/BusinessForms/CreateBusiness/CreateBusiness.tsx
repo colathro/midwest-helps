@@ -2,48 +2,37 @@ import React from 'react';
 import { Modal } from 'antd';
 import { useHistory } from 'react-router-dom';
 import { BuildBusinessForm } from '../BuildBusinessForm/BuildBusinessForm';
+import { Business } from '../../../types';
 
-export const CreateBusiness: React.FC = props => {
+export const CreateBusiness: React.FC = (props) => {
   let history = useHistory();
 
-  const onFinish = (business: any) => {
-    console.log('Success:', business);
-
-    const postRequest = {
-      BusinessName: business.name,
-      BusinessType: business.category,
-      Website: business.website,
-      Hours: business.hours,
-      PhoneNumber: business.phone.replace(/\D/g, ''),
-      FacebookdUrl: business.facebookUrl,
-      InstagramUrl: business.instagramUrl,
-      LiveStreamUrl: business.liveStreamUrl,
-      OrderUrl: business.orderUrl,
-      MessageToCustomer: business.message,
-      CurbSide: business.checkboxGroupProductChannel.includes('Curb-side'),
-      TakeOut: business.checkboxGroupProductChannel.includes('Take-out'),
-      DriveThru: business.checkboxGroupProductChannel.includes('Drive-thru'),
-      Delivery: business.checkboxGroupProductChannel.includes('Delivery'),
-      LiveStream: business.checkboxGroupProductChannel.includes('Live-stream'),
-      AppointmentOnly: business.checkboxGroupProductChannel.includes(
-        'By appointment only'
-      ),
-      UberEats: business.checkboxGroupAppDelivery.includes('Uber Eats'),
-      Grubhub: business.checkboxGroupAppDelivery.includes('GrubHub'),
-      DoorDash: business.checkboxGroupAppDelivery.includes('Door Dash'),
-      Postmates: business.checkboxGroupAppDelivery.includes('Postmates'),
-      FoodDudes: business.checkboxGroupAppDelivery.includes('Food Dudes'),
-      BiteSquad: business.checkboxGroupAppDelivery.includes('Bite Squad'),
-      GiftCardUrl: business.giftCardUrl
+  const createBusiness = (business: any) => {
+    const postRequest: Business = {
+      name: business.name,
+      category: business.category,
+      hours: business.hours || 'None',
+      phoneNumber: business.phoneNumber
+        ? business.phoneNumber.replace(/\D/g, '')
+        : '',
+      website: business.website || '',
+      message: business.message || '',
+      facebookUrl: business.facebookUrl || '',
+      instagramUrl: business.instagramUrl || '',
+      liveStreamUrl: business.liveStreamUrl || '',
+      orderUrl: business.orderUrl || '',
+      giftCardUrl: business.giftCardUrl || '',
+      interactions: business.interactions || [],
+      deliveryApps: business.deliveryApps || [],
     };
 
-    createBusiness(postRequest);
+    post('/api/listing', postRequest);
   };
 
   function success() {
     Modal.success({
       content: 'Your business was submitted successfully.',
-      onOk: () => goHome()
+      onOk: () => goHome(),
     });
   }
 
@@ -51,29 +40,26 @@ export const CreateBusiness: React.FC = props => {
     Modal.error({
       title: 'Oops',
       content: 'There was a problem submitting your business. Try again later.',
-      onOk: () => goHome()
+      onOk: () => goHome(),
     });
   }
 
-  function createBusiness(data: any) {
+  async function post(url: string, data: any) {
     const requestOptions = {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
     };
-    fetch('/api/listing/', requestOptions)
-      .then(response => response)
-      .then(data => {
-        console.log('RESPONSE', data);
-        if (data.ok) {
-          success();
-        } else {
-          error();
-        }
-      })
-      .catch(function() {
-        error();
-      });
+
+    const response = await fetch(url, requestOptions);
+    if (response.ok) {
+      success();
+    } else {
+      error();
+    }
   }
 
   const goHome = () => {
@@ -82,7 +68,7 @@ export const CreateBusiness: React.FC = props => {
 
   return (
     <BuildBusinessForm
-      onSubmit={onFinish}
+      onSubmit={createBusiness}
       displayBusinessType={true}
       displayBusinessName={true}
       displayHours={true}
