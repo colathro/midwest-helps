@@ -86,21 +86,8 @@ export const UpdateBusiness: React.FC<UpdateBusinessProps> = props => {
     <Modal
       visible={visible}
       title="Update Business"
-      onOk={handleOk}
       onCancel={handleCancel}
-      footer={[
-        <Button key="back" onClick={handleCancel}>
-          Return
-        </Button>,
-        <Button
-          key="submit"
-          type="primary"
-          loading={loading}
-          onClick={handleOk}
-        >
-          Submit
-        </Button>
-      ]}
+      footer={null}
     >
       <BuildBusinessForm
         onSubmit={handleOk}
