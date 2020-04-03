@@ -2,14 +2,14 @@
 import { useHistory, useLocation } from 'react-router-dom';
 import { Row, Col, Typography, Layout, Button, Spin, Alert } from 'antd';
 import { BusinessCard } from '../BusinessCard';
+import { Business, BUSINESS_CATEGORY_STRINGS } from '../../types';
 import {
-  Business,
-  BusinessCategory,
-  BUSINESS_CATEGORY_STRINGS
-} from '../../types';
-import { BusinessFilter } from '../BusinessFilter';
+  BusinessFilterVertical,
+  BusinessFilterHorizontal
+} from '../BusinessFilter';
 
 import './Home.scss';
+import { useWindowSize } from './HomeHooks';
 
 const { Header, Content } = Layout;
 const { Title } = Typography;
@@ -17,8 +17,8 @@ const { Title } = Typography;
 const useQuery = () => new URLSearchParams(useLocation().search);
 
 export const Home: React.FC = () => {
-  let history = useHistory();
-  let query = useQuery();
+  const history = useHistory();
+  const query = useQuery();
   let filter = parseInt(query.get('businesstype') || '-1');
   if (
     filter < -1 ||
@@ -30,6 +30,8 @@ export const Home: React.FC = () => {
   const [allBusiness, setAllBusiness] = useState<Business[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const windowSize = useWindowSize();
+  const isLargeWindowSize = windowSize?.width && windowSize.width >= 992;
 
   useEffect(() => {
     const filterParam = filter >= 0 ? `?businesstype=${filter}` : '';
@@ -70,9 +72,20 @@ export const Home: React.FC = () => {
       />
     );
   } else {
-    companies = (
-      <Col xl={12} lg={14} md={16} sm={18} xs={24}>
-        <BusinessFilter filter={filter} />
+    companies = isLargeWindowSize ? (
+      <>
+        <Col xl={4} lg={5}>
+          <BusinessFilterVertical filter={filter} />
+        </Col>
+        <Col xl={10} lg={12}>
+          {allBusiness.map(business => (
+            <BusinessCard {...business} key={business.id} />
+          ))}
+        </Col>
+      </>
+    ) : (
+      <Col md={16} sm={18} xs={24}>
+        <BusinessFilterHorizontal filter={filter} />
         {allBusiness.map(business => (
           <BusinessCard {...business} key={business.id} />
         ))}
@@ -119,7 +132,9 @@ export const Home: React.FC = () => {
         </Row>
       </Content>
       <Content>
-        <Row justify="center">{companies}</Row>
+        <Row justify="center" gutter={8}>
+          {companies}
+        </Row>
       </Content>
     </div>
   );
