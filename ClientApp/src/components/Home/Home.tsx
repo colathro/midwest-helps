@@ -15,14 +15,14 @@ const useQuery = () => new URLSearchParams(useLocation().search);
 export const Home: React.FC = () => {
   let history = useHistory();
   let query = useQuery();
-  let filter = query.get('filter') as BusinessCategory;
+  let filter = parseInt(query.get('businesstype') || '-1');
 
   const [allBusiness, setAllBusiness] = useState<Business[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    const filterParam = filter ? `?filter=${filter}` : '';
+    const filterParam = filter >= 0 ? `?businesstype=${filter}` : '';
     fetchUrl(`/api/listing/page/1${filterParam}`);
   }, [filter]);
 

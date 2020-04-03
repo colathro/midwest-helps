@@ -21,7 +21,7 @@ export type BusinessCategory =
   | 'entertainment'
   | 'grocery'
   | 'other'
-  | 'religion'
+  | 'religious'
   | 'restaurant'
   | 'retail'
   | 'wellness'
@@ -45,17 +45,17 @@ export type BusinessInteraction =
   | 'driveThru';
 
 export const BUSINESS_CATEGORY_STRINGS: {
-  [key in BusinessCategory]: string;
+  [key in BusinessCategory]: { name: string; value: number };
 } = {
-  art: '🎨 Art & Culture',
-  brewery: '🍸 Brewery & Distillery',
-  beauty: '💈 Beauty',
-  coffee: '☕ Coffee',
-  entertainment: '🎸 Entertainment',
-  grocery: '🛒 Grocery',
-  other: '📦 Other',
-  religion: '🙏 Religion & Spiritual',
-  restaurant: '🍔 Restaurant & Bar',
-  retail: '👕 Retail',
-  wellness: '🧡 Wellness'
+  brewery: { name: '🍸 Brewery & Distillery', value: 0 },
+  coffee: { name: '☕ Coffee', value: 1 },
+  restaurant: { name: '🍔 Restaurant & Bar', value: 6 },
+  art: { name: '🎨 Art & Culture', value: 9 },
+  beauty: { name: '💈 Beauty', value: 10 },
+  entertainment: { name: '🎸 Entertainment', value: 2 },
+  grocery: { name: '🛒 Grocery', value: 3 },
+  religious: { name: '🙏 Religion & Spiritual', value: 5 },
+  retail: { name: '👕 Retail', value: 7 },
+  wellness: { name: '🧡 Wellness', value: 8 },
+  other: { name: '📦 Other', value: 4 }
 };

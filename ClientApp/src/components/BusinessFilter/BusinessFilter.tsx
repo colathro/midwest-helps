@@ -8,11 +8,11 @@ import './BusinessFilter.scss';
 type BusinessCategoryAndDefault = BusinessCategory | 'all';
 
 export interface BusinessFilterProps {
-  filter?: BusinessCategory;
+  filter?: number;
 }
 
-const filterOptions = {
-  all: '🏙 All',
+const filterOptions: { [category: string]: { name: string; value: number } } = {
+  all: { name: '🏙 All', value: -1 },
   ...BUSINESS_CATEGORY_STRINGS
 };
 
@@ -21,14 +21,12 @@ const { Option } = Select;
 export const BusinessFilter: React.FC<BusinessFilterProps> = props => {
   let history = useHistory();
 
-  const activateFilter = (value: BusinessCategoryAndDefault) => {
-    if (value === 'all') history.push('/');
-    else history.push(`/?filter=${value}`);
+  const activateFilter = (value: number) => {
+    if (value === -1) history.push('/');
+    else history.push(`/?businesstype=${value}`);
   };
 
-  let filterValue: BusinessCategoryAndDefault = props.filter
-    ? props.filter
-    : 'all';
+  let filterValue: number = props.filter !== undefined ? props.filter : -1;
 
   return (
     <div className="business-filter-group">
@@ -38,8 +36,10 @@ export const BusinessFilter: React.FC<BusinessFilterProps> = props => {
         onChange={activateFilter}
         dropdownClassName="business-filter-dropdown"
       >
-        {Object.entries(filterOptions).map(([key, value]) => (
-          <Option value={key}>{value}</Option>
+        {Object.entries(filterOptions).map(([_, vals]) => (
+          <Option value={vals.value} key={vals.value}>
+            {vals.name}
+          </Option>
         ))}
       </Select>
     </div>
