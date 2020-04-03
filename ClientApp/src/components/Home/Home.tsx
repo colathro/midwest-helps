@@ -2,7 +2,11 @@
 import { useHistory, useLocation } from 'react-router-dom';
 import { Row, Col, Typography, Layout, Button, Spin, Alert } from 'antd';
 import { BusinessCard } from '../BusinessCard';
-import { Business, BusinessCategory } from '../../types';
+import {
+  Business,
+  BusinessCategory,
+  BUSINESS_CATEGORY_STRINGS
+} from '../../types';
 import { BusinessFilter } from '../BusinessFilter';
 
 import './Home.scss';
@@ -16,6 +20,12 @@ export const Home: React.FC = () => {
   let history = useHistory();
   let query = useQuery();
   let filter = parseInt(query.get('businesstype') || '-1');
+  if (
+    filter < -1 ||
+    filter >= Object.entries(BUSINESS_CATEGORY_STRINGS).length
+  ) {
+    filter = -1;
+  }
 
   const [allBusiness, setAllBusiness] = useState<Business[]>([]);
   const [loading, setLoading] = useState(true);
