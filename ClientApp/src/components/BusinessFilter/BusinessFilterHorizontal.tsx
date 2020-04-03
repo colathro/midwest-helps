@@ -4,7 +4,8 @@ import { useHistory } from 'react-router-dom';
 import {
   BusinessFilterProps,
   filterOptions,
-  filterValidator
+  filterValidator,
+  isElementInView
 } from './BusinessFilterShared';
 
 import './BusinessFilter.scss';
@@ -18,6 +19,12 @@ export const BusinessFilterHorizontal: React.FC<BusinessFilterProps> = props => 
   const activateFilter = (value: number) => {
     if (value === -1) history.push('/');
     else history.push(`/?businesstype=${value}`);
+    const topOfCompanies = document.querySelector('#top-of-companies');
+    if (topOfCompanies && !isElementInView(topOfCompanies)) {
+      topOfCompanies.scrollIntoView({
+        behavior: 'smooth'
+      });
+    }
   };
 
   return (
