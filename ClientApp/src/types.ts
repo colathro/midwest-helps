@@ -59,3 +59,9 @@ export const BUSINESS_CATEGORY_STRINGS: {
   retail: '👕 Retail',
   wellness: '🧡 Wellness'
 };
+
+export enum ReportCategory {
+  innacurate = 1,
+  spam = 2,
+  offensive = 3
+}

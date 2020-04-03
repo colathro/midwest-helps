@@ -33,6 +33,20 @@ namespace getthehotdish.Controllers
             return Task.FromResult(true);
         }
 
+        /// <summary>
+        /// Send an email to the organization based on a user report.
+        /// </summary>
+        /// <param name="senderName">The sender name</param>
+        /// <param name="senderEmail">The sender email</param>
+        /// <param name="business">The business to which the report is referring</param>
+        /// <param name="message">The message to be added in the email</param>
+        /// <returns>True, if the message was sent. False, otherwise.</returns>
+        public Task<bool> SendReportReceivedEmailAsync(string senderName, string senderEmail, string business, string message)
+        {
+            SendEmail($"Your have a report from {senderName} about {business}", BuildReportReceivedMessage(senderName, senderEmail, business, message), _notificationSettings.EmailNotificationSettings.Name, _notificationSettings.EmailNotificationSettings.EmailSender);
+            return Task.FromResult(true);
+        }
+
         private MimeEntity BuildMessageReceivedMessage(string senderName, string senderEmail, string message)
         {
             var builder = new BodyBuilder();
@@ -44,6 +58,21 @@ namespace getthehotdish.Controllers
                                 {2}
                                 <br>
                                 <p>Don't forget to reach out to them and provide assistance.", senderName, senderEmail, message);
+
+            return builder.ToMessageBody();
+        }
+
+        private MimeEntity BuildReportReceivedMessage(string senderName, string senderEmail, string business, string message)
+        {
+            var builder = new BodyBuilder();
+
+            builder.HtmlBody = string.Format(@"<p>Hi team,<br>
+                                <p>A report was sent by {0} ({1}) regarding {2} on the Hotdish portal.<br>
+                                <p>{0} says:{3}
+                                <br>
+                                {3}
+                                <br>
+                                <p>Don't forget to reach out to them and provide assistance.", senderName, senderEmail, business, message);
 
             return builder.ToMessageBody();
         }

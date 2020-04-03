@@ -22,13 +22,24 @@ namespace getthehotdish.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] SendMessageRequest request)
         {
-            _logger.LogInformation($"Send email request from {request.Name} ({request.Email}): {request.Message}");
+            bool isReportMessage = !string.IsNullOrEmpty(request.Business);
+            string loggerInformation = isReportMessage ? $"Send report request from {request.Name} ({request.Email}) regarding {request.Business}: {request.Message}": $"Send email request from {request.Name} ({request.Email}): {request.Message}";
+            _logger.LogInformation(loggerInformation);
 
             try
             {
-                await _notification.SendMessageReceivedEmailAsync(request.Name, request.Email, request.Message);
+                if (isReportMessage)
+                {
+                    await _notification.SendReportReceivedEmailAsync(request.Name, request.Email, request.Business, request.Message);
+                }
+                else
+                {
+                    await _notification.SendMessageReceivedEmailAsync(request.Name, request.Email, request.Message);
+                }
+
                 return Ok();
-            } catch
+            } 
+            catch
             {
                 return BadRequest();
             }
