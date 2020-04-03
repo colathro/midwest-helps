@@ -2,7 +2,7 @@ export interface Business {
   id: string;
   name: string;
   category: BusinessCategory;
-  hours?: number;
+  hours?: BusinessHours;
   phoneNumber?: string;
   website?: string;
   message?: string;
@@ -16,46 +16,56 @@ export interface Business {
 }
 
 export type BusinessCategory =
-  | 'brewery'
-  | 'coffee'
-  | 'entertainment'
-  | 'grocery'
-  | 'other'
-  | 'religious'
-  | 'restaurant'
-  | 'retail'
-  | 'wellness'
-  | 'art'
-  | 'beauty';
+  | 'Brewery'
+  | 'Coffee'
+  | 'Entertainment'
+  | 'Grocery'
+  | 'Other'
+  | 'Religion'
+  | 'Restaurant'
+  | 'Retail'
+  | 'Wellness'
+  | 'Art'
+  | 'Beauty';
+
+export type BusinessHours = 'Closed' | 'Limited' | 'Regular';
 
 export type BusinessDeliveryApp =
-  | 'uberEats'
-  | 'grubhub'
-  | 'doorDash'
-  | 'postmates'
-  | 'foodDudes'
-  | 'biteSquad';
+  | 'UberEats'
+  | 'Grubhub'
+  | 'DoorDash'
+  | 'Postmates'
+  | 'FoodDudes'
+  | 'BiteSquad';
 
 export type BusinessInteraction =
-  | 'appointment'
-  | 'curbSide'
-  | 'delivery'
-  | 'liveStream'
-  | 'takeOut'
-  | 'driveThru';
+  | 'Appointment'
+  | 'CurbSide'
+  | 'Delivery'
+  | 'LiveStream'
+  | 'TakeOut'
+  | 'DriveThru';
 
 export const BUSINESS_CATEGORY_STRINGS: {
   [key in BusinessCategory]: { name: string; value: number };
 } = {
-  brewery: { name: '🍸 Brewery & Distillery', value: 0 },
-  coffee: { name: '☕ Coffee', value: 1 },
-  restaurant: { name: '🍔 Restaurant & Bar', value: 6 },
-  art: { name: '🎨 Art & Culture', value: 9 },
-  beauty: { name: '💈 Beauty', value: 10 },
-  entertainment: { name: '🎸 Entertainment', value: 2 },
-  grocery: { name: '🛒 Grocery', value: 3 },
-  religious: { name: '🙏 Religion & Spiritual', value: 5 },
-  retail: { name: '👕 Retail', value: 7 },
-  wellness: { name: '🧡 Wellness', value: 8 },
-  other: { name: '📦 Other', value: 4 }
+  Brewery: { name: '🍸 Brewery & Distillery', value: 0 },
+  Coffee: { name: '☕ Coffee', value: 1 },
+  Restaurant: { name: '🍔 Restaurant & Bar', value: 6 },
+  Art: { name: '🎨 Art & Culture', value: 9 },
+  Beauty: { name: '💈 Beauty', value: 10 },
+  Entertainment: { name: '🎸 Entertainment', value: 2 },
+  Grocery: { name: '🛒 Grocery', value: 3 },
+  Religion: { name: '🙏 Religion & Spiritual', value: 5 },
+  Retail: { name: '👕 Retail', value: 7 },
+  Wellness: { name: '🧡 Wellness', value: 8 },
+  Other: { name: '📦 Other', value: 4 }
+};
+
+export const BUSINESS_HOURS: {
+  [key in BusinessHours]: string;
+} = {
+  Closed: '❌ — Closed',
+  Limited: '⏱ — Limited',
+  Regular: '✔ — Regular'
 };

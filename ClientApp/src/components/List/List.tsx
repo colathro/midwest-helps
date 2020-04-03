@@ -1,5 +1,5 @@
 import React from "react";
-import { CreateBusinessForm } from "../CreateBusinessForm";
+import { CreateBusiness } from "../BusinessForms/CreateBusiness";
 import { Row, Col, Layout, Typography, Button } from "antd";
 import { useHistory } from "react-router-dom";
 import { LeftOutlined } from "@ant-design/icons";
@@ -29,7 +29,7 @@ export const List: React.FC = props => {
             Back
           </Button>
           <Title level={2}>Business information</Title>
-          <CreateBusinessForm />
+          <CreateBusiness />
         </Col>
       </Row>
     </Content>

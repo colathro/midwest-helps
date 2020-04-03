@@ -11,6 +11,6 @@ namespace getthehotdish.DataAccess
         DriveThru = 4,
         Delivery = 8,
         LiveStream = 16,
-        AppointmentOnly = 32
+        Appointment = 32
     }
 }

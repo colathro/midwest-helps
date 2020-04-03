@@ -10,6 +10,7 @@ export interface TextFieldProps {
   subTitle?: string;
   placeHolder?: string;
   required?: boolean;
+  defaultValue?: string;
 }
 
 export type TextFieldType = 'name' | 'email' | 'phone' | 'url' | 'text';
@@ -69,12 +70,25 @@ export const TextField: React.FC<TextFieldProps> = props => {
         rules={rules}
         className="hotdish-input"
       >
-        {subTitle}
-        {props.type === 'text' ? (
-          <TextArea rows={5} placeholder={props.placeHolder} allowClear />
-        ) : (
-          <Input min={8} max={12} placeholder={props.placeHolder} allowClear />
-        )}
+        <>
+          {subTitle}
+          {props.type === 'text' ? (
+            <TextArea
+              rows={5}
+              placeholder={props.placeHolder}
+              allowClear
+              defaultValue={props.defaultValue}
+            />
+          ) : (
+            <Input
+              min={8}
+              max={12}
+              placeholder={props.placeHolder}
+              allowClear
+              defaultValue={props.defaultValue}
+            />
+          )}
+        </>
       </Form.Item>
     </span>
   );

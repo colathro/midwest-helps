@@ -17,7 +17,7 @@ namespace getthehotdish.DataAccess
             set { }
         }
         public BusinessType BusinessType { get; set; }
-        public int Hours { get; set; }
+        public BusinessHoursType Hours { get; set; }
         public string GiftCardUrl { get; set; }
         public string Website { get; set; }
         public string PhoneNumber { get; set; }
