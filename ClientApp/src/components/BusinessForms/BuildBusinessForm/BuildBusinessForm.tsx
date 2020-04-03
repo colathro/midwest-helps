@@ -245,8 +245,8 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = props => {
       liveStreamUrl: props.businessModel.liveStreamUrl,
       orderUrl: props.businessModel.orderUrl,
       message: props.businessModel.message,
-      checkboxGroupProductChannel: props.businessModel.interactions,
-      checkboxGroupAppDelivery: props.businessModel.deliveryApps,
+      interactions: props.businessModel.interactions,
+      deliveryApps: props.businessModel.deliveryApps,
       giftCardUrl: props.businessModel.giftCardUrl
     };
   }
@@ -371,7 +371,7 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = props => {
 
       {props.displayProductChannel && (
         <CheckboxGroup
-          name="checkboxGroupProductChannel"
+          name="interactions"
           title="How can customers recieve your product or service?"
           checkboxItems={checkboxProductChannelItems}
         />
@@ -379,7 +379,7 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = props => {
 
       {props.displayAppDeliveryItems && (
         <CheckboxGroup
-          name="checkboxGroupAppDelivery"
+          name="deliveryApps"
           title="Do you use app based delivery?"
           checkboxItems={checkboxAppDeliveryItems}
         />

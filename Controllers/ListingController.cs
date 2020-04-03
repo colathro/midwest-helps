@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using getthehotdish.DataAccess;
 using getthehotdish.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace getthehotdish.Controllers
@@ -104,6 +105,33 @@ namespace getthehotdish.Controllers
             }
         }
 
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(Guid id, [FromBody] BusinessModel businessModel)
+        {
+            if (id != businessModel.Id)
+            {
+                return BadRequest();
+            }
+
+            var business = await _dataContext.Listings.FindAsync(id);
+            if (business == null)
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                business = businessModel;
+                await _dataContext.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException) when (!BusinessExists(id))
+            {
+                return NotFound();
+            }
+
+            return NoContent();
+        }
+
         [HttpGet]
         [Route("search/{businessName}")]
         public async Task<ICollection<Listing>> Search(string businessName)
@@ -120,6 +148,9 @@ namespace getthehotdish.Controllers
                 throw ex;
             }
         }
+
+        private bool BusinessExists(Guid id) =>
+         _dataContext.Listings.Any(e => e.Id == id);
 
     }
 }

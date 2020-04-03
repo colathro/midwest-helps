@@ -2,27 +2,46 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 
 namespace getthehotdish.Models
 {
     public class BusinessModel
     {
+        [JsonPropertyName("id")]
         public Guid Id { get; set; }
+        [JsonPropertyName("partitionKey")]
         public string PartitionKey { get; set; }
+        [JsonPropertyName("name")]
         public string Name { get; set; }
+        [JsonPropertyName("category")]
         public string Category { get; set; }
+        [JsonPropertyName("hours")]
         public string Hours { get; set; }
+        [JsonPropertyName("phoneNumber")]
         public string PhoneNumber { get; set; }
+        [JsonPropertyName("website")]
         public string Website { get; set; }
+        [JsonPropertyName("message")]
         public string Message { get; set; }
+        [JsonPropertyName("facebookUrl")]
         public string FacebookUrl { get; set; }
+        [JsonPropertyName("instagramUrl")]
         public string InstagramUrl { get; set; }
+        [JsonPropertyName("liveStreamUrl")]
         public string LiveStreamUrl { get; set; }
+        [JsonPropertyName("orderUrl")]
         public string OrderUrl { get; set; }
+        [JsonPropertyName("giftCardUrl")]
         public string GiftCardUrl { get; set; }
+        [JsonPropertyName("interactions")]
         public List<string> Interactions { get; set; }
+        [JsonPropertyName("deliveryApps")]
         public List<string> DeliveryApps { get; set; }
 
+        public BusinessModel()
+        {
+        }
         public BusinessModel(Listing listing)
         {
             Id = listing.Id;

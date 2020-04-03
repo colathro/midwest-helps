@@ -28,7 +28,7 @@ export type BusinessCategory =
   | 'Art'
   | 'Beauty';
 
-export type BusinessHours = 'Closed' | 'Limited' | 'Regular';
+export type BusinessHours = 'None' | 'Closed' | 'Limited' | 'Regular';
 
 export type BusinessDeliveryApp =
   | 'UberEats'
@@ -65,6 +65,7 @@ export const BUSINESS_CATEGORY_STRINGS: {
 export const BUSINESS_HOURS: {
   [key in BusinessHours]: string;
 } = {
+  None: '',
   Closed: '❌ — Closed',
   Limited: '⏱ — Limited',
   Regular: '✔ — Regular'
