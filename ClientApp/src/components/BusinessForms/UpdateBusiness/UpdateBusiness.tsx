@@ -14,11 +14,6 @@ export const UpdateBusiness: React.FC<UpdateBusinessProps> = props => {
 
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(true);
-  // const [business, setBusiness] = useState(null);
-
-  // if (visible && !business) {
-  //   fetchUrl('/api/listing/get/' + props.businessId);
-  // }
 
   const handleCancel = () => {
     // if user close modal make sure to return the original business received from parent
@@ -26,22 +21,36 @@ export const UpdateBusiness: React.FC<UpdateBusinessProps> = props => {
     setVisible(false);
   };
 
-  const handleOk = (business: any) => {
-    // if user click on ok, call update API
-    setLoading(true);
+  const updateBusiness = (business: any) => {
+    business.id = props.business.id;
+    business.category = props.business.category;
+    business.name = props.business.name;
 
-    const postRequest = {};
+    const putRequest: Business = {
+      id: props.business.id,
+      name: props.business.name,
+      category: props.business.category,
+      hours: business.hours || 'None',
+      phoneNumber: business.phoneNumber || '',
+      website: business.website || '',
+      message: business.message || '',
+      facebookUrl: business.facebookUrl || '',
+      instagramUrl: business.instagramUrl || '',
+      liveStreamUrl: business.liveStreamUrl || '',
+      orderUrl: business.orderUrl || '',
+      giftCardUrl: business.giftCardUrl || '',
+      interactions: business.interactions || [],
+      deliveryApps: business.deliveryApps || []
+    };
 
-    // updateBusiness('/api/listing/', postRequest);
-    setLoading(false);
-    setVisible(false);
-    success();
+    put('/api/listing/' + business.id, putRequest);
   };
 
   function success() {
     Modal.success({
       content: 'Your business was submitted successfully.',
-      onOk: () => goHome()
+      onOk: () => goHome(),
+      onCancel: () => goHome()
     });
   }
 
@@ -49,34 +58,30 @@ export const UpdateBusiness: React.FC<UpdateBusinessProps> = props => {
     Modal.error({
       title: 'Oops',
       content: 'There was a problem updating your business. Try again later.',
-      onOk: () => goHome()
+      onOk: () => goHome(),
+      onCancel: () => goHome()
     });
   }
 
-  async function updateBusiness(url: string, body: any) {
+  async function put(url: string, body: Business) {
     const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify(body)
     };
+
     const response = await fetch(url, requestOptions);
-    const data = await response.json();
+    setVisible(false);
     if (response.ok) {
-      props.bussinessCardCallback(data);
+      success();
     } else {
       error();
     }
+    props.bussinessCardCallback(props.business);
   }
-
-  // async function fetchUrl(url: string) {
-  //   const response = await fetch(url);
-  //   const data = await response.json();
-  //   if (response.ok) {
-  //     setBusiness(data);
-  //   } else {
-  //     error();
-  //   }
-  // }
 
   const goHome = () => {
     history.push('/');
@@ -90,7 +95,7 @@ export const UpdateBusiness: React.FC<UpdateBusinessProps> = props => {
       footer={null}
     >
       <BuildBusinessForm
-        onSubmit={handleOk}
+        onSubmit={updateBusiness}
         businessModel={props.business}
         displayHours={true}
         displayPhoneNumber={true}

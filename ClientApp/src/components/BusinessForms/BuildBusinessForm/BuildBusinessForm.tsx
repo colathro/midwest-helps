@@ -238,15 +238,15 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = props => {
       category: props.businessModel.category,
       name: props.businessModel.name,
       hours: props.businessModel.hours,
-      phone: props.businessModel.phoneNumber,
+      phoneNumber: props.businessModel.phoneNumber,
       website: props.businessModel.website,
       facebookUrl: props.businessModel.facebookUrl,
       instagramUrl: props.businessModel.instagramUrl,
       liveStreamUrl: props.businessModel.liveStreamUrl,
       orderUrl: props.businessModel.orderUrl,
       message: props.businessModel.message,
-      checkboxGroupProductChannel: props.businessModel.interactions,
-      checkboxGroupAppDelivery: props.businessModel.deliveryApps,
+      interactions: props.businessModel.interactions,
+      deliveryApps: props.businessModel.deliveryApps,
       giftCardUrl: props.businessModel.giftCardUrl
     };
   }
@@ -297,7 +297,7 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = props => {
 
       {props.displayPhoneNumber && (
         <TextField
-          name="phone"
+          name="phoneNumber"
           title="Phone"
           type="phone"
           placeHolder="701-555-1234"
@@ -371,7 +371,7 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = props => {
 
       {props.displayProductChannel && (
         <CheckboxGroup
-          name="checkboxGroupProductChannel"
+          name="interactions"
           title="How can customers recieve your product or service?"
           checkboxItems={checkboxProductChannelItems}
         />
@@ -379,7 +379,7 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = props => {
 
       {props.displayAppDeliveryItems && (
         <CheckboxGroup
-          name="checkboxGroupAppDelivery"
+          name="deliveryApps"
           title="Do you use app based delivery?"
           checkboxItems={checkboxAppDeliveryItems}
         />
