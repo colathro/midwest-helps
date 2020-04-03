@@ -39,7 +39,7 @@ namespace getthehotdish
 
             services.AddLogging(builder =>
             {
-                builder.AddApplicationInsights("d05672ef-8c2d-406e-bd03-bdc0888ed25d");
+                builder.AddApplicationInsights("b45419c6-148a-4520-afe7-7f180cfe5ee9");
                 builder.AddFilter<ApplicationInsightsLoggerProvider>("", LogLevel.Information);
                 builder.AddFilter<ApplicationInsightsLoggerProvider>("Microsoft", LogLevel.Error);
             });
