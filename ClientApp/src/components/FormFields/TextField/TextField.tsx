@@ -70,23 +70,25 @@ export const TextField: React.FC<TextFieldProps> = props => {
         rules={rules}
         className="hotdish-input"
       >
-        {subTitle}
-        {props.type === 'text' ? (
-          <TextArea
-            rows={5}
-            placeholder={props.placeHolder}
-            allowClear
-            defaultValue={props.defaultValue}
-          />
-        ) : (
-          <Input
-            min={8}
-            max={12}
-            placeholder={props.placeHolder}
-            allowClear
-            defaultValue={props.defaultValue}
-          />
-        )}
+        <>
+          {subTitle}
+          {props.type === 'text' ? (
+            <TextArea
+              rows={5}
+              placeholder={props.placeHolder}
+              allowClear
+              defaultValue={props.defaultValue}
+            />
+          ) : (
+            <Input
+              min={8}
+              max={12}
+              placeholder={props.placeHolder}
+              allowClear
+              defaultValue={props.defaultValue}
+            />
+          )}
+        </>
       </Form.Item>
     </span>
   );

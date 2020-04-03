@@ -1,4 +1,4 @@
-import React, { ReactText } from 'react';
+import React from 'react';
 import { Form, Button, Typography, Collapse } from 'antd';
 import { TextField } from '../../FormFields/TextField';
 import { CheckboxGroup } from '../../FormFields/CheckboxGroup';
@@ -230,11 +230,34 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = props => {
     props.onSubmit(business);
   };
 
+  const [form] = Form.useForm();
+
+  let initialValues = {};
+  if (props.businessModel) {
+    initialValues = {
+      category: props.businessModel.category,
+      name: props.businessModel.name,
+      hours: props.businessModel.hours,
+      phone: props.businessModel.phoneNumber,
+      website: props.businessModel.website,
+      facebookUrl: props.businessModel.facebookUrl,
+      instagramUrl: props.businessModel.instagramUrl,
+      liveStreamUrl: props.businessModel.liveStreamUrl,
+      orderUrl: props.businessModel.orderUrl,
+      message: props.businessModel.message,
+      checkboxGroupProductChannel: props.businessModel.interactions,
+      checkboxGroupAppDelivery: props.businessModel.deliveryApps,
+      giftCardUrl: props.businessModel.giftCardUrl
+    };
+  }
+
   return (
     <Form
+      form={form}
       layout="vertical"
       name="create-business-form"
       onFinish={onFinish}
+      initialValues={initialValues}
       scrollToFirstError
     >
       {props.displayBusinessType && (
