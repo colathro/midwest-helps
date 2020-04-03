@@ -3,8 +3,8 @@ namespace getthehotdish.DataAccess
     public enum BusinessHoursType
     {
         None = 0,
-        Close,
+        Closed,
         Limited,
-        Reguar,
+        Regular,
     }
 }
