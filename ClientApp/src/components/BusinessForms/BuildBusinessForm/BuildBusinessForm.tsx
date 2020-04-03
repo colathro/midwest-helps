@@ -8,10 +8,13 @@ import {
   Business,
   BusinessInteraction,
   BusinessDeliveryApp,
+  BUSINESS_DELIVERY_APP,
+  BUSINESS_CATEGORY_STRINGS,
+  BUSINESS_HOURS,
+  BUSINESS_INTERACTIONS,
 } from '../../../types';
 import { CheckboxItem } from '../../FormFields/CheckboxGroup/CheckboxGroup';
 import { LabeledValue } from 'antd/lib/select';
-import { BUSINESS_CATEGORY_STRINGS, BUSINESS_HOURS } from '../../../types';
 
 export interface BuildBusinessFormProps {
   onSubmit: (business: Business) => void;
@@ -33,7 +36,7 @@ const { Panel } = Collapse;
 export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = (props) => {
   const checkboxProductChannelItems: CheckboxItem[] = [
     {
-      label: 'Appointment',
+      label: BUSINESS_INTERACTIONS['Appointment'],
       value: 'Appointment',
       checked: props.businessModel
         ? props.businessModel.interactions.includes(
@@ -42,7 +45,7 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = (props) => {
         : false,
     },
     {
-      label: 'Curb-side',
+      label: BUSINESS_INTERACTIONS['CurbSide'],
       value: 'CurbSide',
       checked: props.businessModel
         ? props.businessModel.interactions.includes(
@@ -51,7 +54,7 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = (props) => {
         : false,
     },
     {
-      label: 'Live-stream',
+      label: BUSINESS_INTERACTIONS['LiveStream'],
       value: 'LiveStream',
       checked: props.businessModel
         ? props.businessModel.interactions.includes(
@@ -60,7 +63,7 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = (props) => {
         : false,
     },
     {
-      label: 'Take-out',
+      label: BUSINESS_INTERACTIONS['TakeOut'],
       value: 'TakeOut',
       checked: props.businessModel
         ? props.businessModel.interactions.includes(
@@ -69,7 +72,7 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = (props) => {
         : false,
     },
     {
-      label: 'Drive-thru',
+      label: BUSINESS_INTERACTIONS['DriveThru'],
       value: 'DriveThru',
       checked: props.businessModel
         ? props.businessModel.interactions.includes(
@@ -78,7 +81,7 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = (props) => {
         : false,
     },
     {
-      label: 'Delivery',
+      label: BUSINESS_INTERACTIONS['Delivery'],
       value: 'Delivery',
       checked: props.businessModel
         ? props.businessModel.interactions.includes(
@@ -89,7 +92,7 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = (props) => {
   ];
   const checkboxAppDeliveryItems: CheckboxItem[] = [
     {
-      label: 'Uber Eats',
+      label: BUSINESS_DELIVERY_APP['UberEats'],
       value: 'UberEats',
       checked: props.businessModel
         ? props.businessModel.deliveryApps
@@ -100,18 +103,18 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = (props) => {
         : false,
     },
     {
-      label: 'GrubHub',
-      value: 'GrubHub',
+      label: BUSINESS_DELIVERY_APP['Grubhub'],
+      value: 'Grubhub',
       checked: props.businessModel
         ? props.businessModel.deliveryApps
           ? props.businessModel.deliveryApps.includes(
-              'GrubHub' as BusinessDeliveryApp
+              'Grubhub' as BusinessDeliveryApp
             )
           : false
         : false,
     },
     {
-      label: 'Door Dash',
+      label: BUSINESS_DELIVERY_APP['DoorDash'],
       value: 'DoorDash',
       checked: props.businessModel
         ? props.businessModel.deliveryApps
@@ -122,7 +125,7 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = (props) => {
         : false,
     },
     {
-      label: 'Postmates',
+      label: BUSINESS_DELIVERY_APP['Postmates'],
       value: 'Postmates',
       checked: props.businessModel
         ? props.businessModel.deliveryApps
@@ -134,7 +137,7 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = (props) => {
     },
 
     {
-      label: 'Food Dudes',
+      label: BUSINESS_DELIVERY_APP['FoodDudes'],
       value: 'FoodDudes',
       checked: props.businessModel
         ? props.businessModel.deliveryApps
@@ -145,7 +148,7 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = (props) => {
         : false,
     },
     {
-      label: 'Bite Squad',
+      label: BUSINESS_DELIVERY_APP['BiteSquad'],
       value: 'BiteSquad',
       checked: props.businessModel
         ? props.businessModel.deliveryApps

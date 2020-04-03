@@ -9,11 +9,12 @@ export const CreateBusiness: React.FC = (props) => {
 
   const createBusiness = (business: any) => {
     const postRequest: Business = {
-      id: '',
       name: business.name,
       category: business.category,
       hours: business.hours || 'None',
-      phoneNumber: business.phoneNumber || '',
+      phoneNumber: business.phoneNumber
+        ? business.phoneNumber.replace(/\D/g, '')
+        : '',
       website: business.website || '',
       message: business.message || '',
       facebookUrl: business.facebookUrl || '',
@@ -25,7 +26,7 @@ export const CreateBusiness: React.FC = (props) => {
       deliveryApps: business.deliveryApps || [],
     };
 
-    post('/api/listing/', postRequest);
+    post('/api/listing', postRequest);
   };
 
   function success() {
@@ -43,7 +44,7 @@ export const CreateBusiness: React.FC = (props) => {
     });
   }
 
-  function post(url: string, data: any) {
+  async function post(url: string, data: any) {
     const requestOptions = {
       method: 'POST',
       headers: {
@@ -52,19 +53,13 @@ export const CreateBusiness: React.FC = (props) => {
       },
       body: JSON.stringify(data),
     };
-    fetch(url, requestOptions)
-      .then((response) => response)
-      .then((data) => {
-        console.log('RESPONSE', data);
-        if (data.ok) {
-          success();
-        } else {
-          error();
-        }
-      })
-      .catch(function () {
-        error();
-      });
+
+    const response = await fetch(url, requestOptions);
+    if (response.ok) {
+      success();
+    } else {
+      error();
+    }
   }
 
   const goHome = () => {

@@ -1,5 +1,5 @@
 export interface Business {
-  id: string;
+  id?: string;
   name: string;
   category: BusinessCategory;
   hours?: BusinessHours;
@@ -38,6 +38,17 @@ export type BusinessDeliveryApp =
   | 'FoodDudes'
   | 'BiteSquad';
 
+export const BUSINESS_DELIVERY_APP: {
+  [key in BusinessDeliveryApp]: string;
+} = {
+  UberEats: 'UberEats',
+  Grubhub: 'Grubhub',
+  DoorDash: 'DoorDash',
+  Postmates: 'Postmates',
+  FoodDudes: 'FoodDudes',
+  BiteSquad: 'BiteSquad',
+};
+
 export type BusinessInteraction =
   | 'Appointment'
   | 'CurbSide'
@@ -45,6 +56,17 @@ export type BusinessInteraction =
   | 'LiveStream'
   | 'TakeOut'
   | 'DriveThru';
+
+export const BUSINESS_INTERACTIONS: {
+  [key in BusinessInteraction]: string;
+} = {
+  Appointment: 'Appointment',
+  CurbSide: 'CurbSide',
+  Delivery: 'Delivery',
+  LiveStream: 'LiveStream',
+  TakeOut: 'TakeOut',
+  DriveThru: 'DriveThru',
+};
 
 export const BUSINESS_CATEGORY_STRINGS: {
   [key in BusinessCategory]: { name: string; value: number };
@@ -59,7 +81,7 @@ export const BUSINESS_CATEGORY_STRINGS: {
   Religion: { name: '🙏 Religion & Spiritual', value: 5 },
   Retail: { name: '👕 Retail', value: 7 },
   Wellness: { name: '🧡 Wellness', value: 8 },
-  Other: { name: '📦 Other', value: 4 }
+  Other: { name: '📦 Other', value: 4 },
 };
 
 export const BUSINESS_HOURS: {
@@ -68,5 +90,5 @@ export const BUSINESS_HOURS: {
   None: '',
   Closed: '❌ — Closed',
   Limited: '⏱ — Limited',
-  Regular: '✔ — Regular'
+  Regular: '✔ — Regular',
 };

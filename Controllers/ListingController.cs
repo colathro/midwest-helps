@@ -122,7 +122,7 @@ namespace getthehotdish.Controllers
 
             try
             {
-                business = businessModel;
+                business.SetUpdateFields(businessModel);
                 await _dataContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException) when (!BusinessExists(id))
@@ -130,7 +130,7 @@ namespace getthehotdish.Controllers
                 return NotFound();
             }
 
-            return NoContent();
+            return Ok();
         }
 
         [HttpGet]
