@@ -3,7 +3,6 @@ using getthehotdish.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using getthehotdish.DataAccess;
 
 namespace getthehotdish.Controllers
 {

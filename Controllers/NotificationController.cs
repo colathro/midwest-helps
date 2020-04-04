@@ -37,14 +37,12 @@ namespace getthehotdish.Controllers
         /// <summary>
         /// Send an email to the organization based on a user report.
         /// </summary>
-        /// <param name="senderName">The sender name</param>
-        /// <param name="senderEmail">The sender email</param>
-        /// <param name="business">The business to which the report is referring</param>
-        /// <param name="message">The message to be added in the email</param>
+        /// <param name="budiness">The business for which the report is being received.</param>
+        /// <param name="reportType">The type of report being received</param>
         /// <returns>True, if the message was sent. False, otherwise.</returns>
         public Task<bool> SendReportReceivedEmailAsync(BusinessModel business, ReportType reportType)
         {
-            SendEmail($"You have a report about {business} of type {reportType}", BuildReportReceivedMessage(business, reportType), _notificationSettings.EmailNotificationSettings.Name, _notificationSettings.EmailNotificationSettings.EmailSender);
+            SendEmail($"You have a report about {business.Name} ({business.Id}) of type {reportType}", BuildReportReceivedMessage(business, reportType), _notificationSettings.EmailNotificationSettings.Name, _notificationSettings.EmailNotificationSettings.EmailSender);
             return Task.FromResult(true);
         }
 
@@ -68,7 +66,7 @@ namespace getthehotdish.Controllers
             var builder = new BodyBuilder();
 
             builder.HtmlBody = string.Format(@"<p>Hi team,<br>
-                                <p>A report was sent by regarding {0} ({1}) on the Hotdish portal.<br>
+                                <p>A report was sent regarding post for business {0} ({1}) on the Hotdish portal.<br>
                                 <p>Report type: {2}
                                 <br>
                                 <p>Please look into this business posting.", business.Name, business.Id, reportType);

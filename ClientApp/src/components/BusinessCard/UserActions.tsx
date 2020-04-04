@@ -33,7 +33,7 @@ export const UserActions: React.FC<UserActionsProps> = props => {
 
   const { confirm } = Modal;
 
-  const displayDeleteModal = () => {
+  const displayDeleteForm = () => {
     confirm({
       title: 'Are you sure you want to remove this business?',
       icon: '❌',
@@ -68,10 +68,7 @@ export const UserActions: React.FC<UserActionsProps> = props => {
         <a onClick={displayReportForm}>❗❗ - Report business</a>
       </Menu.Item>
       <Menu.Item>
-        <a onClick={displayDeleteModal}>❌ - Delete business</a>
-        {/* <Button type="dashed" onClick={() => displayDeleteModal()}>
-          ??
-        </Button> */}
+        <a onClick={displayDeleteForm}>❌ - Delete business</a>
       </Menu.Item>
     </Menu>
   );
