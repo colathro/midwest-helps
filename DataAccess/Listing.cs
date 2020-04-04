@@ -9,8 +9,12 @@ namespace getthehotdish.DataAccess
 
         [System.ComponentModel.DataAnnotations.Key]
         public Guid Id { get; set; }
+        public Guid OriginalId { get; set; }
         public string PartitionKey { get; set; }
+        public DateTime CreatedOn { get; set; }
         public string BusinessName { get; set; }
+        public string Address { get; set; }
+        public bool Approved { get; set; }
         public string BusinessNameSearch { 
             get 
             {
@@ -38,6 +42,7 @@ namespace getthehotdish.DataAccess
             LivestreamURL = business.LiveStreamUrl;
             OrderURL = business.OrderUrl;
             MessageToCustomer = business.Message;
+            Address = business.Address;
 
             BusinessChannels = BusinessChannelType.None;
             if (business.Interactions.Contains(BusinessChannelType.CurbSide.ToString()))

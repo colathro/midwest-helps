@@ -10,34 +10,60 @@ namespace getthehotdish.Models
     {
         [JsonPropertyName("id")]
         public Guid Id { get; set; }
+
         [JsonPropertyName("partitionKey")]
         public string PartitionKey { get; set; }
+
         [JsonPropertyName("name")]
         public string Name { get; set; }
+
         [JsonPropertyName("category")]
         public string Category { get; set; }
+
         [JsonPropertyName("hours")]
         public string Hours { get; set; }
+
         [JsonPropertyName("phoneNumber")]
         public string PhoneNumber { get; set; }
+
         [JsonPropertyName("website")]
         public string Website { get; set; }
+
         [JsonPropertyName("message")]
         public string Message { get; set; }
+
         [JsonPropertyName("facebookUrl")]
         public string FacebookUrl { get; set; }
+
         [JsonPropertyName("instagramUrl")]
         public string InstagramUrl { get; set; }
+
         [JsonPropertyName("liveStreamUrl")]
         public string LiveStreamUrl { get; set; }
+
         [JsonPropertyName("orderUrl")]
         public string OrderUrl { get; set; }
+
         [JsonPropertyName("giftCardUrl")]
         public string GiftCardUrl { get; set; }
+
         [JsonPropertyName("interactions")]
         public List<string> Interactions { get; set; }
+
         [JsonPropertyName("deliveryApps")]
         public List<string> DeliveryApps { get; set; }
+
+        [JsonPropertyName("address")]
+        public string Address { get; set; }
+
+        [JsonPropertyName("approved")]
+        public bool Approved { get; set; }
+
+        [JsonPropertyName("originalId")]
+        public Guid OriginalId { get; set; }
+
+        [JsonPropertyName("createdOn")]
+        public DateTime CreatedOn { get; set; }
 
         public BusinessModel()
         {
@@ -57,6 +83,9 @@ namespace getthehotdish.Models
             LiveStreamUrl = listing.LivestreamURL;
             OrderUrl = listing.OrderURL;
             GiftCardUrl = listing.GiftCardUrl;
+            Address = listing.Address;
+            CreatedOn = listing.CreatedOn;
+            OriginalId = listing.OriginalId;
 
             Interactions = new List<string>();
             if (listing.BusinessChannels.HasFlag(BusinessChannelType.Appointment))
