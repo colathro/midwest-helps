@@ -122,7 +122,7 @@ namespace getthehotdish.Controllers
 
             try
             {
-                business.SetUpdateFields(businessModel);
+                business.Update(businessModel);
                 await _dataContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException) when (!BusinessExists(id))

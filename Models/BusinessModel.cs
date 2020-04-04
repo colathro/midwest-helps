@@ -119,7 +119,7 @@ namespace getthehotdish.Models
             ret.PartitionKey = b.PartitionKey;
             ret.BusinessName = b.Name;
             ret.BusinessType = Enum.GetNames(typeof(BusinessType)).Where(h => h.ToLower() == b.Category.ToLower()).Select(c => (BusinessType)Enum.Parse(typeof(BusinessType), c)).FirstOrDefault();
-            ret.SetUpdateFields(b);
+            ret.Update(b);
 
             return ret;
         }

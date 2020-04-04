@@ -29,7 +29,7 @@ namespace getthehotdish.DataAccess
         public DeliveryAppType DeliveryApps { get; set; }
         public BusinessChannelType BusinessChannels { get; set; }
 
-        public void SetUpdateFields (BusinessModel business)
+        public void Update (BusinessModel business)
         {
             Hours = Enum.GetNames(typeof(BusinessHoursType)).Where(h => h.ToLower() == business.Hours.ToLower()).Select(c => (BusinessHoursType)Enum.Parse(typeof(BusinessHoursType), c)).FirstOrDefault();
             GiftCardUrl = business.GiftCardUrl;
@@ -51,13 +51,17 @@ namespace getthehotdish.DataAccess
             {
                 BusinessChannels = BusinessChannels | BusinessChannelType.Delivery;
             }
-            if (business.LiveStreamUrl.Length > 0)
+            if (business.Interactions.Contains(BusinessChannelType.LiveStream.ToString()))
             {
                 BusinessChannels = BusinessChannels | BusinessChannelType.LiveStream;
             }
             if (business.Interactions.Contains(BusinessChannelType.Appointment.ToString()))
             {
                 BusinessChannels = BusinessChannels | BusinessChannelType.Appointment;
+            }
+            if (business.Interactions.Contains(BusinessChannelType.DriveThru.ToString()))
+            {
+                BusinessChannels = BusinessChannels | BusinessChannelType.DriveThru;
             }
 
             if (business.DeliveryApps.Contains(DeliveryAppType.UberEats.ToString()))
