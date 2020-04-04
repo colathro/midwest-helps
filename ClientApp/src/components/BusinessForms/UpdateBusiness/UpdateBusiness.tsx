@@ -12,7 +12,6 @@ export interface UpdateBusinessProps {
 export const UpdateBusiness: React.FC<UpdateBusinessProps> = (props) => {
   let history = useHistory();
 
-  const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(true);
 
   const handleCancel = () => {
