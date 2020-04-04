@@ -1,18 +1,18 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
 import React, { useState } from 'react';
 import { Button, Modal, Form, Radio } from 'antd';
-import { Business, ReportCategory } from '../../types';
+import { Business, ReportType } from '../../types';
 import { TextField } from '../FormFields/TextField';
 
-import './ReportModal.scss';
+import './ReportBusiness.scss';
 
-export interface ReportModalProps {
+export interface ReportBusinessProps {
   business?: Business;
   visible?: boolean;
   close: Function;
 }
 
-export const ReportModal: React.FC<ReportModalProps> = props => {
+export const ReportBusiness: React.FC<ReportBusinessProps> = props => {
   const [isSending, setIsSending] = useState(false);
   const [radioValue, setRadioValue] = useState(0);
   const [isRadioButtonSelected, setIsRadioButtonSelected] = useState(false);
@@ -80,7 +80,7 @@ export const ReportModal: React.FC<ReportModalProps> = props => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     };
-    fetch('/api/contact/', requestOptions)
+    fetch('/api/report/', requestOptions)
       .then(response => response)
       .then(data => {
         console.log('RESPONSE', data);
@@ -106,13 +106,13 @@ export const ReportModal: React.FC<ReportModalProps> = props => {
       <Form name="report" onFinish={onSubmit}>
         <Form.Item required={true}>
           <Radio.Group onChange={onChange}>
-            <Radio style={radioStyle} value={ReportCategory.innacurate}>
+            <Radio style={radioStyle} value={ReportType.innacurate}>
               Innacurate information
             </Radio>
-            <Radio style={radioStyle} value={ReportCategory.spam}>
+            <Radio style={radioStyle} value={ReportType.spam}>
               Spam
             </Radio>
-            <Radio style={radioStyle} value={ReportCategory.offensive}>
+            <Radio style={radioStyle} value={ReportType.offensive}>
               Innapropriate/offensive content
             </Radio>
           </Radio.Group>

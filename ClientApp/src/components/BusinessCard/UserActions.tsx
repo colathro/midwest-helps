@@ -1,36 +1,63 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
 import React, { useState } from 'react';
-import { Button, Tooltip } from 'antd';
+import { Button, Dropdown, Menu, Tooltip } from 'antd';
 import { Business } from '../../types';
-import { ReportModal } from './ReportModal';
+
+import { ReportBusiness } from './ReportBusiness';
+import { UpdateBusiness } from '../BusinessForms/UpdateBusiness';
 
 export interface UserActionsProps {
-  business?: Business;
+  business: Business;
+  setBusiness: Function;
 }
 
 export const UserActions: React.FC<UserActionsProps> = props => {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [displayUpdate, setDisplayUpdate] = useState(false);
 
+  var displayUpdateForm = () => {
+    setDisplayUpdate(true);
+  };
   var showModal = () => {
     setIsModalVisible(true);
   };
 
-  var hideModal = () => {
+  var hideReportModal = () => {
     setIsModalVisible(false);
   };
 
+  const callbackFunction = (businessBack: Business) => {
+    props.setBusiness(businessBack);
+    setDisplayUpdate(false);
+  };
+
+  const menu = (
+    <Menu>
+      <Menu.Item>
+        <a onClick={displayUpdateForm}>🖊 - Edit business</a>
+      </Menu.Item>
+      <Menu.Item>
+        <a onClick={showModal}>❗❗ - Report business</a>
+      </Menu.Item>
+    </Menu>
+  );
+
   return (
     <div className="user-action-links">
-      <Tooltip placement="bottom" title="Report">
-        <Button type="dashed" onClick={showModal}>
-          ❗
-        </Button>
-      </Tooltip>
-      <ReportModal
+      <Dropdown overlay={menu} trigger={['click']} placement="bottomRight">
+        <Button type="dashed">...</Button>
+      </Dropdown>
+      {displayUpdate && (
+        <UpdateBusiness
+          business={props.business}
+          bussinessCardCallback={callbackFunction}
+        />
+      )}
+      <ReportBusiness
         business={props.business}
-        close={hideModal}
+        close={hideReportModal}
         visible={isModalVisible}
-      ></ReportModal>
+      ></ReportBusiness>
     </div>
   );
 };

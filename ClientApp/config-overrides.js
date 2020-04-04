@@ -10,7 +10,7 @@ module.exports = override(
     javascriptEnabled: true,
     modifyVars: {
       '@primary-color': '#582BD9',
-      '@font-family': 'Inter'
+      '@font-family': 'Inter, sans-serif'
     }
   })
 );

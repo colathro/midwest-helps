@@ -6,6 +6,7 @@ using MimeKit;
 using MailKit.Net.Smtp;
 using getthehotdish.Models;
 using Microsoft.Extensions.Logging;
+using getthehotdish.DataAccess;
 
 namespace getthehotdish.Controllers
 {
@@ -41,9 +42,9 @@ namespace getthehotdish.Controllers
         /// <param name="business">The business to which the report is referring</param>
         /// <param name="message">The message to be added in the email</param>
         /// <returns>True, if the message was sent. False, otherwise.</returns>
-        public Task<bool> SendReportReceivedEmailAsync(string senderName, string senderEmail, string business, string message)
+        public Task<bool> SendReportReceivedEmailAsync(BusinessModel business, ReportType reportType)
         {
-            SendEmail($"Your have a report from {senderName} about {business}", BuildReportReceivedMessage(senderName, senderEmail, business, message), _notificationSettings.EmailNotificationSettings.Name, _notificationSettings.EmailNotificationSettings.EmailSender);
+            SendEmail($"You have a report about {business} of type {reportType}", BuildReportReceivedMessage(business, reportType), _notificationSettings.EmailNotificationSettings.Name, _notificationSettings.EmailNotificationSettings.EmailSender);
             return Task.FromResult(true);
         }
 
@@ -62,17 +63,15 @@ namespace getthehotdish.Controllers
             return builder.ToMessageBody();
         }
 
-        private MimeEntity BuildReportReceivedMessage(string senderName, string senderEmail, string business, string message)
+        private MimeEntity BuildReportReceivedMessage(BusinessModel business, ReportType reportType)
         {
             var builder = new BodyBuilder();
 
             builder.HtmlBody = string.Format(@"<p>Hi team,<br>
-                                <p>A report was sent by {0} ({1}) regarding {2} on the Hotdish portal.<br>
-                                <p>{0} says:{3}
+                                <p>A report was sent by regarding {0} ({1}) on the Hotdish portal.<br>
+                                <p>Report type: {2}
                                 <br>
-                                {3}
-                                <br>
-                                <p>Don't forget to reach out to them and provide assistance.", senderName, senderEmail, business, message);
+                                <p>Please look into this business posting.", business.Name, business.Id, reportType);
 
             return builder.ToMessageBody();
         }

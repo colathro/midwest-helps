@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using getthehotdish.DataAccess;
 using getthehotdish.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace getthehotdish.Controllers
@@ -26,14 +27,32 @@ namespace getthehotdish.Controllers
 
         [HttpGet]
         [Route("page/{page}")]
-        public async Task<ICollection<BusinessModel>> Get(int page)
+        public async Task<ICollection<BusinessModel>> Get(int page, [FromQuery] int? businesstype = null, [FromQuery] string name = null)
         {
             _logger.LogInformation($"PAGE GET Request: {page}");
 
             try
             {
-                var businesses = _dataContext.Listings.Where(l => l.PartitionKey == partitionKey).Select(l => new BusinessModel(l)).ToList();
-                return businesses;
+                if (businesstype != null && name != null)
+                {
+                    var businesses = _dataContext.Listings.Where(l => l.PartitionKey == partitionKey && l.BusinessType == (BusinessType)businesstype && l.BusinessNameSearch.Contains(name)).Select(l => new BusinessModel(l));
+                    return await PaginatedList<BusinessModel>.CreateAsync(businesses, page, 10);
+                }
+                else if (businesstype != null)
+                {
+                    var businesses = _dataContext.Listings.Where(l => l.PartitionKey == partitionKey && l.BusinessType == (BusinessType)businesstype).Select(l => new BusinessModel(l));
+                    return await PaginatedList<BusinessModel>.CreateAsync(businesses, page, 10);
+                }
+                else if (name != null)
+                {
+                    var businesses = _dataContext.Listings.Where(l => l.PartitionKey == partitionKey && l.BusinessNameSearch.Contains(name)).Select(l => new BusinessModel(l));
+                    return await PaginatedList<BusinessModel>.CreateAsync(businesses, page, 10);
+                }
+                else
+                {
+                    var businesses = _dataContext.Listings.Where(l => l.PartitionKey == partitionKey).Select(l => new BusinessModel(l));
+                    return await PaginatedList<BusinessModel>.CreateAsync(businesses, page, 10);
+                }
             }
             catch (Exception ex)
             {
@@ -68,14 +87,15 @@ namespace getthehotdish.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Listing listing)
+        public async Task<IActionResult> Post([FromBody] BusinessModel businessModel)
         {
-            _logger.LogInformation($"LISTING POST Request: {listing.BusinessName}");
-
-            listing.PartitionKey = partitionKey;
+            _logger.LogInformation($"LISTING POST Request: {businessModel.Name}");
 
             try
             {
+                Listing listing = businessModel;
+                listing.PartitionKey = partitionKey;
+
                 _dataContext.Listings.Add(listing);
                 await _dataContext.SaveChangesAsync();
                 return Ok();
@@ -84,6 +104,33 @@ namespace getthehotdish.Controllers
             {
                 throw ex;
             }
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(Guid id, [FromBody] BusinessModel businessModel)
+        {
+            if (id != businessModel.Id)
+            {
+                return BadRequest();
+            }
+
+            var business = await _dataContext.Listings.FindAsync(id);
+            if (business == null)
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                business.SetUpdateFields(businessModel);
+                await _dataContext.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException) when (!BusinessExists(id))
+            {
+                return NotFound();
+            }
+
+            return Ok();
         }
 
         [HttpGet]
@@ -102,6 +149,9 @@ namespace getthehotdish.Controllers
                 throw ex;
             }
         }
+
+        private bool BusinessExists(Guid id) =>
+         _dataContext.Listings.Any(e => e.Id == id);
 
     }
 }

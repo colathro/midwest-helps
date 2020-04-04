@@ -12,17 +12,27 @@ export interface CheckboxGroupProps {
 }
 
 export interface CheckboxItem {
-  name: string;
+  label: string;
+  value: string;
+  checked: boolean;
 }
 
-export const CheckboxGroup: React.FC<CheckboxGroupProps> = props => {
+export const CheckboxGroup: React.FC<CheckboxGroupProps> = (props) => {
+  // const defaultValues: string[] = props.checkboxItems
+  //   .filter((c) => c.checked)
+  //   .map((c) => {
+  //     return c.value;
+  //   });
+
   return (
     <Form.Item name={props.name} label={props.title} className="hotdish-input">
       <Checkbox.Group>
         <Row>
           {props.checkboxItems.map((item, index) => (
             <Col key={index} span={16}>
-              <Checkbox value={item.name}>{item.name}</Checkbox>
+              <Checkbox value={item.value} defaultChecked={item.checked}>
+                {item.label}
+              </Checkbox>
             </Col>
           ))}
         </Row>
