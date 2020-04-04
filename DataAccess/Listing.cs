@@ -39,6 +39,7 @@ namespace getthehotdish.DataAccess
             OrderURL = business.OrderUrl;
             MessageToCustomer = business.Message;
 
+            BusinessChannels = BusinessChannelType.None;
             if (business.Interactions.Contains(BusinessChannelType.CurbSide.ToString()))
             {
                 BusinessChannels = BusinessChannels | BusinessChannelType.CurbSide;
@@ -64,6 +65,7 @@ namespace getthehotdish.DataAccess
                 BusinessChannels = BusinessChannels | BusinessChannelType.DriveThru;
             }
 
+            DeliveryApps = DeliveryAppType.None;
             if (business.DeliveryApps.Contains(DeliveryAppType.UberEats.ToString()))
             {
                 DeliveryApps = DeliveryApps | DeliveryAppType.UberEats;

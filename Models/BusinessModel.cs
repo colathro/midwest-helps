@@ -55,7 +55,7 @@ namespace getthehotdish.Models
             FacebookUrl = ""; // TODO: store facebook URL in Listing
             InstagramUrl = ""; // TODO: store instagram URL in Listing
             LiveStreamUrl = listing.LivestreamURL;
-            OrderUrl = ""; // TODO: store a business' online order link in Listing
+            OrderUrl = listing.OrderURL;
             GiftCardUrl = listing.GiftCardUrl;
 
             Interactions = new List<string>();
