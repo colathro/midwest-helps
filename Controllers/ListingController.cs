@@ -224,6 +224,22 @@ namespace getthehotdish.Controllers
             }
         }
 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var todoItem = await _dataContext.Listings.FindAsync(id);
+
+            if (todoItem == null)
+            {
+                return NotFound();
+            }
+
+            _dataContext.Listings.Remove(todoItem);
+            await _dataContext.SaveChangesAsync();
+
+            return Ok();
+        }
+
         private bool BusinessExists(Guid id) =>
          _dataContext.Listings.Any(e => e.Id == id);
 

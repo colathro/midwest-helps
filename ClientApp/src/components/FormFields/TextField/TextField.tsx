@@ -56,13 +56,13 @@ export const TextField: React.FC<TextFieldProps> = (props) => {
     message: 'Please input your ' + props.title.toLowerCase(),
   });
 
-  const subTitle = props.subTitle ? (
-    <p className="subtitle" key="subtitle">
-      {props.subTitle}
-    </p>
-  ) : (
-    <></>
-  );
+  // const subTitle = props.subTitle ? (
+  //   <p className="subtitle" key="subtitle">
+  //     {props.subTitle}
+  //   </p>
+  // ) : (
+  //   <></>
+  // );
 
   return (
     <span>

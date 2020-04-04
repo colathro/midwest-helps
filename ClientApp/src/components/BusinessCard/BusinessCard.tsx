@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Card, Button } from 'antd';
+import React, { useState } from 'react';
+import { Card, Button, Modal } from 'antd';
 
 import { BusinessCategoryTag } from './BusinessCategoryTag';
 import { BusinessInteractions } from './BusinessInteractions';
@@ -9,13 +9,41 @@ import { Business } from '../../types';
 import './BusinessCard.scss';
 import { UpdateBusiness } from '../BusinessForms/UpdateBusiness';
 
-export const BusinessCard: React.FC<Business> = props => {
+const { confirm } = Modal;
+
+export const BusinessCard: React.FC<Business> = (props) => {
   const [business, setBusiness] = useState(props);
   const [displayUpdate, setDisplayUpdate] = useState(false);
 
   const displayUpdateForm = () => {
     setDisplayUpdate(true);
   };
+
+  const displayDeleteModal = () => {
+    confirm({
+      title: 'Are you sure you want to remove this business?',
+      icon: '❗',
+      content:
+        'A removal request will be sent to our team who will avaliate removing this business from this platform',
+      okText: 'Yes',
+      okType: 'danger',
+      cancelText: 'No',
+      onOk() {
+        deleteRequest('/api/listing/' + business.id);
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
+    });
+  };
+
+  async function deleteRequest(url: string) {
+    const requestOptions = {
+      method: 'DELETE',
+    };
+
+    await fetch(url, requestOptions);
+  }
 
   const callbackFunction = (businessBack: Business) => {
     setBusiness(businessBack);
@@ -36,9 +64,14 @@ export const BusinessCard: React.FC<Business> = props => {
         className="business-card"
         bordered={false}
         extra={
-          <Button type="dashed" onClick={() => displayUpdateForm()}>
-            🖊
-          </Button>
+          <div>
+            <Button type="dashed" onClick={() => displayUpdateForm()}>
+              🖊
+            </Button>
+            <Button type="dashed" onClick={() => displayDeleteModal()}>
+              🗑
+            </Button>
+          </div>
         }
       >
         <BusinessCategoryTag category={business.category} />

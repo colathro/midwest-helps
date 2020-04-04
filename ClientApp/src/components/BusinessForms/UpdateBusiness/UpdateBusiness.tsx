@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Typography, Modal, Button } from 'antd';
+import React, { useState } from 'react';
+import { Modal } from 'antd';
 import { useHistory } from 'react-router-dom';
 import { BuildBusinessForm } from '../BuildBusinessForm/BuildBusinessForm';
 import { Business } from '../../../types';
@@ -12,7 +12,6 @@ export interface UpdateBusinessProps {
 export const UpdateBusiness: React.FC<UpdateBusinessProps> = (props) => {
   let history = useHistory();
 
-  const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(true);
 
   const handleCancel = () => {
