@@ -9,8 +9,12 @@ namespace getthehotdish.DataAccess
 
         [System.ComponentModel.DataAnnotations.Key]
         public Guid Id { get; set; }
+        public Guid OriginalId { get; set; }
         public string PartitionKey { get; set; }
+        public DateTime CreatedOn { get; set; }
         public string BusinessName { get; set; }
+        public string Address { get; set; }
+        public bool Approved { get; set; }
         public string BusinessNameSearch { 
             get 
             {
@@ -29,7 +33,7 @@ namespace getthehotdish.DataAccess
         public DeliveryAppType DeliveryApps { get; set; }
         public BusinessChannelType BusinessChannels { get; set; }
 
-        public void SetUpdateFields (BusinessModel business)
+        public void Update (BusinessModel business)
         {
             Hours = Enum.GetNames(typeof(BusinessHoursType)).Where(h => h.ToLower() == business.Hours.ToLower()).Select(c => (BusinessHoursType)Enum.Parse(typeof(BusinessHoursType), c)).FirstOrDefault();
             GiftCardUrl = business.GiftCardUrl;
@@ -38,7 +42,9 @@ namespace getthehotdish.DataAccess
             LivestreamURL = business.LiveStreamUrl;
             OrderURL = business.OrderUrl;
             MessageToCustomer = business.Message;
+            Address = business.Address;
 
+            BusinessChannels = BusinessChannelType.None;
             if (business.Interactions.Contains(BusinessChannelType.CurbSide.ToString()))
             {
                 BusinessChannels = BusinessChannels | BusinessChannelType.CurbSide;
@@ -51,7 +57,7 @@ namespace getthehotdish.DataAccess
             {
                 BusinessChannels = BusinessChannels | BusinessChannelType.Delivery;
             }
-            if (business.LiveStreamUrl.Length > 0)
+            if (business.Interactions.Contains(BusinessChannelType.LiveStream.ToString()))
             {
                 BusinessChannels = BusinessChannels | BusinessChannelType.LiveStream;
             }
@@ -59,7 +65,12 @@ namespace getthehotdish.DataAccess
             {
                 BusinessChannels = BusinessChannels | BusinessChannelType.Appointment;
             }
+            if (business.Interactions.Contains(BusinessChannelType.DriveThru.ToString()))
+            {
+                BusinessChannels = BusinessChannels | BusinessChannelType.DriveThru;
+            }
 
+            DeliveryApps = DeliveryAppType.None;
             if (business.DeliveryApps.Contains(DeliveryAppType.UberEats.ToString()))
             {
                 DeliveryApps = DeliveryApps | DeliveryAppType.UberEats;

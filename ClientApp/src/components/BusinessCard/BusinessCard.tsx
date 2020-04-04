@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Button, Dropdown, Menu } from 'antd';
+import { Card, Button, Dropdown, Menu, Modal } from 'antd';
 
 import { BusinessCategoryTag } from './BusinessCategoryTag';
 import { BusinessInteractions } from './BusinessInteractions';
@@ -10,8 +10,15 @@ import { UserActions } from './UserActions';
 import './BusinessCard.scss';
 import { UpdateBusiness } from '../BusinessForms/UpdateBusiness';
 
+const { confirm } = Modal;
+
 export const BusinessCard: React.FC<Business> = props => {
   const [business, setBusiness] = useState(props);
+
+  // const callbackFunction = (businessBack: Business) => {
+  //   setBusiness(businessBack);
+  //   setDisplayUpdate(false);
+  // };
 
   return (
     <div>
@@ -26,7 +33,11 @@ export const BusinessCard: React.FC<Business> = props => {
         title={business.name}
         className="business-card"
         bordered={false}
-        extra={<UserActions business={business} setBusiness={setBusiness} />}
+        extra={
+          <div>
+            <UserActions business={business} setBusiness={setBusiness} />
+          </div>
+        }
       >
         <BusinessCategoryTag category={business.category} />
         <p>{business.message}</p>

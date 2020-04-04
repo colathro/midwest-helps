@@ -35,22 +35,22 @@ namespace getthehotdish.Controllers
             {
                 if (businesstype != null && name != null)
                 {
-                    var businesses = _dataContext.Listings.Where(l => l.PartitionKey == partitionKey && l.BusinessType == (BusinessType)businesstype && l.BusinessNameSearch.Contains(name)).Select(l => new BusinessModel(l));
+                    var businesses = _dataContext.Listings.Where(l => l.PartitionKey == partitionKey && l.BusinessType == (BusinessType)businesstype && l.BusinessNameSearch.Contains(name) && l.Approved == true).Select(l => new BusinessModel(l));
                     return await PaginatedList<BusinessModel>.CreateAsync(businesses, page, 10);
                 }
                 else if (businesstype != null)
                 {
-                    var businesses = _dataContext.Listings.Where(l => l.PartitionKey == partitionKey && l.BusinessType == (BusinessType)businesstype).Select(l => new BusinessModel(l));
+                    var businesses = _dataContext.Listings.Where(l => l.PartitionKey == partitionKey && l.BusinessType == (BusinessType)businesstype && l.Approved == true).Select(l => new BusinessModel(l));
                     return await PaginatedList<BusinessModel>.CreateAsync(businesses, page, 10);
                 }
                 else if (name != null)
                 {
-                    var businesses = _dataContext.Listings.Where(l => l.PartitionKey == partitionKey && l.BusinessNameSearch.Contains(name)).Select(l => new BusinessModel(l));
+                    var businesses = _dataContext.Listings.Where(l => l.PartitionKey == partitionKey && l.BusinessNameSearch.Contains(name) && l.Approved == true).Select(l => new BusinessModel(l));
                     return await PaginatedList<BusinessModel>.CreateAsync(businesses, page, 10);
                 }
                 else
                 {
-                    var businesses = _dataContext.Listings.Where(l => l.PartitionKey == partitionKey).Select(l => new BusinessModel(l));
+                    var businesses = _dataContext.Listings.Where(l => l.PartitionKey == partitionKey && l.Approved == true).Select(l => new BusinessModel(l));
                     return await PaginatedList<BusinessModel>.CreateAsync(businesses, page, 10);
                 }
             }
@@ -95,6 +95,7 @@ namespace getthehotdish.Controllers
             {
                 Listing listing = businessModel;
                 listing.PartitionKey = partitionKey;
+                listing.CreatedOn = DateTime.UtcNow;
 
                 _dataContext.Listings.Add(listing);
                 await _dataContext.SaveChangesAsync();
@@ -109,28 +110,101 @@ namespace getthehotdish.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(Guid id, [FromBody] BusinessModel businessModel)
         {
-            if (id != businessModel.Id)
-            {
-                return BadRequest();
-            }
-
-            var business = await _dataContext.Listings.FindAsync(id);
-            if (business == null)
-            {
-                return NotFound();
-            }
+            _logger.LogInformation($"LISTING PUT Request: {businessModel.Name}");
 
             try
             {
-                business.SetUpdateFields(businessModel);
-                await _dataContext.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException) when (!BusinessExists(id))
-            {
-                return NotFound();
-            }
+                Listing listing = businessModel;
+                listing.PartitionKey = partitionKey;
+                listing.Approved = false;
+                listing.OriginalId = id;
+                listing.Id = Guid.NewGuid();
+                listing.CreatedOn = DateTime.UtcNow;
 
-            return Ok();
+                _dataContext.Listings.Add(listing);
+                await _dataContext.SaveChangesAsync();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpGet("approvals/get/{key}")]
+        public async Task<ICollection<BusinessModel>> GetApprovals(string key)
+        {
+            return _dataContext.Listings.Where(l => l.PartitionKey == partitionKey && l.Approved == false).Select(l => new BusinessModel(l)).ToList();
+        }
+
+        [HttpPost("approvals/approve/{key}/{post}")]
+        public async Task<IActionResult> Approve(string key, string post)
+        {
+            try
+            {
+                // get ref to new listing
+                var newListing = _dataContext.Listings.Where(l => l.Id == Guid.Parse(post) 
+                    && l.PartitionKey == partitionKey 
+                    && l.Approved == false).FirstOrDefault();
+                
+                // get ref to old listing
+                var oldListing = _dataContext.Listings.Where(l => l.Id == newListing.OriginalId
+                     && l.PartitionKey == partitionKey
+                     && l.Approved == true).FirstOrDefault();
+
+                if (newListing == null)
+                {
+                    return NotFound();
+                }
+
+                if (oldListing != null)
+                {
+                    // get the old references that point to the old listing (new listing is now original)
+                    var oldRefListings = _dataContext.Listings.Where(l => l.PartitionKey == partitionKey
+                        && l.OriginalId == oldListing.Id && l.Id != newListing.Id);
+
+                    // update them
+                    await oldRefListings.ForEachAsync((listing) =>
+                    {
+                        listing.OriginalId = newListing.Id;
+                    });
+
+                    _dataContext.Remove(oldListing);
+                }
+
+                newListing.Approved = true;
+
+                await _dataContext.SaveChangesAsync();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpPost("approvals/deny/{key}/{post}")]
+        public async Task<IActionResult> Deny(string key, string post)
+        {
+            try
+            {
+                var listing = _dataContext.Listings.Where(l => l.Id == Guid.Parse(post) 
+                    && l.PartitionKey == partitionKey 
+                    && l.Approved == false).FirstOrDefault();
+
+                if (listing != null)
+                {
+                    _dataContext.Remove(listing);
+                    await _dataContext.SaveChangesAsync();
+                }
+
+                return Ok();
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         [HttpGet]
@@ -148,6 +222,22 @@ namespace getthehotdish.Controllers
             {
                 throw ex;
             }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var todoItem = await _dataContext.Listings.FindAsync(id);
+
+            if (todoItem == null)
+            {
+                return NotFound();
+            }
+
+            _dataContext.Listings.Remove(todoItem);
+            await _dataContext.SaveChangesAsync();
+
+            return Ok();
         }
 
         private bool BusinessExists(Guid id) =>
