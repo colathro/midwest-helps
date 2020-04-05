@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Button, Dropdown, Menu, Modal } from 'antd';
 import { Business } from '../../types';
 
-import { ReportBusiness } from './ReportBusiness';
+import { ReportBusiness } from '../BusinessForms/ReportBusiness';
 import { UpdateBusiness } from '../BusinessForms/UpdateBusiness';
 
 export interface UserActionsProps {
@@ -15,18 +15,19 @@ export const UserActions: React.FC<UserActionsProps> = props => {
   const [displayReport, setDisplayReport] = useState(false);
   const [displayUpdate, setDisplayUpdate] = useState(false);
 
-  var displayUpdateForm = () => {
-    setDisplayUpdate(true);
-  };
-  var displayReportForm = () => {
+  const displayReportForm = () => {
     setDisplayReport(true);
   };
 
-  var hideReportForm = () => {
+  const hideReportForm = () => {
     setDisplayReport(false);
   };
 
-  const closeUpdateForm = (businessBack: Business) => {
+  const displayUpdateForm = () => {
+    setDisplayUpdate(true);
+  };
+
+  const hideUpdateForm = (businessBack: Business) => {
     props.setBusiness(businessBack);
     setDisplayUpdate(false);
   };
@@ -76,12 +77,12 @@ export const UserActions: React.FC<UserActionsProps> = props => {
   return (
     <div className="user-action-links">
       <Dropdown overlay={menu} trigger={['click']} placement="bottomRight">
-        <Button type="dashed">...</Button>
+        <Button type="dashed">▪▪▪</Button>
       </Dropdown>
       {displayUpdate && (
         <UpdateBusiness
           business={props.business}
-          bussinessCardCallback={closeUpdateForm}
+          bussinessCardCallback={hideUpdateForm}
         />
       )}
       <ReportBusiness

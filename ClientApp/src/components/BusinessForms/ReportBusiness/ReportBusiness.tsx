@@ -1,8 +1,7 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
 import React, { useState } from 'react';
 import { Button, Modal, Form, Radio } from 'antd';
-import { Business, ReportType } from '../../types';
-import { TextField } from '../FormFields/TextField';
+import { Business, ReportType } from '../../../types';
 
 import './ReportBusiness.scss';
 
@@ -27,22 +26,6 @@ export const ReportBusiness: React.FC<ReportBusinessProps> = props => {
     sendMessage(values);
   };
 
-  var handleCancel = () => {
-    setRadioValue(0);
-    setIsRadioButtonSelected(false);
-    var radioWrapper = document.getElementsByClassName(
-      'ant-radio-wrapper-checked'
-    );
-    if (radioWrapper.length > 0) {
-      radioWrapper[0].classList.remove('ant-radio-wrapper-checked');
-    }
-    var radio = document.getElementsByClassName('ant-radio-checked');
-    if (radio.length > 0) {
-      radio[0].classList.remove('ant-radio-checked');
-    }
-    props.close();
-  };
-
   const onSubmit = () => {
     console.log(radioValue);
     setIsSending(true);
@@ -53,14 +36,7 @@ export const ReportBusiness: React.FC<ReportBusinessProps> = props => {
     sendMessage(data);
   };
 
-  const radioStyle = {
-    display: 'block',
-    height: '30px',
-    lineHeight: '30px'
-  };
-
   var onChange = (e: any) => {
-    console.log('radio checked', e.target.value);
     setRadioValue(e.target.value);
     setIsRadioButtonSelected(true);
   };
@@ -68,10 +44,18 @@ export const ReportBusiness: React.FC<ReportBusinessProps> = props => {
   function success() {
     setIsSending(false);
     props.close();
+    Modal.success({
+      content: 'Your report was submitted successfully.'
+    });
   }
 
   function error() {
+    setIsSending(false);
     props.close();
+    Modal.error({
+      title: 'Oops',
+      content: 'There was a problem submitting your report. Try again later.'
+    });
   }
 
   function sendMessage(data: any) {
@@ -95,12 +79,20 @@ export const ReportBusiness: React.FC<ReportBusinessProps> = props => {
       });
   }
 
+  const radioStyle = {
+    display: 'block',
+    height: '30px',
+    lineHeight: '30px'
+  };
+
   return (
     <Modal
       title={'Report ' + props.business?.name}
       visible={props.visible}
       onOk={handleSend}
-      onCancel={handleCancel}
+      onCancel={() => {
+        props.close();
+      }}
       footer={null}
     >
       <Form name="report" onFinish={onSubmit}>
@@ -118,7 +110,12 @@ export const ReportBusiness: React.FC<ReportBusinessProps> = props => {
           </Radio.Group>
         </Form.Item>
         <Form.Item name="button-item">
-          <Button key="back" onClick={handleCancel}>
+          <Button
+            key="back"
+            onClick={() => {
+              props.close();
+            }}
+          >
             Cancel
           </Button>
           <Button
