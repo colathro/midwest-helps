@@ -16,7 +16,7 @@ If you get a C# error that says something along the lines of `System.ArgumentNul
 
 ## Developing
 ### The back-end
-*TODO*
+When updating API's, please update the [project's wiki](https://github.com/colathro/getthehotdish/wiki/API-Docs)
 ### The front-end
 Please refer to the [client development readme](ClientApp/README.md) before making any code changes.
 ## New Features and Bugs
