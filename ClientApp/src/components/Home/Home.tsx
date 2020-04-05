@@ -10,6 +10,7 @@ import {
 import { useWindowSize } from '../../globalHooks';
 import { BusinessSearch } from '../BusinessSearch';
 import { isElementInView } from '../../utils';
+import InfiniteScroll from 'react-infinite-scroller';
 
 import './Home.scss';
 
@@ -35,6 +36,27 @@ const parseUrl = (query: URLSearchParams) => {
   };
 };
 
+const createParamString = (filter: number, search: string) => {
+  const filterParam = filter >= 0 ? `businesstype=${filter}` : '';
+  const searchParam = search ? `name=${search}` : '';
+
+  let paramString = '';
+  if (filterParam || searchParam) {
+    paramString += '?';
+  }
+  if (filterParam) {
+    paramString += filterParam;
+    if (searchParam) {
+      paramString += '&';
+    }
+  }
+  if (searchParam) {
+    paramString += searchParam;
+  }
+
+  return paramString;
+};
+
 export const Home: React.FC = () => {
   const history = useHistory();
   const query = useQuery();
@@ -44,6 +66,7 @@ export const Home: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [params, setParams] = useState({ filter: -1, searchText: '' });
+  const [hasMoreBusinesses, setHasMoreBusinesses] = useState(true);
   const windowSize = useWindowSize();
 
   const isLargeWindowSize = windowSize?.width && windowSize.width >= 992;
@@ -56,27 +79,25 @@ export const Home: React.FC = () => {
     });
   }, []);
 
+  // Updating params
   useEffect(() => {
-    const filterParam =
-      params.filter >= 0 ? `businesstype=${params.filter}` : '';
-    const searchParam = params.searchText ? `name=${params.searchText}` : '';
-
-    let paramString = '';
-    if (filterParam || searchParam) {
-      paramString += '?';
-    }
-    if (filterParam) {
-      paramString += filterParam;
-      if (searchParam) {
-        paramString += '&';
-      }
-    }
-    if (searchParam) {
-      paramString += searchParam;
-    }
+    const paramString = createParamString(params.filter, params.searchText);
 
     setLoading(true);
-    fetchUrl(`/api/listing/page/1${paramString}`);
+    setHasMoreBusinesses(true);
+    fetchUrl(`/api/listing/page/1${paramString}`)
+      .then(data => {
+        setAllBusiness(data);
+        setLoading(false);
+        setError(false);
+        if (data.length < 10) {
+          setHasMoreBusinesses(false);
+        }
+      })
+      .catch(() => {
+        setLoading(false);
+        setError(true);
+      });
 
     history.push(`/${paramString}`);
 
@@ -91,22 +112,31 @@ export const Home: React.FC = () => {
 
   const fetchUrl = async (url: string) => {
     const response = await fetch(url);
-    const data = await response.json();
-    if (response.ok) {
-      setAllBusiness(data);
-      setLoading(false);
-      setError(false);
-    } else {
-      setLoading(false);
-      setError(true);
-    }
+    return await response.json();
+  };
+
+  const loadMore = (pageNum: number) => {
+    const paramString = createParamString(params.filter, params.searchText);
+
+    fetchUrl(`/api/listing/page/${pageNum}${paramString}`)
+      .then(data => {
+        setAllBusiness([...allBusiness, ...data]);
+        setError(false);
+        if (data.length < 10) {
+          setHasMoreBusinesses(false);
+        }
+      })
+      .catch(() => {
+        setError(true);
+      });
   };
 
   let companies;
+  let loader = (
+    <Spin className="companies-loading" size="large" tip="Loading..." />
+  );
   if (loading) {
-    companies = (
-      <Spin className="companies-loading" size="large" tip="Loading..." />
-    );
+    companies = loader;
   } else if (error) {
     companies = (
       <Alert
@@ -116,9 +146,18 @@ export const Home: React.FC = () => {
       />
     );
   } else {
-    companies = allBusiness.map(business => (
-      <BusinessCard {...business} key={business.id} />
-    ));
+    companies = (
+      <InfiniteScroll
+        pageStart={2}
+        loadMore={loadMore}
+        hasMore={hasMoreBusinesses}
+        loader={loader}
+      >
+        {allBusiness.map(business => (
+          <BusinessCard {...business} key={business.id} />
+        ))}
+      </InfiniteScroll>
+    );
   }
 
   const companiesGroup = isLargeWindowSize ? (
