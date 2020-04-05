@@ -8,27 +8,14 @@ import { Business } from '../../types';
 import { UserActions } from './UserActions';
 
 import './BusinessCard.scss';
-import { UpdateBusiness } from '../BusinessForms/UpdateBusiness';
 
 const { confirm } = Modal;
 
 export const BusinessCard: React.FC<Business> = props => {
   const [business, setBusiness] = useState(props);
 
-  // const callbackFunction = (businessBack: Business) => {
-  //   setBusiness(businessBack);
-  //   setDisplayUpdate(false);
-  // };
-
   return (
     <div>
-      {/* {displayUpdate && (
-        <UpdateBusiness
-          business={business}
-          bussinessCardCallback={callbackFunction}
-        />
-      )} */}
-
       <Card
         title={business.name}
         className="business-card"
@@ -43,7 +30,6 @@ export const BusinessCard: React.FC<Business> = props => {
         <p>{business.message}</p>
         <div className="business-tags">
           <BusinessInteractions interactions={business.interactions} />
-          {/* <UserActions business={props} /> */}
           <BusinessLinks
             giftCardUrl={business.giftCardUrl}
             phone={business.phoneNumber}
