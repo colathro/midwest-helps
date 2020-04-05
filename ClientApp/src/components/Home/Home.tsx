@@ -1,44 +1,95 @@
 ﻿import React, { useState, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { Row, Col, Typography, Layout, Button, Spin, Alert, Input } from 'antd';
+import { Row, Col, Typography, Layout, Button, Spin, Alert } from 'antd';
 import { BusinessCard } from '../BusinessCard';
 import { Business, BUSINESS_CATEGORY_STRINGS } from '../../types';
 import {
   BusinessFilterVertical,
   BusinessFilterHorizontal
 } from '../BusinessFilter';
+import { useWindowSize } from '../../globalHooks';
+import { BusinessSearch } from '../BusinessSearch';
+import { isElementInView } from '../../utils';
 
 import './Home.scss';
-import { useWindowSize } from './HomeHooks';
 
 const { Header, Content } = Layout;
 const { Title } = Typography;
 
 const useQuery = () => new URLSearchParams(useLocation().search);
 
+const parseUrl = (query: URLSearchParams) => {
+  let filterQuery = parseInt(query.get('businesstype') || '-1');
+  if (
+    filterQuery < -1 ||
+    filterQuery >= Object.entries(BUSINESS_CATEGORY_STRINGS).length ||
+    isNaN(filterQuery)
+  ) {
+    filterQuery = -1;
+  }
+  let searchQuery = query.get('name') || '';
+
+  return {
+    filterQuery,
+    searchQuery
+  };
+};
+
 export const Home: React.FC = () => {
   const history = useHistory();
   const query = useQuery();
-  let filter = parseInt(query.get('businesstype') || '-1');
-  if (
-    filter < -1 ||
-    filter >= Object.entries(BUSINESS_CATEGORY_STRINGS).length
-  ) {
-    filter = -1;
-  }
 
+  // local state
   const [allBusiness, setAllBusiness] = useState<Business[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [params, setParams] = useState({ filter: -1, searchText: '' });
   const windowSize = useWindowSize();
+
   const isLargeWindowSize = windowSize?.width && windowSize.width >= 992;
 
   useEffect(() => {
-    const filterParam = filter >= 0 ? `?businesstype=${filter}` : '';
-    fetchUrl(`/api/listing/page/1${filterParam}`);
-  }, [filter]);
+    const { filterQuery, searchQuery } = parseUrl(query);
+    setParams({
+      filter: filterQuery,
+      searchText: searchQuery
+    });
+  }, []);
 
-  async function fetchUrl(url: string) {
+  useEffect(() => {
+    const filterParam =
+      params.filter >= 0 ? `businesstype=${params.filter}` : '';
+    const searchParam = params.searchText ? `name=${params.searchText}` : '';
+
+    let paramString = '';
+    if (filterParam || searchParam) {
+      paramString += '?';
+    }
+    if (filterParam) {
+      paramString += filterParam;
+      if (searchParam) {
+        paramString += '&';
+      }
+    }
+    if (searchParam) {
+      paramString += searchParam;
+    }
+
+    setLoading(true);
+    fetchUrl(`/api/listing/page/1${paramString}`);
+
+    history.push(`/${paramString}`);
+
+    // Scroll to top
+    const topOfCompanies = document.querySelector('#top-of-companies');
+    if (topOfCompanies && !isElementInView(topOfCompanies)) {
+      topOfCompanies.scrollIntoView({
+        behavior: 'smooth'
+      });
+    }
+  }, [params]);
+
+  const fetchUrl = async (url: string) => {
     const response = await fetch(url);
     const data = await response.json();
     if (response.ok) {
@@ -49,17 +100,6 @@ export const Home: React.FC = () => {
       setLoading(false);
       setError(true);
     }
-  }
-
-  const onSearch = (value: string) => {
-    // TODO: search
-  };
-
-  const gotoContact = () => {
-    history.push('/contact');
-  };
-  const gotoList = () => {
-    history.push('/list');
   };
 
   let companies;
@@ -76,26 +116,42 @@ export const Home: React.FC = () => {
       />
     );
   } else {
-    companies = isLargeWindowSize ? (
-      <>
-        <Col xl={4} lg={5}>
-          <BusinessFilterVertical filter={filter} />
-        </Col>
-        <Col xl={10} lg={12}>
-          {allBusiness.map(business => (
-            <BusinessCard {...business} key={business.id} />
-          ))}
-        </Col>
-      </>
-    ) : (
-      <Col md={16} sm={18} xs={24}>
-        <BusinessFilterHorizontal filter={filter} />
-        {allBusiness.map(business => (
-          <BusinessCard {...business} key={business.id} />
-        ))}
-      </Col>
-    );
+    companies = allBusiness.map(business => (
+      <BusinessCard {...business} key={business.id} />
+    ));
   }
+
+  const companiesGroup = isLargeWindowSize ? (
+    <>
+      <Col xl={4} lg={5}>
+        <BusinessFilterVertical
+          filter={params.filter}
+          setFilter={filter => setParams({ ...params, filter })}
+        />
+      </Col>
+      <Col xl={10} lg={12}>
+        <BusinessSearch
+          searchText={params.searchText}
+          setSearchText={searchText => setParams({ ...params, searchText })}
+        />
+        {companies}
+      </Col>
+    </>
+  ) : (
+    <Col md={16} sm={18} xs={24}>
+      <BusinessSearch
+        searchText={params.searchText}
+        setSearchText={searchText => setParams({ ...params, searchText })}
+        filterComponent={
+          <BusinessFilterHorizontal
+            filter={params.filter}
+            setFilter={filter => setParams({ ...params, filter })}
+          />
+        }
+      />
+      {companies}
+    </Col>
+  );
 
   return (
     <div>
@@ -104,10 +160,14 @@ export const Home: React.FC = () => {
           <Col xl={18} lg={18} md={20} sm={22} xs={24}>
             <Title level={3}>Hotdish</Title>
             <div className="right-nav">
-              <Button onClick={gotoContact} type="link" className="nav-link">
+              <Button
+                onClick={() => history.push('/contact')}
+                type="link"
+                className="nav-link"
+              >
                 Contact
               </Button>
-              <Button onClick={gotoList} type="primary">
+              <Button onClick={() => history.push('/list')} type="primary">
                 List a business
               </Button>
             </div>
@@ -136,9 +196,9 @@ export const Home: React.FC = () => {
         </Row>
       </Content>
       <Content className="company-content">
-        <Row justify="center" gutter={8}>
+        <Row justify="center" gutter={8} style={{ margin: '0' }}>
           <div id="top-of-companies" />
-          {companies}
+          {companiesGroup}
         </Row>
       </Content>
     </div>
