@@ -10,6 +10,7 @@ export interface TextFieldProps {
   subTitle?: string;
   placeHolder?: string;
   required?: boolean;
+  defaultValue?: string;
 }
 
 export type TextFieldType = 'name' | 'email' | 'phone' | 'url' | 'text';
@@ -25,41 +26,43 @@ export declare type RuleType =
 
 const { TextArea } = Input;
 
-export const TextField: React.FC<TextFieldProps> = props => {
+export const TextField: React.FC<TextFieldProps> = (props) => {
   let rules = [];
 
   if (props.type === 'email') {
     rules.push({
       type: 'email' as RuleType,
-      message: 'The ' + props.title.toLowerCase() + 'input is not valid.'
+      message: 'The ' + props.title.toLowerCase() + 'input is not valid.',
     });
   } else if (props.type === 'url') {
     rules.push({
       type: 'url' as RuleType,
-      message: 'The ' + props.title.toLowerCase() + 'input is not valid.'
+      message: 'The ' + props.title.toLowerCase() + 'input is not valid.',
     });
   } else if (props.type === 'phone') {
     rules.push({
       pattern: new RegExp(/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/),
-      message: 'The ' + props.title.toLowerCase() + 'input is not valid.'
+      message: 'The ' + props.title.toLowerCase() + 'input is not valid.',
     });
   } else {
     rules.push({
       type: 'string' as RuleType,
-      message: 'The ' + props.title.toLowerCase() + 'input is not valid.'
+      message: 'The ' + props.title.toLowerCase() + 'input is not valid.',
     });
   }
 
   rules.push({
     required: props.required,
-    message: 'Please input your ' + props.title.toLowerCase()
+    message: 'Please input your ' + props.title.toLowerCase(),
   });
 
-  const subTitle = props.subTitle ? (
-    <p className="subtitle">{props.subTitle}</p>
-  ) : (
-    <></>
-  );
+  // const subTitle = props.subTitle ? (
+  //   <p className="subtitle" key="subtitle">
+  //     {props.subTitle}
+  //   </p>
+  // ) : (
+  //   <></>
+  // );
 
   return (
     <span>
@@ -69,11 +72,21 @@ export const TextField: React.FC<TextFieldProps> = props => {
         rules={rules}
         className="hotdish-input"
       >
-        {subTitle}
         {props.type === 'text' ? (
-          <TextArea rows={5} placeholder={props.placeHolder} allowClear />
+          <TextArea
+            rows={5}
+            placeholder={props.placeHolder}
+            allowClear
+            defaultValue={props.defaultValue}
+          />
         ) : (
-          <Input min={8} max={12} placeholder={props.placeHolder} allowClear />
+          <Input
+            min={8}
+            max={12}
+            placeholder={props.placeHolder}
+            allowClear
+            defaultValue={props.defaultValue}
+          />
         )}
       </Form.Item>
     </span>

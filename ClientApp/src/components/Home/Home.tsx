@@ -1,33 +1,48 @@
 ﻿import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { Row, Col, Typography, Layout, Button, Spin, Alert, Input } from 'antd';
 import { BusinessCard } from '../BusinessCard';
-import { Business } from '../../types';
+import { Business, BUSINESS_CATEGORY_STRINGS } from '../../types';
+import {
+  BusinessFilterVertical,
+  BusinessFilterHorizontal
+} from '../BusinessFilter';
 
 import './Home.scss';
+import { useWindowSize } from './HomeHooks';
 
-const { Search } = Input;
 const { Header, Content } = Layout;
 const { Title } = Typography;
 
+const useQuery = () => new URLSearchParams(useLocation().search);
+
 export const Home: React.FC = () => {
-  let history = useHistory();
+  const history = useHistory();
+  const query = useQuery();
+  let filter = parseInt(query.get('businesstype') || '-1');
+  if (
+    filter < -1 ||
+    filter >= Object.entries(BUSINESS_CATEGORY_STRINGS).length
+  ) {
+    filter = -1;
+  }
 
   const [allBusiness, setAllBusiness] = useState<Business[]>([]);
-  const [businesslist, setBusinesslist] = useState<Business[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const windowSize = useWindowSize();
+  const isLargeWindowSize = windowSize?.width && windowSize.width >= 992;
 
   useEffect(() => {
-    fetchUrl('/api/listing/page/1');
-  }, []);
+    const filterParam = filter >= 0 ? `?businesstype=${filter}` : '';
+    fetchUrl(`/api/listing/page/1${filterParam}`);
+  }, [filter]);
 
   async function fetchUrl(url: string) {
     const response = await fetch(url);
     const data = await response.json();
     if (response.ok) {
       setAllBusiness(data);
-      setBusinesslist(data);
       setLoading(false);
       setError(false);
     } else {
@@ -37,15 +52,7 @@ export const Home: React.FC = () => {
   }
 
   const onSearch = (value: string) => {
-    if (value) {
-      setBusinesslist(
-        allBusiness.filter(business =>
-          business.name.toLowerCase().includes(value)
-        )
-      );
-    } else {
-      setBusinesslist(allBusiness);
-    }
+    // TODO: search
   };
 
   const gotoContact = () => {
@@ -69,15 +76,21 @@ export const Home: React.FC = () => {
       />
     );
   } else {
-    companies = (
-      <Col xl={12} lg={14} md={16} sm={18} xs={24}>
-        <Search
-          placeholder="Search for a business"
-          onSearch={value => onSearch(value)}
-          enterButton
-          className="business-search"
-        />
-        {businesslist.map(business => (
+    companies = isLargeWindowSize ? (
+      <>
+        <Col xl={4} lg={5}>
+          <BusinessFilterVertical filter={filter} />
+        </Col>
+        <Col xl={10} lg={12}>
+          {allBusiness.map(business => (
+            <BusinessCard {...business} key={business.id} />
+          ))}
+        </Col>
+      </>
+    ) : (
+      <Col md={16} sm={18} xs={24}>
+        <BusinessFilterHorizontal filter={filter} />
+        {allBusiness.map(business => (
           <BusinessCard {...business} key={business.id} />
         ))}
       </Col>
@@ -122,8 +135,11 @@ export const Home: React.FC = () => {
           </Col>
         </Row>
       </Content>
-      <Content>
-        <Row justify="center">{companies}</Row>
+      <Content className="company-content">
+        <Row justify="center" gutter={8}>
+          <div id="top-of-companies" />
+          {companies}
+        </Row>
       </Content>
     </div>
   );

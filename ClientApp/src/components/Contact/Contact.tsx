@@ -1,10 +1,10 @@
-import React from "react";
-import { Form, Modal, Button, Row, Col, Typography } from "antd";
-import { LeftOutlined } from "@ant-design/icons";
-import { useHistory } from "react-router-dom";
-import { TextField } from "../FormFields/TextField";
+import React from 'react';
+import { Form, Modal, Button, Row, Col, Typography } from 'antd';
+import { LeftOutlined } from '@ant-design/icons';
+import { useHistory } from 'react-router-dom';
+import { TextField } from '../FormFields/TextField';
 
-import "./Contact.scss";
+import './Contact.scss';
 
 const { Title } = Typography;
 
@@ -18,29 +18,29 @@ export const Contact: React.FC = () => {
 
   function success() {
     Modal.success({
-      content: "Your message was sent successfully.",
+      content: 'Your message was sent successfully.',
       onOk: () => goHome()
     });
   }
 
   function error() {
     Modal.error({
-      title: "Oops",
-      content: "There was a problem sending your message. Try again later.",
+      title: 'Oops',
+      content: 'There was a problem sending your message. Try again later.',
       onOk: () => goHome()
     });
   }
 
   function sendMessage(data: any) {
     const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     };
-    fetch("/api/contact/", requestOptions)
+    fetch('/api/contact/', requestOptions)
       .then(response => response)
       .then(data => {
-        console.log("RESPONSE", data);
+        console.log('RESPONSE', data);
         if (data.ok) {
           success();
         } else {
@@ -53,7 +53,7 @@ export const Contact: React.FC = () => {
   }
 
   const goHome = () => {
-    history.push("/");
+    history.push('/');
   };
 
   return (

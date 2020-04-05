@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
 import React from 'react';
-import { Button } from 'antd';
+import { Button, Tooltip } from 'antd';
 
 export interface BusinessLinksProps {
   giftCardUrl?: string;
@@ -11,19 +11,25 @@ export interface BusinessLinksProps {
 export const BusinessLinks: React.FC<BusinessLinksProps> = props => (
   <div className="business-links">
     {props.giftCardUrl && (
-      <Button type="dashed" href={props.giftCardUrl}>
-        🎁
-      </Button>
+      <Tooltip placement="bottom" title="Gift card">
+        <Button type="dashed" href={props.giftCardUrl}>
+          🎁
+        </Button>
+      </Tooltip>
     )}
     {props.phone && (
-      <Button type="dashed" href={`tel:${props.phone}`}>
-        📞
-      </Button>
+      <Tooltip placement="bottom" title="Call">
+        <Button type="dashed" href={`tel:${props.phone}`}>
+          📞
+        </Button>
+      </Tooltip>
     )}
     {props.webUrl && (
-      <Button type="dashed" href={props.webUrl}>
-        🌐
-      </Button>
+      <Tooltip placement="bottom" title="Website">
+        <Button type="dashed" href={props.webUrl}>
+          🌐
+        </Button>
+      </Tooltip>
     )}
   </div>
 );

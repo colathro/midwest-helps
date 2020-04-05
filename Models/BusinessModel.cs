@@ -1,47 +1,96 @@
 ﻿using getthehotdish.DataAccess;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text.Json.Serialization;
 
 namespace getthehotdish.Models
 {
     public class BusinessModel
     {
+        [JsonPropertyName("id")]
         public Guid Id { get; set; }
+
+        [JsonPropertyName("partitionKey")]
         public string PartitionKey { get; set; }
+
+        [JsonPropertyName("name")]
         public string Name { get; set; }
+
+        [JsonPropertyName("category")]
         public string Category { get; set; }
-        public int Hours { get; set; }
+
+        [JsonPropertyName("hours")]
+        public string Hours { get; set; }
+
+        [JsonPropertyName("phoneNumber")]
         public string PhoneNumber { get; set; }
+
+        [JsonPropertyName("website")]
         public string Website { get; set; }
+
+        [JsonPropertyName("message")]
         public string Message { get; set; }
+
+        [JsonPropertyName("facebookUrl")]
         public string FacebookUrl { get; set; }
+
+        [JsonPropertyName("instagramUrl")]
         public string InstagramUrl { get; set; }
+
+        [JsonPropertyName("liveStreamUrl")]
         public string LiveStreamUrl { get; set; }
+
+        [JsonPropertyName("orderUrl")]
         public string OrderUrl { get; set; }
+
+        [JsonPropertyName("giftCardUrl")]
         public string GiftCardUrl { get; set; }
+
+        [JsonPropertyName("interactions")]
         public List<string> Interactions { get; set; }
+
+        [JsonPropertyName("deliveryApps")]
         public List<string> DeliveryApps { get; set; }
 
+        [JsonPropertyName("address")]
+        public string Address { get; set; }
+
+        [JsonPropertyName("approved")]
+        public bool Approved { get; set; }
+
+        [JsonPropertyName("originalId")]
+        public Guid OriginalId { get; set; }
+
+        [JsonPropertyName("createdOn")]
+        public DateTime CreatedOn { get; set; }
+
+        public BusinessModel()
+        {
+        }
         public BusinessModel(Listing listing)
         {
             Id = listing.Id;
             PartitionKey = listing.PartitionKey;
             Name = listing.BusinessName;
             Category = Enum.GetName(typeof(BusinessType), listing.BusinessType);
-            Hours = listing.Hours;
+            Hours = Enum.GetName(typeof(BusinessHoursType), listing.Hours);
             PhoneNumber = listing.PhoneNumber;
             Website = listing.Website;
             Message = listing.MessageToCustomer;
             FacebookUrl = ""; // TODO: store facebook URL in Listing
             InstagramUrl = ""; // TODO: store instagram URL in Listing
             LiveStreamUrl = listing.LivestreamURL;
-            OrderUrl = ""; // TODO: store a business' online order link in Listing
+            OrderUrl = listing.OrderURL;
             GiftCardUrl = listing.GiftCardUrl;
+            Address = listing.Address;
+            CreatedOn = listing.CreatedOn;
+            OriginalId = listing.OriginalId;
 
             Interactions = new List<string>();
-            if (listing.BusinessChannels.HasFlag(BusinessChannelType.AppointmentOnly))
+            if (listing.BusinessChannels.HasFlag(BusinessChannelType.Appointment))
             {
-                Interactions.Add(BusinessChannelType.AppointmentOnly.ToString());
+                Interactions.Add(BusinessChannelType.Appointment.ToString());
             }
             if (listing.BusinessChannels.HasFlag(BusinessChannelType.CurbSide))
             {
@@ -98,66 +147,8 @@ namespace getthehotdish.Models
             ret.Id = b.Id;
             ret.PartitionKey = b.PartitionKey;
             ret.BusinessName = b.Name;
-            foreach (string category in Enum.GetNames(typeof(BusinessType)))
-            {
-                if (category.ToLower() == b.Category.ToLower())
-                {
-                    ret.BusinessType = (BusinessType)Enum.Parse(typeof(BusinessType), category);
-                }
-            }
-            ret.Hours = b.Hours;
-            ret.GiftCardUrl = b.GiftCardUrl;
-            ret.Website = b.Website;
-            ret.PhoneNumber = b.PhoneNumber;
-            ret.LivestreamURL = b.LiveStreamUrl;
-            ret.OrderURL = b.OrderUrl;
-            ret.MessageToCustomer = b.Message;
-
-            if (b.Interactions.Contains(BusinessChannelType.CurbSide.ToString()))
-            {
-                ret.BusinessChannels = ret.BusinessChannels | BusinessChannelType.CurbSide;
-            }
-            if (b.Interactions.Contains(BusinessChannelType.TakeOut.ToString()))
-            {
-                ret.BusinessChannels = ret.BusinessChannels | BusinessChannelType.TakeOut;
-            }
-            if (b.Interactions.Contains(BusinessChannelType.Delivery.ToString()))
-            {
-                ret.BusinessChannels = ret.BusinessChannels | BusinessChannelType.Delivery;
-            }
-            if (b.LiveStreamUrl.Length > 0)
-            {
-                ret.BusinessChannels = ret.BusinessChannels | BusinessChannelType.LiveStream;
-            }
-            if (b.Interactions.Contains(BusinessChannelType.AppointmentOnly.ToString()))
-            {
-                ret.BusinessChannels = ret.BusinessChannels | BusinessChannelType.AppointmentOnly;
-            }
-
-            if (b.DeliveryApps.Contains(DeliveryAppType.UberEats.ToString()))
-            {
-                ret.DeliveryApps = ret.DeliveryApps | DeliveryAppType.UberEats;
-            }
-            if (b.DeliveryApps.Contains(DeliveryAppType.Grubhub.ToString()))
-            {
-                ret.DeliveryApps = ret.DeliveryApps | DeliveryAppType.Grubhub;
-            }
-            if (b.DeliveryApps.Contains(DeliveryAppType.DoorDash.ToString()))
-            {
-                ret.DeliveryApps = ret.DeliveryApps | DeliveryAppType.DoorDash;
-            }
-            if (b.DeliveryApps.Contains(DeliveryAppType.Postmates.ToString()))
-            {
-                ret.DeliveryApps = ret.DeliveryApps | DeliveryAppType.Postmates;
-            }
-            if (b.DeliveryApps.Contains(DeliveryAppType.FoodDudes.ToString()))
-            {
-                ret.DeliveryApps = ret.DeliveryApps | DeliveryAppType.FoodDudes;
-            }
-            if (b.DeliveryApps.Contains(DeliveryAppType.BiteSquad.ToString()))
-            {
-                ret.DeliveryApps = ret.DeliveryApps | DeliveryAppType.BiteSquad;
-            }
+            ret.BusinessType = Enum.GetNames(typeof(BusinessType)).Where(h => h.ToLower() == b.Category.ToLower()).Select(c => (BusinessType)Enum.Parse(typeof(BusinessType), c)).FirstOrDefault();
+            ret.Update(b);
 
             return ret;
         }

@@ -1,8 +1,8 @@
 export interface Business {
-  id: string;
+  id?: string;
   name: string;
   category: BusinessCategory;
-  hours?: number;
+  hours?: BusinessHours;
   phoneNumber?: string;
   website?: string;
   message?: string;
@@ -16,46 +16,85 @@ export interface Business {
 }
 
 export type BusinessCategory =
-  | 'brewery'
-  | 'coffee'
-  | 'entertainment'
-  | 'grocery'
-  | 'other'
-  | 'religion'
-  | 'restaurant'
-  | 'retail'
-  | 'wellness'
-  | 'art'
-  | 'beauty';
+  | 'Brewery'
+  | 'Coffee'
+  | 'Entertainment'
+  | 'Grocery'
+  | 'Other'
+  | 'Religion'
+  | 'Restaurant'
+  | 'Retail'
+  | 'Wellness'
+  | 'Art'
+  | 'Beauty';
+
+export type BusinessHours = 'None' | 'Closed' | 'Limited' | 'Regular';
 
 export type BusinessDeliveryApp =
-  | 'uberEats'
-  | 'grubhub'
-  | 'doorDash'
-  | 'postmates'
-  | 'foodDudes'
-  | 'biteSquad';
+  | 'UberEats'
+  | 'Grubhub'
+  | 'DoorDash'
+  | 'Postmates'
+  | 'FoodDudes'
+  | 'BiteSquad';
+
+export const BUSINESS_DELIVERY_APP: {
+  [key in BusinessDeliveryApp]: string;
+} = {
+  UberEats: 'UberEats',
+  Grubhub: 'Grubhub',
+  DoorDash: 'DoorDash',
+  Postmates: 'Postmates',
+  FoodDudes: 'FoodDudes',
+  BiteSquad: 'BiteSquad'
+};
 
 export type BusinessInteraction =
-  | 'appointment'
-  | 'curbSide'
-  | 'delivery'
-  | 'liveStream'
-  | 'takeOut'
-  | 'driveThru';
+  | 'Appointment'
+  | 'CurbSide'
+  | 'Delivery'
+  | 'LiveStream'
+  | 'TakeOut'
+  | 'DriveThru';
+
+export const BUSINESS_INTERACTIONS: {
+  [key in BusinessInteraction]: string;
+} = {
+  Appointment: 'Appointment',
+  CurbSide: 'CurbSide',
+  Delivery: 'Delivery',
+  LiveStream: 'LiveStream',
+  TakeOut: 'TakeOut',
+  DriveThru: 'DriveThru'
+};
 
 export const BUSINESS_CATEGORY_STRINGS: {
-  [key in BusinessCategory]: string;
+  [key in BusinessCategory]: { name: string; value: number };
 } = {
-  art: '🎨 Art & Culture',
-  brewery: '🍸 Brewery & Distillery',
-  beauty: '💈 Beauty',
-  coffee: '☕ Coffee',
-  entertainment: '🎸 Entertainment',
-  grocery: '🛒 Grocery',
-  other: '📦 Other',
-  religion: '🙏 Religion & Spiritual',
-  restaurant: '🍔 Restaurant & Bar',
-  retail: '👕 Retail',
-  wellness: '🧡 Wellness'
+  Brewery: { name: '🍸 Brewery & Distillery', value: 0 },
+  Coffee: { name: '☕ Coffee', value: 1 },
+  Restaurant: { name: '🍔 Restaurant & Bar', value: 6 },
+  Art: { name: '🎨 Art & Culture', value: 9 },
+  Beauty: { name: '💈 Beauty', value: 10 },
+  Entertainment: { name: '🎸 Entertainment', value: 2 },
+  Grocery: { name: '🛒 Grocery', value: 3 },
+  Religion: { name: '🙏 Religion & Spiritual', value: 5 },
+  Retail: { name: '👕 Retail', value: 7 },
+  Wellness: { name: '🧡 Wellness', value: 8 },
+  Other: { name: '📦 Other', value: 4 }
 };
+
+export const BUSINESS_HOURS: {
+  [key in BusinessHours]: string;
+} = {
+  None: '',
+  Closed: '❌ — Closed',
+  Limited: '⏱ — Limited',
+  Regular: '✔ — Regular'
+};
+
+export enum ReportType {
+  innacurate = 1,
+  spam = 2,
+  offensive = 3
+}

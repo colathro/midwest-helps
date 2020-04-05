@@ -1,1 +1,2 @@
-export { BusinessFilter } from './BusinessFilter';
+export { BusinessFilterHorizontal } from './BusinessFilterHorizontal';
+export { BusinessFilterVertical } from './BusinessFilterVertical';

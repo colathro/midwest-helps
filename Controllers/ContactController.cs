@@ -28,7 +28,8 @@ namespace getthehotdish.Controllers
             {
                 await _notification.SendMessageReceivedEmailAsync(request.Name, request.Email, request.Message);
                 return Ok();
-            } catch
+            } 
+            catch
             {
                 return BadRequest();
             }
