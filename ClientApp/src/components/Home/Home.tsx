@@ -140,7 +140,7 @@ export const Home: React.FC = () => {
   } else {
     companies = (
       <InfiniteScroll
-        pageStart={2}
+        pageStart={1}
         loadMore={loadMore}
         hasMore={hasMoreBusinesses}
         loader={loader}
