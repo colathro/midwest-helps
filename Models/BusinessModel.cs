@@ -32,12 +32,6 @@ namespace getthehotdish.Models
         [JsonPropertyName("message")]
         public string Message { get; set; }
 
-        [JsonPropertyName("facebookUrl")]
-        public string FacebookUrl { get; set; }
-
-        [JsonPropertyName("instagramUrl")]
-        public string InstagramUrl { get; set; }
-
         [JsonPropertyName("liveStreamUrl")]
         public string LiveStreamUrl { get; set; }
 
@@ -78,8 +72,6 @@ namespace getthehotdish.Models
             PhoneNumber = listing.PhoneNumber;
             Website = listing.Website;
             Message = listing.MessageToCustomer;
-            FacebookUrl = ""; // TODO: store facebook URL in Listing
-            InstagramUrl = ""; // TODO: store instagram URL in Listing
             LiveStreamUrl = listing.LivestreamURL;
             OrderUrl = listing.OrderURL;
             GiftCardUrl = listing.GiftCardUrl;

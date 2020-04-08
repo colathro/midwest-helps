@@ -35,8 +35,6 @@ export const UpdateBusiness: React.FC<UpdateBusinessProps> = (props) => {
         : '',
       website: business.website || '',
       message: business.message || '',
-      facebookUrl: business.facebookUrl || '',
-      instagramUrl: business.instagramUrl || '',
       liveStreamUrl: business.liveStreamUrl || '',
       orderUrl: business.orderUrl || '',
       giftCardUrl: business.giftCardUrl || '',
