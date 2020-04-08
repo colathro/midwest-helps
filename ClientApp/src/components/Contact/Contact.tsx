@@ -3,8 +3,10 @@ import { Form, Modal, Button, Row, Col, Typography } from 'antd';
 import { LeftOutlined } from '@ant-design/icons';
 import { useHistory } from 'react-router-dom';
 import { TextField } from '../FormFields/TextField';
+import { ContributorCards } from './ContributorCards';
 
 import './Contact.scss';
+import { ContributorCard } from './ContributorCards/ContributorCard';
 
 const { Title } = Typography;
 
@@ -19,7 +21,7 @@ export const Contact: React.FC = () => {
   function success() {
     Modal.success({
       content: 'Your message was sent successfully.',
-      onOk: () => goHome()
+      onOk: () => goHome(),
     });
   }
 
@@ -27,7 +29,7 @@ export const Contact: React.FC = () => {
     Modal.error({
       title: 'Oops',
       content: 'There was a problem sending your message. Try again later.',
-      onOk: () => goHome()
+      onOk: () => goHome(),
     });
   }
 
@@ -35,11 +37,11 @@ export const Contact: React.FC = () => {
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     };
     fetch('/api/contact/', requestOptions)
-      .then(response => response)
-      .then(data => {
+      .then((response) => response)
+      .then((data) => {
         console.log('RESPONSE', data);
         if (data.ok) {
           success();
@@ -47,7 +49,7 @@ export const Contact: React.FC = () => {
           error();
         }
       })
-      .catch(function() {
+      .catch(function () {
         error();
       });
   }
@@ -102,6 +104,7 @@ export const Contact: React.FC = () => {
             </Button>
           </Form.Item>
         </Form>
+        <ContributorCards></ContributorCards>
       </Col>
     </Row>
   );

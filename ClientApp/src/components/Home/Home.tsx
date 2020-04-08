@@ -5,7 +5,7 @@ import { BusinessCard } from '../BusinessCard';
 import { Business, BUSINESS_CATEGORY_STRINGS } from '../../types';
 import {
   BusinessFilterVertical,
-  BusinessFilterHorizontal
+  BusinessFilterHorizontal,
 } from '../BusinessFilter';
 import { useWindowSize } from '../../globalHooks';
 import { BusinessSearch } from '../BusinessSearch';
@@ -32,7 +32,7 @@ const parseUrl = (query: URLSearchParams) => {
 
   return {
     filterQuery,
-    searchQuery
+    searchQuery,
   };
 };
 
@@ -75,7 +75,7 @@ export const Home: React.FC = () => {
     const { filterQuery, searchQuery } = parseUrl(query);
     setParams({
       filter: filterQuery,
-      searchText: searchQuery
+      searchText: searchQuery,
     });
   }, []);
 
@@ -86,7 +86,7 @@ export const Home: React.FC = () => {
     setLoading(true);
     setHasMoreBusinesses(true);
     fetchUrl(`/api/listing/page/1${paramString}`)
-      .then(data => {
+      .then((data) => {
         setAllBusiness(data);
         setLoading(false);
         setError(false);
@@ -100,14 +100,6 @@ export const Home: React.FC = () => {
       });
 
     history.push(`/${paramString}`);
-
-    // Scroll to top
-    const topOfCompanies = document.querySelector('#top-of-companies');
-    if (topOfCompanies && !isElementInView(topOfCompanies)) {
-      topOfCompanies.scrollIntoView({
-        behavior: 'smooth'
-      });
-    }
   }, [params]);
 
   const fetchUrl = async (url: string) => {
@@ -119,7 +111,7 @@ export const Home: React.FC = () => {
     const paramString = createParamString(params.filter, params.searchText);
 
     fetchUrl(`/api/listing/page/${pageNum}${paramString}`)
-      .then(data => {
+      .then((data) => {
         setAllBusiness([...allBusiness, ...data]);
         setError(false);
         if (data.length < 10) {
@@ -148,12 +140,12 @@ export const Home: React.FC = () => {
   } else {
     companies = (
       <InfiniteScroll
-        pageStart={2}
+        pageStart={1}
         loadMore={loadMore}
         hasMore={hasMoreBusinesses}
         loader={loader}
       >
-        {allBusiness.map(business => (
+        {allBusiness.map((business) => (
           <BusinessCard {...business} key={business.id} />
         ))}
       </InfiniteScroll>
@@ -165,13 +157,13 @@ export const Home: React.FC = () => {
       <Col xl={4} lg={5}>
         <BusinessFilterVertical
           filter={params.filter}
-          setFilter={filter => setParams({ ...params, filter })}
+          setFilter={(filter) => setParams({ ...params, filter })}
         />
       </Col>
       <Col xl={10} lg={12}>
         <BusinessSearch
           searchText={params.searchText}
-          setSearchText={searchText => setParams({ ...params, searchText })}
+          setSearchText={(searchText) => setParams({ ...params, searchText })}
         />
         {companies}
       </Col>
@@ -180,11 +172,11 @@ export const Home: React.FC = () => {
     <Col md={16} sm={18} xs={24}>
       <BusinessSearch
         searchText={params.searchText}
-        setSearchText={searchText => setParams({ ...params, searchText })}
+        setSearchText={(searchText) => setParams({ ...params, searchText })}
         filterComponent={
           <BusinessFilterHorizontal
             filter={params.filter}
-            setFilter={filter => setParams({ ...params, filter })}
+            setFilter={(filter) => setParams({ ...params, filter })}
           />
         }
       />
@@ -236,7 +228,6 @@ export const Home: React.FC = () => {
       </Content>
       <Content className="company-content">
         <Row justify="center" gutter={8} style={{ margin: '0' }}>
-          <div id="top-of-companies" />
           {companiesGroup}
         </Row>
       </Content>
