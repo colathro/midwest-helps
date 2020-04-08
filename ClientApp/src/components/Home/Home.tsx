@@ -9,7 +9,6 @@ import {
 } from '../BusinessFilter';
 import { useWindowSize } from '../../globalHooks';
 import { BusinessSearch } from '../BusinessSearch';
-import { isElementInView } from '../../utils';
 import InfiniteScroll from 'react-infinite-scroller';
 
 import './Home.scss';
