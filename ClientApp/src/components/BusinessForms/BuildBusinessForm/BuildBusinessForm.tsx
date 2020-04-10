@@ -243,8 +243,6 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = (props) => {
       hours: props.businessModel.hours,
       phoneNumber: props.businessModel.phoneNumber,
       website: props.businessModel.website,
-      facebookUrl: props.businessModel.facebookUrl,
-      instagramUrl: props.businessModel.instagramUrl,
       liveStreamUrl: props.businessModel.liveStreamUrl,
       orderUrl: props.businessModel.orderUrl,
       message: props.businessModel.message,
@@ -321,24 +319,6 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = (props) => {
               subTitle="If your business has a web page that you would like to share, enter the link here"
               required={false}
               defaultValue={props.businessModel?.website}
-            />
-            <TextField
-              name="facebookUrl"
-              title="Facebook link"
-              type="url"
-              placeHolder="https://www.facebook.com/businessname"
-              subTitle="If your business has a Facebook page that you would like to share, enter the link here"
-              required={false}
-              defaultValue={props.businessModel?.facebookUrl}
-            />
-            <TextField
-              name="instagramUrl"
-              title="Instagram link"
-              type="url"
-              placeHolder="https://www.instagram.com/businessname"
-              subTitle="If your business has a Instagram page that you would like to share, enter the link here"
-              required={false}
-              defaultValue={props.businessModel?.instagramUrl}
             />
             <TextField
               name="liveStreamUrl"

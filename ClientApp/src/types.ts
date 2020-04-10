@@ -6,8 +6,6 @@ export interface Business {
   phoneNumber?: string;
   website?: string;
   message?: string;
-  facebookUrl?: string;
-  instagramUrl?: string;
   liveStreamUrl?: string;
   orderUrl?: string;
   giftCardUrl?: string;
@@ -46,7 +44,7 @@ export const BUSINESS_DELIVERY_APP: {
   DoorDash: 'DoorDash',
   Postmates: 'Postmates',
   FoodDudes: 'FoodDudes',
-  BiteSquad: 'BiteSquad'
+  BiteSquad: 'BiteSquad',
 };
 
 export type BusinessInteraction =
@@ -65,7 +63,7 @@ export const BUSINESS_INTERACTIONS: {
   Delivery: 'Delivery',
   LiveStream: 'LiveStream',
   TakeOut: 'TakeOut',
-  DriveThru: 'DriveThru'
+  DriveThru: 'DriveThru',
 };
 
 export const BUSINESS_CATEGORY_STRINGS: {
@@ -81,7 +79,7 @@ export const BUSINESS_CATEGORY_STRINGS: {
   Religion: { name: '🙏 Religion & Spiritual', value: 5 },
   Retail: { name: '👕 Retail', value: 7 },
   Wellness: { name: '🧡 Wellness', value: 8 },
-  Other: { name: '📦 Other', value: 4 }
+  Other: { name: '📦 Other', value: 4 },
 };
 
 export const BUSINESS_HOURS: {
@@ -90,11 +88,11 @@ export const BUSINESS_HOURS: {
   None: '',
   Closed: '❌ — Closed',
   Limited: '⏱ — Limited',
-  Regular: '✔ — Regular'
+  Regular: '✔ — Regular',
 };
 
 export enum ReportType {
   innacurate = 1,
   spam = 2,
-  offensive = 3
+  offensive = 3,
 }
