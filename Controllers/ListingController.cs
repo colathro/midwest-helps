@@ -136,12 +136,20 @@ namespace getthehotdish.Controllers
         [HttpGet("approvals/get/{key}")]
         public async Task<ICollection<BusinessModel>> GetApprovals(string key)
         {
+            if (!CheckAdmin(key))
+            {
+                throw new Exception("bad key");
+            }
             return _dataContext.Listings.Where(l => l.PartitionKey == partitionKey && l.Approved == false).Select(l => new BusinessModel(l)).ToList();
         }
 
         [HttpPost("approvals/approve/{key}/{post}")]
         public async Task<IActionResult> Approve(string key, string post)
         {
+            if (!CheckAdmin(key))
+            {
+                return BadRequest();
+            }
             try
             {
                 // get ref to new listing
@@ -188,6 +196,10 @@ namespace getthehotdish.Controllers
         [HttpPost("approvals/deny/{key}/{post}")]
         public async Task<IActionResult> Deny(string key, string post)
         {
+            if (!CheckAdmin(key))
+            {
+                return BadRequest();
+            }
             try
             {
                 var listing = _dataContext.Listings.Where(l => l.Id == Guid.Parse(post) 
@@ -207,6 +219,11 @@ namespace getthehotdish.Controllers
             {
                 throw ex;
             }
+        }
+
+        public bool CheckAdmin(string key)
+        {
+            return key == _adminSettings.Key;
         }
 
         [HttpGet]
