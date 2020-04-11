@@ -70,6 +70,12 @@ namespace getthehotdish
                     notificationSettings.EmailNotificationSettings.EmailSender,
                     Configuration["NOTIFICATION_EMAIL_PASSWORD"]);
             });
+
+            services.AddSingleton<AdminSettings>(new AdminSettings
+            {
+                Key = Configuration["ADMIN_KEY"]
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

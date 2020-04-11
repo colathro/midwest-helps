@@ -18,11 +18,13 @@ namespace getthehotdish.Controllers
 
         private readonly ILogger<ListingController> _logger;
         private DataContext _dataContext;
+        private AdminSettings _adminSettings;
 
-        public ListingController(ILogger<ListingController> logger, DataContext dataContext)
+        public ListingController(ILogger<ListingController> logger, DataContext dataContext, AdminSettings adminSettings)
         {
             _logger = logger;
             _dataContext = dataContext;
+            _adminSettings = adminSettings;
         }
 
         [HttpGet]
