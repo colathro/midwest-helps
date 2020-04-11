@@ -39,7 +39,7 @@
   },
   "scripts": {
     "start": "rimraf ./build && react-app-rewired start",
-    "build": "react-app-rewired build",
+    "build": "set \"CI=false\" && react-app-rewired build",
     "test": "cross-env CI=true react-app-rewired test --env=jsdom",
     "lint": "eslint ./src/"
   },
