@@ -19,4 +19,8 @@
       display: none;
     }
   }
+
+  .contact-submit:hover {
+    background-color: lighten(black, 20%);
+  }
 }

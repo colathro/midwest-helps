@@ -4,13 +4,15 @@ module.exports = override(
   fixBabelImports('import', {
     libraryName: 'antd',
     libraryDirectory: 'es',
-    style: true
+    style: true,
   }),
   addLessLoader({
     javascriptEnabled: true,
     modifyVars: {
-      '@primary-color': '#582BD9',
-      '@font-family': 'Inter, sans-serif'
-    }
+      '@primary-color': '#000',
+      '@layout-body-background': '#fff',
+      '@font-family': 'Inter, sans-serif',
+      '@border-radius-base': '8px',
+    },
   })
 );

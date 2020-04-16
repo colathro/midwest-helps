@@ -99,7 +99,7 @@ export const Contact: React.FC = () => {
             required={true}
           />
           <Form.Item>
-            <Button type="primary" htmlType="submit">
+            <Button className="contact-submit" type="primary" htmlType="submit">
               Submit
             </Button>
           </Form.Item>

@@ -6,16 +6,15 @@ import './BusinessFilter.scss';
 
 export const BusinessFilterVertical: React.FC<BusinessFilterProps> = ({
   filter,
-  setFilter
+  setFilter,
 }) => (
   <Affix offsetTop={72}>
     <Menu
       id="business-filter-group-vertical"
-      onClick={e => setFilter(parseInt(e.key))}
+      onClick={(e) => setFilter(parseInt(e.key))}
       mode="vertical-left"
       selectedKeys={[`${filter}`]}
     >
-      <p className="filter-title">Filter</p>
       {Object.entries(filterOptions).map(([_, vals]) => (
         <Menu.Item key={vals.value}>{vals.name}</Menu.Item>
       ))}
