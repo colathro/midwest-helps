@@ -1,5 +1,20 @@
 .business-search {
   margin-top: 8px;
   margin-bottom: 8px;
-  box-shadow: 0 2px 2px 0px rgba(0, 0, 0, 0.13);
+  border-radius: 8px;
+
+  .ant-input-search {
+    background-color: #eff2f8;
+
+    &:hover,
+    &:focus,
+    &:active,
+    &:focus-within {
+      border: 1px solid darken(#d9d9d9, 15%);
+    }
+  }
+
+  input {
+    background: none;
+  }
 }

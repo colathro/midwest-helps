@@ -206,7 +206,7 @@ export const Home: React.FC = () => {
       </Header>
       <Content className="header-greeting">
         <Row justify="center">
-          <Col xl={16} lg={16} md={18} sm={20} xs={22}>
+          <Col xl={14} lg={17} md={16} sm={18} xs={22}>
             <Title level={1}>
               Dishin' out hot updates for businesses in Fargo
             </Title>

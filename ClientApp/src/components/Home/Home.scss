@@ -1,4 +1,4 @@
-$primary-color: #582bd9;
+$primary-color: #eff2f8;
 $header-height: 72px;
 
 .header-fixed {
@@ -6,14 +6,13 @@ $header-height: 72px;
   z-index: 1;
   width: 100%;
   height: $header-height;
-  background-color: $primary-color;
+  background-color: white;
 
   @media screen and (max-width: 768px) {
     padding: 0 12px;
   }
 
   h3 {
-    color: white;
     display: inline-block;
     margin-top: 20px;
     margin-bottom: 20px;
@@ -24,21 +23,21 @@ $header-height: 72px;
   float: right;
   margin-top: 4px;
   .nav-link {
-    color: white;
+    color: black;
+    font-weight: bold;
     &:hover {
-      color: darken(white, 10%);
+      color: lighten(black, 15%);
     }
   }
 
   .ant-btn-primary {
-    background-color: white;
-    border-color: white;
-    color: $primary-color;
+    background-color: black;
+    color: white;
     font-weight: bold;
+    border: none;
 
     &:hover {
-      background-color: darken(white, 10%);
-      border-color: darken(white, 10%);
+      background-color: lighten(black, 20%);
     }
   }
 
@@ -50,16 +49,14 @@ $header-height: 72px;
 }
 
 main.header-greeting {
+  background-color: $primary-color;
   $vertical-padding: 24px;
-  background: $primary-color;
   padding-top: $header-height + $vertical-padding;
   padding-bottom: $vertical-padding + 24px;
-  h1 {
-    color: white;
-  }
+  margin-bottom: 12px;
+
   article {
     font-size: 16px;
-    color: white;
   }
 }
 

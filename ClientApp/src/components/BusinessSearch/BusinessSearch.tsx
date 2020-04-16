@@ -15,7 +15,7 @@ const { Search } = Input;
 export const BusinessSearch: React.FC<BusinessSearchProps> = ({
   searchText,
   setSearchText,
-  filterComponent
+  filterComponent,
 }) => {
   const windowSize = useWindowSize();
   const isLargeWindowSize = windowSize?.width && windowSize.width >= 992;
@@ -26,9 +26,11 @@ export const BusinessSearch: React.FC<BusinessSearchProps> = ({
         <Search
           addonBefore={filterComponent}
           allowClear
-          placeholder="Search for a business..."
+          placeholder={
+            isLargeWindowSize ? 'Search for a business...' : 'Search...'
+          }
           value={searchText}
-          onChange={e => setSearchText(e.target.value)}
+          onChange={(e) => setSearchText(e.target.value)}
         />
       </div>
     </Affix>

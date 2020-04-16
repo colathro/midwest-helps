@@ -10,6 +10,6 @@ export interface BusinessFilterProps {
 export const filterOptions: {
   [category in BusinessCategoryAndDefault]: { name: string; value: number };
 } = {
-  all: { name: '🏙 All', value: -1 },
-  ...BUSINESS_CATEGORY_STRINGS
+  all: { name: 'All Businesses', value: -1 },
+  ...BUSINESS_CATEGORY_STRINGS,
 };

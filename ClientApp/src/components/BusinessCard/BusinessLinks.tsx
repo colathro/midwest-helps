@@ -8,25 +8,25 @@ export interface BusinessLinksProps {
   webUrl?: string;
 }
 
-export const BusinessLinks: React.FC<BusinessLinksProps> = props => (
+export const BusinessLinks: React.FC<BusinessLinksProps> = (props) => (
   <div className="business-links">
     {props.giftCardUrl && (
       <Tooltip placement="bottom" title="Gift card">
-        <Button type="dashed" href={props.giftCardUrl}>
+        <Button shape="circle" href={props.giftCardUrl}>
           🎁
         </Button>
       </Tooltip>
     )}
     {props.phone && (
       <Tooltip placement="bottom" title="Call">
-        <Button type="dashed" href={`tel:${props.phone}`}>
+        <Button shape="circle" href={`tel:${props.phone}`}>
           📞
         </Button>
       </Tooltip>
     )}
     {props.webUrl && (
       <Tooltip placement="bottom" title="Website">
-        <Button type="dashed" href={props.webUrl}>
+        <Button shape="circle" href={props.webUrl}>
           🌐
         </Button>
       </Tooltip>

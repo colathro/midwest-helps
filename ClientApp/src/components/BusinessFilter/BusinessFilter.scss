@@ -1,13 +1,36 @@
+.business-search .ant-input-search {
+  border-radius: 8px;
+}
+
 #business-filter-group-vertical {
-  margin-top: 8px;
-  .filter-title {
-    line-height: normal;
-    margin-bottom: 8px;
-    padding: 4px 0;
-    padding-left: 16px;
-    margin-top: 10px;
+  margin-top: 4px;
+  border: none;
+
+  li {
     font-weight: bold;
     font-size: 16px;
+    color: #abb0bf;
+    background: none;
+
+    &:hover {
+      color: darken(#abb0bf, 15%);
+    }
+
+    &.ant-menu-item-selected {
+      color: black;
+
+      &:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 12%;
+        background-color: black;
+        width: 4px;
+        border-radius: 4px;
+        height: 75%;
+        display: inline-block;
+      }
+    }
   }
 }
 

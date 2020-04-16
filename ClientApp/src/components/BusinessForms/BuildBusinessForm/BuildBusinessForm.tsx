@@ -383,7 +383,7 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = (props) => {
         )}
 
       <Form.Item>
-        <Button type="primary" htmlType="submit" block>
+        <Button className="business-submit" type="primary" htmlType="submit">
           {!props.businessModel ? 'Submit' : 'Update'}
         </Button>
       </Form.Item>

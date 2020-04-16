@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Card, Button, Dropdown, Menu, Modal } from 'antd';
-
+import React, { useState } from 'react';
+import { Card } from 'antd';
 import { BusinessCategoryTag } from './BusinessCategoryTag';
 import { BusinessInteractions } from './BusinessInteractions';
 import { BusinessLinks } from './BusinessLinks';
@@ -9,9 +8,7 @@ import { UserActions } from './UserActions';
 
 import './BusinessCard.scss';
 
-const { confirm } = Modal;
-
-export const BusinessCard: React.FC<Business> = props => {
+export const BusinessCard: React.FC<Business> = (props) => {
   const [business, setBusiness] = useState(props);
 
   return (
@@ -28,7 +25,7 @@ export const BusinessCard: React.FC<Business> = props => {
       >
         <BusinessCategoryTag category={business.category} />
         <p>{business.message}</p>
-        <div className="business-tags">
+        <div>
           <BusinessInteractions interactions={business.interactions} />
           <BusinessLinks
             giftCardUrl={business.giftCardUrl}
