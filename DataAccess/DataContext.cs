@@ -1,14 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.ApplicationInsights;
-using System;
-using System.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace getthehotdish.DataAccess
 {
@@ -16,24 +6,22 @@ namespace getthehotdish.DataAccess
     {
         public DbSet<Listing> Listings { get; set; }
 
+        public DbSet<MaskRequest> MaskRequests { get; set; }
+
         public DataContext(DbContextOptions<DataContext> options)
         : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasDefaultContainer("Listings");
+            modelBuilder.HasDefaultContainer("Content");
 
-            modelBuilder.Entity<Listing>()
-                .ToContainer("Listings");
+            modelBuilder.Entity<Listing>().ToContainer("Content");
+            modelBuilder.Entity<Listing>().HasAlternateKey(l => l.Id);
+            modelBuilder.Entity<Listing>().HasPartitionKey(o => o.PartitionKey);
 
-            modelBuilder.Entity<Listing>()
-                .HasNoDiscriminator();
-
-            modelBuilder.Entity<Listing>()
-                .HasAlternateKey(l => l.Id);
-
-            modelBuilder.Entity<Listing>()
-                .HasPartitionKey(o => o.PartitionKey);
+            modelBuilder.Entity<MaskRequest>().ToContainer("Content");
+            modelBuilder.Entity<MaskRequest>().HasAlternateKey(l => l.Id);
+            modelBuilder.Entity<MaskRequest>().HasPartitionKey(o => o.PartitionKey);
         }
     }
 }
