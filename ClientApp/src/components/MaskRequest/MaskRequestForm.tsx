@@ -8,8 +8,8 @@ export interface MaskRequestFormProps {
 }
 
 export const MaskRequestForm: React.FC<MaskRequestFormProps> = (props) => {
-  const onFinish = (business: any) => {
-    props.onSubmit(business);
+  const onFinish = (maskRequest: any) => {
+    props.onSubmit(maskRequest);
   };
 
   const [form] = Form.useForm();
@@ -18,7 +18,7 @@ export const MaskRequestForm: React.FC<MaskRequestFormProps> = (props) => {
     <Form
       form={form}
       layout="vertical"
-      name="create-business-form"
+      name="mask-request-form"
       onFinish={onFinish}
       scrollToFirstError
     >
@@ -33,7 +33,11 @@ export const MaskRequestForm: React.FC<MaskRequestFormProps> = (props) => {
         required={false}
       />
       <Form.Item>
-        <Button className="business-submit" type="primary" htmlType="submit">
+        <Button
+          className="mask-request-submit"
+          type="primary"
+          htmlType="submit"
+        >
           Next
         </Button>
       </Form.Item>
