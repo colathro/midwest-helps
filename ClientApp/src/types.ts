@@ -96,3 +96,9 @@ export enum ReportType {
   spam = 2,
   offensive = 3,
 }
+
+export interface MaskRequest {
+  id?: string;
+  partitionKey: string;
+  createdOn: string;
+}
