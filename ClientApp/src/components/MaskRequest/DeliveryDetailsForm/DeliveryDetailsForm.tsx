@@ -1,13 +1,14 @@
 import React from 'react';
 import { Form, Button } from 'antd';
-import { TextField } from '../FormFields/TextField';
-import './MaskRequestForm.scss';
+import { TextField } from '../../FormFields/TextField';
 
-export interface MaskRequestFormProps {
+export interface DeliveryDetailsFormProps {
   onSubmit: (maskRequest: any) => void;
 }
 
-export const MaskRequestForm: React.FC<MaskRequestFormProps> = (props) => {
+export const DeliveryDetailsForm: React.FC<DeliveryDetailsFormProps> = (
+  props
+) => {
   const onFinish = (maskRequest: any) => {
     props.onSubmit(maskRequest);
   };

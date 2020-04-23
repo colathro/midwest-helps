@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Radio } from 'antd';
+import { Form, Radio, Row, Col } from 'antd';
 
 import '../FormFields.scss';
 
@@ -22,11 +22,15 @@ export const RadioGroup: React.FC<RadioGroupProps> = (props) => {
   return (
     <Form.Item name={props.name} label={props.title} className="hotdish-input">
       <Radio.Group>
-        {props.radioItems.map((item, index) => (
-          <Radio key={index} value={item.value} defaultChecked={item.checked}>
-            {item.label}
-          </Radio>
-        ))}
+        <Row>
+          {props.radioItems.map((item, index) => (
+            <Col key={index} span={16}>
+              <Radio value={item.value} defaultChecked={item.checked}>
+                {item.label}
+              </Radio>
+            </Col>
+          ))}
+        </Row>
       </Radio.Group>
     </Form.Item>
   );

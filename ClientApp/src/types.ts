@@ -102,3 +102,18 @@ export interface MaskRequest {
   partitionKey: string;
   createdOn: string;
 }
+
+export type MaskFor =
+  | 'MedicalFacility'
+  | 'NonProfit'
+  | 'EssentialWorker'
+  | 'Myself';
+
+export const MASKFOR: {
+  [key in MaskFor]: string;
+} = {
+  MedicalFacility: 'Medical professionals or medical facility',
+  NonProfit: 'Non-profit',
+  EssentialWorker: 'Essential worker',
+  Myself: 'Myself or family',
+};
