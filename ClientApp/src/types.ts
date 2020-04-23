@@ -117,3 +117,20 @@ export const MASKFOR: {
   EssentialWorker: 'Essential worker',
   Myself: 'Myself or family',
 };
+
+export type MaskType =
+  | 'Fabric'
+  | 'FaceShield'
+  | 'EarGuards'
+  | 'ScrubCaps'
+  | 'Others';
+
+export const MASKTYPE: {
+  [key in MaskType]: string;
+} = {
+  Fabric: 'Fabric masks',
+  FaceShield: 'Face shields',
+  EarGuards: 'Ear guards',
+  ScrubCaps: 'Scrub caps',
+  Others: 'Others',
+};

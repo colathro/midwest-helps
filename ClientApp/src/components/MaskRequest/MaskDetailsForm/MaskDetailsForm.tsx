@@ -1,12 +1,45 @@
 import React from 'react';
 import { Form, Button } from 'antd';
 import { TextField } from '../../FormFields/TextField';
+import {
+  CheckboxItem,
+  CheckboxGroup,
+} from '../../FormFields/CheckboxGroup/CheckboxGroup';
+import { MASKTYPE, MaskType } from '../../../types';
 
 export interface MaskDetailsFormProps {
   onSubmit: (maskRequest: any) => void;
 }
 
 export const MaskDetailsForm: React.FC<MaskDetailsFormProps> = (props) => {
+  const checkboxItems: CheckboxItem[] = [
+    {
+      label: MASKTYPE['Fabric'],
+      value: 'Fabric' as MaskType,
+      checked: false,
+    },
+    {
+      label: MASKTYPE['FaceShield'],
+      value: 'FaceShield' as MaskType,
+      checked: false,
+    },
+    {
+      label: MASKTYPE['EarGuards'],
+      value: 'EarGuards' as MaskType,
+      checked: false,
+    },
+    {
+      label: MASKTYPE['ScrubCaps'],
+      value: 'ScrubCaps' as MaskType,
+      checked: false,
+    },
+    {
+      label: MASKTYPE['Others'],
+      value: 'Others' as MaskType,
+      checked: false,
+    },
+  ];
+
   const onFinish = (maskRequest: any) => {
     props.onSubmit(maskRequest);
   };
@@ -21,15 +54,16 @@ export const MaskDetailsForm: React.FC<MaskDetailsFormProps> = (props) => {
       onFinish={onFinish}
       scrollToFirstError
     >
-      <TextField name="name" title="Name" type="name" required={true} />
-      <TextField name="email" title="Email" type="email" required={true} />
-      <TextField name="company" title="Company" type="name" required={true} />
+      <CheckboxGroup
+        name="maskFor"
+        title="What type of masks are you in need of?"
+        checkboxItems={checkboxItems}
+      ></CheckboxGroup>
       <TextField
-        name="phoneNumber"
-        title="Phone"
-        type="phone"
-        placeHolder="701-123-4567"
-        required={false}
+        name="maskRequirements"
+        title="Mask requirements"
+        type="text"
+        placeHolder="Provide any details, instructions, or links for those making the masks"
       />
       <Form.Item>
         <Button
@@ -37,7 +71,7 @@ export const MaskDetailsForm: React.FC<MaskDetailsFormProps> = (props) => {
           type="primary"
           htmlType="submit"
         >
-          Next
+          Continue
         </Button>
       </Form.Item>
     </Form>

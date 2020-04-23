@@ -34,7 +34,7 @@ export const Masks: React.FC = () => {
           displayMaskRequestForm(true);
         }}
       >
-        List a business
+        Request masks
       </Button>
     </>
   );

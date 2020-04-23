@@ -51,15 +51,19 @@ export const GetStartedForm: React.FC<GetStartedFormProps> = (props) => {
         title="Who are the masks for?"
         radioItems={radioItems}
       ></RadioGroup>
-      <TextField name="name" title="Name" type="name" required={true} />
-      <TextField name="email" title="Email" type="email" required={true} />
-      <TextField name="company" title="Company" type="name" required={true} />
+      <TextField name="name" type="name" placeHolder="Name" required={true} />
+      <TextField name="company" type="name" placeHolder="Company" />
+      <TextField
+        name="email"
+        type="email"
+        placeHolder="Email"
+        required={true}
+      />
       <TextField
         name="phoneNumber"
-        title="Phone"
         type="phone"
-        placeHolder="701-123-4567"
-        required={false}
+        placeHolder="Phone number"
+        required={true}
       />
       <Form.Item>
         <Button className="get-started-submit" type="primary" htmlType="submit">

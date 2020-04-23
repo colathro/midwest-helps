@@ -39,7 +39,7 @@ export const DeliveryDetailsForm: React.FC<DeliveryDetailsFormProps> = (
           type="primary"
           htmlType="submit"
         >
-          Next
+          Review
         </Button>
       </Form.Item>
     </Form>
