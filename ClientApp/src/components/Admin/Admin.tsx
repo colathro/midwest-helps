@@ -1,6 +1,7 @@
 import React from 'react';
 import { Layout, PageHeader, Tabs, Button, Modal } from 'antd';
-import { useHistory, Switch, Route } from 'react-router-dom';
+import { useHistory, Switch, Route, useLocation } from 'react-router-dom';
+import { MaskRequestApprovals } from './Pages/MaskRequestApprovals';
 import { ListingApprovals } from './Pages/ListingApprovals';
 import { FreeMoney } from './Pages/FreeMoney';
 
@@ -8,16 +9,21 @@ import './Admin.scss';
 
 const { TabPane } = Tabs;
 
+const useQuery = () => new URLSearchParams(useLocation().search);
+
 export const Admin: React.FC = () => {
   let history = useHistory();
+  const query = useQuery();
+
+  let key = query.get('key');
 
   const onFinish = (values: any) => {
     console.log(values);
     sendMessage(values);
   };
 
-  function gotoFreeMoney() {
-    history.push('/admin/freemoney');
+  function gotoMaskRequests() {
+    history.push(`/admin/maskrequests?key=${key}`);
   }
 
   function success() {
@@ -67,13 +73,13 @@ export const Admin: React.FC = () => {
         title="Admin Portol"
         subTitle="👨‍🦱 lil louie bert"
         extra={[
-          <Button key="1" onClick={gotoFreeMoney}>
-            Free Money
+          <Button key="1" onClick={gotoMaskRequests}>
+            Mask Requests
           </Button>,
         ]}
       ></PageHeader>
       <Switch>
-        <Route path="/admin/freemoney" component={FreeMoney} />
+        <Route path="/admin/maskrequests" component={MaskRequestApprovals} />
         <Route path="/admin" component={ListingApprovals} />
       </Switch>
     </Layout>
