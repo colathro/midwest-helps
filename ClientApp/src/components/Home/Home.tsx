@@ -5,7 +5,7 @@ import { BusinessCard } from '../BusinessCard';
 import { Business, BUSINESS_CATEGORY_STRINGS } from '../../types';
 import {
   BusinessFilterVertical,
-  BusinessFilterHorizontal,
+  BusinessFilterHorizontal
 } from '../BusinessFilter';
 import { useWindowSize } from '../../globalHooks';
 import { BusinessSearch } from '../BusinessSearch';
@@ -19,7 +19,7 @@ const { Title } = Typography;
 const useQuery = () => new URLSearchParams(useLocation().search);
 
 const parseUrl = (query: URLSearchParams) => {
-  let filterQuery = parseInt(query.get('businesstype') || '-1');
+  let filterQuery = parseInt(query.get('businesstype') || '-1', 10);
   if (
     filterQuery < -1 ||
     filterQuery >= Object.entries(BUSINESS_CATEGORY_STRINGS).length ||
@@ -27,11 +27,11 @@ const parseUrl = (query: URLSearchParams) => {
   ) {
     filterQuery = -1;
   }
-  let searchQuery = query.get('name') || '';
+  const searchQuery = query.get('name') || '';
 
   return {
     filterQuery,
-    searchQuery,
+    searchQuery
   };
 };
 
@@ -74,7 +74,7 @@ export const Home: React.FC = () => {
     const { filterQuery, searchQuery } = parseUrl(query);
     setParams({
       filter: filterQuery,
-      searchText: searchQuery,
+      searchText: searchQuery
     });
   }, []);
 
@@ -123,7 +123,7 @@ export const Home: React.FC = () => {
   };
 
   let companies;
-  let loader = (
+  const loader = (
     <Spin className="companies-loading" size="large" tip="Loading..." />
   );
   if (loading) {

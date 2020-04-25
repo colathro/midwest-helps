@@ -11,14 +11,13 @@ import {
   BUSINESS_DELIVERY_APP,
   BUSINESS_CATEGORY_STRINGS,
   BUSINESS_HOURS,
-  BUSINESS_INTERACTIONS,
+  BUSINESS_INTERACTIONS
 } from '../../../types';
 import { CheckboxItem } from '../../FormFields/CheckboxGroup/CheckboxGroup';
-import { LabeledValue } from 'antd/lib/select';
 
 export interface BuildBusinessFormProps {
-  onSubmit: (business: Business) => void;
-  businessModel?: Business | null;
+  onSubmit: (business: BusinessFormSubmitValues) => void;
+  businessModel?: Business;
   displayBusinessName?: boolean;
   displayBusinessType?: boolean;
   displayHours?: boolean;
@@ -30,69 +29,71 @@ export interface BuildBusinessFormProps {
   displayGiftCardUrl?: boolean;
 }
 
+export type BusinessFormSubmitValues = { [name in keyof Business]: string };
+
 const { Title } = Typography;
 const { Panel } = Collapse;
 
 export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = (props) => {
   const checkboxProductChannelItems: CheckboxItem[] = [
     {
-      label: BUSINESS_INTERACTIONS['Appointment'],
+      label: BUSINESS_INTERACTIONS.Appointment,
       value: 'Appointment',
       checked: props.businessModel
         ? props.businessModel.interactions.includes(
             'Appointment' as BusinessInteraction
           )
-        : false,
+        : false
     },
     {
-      label: BUSINESS_INTERACTIONS['CurbSide'],
+      label: BUSINESS_INTERACTIONS.CurbSide,
       value: 'CurbSide',
       checked: props.businessModel
         ? props.businessModel.interactions.includes(
             'CurbSide' as BusinessInteraction
           )
-        : false,
+        : false
     },
     {
-      label: BUSINESS_INTERACTIONS['LiveStream'],
+      label: BUSINESS_INTERACTIONS.LiveStream,
       value: 'LiveStream',
       checked: props.businessModel
         ? props.businessModel.interactions.includes(
             'LiveStream' as BusinessInteraction
           )
-        : false,
+        : false
     },
     {
-      label: BUSINESS_INTERACTIONS['TakeOut'],
+      label: BUSINESS_INTERACTIONS.TakeOut,
       value: 'TakeOut',
       checked: props.businessModel
         ? props.businessModel.interactions.includes(
             'TakeOut' as BusinessInteraction
           )
-        : false,
+        : false
     },
     {
-      label: BUSINESS_INTERACTIONS['DriveThru'],
+      label: BUSINESS_INTERACTIONS.DriveThru,
       value: 'DriveThru',
       checked: props.businessModel
         ? props.businessModel.interactions.includes(
             'DriveThru' as BusinessInteraction
           )
-        : false,
+        : false
     },
     {
-      label: BUSINESS_INTERACTIONS['Delivery'],
+      label: BUSINESS_INTERACTIONS.Delivery,
       value: 'Delivery',
       checked: props.businessModel
         ? props.businessModel.interactions.includes(
             'Delivery' as BusinessInteraction
           )
-        : false,
-    },
+        : false
+    }
   ];
   const checkboxAppDeliveryItems: CheckboxItem[] = [
     {
-      label: BUSINESS_DELIVERY_APP['UberEats'],
+      label: BUSINESS_DELIVERY_APP.UberEats,
       value: 'UberEats',
       checked: props.businessModel
         ? props.businessModel.deliveryApps
@@ -100,10 +101,10 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = (props) => {
               'UberEats' as BusinessDeliveryApp
             )
           : false
-        : false,
+        : false
     },
     {
-      label: BUSINESS_DELIVERY_APP['Grubhub'],
+      label: BUSINESS_DELIVERY_APP.Grubhub,
       value: 'Grubhub',
       checked: props.businessModel
         ? props.businessModel.deliveryApps
@@ -111,10 +112,10 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = (props) => {
               'Grubhub' as BusinessDeliveryApp
             )
           : false
-        : false,
+        : false
     },
     {
-      label: BUSINESS_DELIVERY_APP['DoorDash'],
+      label: BUSINESS_DELIVERY_APP.DoorDash,
       value: 'DoorDash',
       checked: props.businessModel
         ? props.businessModel.deliveryApps
@@ -122,10 +123,10 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = (props) => {
               'DoorDash' as BusinessDeliveryApp
             )
           : false
-        : false,
+        : false
     },
     {
-      label: BUSINESS_DELIVERY_APP['Postmates'],
+      label: BUSINESS_DELIVERY_APP.Postmates,
       value: 'Postmates',
       checked: props.businessModel
         ? props.businessModel.deliveryApps
@@ -133,11 +134,10 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = (props) => {
               'Postmates' as BusinessDeliveryApp
             )
           : false
-        : false,
+        : false
     },
-
     {
-      label: BUSINESS_DELIVERY_APP['FoodDudes'],
+      label: BUSINESS_DELIVERY_APP.FoodDudes,
       value: 'FoodDudes',
       checked: props.businessModel
         ? props.businessModel.deliveryApps
@@ -145,10 +145,10 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = (props) => {
               'FoodDudes' as BusinessDeliveryApp
             )
           : false
-        : false,
+        : false
     },
     {
-      label: BUSINESS_DELIVERY_APP['BiteSquad'],
+      label: BUSINESS_DELIVERY_APP.BiteSquad,
       value: 'BiteSquad',
       checked: props.businessModel
         ? props.businessModel.deliveryApps
@@ -156,82 +156,17 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = (props) => {
               'BiteSquad' as BusinessDeliveryApp
             )
           : false
-        : false,
-    },
-  ];
-  const categories: LabeledValue[] = [
-    {
-      label: BUSINESS_CATEGORY_STRINGS['Brewery'].name,
-      value: 'Brewery',
-    },
-    {
-      label: BUSINESS_CATEGORY_STRINGS['Coffee'].name,
-      value: 'Coffee',
-    },
-    {
-      label: BUSINESS_CATEGORY_STRINGS['Entertainment'].name,
-      value: 'Entertainment',
-    },
-    {
-      label: BUSINESS_CATEGORY_STRINGS['Grocery'].name,
-      value: 'Grocery',
-    },
-    {
-      label: BUSINESS_CATEGORY_STRINGS['Other'].name,
-      value: 'Other',
-    },
-    {
-      label: BUSINESS_CATEGORY_STRINGS['Religion'].name,
-      value: 'Religion',
-    },
-    {
-      label: BUSINESS_CATEGORY_STRINGS['Restaurant'].name,
-      value: 'Restaurant',
-    },
-    {
-      label: BUSINESS_CATEGORY_STRINGS['Retail'].name,
-      value: 'Retail',
-    },
-    {
-      label: BUSINESS_CATEGORY_STRINGS['Wellness'].name,
-      value: 'Wellness',
-    },
-    {
-      label: BUSINESS_CATEGORY_STRINGS['Art'].name,
-      value: 'Art',
-    },
-    {
-      label: BUSINESS_CATEGORY_STRINGS['Beauty'].name,
-      value: 'Beauty',
-    },
+        : false
+    }
   ];
 
   const defaultCategory: string = props.businessModel
     ? props.businessModel.category
     : '';
 
-  const hours: LabeledValue[] = [
-    {
-      label: BUSINESS_HOURS['Closed'],
-      value: 'Closed',
-    },
-    {
-      label: BUSINESS_HOURS['Limited'],
-      value: 'Limited',
-    },
-    {
-      label: BUSINESS_HOURS['Regular'],
-      value: 'Regular',
-    },
-  ];
-
   const defaultBusinessHours: string = props.businessModel
     ? (props.businessModel.hours as string)
     : '';
-
-  const onFinish = (business: any) => {
-    props.onSubmit(business);
-  };
 
   const [form] = Form.useForm();
 
@@ -248,7 +183,7 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = (props) => {
       message: props.businessModel.message,
       interactions: props.businessModel.interactions,
       deliveryApps: props.businessModel.deliveryApps,
-      giftCardUrl: props.businessModel.giftCardUrl,
+      giftCardUrl: props.businessModel.giftCardUrl
     };
   }
 
@@ -257,7 +192,7 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = (props) => {
       form={form}
       layout="vertical"
       name="create-business-form"
-      onFinish={onFinish}
+      onFinish={(values) => props.onSubmit(values as BusinessFormSubmitValues)}
       initialValues={initialValues}
       scrollToFirstError
     >
@@ -265,7 +200,12 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = (props) => {
         <SelectField
           name="category"
           title="Business category"
-          items={categories}
+          items={Object.entries(BUSINESS_CATEGORY_STRINGS).map(
+            ([categoryValue, categoryProps]) => ({
+              label: categoryProps.name,
+              value: categoryValue
+            })
+          )}
           placeHolder="Select a category for your business"
           required={true}
           defaultValue={defaultCategory}
@@ -285,7 +225,10 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = (props) => {
         <SelectField
           name="hours"
           title="Business hours"
-          items={hours}
+          items={Object.entries(BUSINESS_HOURS).map(([hoursKey, label]) => ({
+            label,
+            value: hoursKey
+          }))}
           placeHolder="Select your business hours"
           required={false}
           defaultValue={defaultBusinessHours}

@@ -1,19 +1,19 @@
-import React from "react";
-import { CreateBusiness } from "../BusinessForms/CreateBusiness";
-import { Row, Col, Layout, Typography, Button } from "antd";
-import { useHistory } from "react-router-dom";
-import { LeftOutlined } from "@ant-design/icons";
+import React from 'react';
+import { CreateBusiness } from '../BusinessForms/CreateBusiness';
+import { Row, Col, Layout, Typography, Button } from 'antd';
+import { useHistory } from 'react-router-dom';
+import { LeftOutlined } from '@ant-design/icons';
 
-import "./List.scss";
+import './List.scss';
 
 const { Title } = Typography;
 const { Content } = Layout;
 
-export const List: React.FC = props => {
-  let history = useHistory();
+export const List: React.FC = () => {
+  const history = useHistory();
 
   const goHome = () => {
-    history.push("/");
+    history.push('/');
   };
 
   return (
