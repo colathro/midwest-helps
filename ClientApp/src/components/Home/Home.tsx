@@ -197,6 +197,13 @@ export const Home: React.FC = () => {
               >
                 Contact
               </Button>
+              <Button
+                onClick={() => history.push('/masks')}
+                type="link"
+                className="nav-link"
+              >
+                Masks
+              </Button>
               <Button onClick={() => history.push('/list')} type="primary">
                 List a business
               </Button>

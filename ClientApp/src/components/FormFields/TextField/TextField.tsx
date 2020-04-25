@@ -5,7 +5,7 @@ import '../FormFields.scss';
 
 export interface TextFieldProps {
   name: string;
-  title: string;
+  title?: string;
   type: TextFieldType;
   subTitle?: string;
   placeHolder?: string;
@@ -32,28 +32,40 @@ export const TextField: React.FC<TextFieldProps> = (props) => {
   if (props.type === 'email') {
     rules.push({
       type: 'email' as RuleType,
-      message: 'The ' + props.title.toLowerCase() + 'input is not valid.'
+      message:
+        'The ' + props.title
+          ? props.title?.toLowerCase()
+          : 'email' + ' input is not valid.'
     });
   } else if (props.type === 'url') {
     rules.push({
       type: 'url' as RuleType,
-      message: 'The ' + props.title.toLowerCase() + 'input is not valid.'
+      message:
+        'The ' + props.title
+          ? props.title?.toLowerCase()
+          : 'url' + ' input is not valid.'
     });
   } else if (props.type === 'phone') {
     rules.push({
       pattern: new RegExp(/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/),
-      message: 'The ' + props.title.toLowerCase() + 'input is not valid.'
+      message:
+        'The ' + props.title
+          ? props.title?.toLowerCase()
+          : 'phone' + ' input is not valid.'
     });
   } else {
     rules.push({
       type: 'string' as RuleType,
-      message: 'The ' + props.title.toLowerCase() + 'input is not valid.'
+      message:
+        'The ' + props.title
+          ? props.title?.toLowerCase()
+          : 'text' + ' input is not valid.'
     });
   }
 
   rules.push({
     required: props.required,
-    message: 'Please input your ' + props.title.toLowerCase()
+    message: 'Field must be filled'
   });
 
   // const subTitle = props.subTitle ? (

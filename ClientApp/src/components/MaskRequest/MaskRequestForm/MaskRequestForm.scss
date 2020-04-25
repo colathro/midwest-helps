@@ -1,0 +1,22 @@
+#business-links-collapse .ant-collapse-header {
+  color: white;
+  background-color: black;
+  border-radius: 8px;
+
+  &[aria-expanded='true'] {
+    border-radius: 8px 8px 0 0;
+  }
+}
+
+.ant-collapse {
+  margin-top: 32px;
+  margin-bottom: 24px;
+}
+
+.business-submit {
+  background-color: black;
+
+  &:hover {
+    background-color: lighten(black, 20%);
+  }
+}

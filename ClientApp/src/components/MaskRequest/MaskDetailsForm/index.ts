@@ -1,0 +1,1 @@
+export { MaskDetailsForm } from './MaskDetailsForm';

@@ -102,3 +102,41 @@ export const REPORT_TYPES = {
   spam: 2,
   offensive: 3
 };
+
+export interface MaskRequest {
+  id?: string;
+  partitionKey: string;
+  createdOn: string;
+}
+
+export type MaskFor =
+  | 'MedicalFacility'
+  | 'NonProfit'
+  | 'EssentialWorker'
+  | 'Myself';
+
+export const MASKFOR: {
+  [key in MaskFor]: string;
+} = {
+  MedicalFacility: 'Medical professionals or medical facility',
+  NonProfit: 'Non-profit',
+  EssentialWorker: 'Essential worker',
+  Myself: 'Myself or family'
+};
+
+export type MaskType =
+  | 'Fabric'
+  | 'FaceShield'
+  | 'EarGuards'
+  | 'ScrubCaps'
+  | 'Others';
+
+export const MASKTYPE: {
+  [key in MaskType]: string;
+} = {
+  Fabric: 'Fabric masks',
+  FaceShield: 'Face shields',
+  EarGuards: 'Ear guards',
+  ScrubCaps: 'Scrub caps',
+  Others: 'Others'
+};
