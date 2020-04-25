@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Masks.scss';
 import { Button, Modal } from 'antd';
-import { MaskRequestForm } from '../MaskRequest/MaskRequestForm';
+import { MaskRequestForm } from '../MaskRequestForm';
 
 export const Masks: React.FC = () => {
   const [displayMaskRequest, setDisplayMaskRequest] = useState(false);
@@ -21,7 +21,7 @@ export const Masks: React.FC = () => {
       onCancel={handleCancel}
       footer={null}
     >
-      <MaskRequestForm onSubmit={() => {}} />
+      <MaskRequestForm onSubmit={() => null} />
     </Modal>
   );
 

@@ -2,7 +2,7 @@ import React, {
   useState,
   useEffect,
   ForwardRefExoticComponent,
-  RefAttributes,
+  RefAttributes
 } from 'react';
 import { Layout, Descriptions, Button, Modal, List, Row, Col } from 'antd';
 import { MessageOutlined, LikeOutlined, StarOutlined } from '@ant-design/icons';
@@ -15,12 +15,12 @@ import './MaskRequestApprovals.scss';
 const useQuery = () => new URLSearchParams(useLocation().search);
 
 export const MaskRequestApprovals: React.FC = () => {
-  let history = useHistory();
+  const history = useHistory();
   const query = useQuery();
   const [allApprovals, setAllApprovals] = useState<MaskRequest[]>([]);
   const [loading, setLoading] = useState(true);
 
-  let key = query.get('key');
+  const key = query.get('key');
 
   const goAdmin = () => {
     history.push(`/admin?key=${key}`);
@@ -30,31 +30,31 @@ export const MaskRequestApprovals: React.FC = () => {
     window.location.reload(false);
   };
 
-  function error() {
+  const error = () => {
     Modal.error({
       title: 'Error fetching pending approvals',
       content: 'something broke, bother colton',
-      onOk: () => refreshPage(),
+      onOk: () => refreshPage()
     });
-  }
+  };
 
-  function approved() {
+  const approved = () => {
     Modal.success({
       content: 'Successfully Approved.',
-      onOk: () => refreshPage(),
+      onOk: () => refreshPage()
     });
-  }
+  };
 
-  function denied() {
+  const denied = () => {
     Modal.success({
       content: 'Successfully Denied.',
-      onOk: () => refreshPage(),
+      onOk: () => refreshPage()
     });
-  }
+  };
 
-  function approve(id: any) {
+  const approve = (id: string) => {
     const requestOptions = {
-      method: 'POST',
+      method: 'POST'
     };
     fetch(`/api/maskrequest/approvals/approve/${key}/${id}`, requestOptions)
       .then((response) => response)
@@ -65,14 +65,12 @@ export const MaskRequestApprovals: React.FC = () => {
           error();
         }
       })
-      .catch(function () {
-        error();
-      });
-  }
+      .catch(error);
+  };
 
-  function deny(id: any) {
+  const deny = (id: string) => {
     const requestOptions = {
-      method: 'POST',
+      method: 'POST'
     };
     fetch(`/api/maskrequest/approvals/approve/${key}/${id}`, requestOptions)
       .then((response) => response)
@@ -83,23 +81,19 @@ export const MaskRequestApprovals: React.FC = () => {
           error();
         }
       })
-      .catch(function () {
-        error();
-      });
-  }
+      .catch(error);
+  };
 
-  function getPendingApprovals() {
+  const getPendingApprovals = () => {
     if (loading) {
       fetchUrl(`api/maskrequest/approvals/get/${key}`)
         .then((data) => {
           setAllApprovals(data);
           setLoading(false);
         })
-        .catch(function () {
-          error();
-        });
+        .catch(error);
     }
-  }
+  };
 
   const fetchUrl = async (url: string) => {
     const response = await fetch(url);
@@ -131,7 +125,7 @@ export const MaskRequestApprovals: React.FC = () => {
                   </Descriptions>
                   <Row>
                     <Col span={8}>
-                      <Button type="primary" onClick={() => approve(item.id)}>
+                      <Button type="primary" onClick={() => approve(item.id!)}>
                         Approve
                       </Button>
                     </Col>
@@ -139,7 +133,7 @@ export const MaskRequestApprovals: React.FC = () => {
                       <Button
                         type="primary"
                         danger
-                        onClick={() => deny(item.id)}
+                        onClick={() => deny(item.id!)}
                       >
                         Deny
                       </Button>

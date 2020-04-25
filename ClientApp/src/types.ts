@@ -103,6 +103,27 @@ export const REPORT_TYPES = {
   offensive: 3
 };
 
+export type DeliverySectionFields = {
+  name: string;
+  email: string;
+  company: string;
+  phoneNumber: string;
+};
+
+export type MaskSectionFields = {
+  maskFor: MaskFor;
+  maskRequirements: string;
+};
+
+export type GetStartedSectionFields = {
+  maskFor: MaskFor;
+  name: string;
+  company: string;
+  email: string;
+  phoneNumber: string;
+};
+
+// TODO: we should make two types for this. One that has an ID and one that doesn't, otherwise it's not strongly typed
 export interface MaskRequest {
   id?: string;
   partitionKey: string;
