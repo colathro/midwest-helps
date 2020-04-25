@@ -6,14 +6,12 @@ import { SelectField } from '../../FormFields/SelectField';
 import './BuildBusinessForm.scss';
 import {
   Business,
-  BusinessInteraction,
   BusinessDeliveryApp,
   BUSINESS_DELIVERY_APP,
   BUSINESS_CATEGORY_STRINGS,
   BUSINESS_HOURS,
   BUSINESS_INTERACTIONS
 } from '../../../types';
-import { CheckboxItem } from '../../FormFields/CheckboxGroup/CheckboxGroup';
 
 export interface BuildBusinessFormProps {
   onSubmit: (business: BusinessFormSubmitValues) => void;
@@ -35,131 +33,6 @@ const { Title } = Typography;
 const { Panel } = Collapse;
 
 export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = (props) => {
-  const checkboxProductChannelItems: CheckboxItem[] = [
-    {
-      label: BUSINESS_INTERACTIONS.Appointment,
-      value: 'Appointment',
-      checked: props.businessModel
-        ? props.businessModel.interactions.includes(
-            'Appointment' as BusinessInteraction
-          )
-        : false
-    },
-    {
-      label: BUSINESS_INTERACTIONS.CurbSide,
-      value: 'CurbSide',
-      checked: props.businessModel
-        ? props.businessModel.interactions.includes(
-            'CurbSide' as BusinessInteraction
-          )
-        : false
-    },
-    {
-      label: BUSINESS_INTERACTIONS.LiveStream,
-      value: 'LiveStream',
-      checked: props.businessModel
-        ? props.businessModel.interactions.includes(
-            'LiveStream' as BusinessInteraction
-          )
-        : false
-    },
-    {
-      label: BUSINESS_INTERACTIONS.TakeOut,
-      value: 'TakeOut',
-      checked: props.businessModel
-        ? props.businessModel.interactions.includes(
-            'TakeOut' as BusinessInteraction
-          )
-        : false
-    },
-    {
-      label: BUSINESS_INTERACTIONS.DriveThru,
-      value: 'DriveThru',
-      checked: props.businessModel
-        ? props.businessModel.interactions.includes(
-            'DriveThru' as BusinessInteraction
-          )
-        : false
-    },
-    {
-      label: BUSINESS_INTERACTIONS.Delivery,
-      value: 'Delivery',
-      checked: props.businessModel
-        ? props.businessModel.interactions.includes(
-            'Delivery' as BusinessInteraction
-          )
-        : false
-    }
-  ];
-  const checkboxAppDeliveryItems: CheckboxItem[] = [
-    {
-      label: BUSINESS_DELIVERY_APP.UberEats,
-      value: 'UberEats',
-      checked: props.businessModel
-        ? props.businessModel.deliveryApps
-          ? props.businessModel.deliveryApps.includes(
-              'UberEats' as BusinessDeliveryApp
-            )
-          : false
-        : false
-    },
-    {
-      label: BUSINESS_DELIVERY_APP.Grubhub,
-      value: 'Grubhub',
-      checked: props.businessModel
-        ? props.businessModel.deliveryApps
-          ? props.businessModel.deliveryApps.includes(
-              'Grubhub' as BusinessDeliveryApp
-            )
-          : false
-        : false
-    },
-    {
-      label: BUSINESS_DELIVERY_APP.DoorDash,
-      value: 'DoorDash',
-      checked: props.businessModel
-        ? props.businessModel.deliveryApps
-          ? props.businessModel.deliveryApps.includes(
-              'DoorDash' as BusinessDeliveryApp
-            )
-          : false
-        : false
-    },
-    {
-      label: BUSINESS_DELIVERY_APP.Postmates,
-      value: 'Postmates',
-      checked: props.businessModel
-        ? props.businessModel.deliveryApps
-          ? props.businessModel.deliveryApps.includes(
-              'Postmates' as BusinessDeliveryApp
-            )
-          : false
-        : false
-    },
-    {
-      label: BUSINESS_DELIVERY_APP.FoodDudes,
-      value: 'FoodDudes',
-      checked: props.businessModel
-        ? props.businessModel.deliveryApps
-          ? props.businessModel.deliveryApps.includes(
-              'FoodDudes' as BusinessDeliveryApp
-            )
-          : false
-        : false
-    },
-    {
-      label: BUSINESS_DELIVERY_APP.BiteSquad,
-      value: 'BiteSquad',
-      checked: props.businessModel
-        ? props.businessModel.deliveryApps
-          ? props.businessModel.deliveryApps.includes(
-              'BiteSquad' as BusinessDeliveryApp
-            )
-          : false
-        : false
-    }
-  ];
-
   const defaultCategory: string = props.businessModel
     ? props.businessModel.category
     : '';
@@ -211,6 +84,7 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = (props) => {
           defaultValue={defaultCategory}
         />
       )}
+
       {props.displayBusinessName && (
         <TextField
           name="name"
@@ -221,6 +95,7 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = (props) => {
           defaultValue={props.businessModel?.name}
         />
       )}
+
       {props.displayHours && (
         <SelectField
           name="hours"
@@ -284,6 +159,7 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = (props) => {
           </Panel>
         </Collapse>
       )}
+
       {props.displayMessage && (
         <TextField
           name="message"
@@ -299,7 +175,19 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = (props) => {
         <CheckboxGroup
           name="interactions"
           title="How can customers recieve your product or service?"
-          checkboxItems={checkboxProductChannelItems}
+          checkboxItems={Object.entries(BUSINESS_INTERACTIONS).map(
+            ([key, value]) => ({
+              label: key,
+              value,
+              checked: props.businessModel
+                ? props.businessModel.deliveryApps
+                  ? props.businessModel.deliveryApps.includes(
+                      value as BusinessDeliveryApp
+                    )
+                  : false
+                : false
+            })
+          )}
         />
       )}
 
@@ -307,7 +195,19 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = (props) => {
         <CheckboxGroup
           name="deliveryApps"
           title="Do you use app based delivery?"
-          checkboxItems={checkboxAppDeliveryItems}
+          checkboxItems={Object.entries(BUSINESS_DELIVERY_APP).map(
+            ([key, value]) => ({
+              label: key,
+              value,
+              checked: props.businessModel
+                ? props.businessModel.deliveryApps
+                  ? props.businessModel.deliveryApps.includes(
+                      value as BusinessDeliveryApp
+                    )
+                  : false
+                : false
+            })
+          )}
         />
       )}
 
