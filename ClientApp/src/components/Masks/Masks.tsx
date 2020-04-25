@@ -21,7 +21,7 @@ export const Masks: React.FC = () => {
       onCancel={handleCancel}
       footer={null}
     >
-      <MaskRequestForm onSubmit={() => {}} />
+      <MaskRequestForm />
     </Modal>
   );
 

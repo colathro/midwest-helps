@@ -109,7 +109,7 @@ export type MaskFor =
   | 'EssentialWorker'
   | 'Myself';
 
-export const MASKFOR: {
+export const MASK_FOR: {
   [key in MaskFor]: string;
 } = {
   MedicalFacility: 'Medical professionals or medical facility',
@@ -125,7 +125,7 @@ export type MaskType =
   | 'ScrubCaps'
   | 'Others';
 
-export const MASKTYPE: {
+export const MASK_TYPE: {
   [key in MaskType]: string;
 } = {
   Fabric: 'Fabric masks',
@@ -133,4 +133,13 @@ export const MASKTYPE: {
   EarGuards: 'Ear guards',
   ScrubCaps: 'Scrub caps',
   Others: 'Others',
+};
+
+export type ReceiveMaskChannel = 'DropOff' | 'Mail';
+
+export const RECEIVE_MASK_CHANNEL: {
+  [key in ReceiveMaskChannel]: string;
+} = {
+  DropOff: 'Drop-off',
+  Mail: 'Mail',
 };

@@ -15,6 +15,7 @@ export interface CheckboxItem {
   label: string;
   value: string;
   checked: boolean;
+  onChange?: () => void;
 }
 
 export const CheckboxGroup: React.FC<CheckboxGroupProps> = (props) => {
@@ -30,7 +31,17 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = (props) => {
         <Row>
           {props.checkboxItems.map((item, index) => (
             <Col key={index} span={16}>
-              <Checkbox value={item.value} defaultChecked={item.checked}>
+              <Checkbox
+                value={item.value}
+                defaultChecked={item.checked}
+                onChange={
+                  item.onChange
+                    ? () => {
+                        item.onChange!();
+                      }
+                    : () => {}
+                }
+              >
                 {item.label}
               </Checkbox>
             </Col>
