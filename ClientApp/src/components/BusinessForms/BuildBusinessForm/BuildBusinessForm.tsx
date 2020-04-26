@@ -74,9 +74,9 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = (props) => {
           name="category"
           title="Business category"
           items={Object.entries(BUSINESS_CATEGORY_STRINGS).map(
-            ([categoryValue, categoryProps]) => ({
-              label: categoryProps.name,
-              value: categoryValue
+            ([value, { name }]) => ({
+              label: name,
+              value
             })
           )}
           placeHolder="Select a category for your business"
@@ -100,9 +100,9 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = (props) => {
         <SelectField
           name="hours"
           title="Business hours"
-          items={Object.entries(BUSINESS_HOURS).map(([hoursKey, label]) => ({
+          items={Object.entries(BUSINESS_HOURS).map(([label, value]) => ({
             label,
-            value: hoursKey
+            value
           }))}
           placeHolder="Select your business hours"
           required={false}
@@ -176,8 +176,8 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = (props) => {
           name="interactions"
           title="How can customers recieve your product or service?"
           checkboxItems={Object.entries(BUSINESS_INTERACTIONS).map(
-            ([key, value]) => ({
-              label: key,
+            ([label, value]) => ({
+              label,
               value,
               checked: props.businessModel
                 ? props.businessModel.deliveryApps
@@ -196,8 +196,8 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = (props) => {
           name="deliveryApps"
           title="Do you use app based delivery?"
           checkboxItems={Object.entries(BUSINESS_DELIVERY_APP).map(
-            ([key, value]) => ({
-              label: key,
+            ([label, value]) => ({
+              label,
               value,
               checked: props.businessModel
                 ? props.businessModel.deliveryApps
