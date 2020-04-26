@@ -69,11 +69,9 @@ export const ReportBusiness: React.FC<ReportBusinessProps> = (props) => {
 
   return (
     <Modal
-      title={'Report ' + props.business?.name}
+      title={'Report ' + props.business.name}
       visible={props.visible}
-      onCancel={() => {
-        props.close();
-      }}
+      onCancel={props.close}
       footer={null}
     >
       <Form
@@ -98,12 +96,7 @@ export const ReportBusiness: React.FC<ReportBusinessProps> = (props) => {
           </Radio.Group>
         </Form.Item>
         <Form.Item name="button-item">
-          <Button
-            key="back"
-            onClick={() => {
-              props.close();
-            }}
-          >
+          <Button key="back" onClick={props.close}>
             Cancel
           </Button>
           <Button
