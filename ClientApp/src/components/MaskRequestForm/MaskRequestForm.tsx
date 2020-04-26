@@ -1,22 +1,20 @@
 import React, { useState } from 'react';
-import { Form, Button, Collapse, Typography } from 'antd';
-import { GetStartedForm } from '../GetStartedForm/GetStartedForm';
-import { MaskDetailsForm } from '../MaskDetailsForm/MaskDetailsForm';
-import { DeliveryDetailsForm } from '../DeliveryDetailsForm/DeliveryDetailsForm';
+import { Button, Collapse, Typography } from 'antd';
+import { GetStartedSection } from '../MaskRequestForm/GetStartedSection';
+import { MaskSection } from '../MaskRequestForm/MaskSection';
+import { DeliverySection } from '../MaskRequestForm/DeliverySection';
 import './MaskRequestForm.scss';
 
-const { Title, Paragraph } = Typography;
+const { Title } = Typography;
 
-export interface MaskRequestFormProps {}
-
-export const MaskRequestForm: React.FC<MaskRequestFormProps> = (props) => {
+export const MaskRequestForm: React.FC = () => {
   const [activePanels, setActivePanels] = useState(['1']);
   const [disablePanels, setDisablePanels] = useState(['2', '3']);
   const [displaySubmitButton, setDisplaySubmitButton] = useState(false);
   const [maskFormCompleted, setMaskFormCompleted] = useState({
     getStarted: {},
     maskDetails: {},
-    deliveryDetails: {},
+    deliveryDetails: {}
   });
 
   const onSubmit = (maskRequest: any) => {
@@ -27,7 +25,7 @@ export const MaskRequestForm: React.FC<MaskRequestFormProps> = (props) => {
     setMaskFormCompleted({
       getStarted: getStartedObj,
       maskDetails: maskFormCompleted.maskDetails,
-      deliveryDetails: maskFormCompleted.deliveryDetails,
+      deliveryDetails: maskFormCompleted.deliveryDetails
     });
     setActivePanels(['1', '2']);
     setDisablePanels(['3']);
@@ -37,7 +35,7 @@ export const MaskRequestForm: React.FC<MaskRequestFormProps> = (props) => {
     setMaskFormCompleted({
       getStarted: maskFormCompleted.getStarted,
       maskDetails: maskDetailsObj,
-      deliveryDetails: maskFormCompleted.deliveryDetails,
+      deliveryDetails: maskFormCompleted.deliveryDetails
     });
     setActivePanels(['1', '2', '3']);
     setDisablePanels([]);
@@ -47,7 +45,7 @@ export const MaskRequestForm: React.FC<MaskRequestFormProps> = (props) => {
     setMaskFormCompleted({
       getStarted: maskFormCompleted.getStarted,
       maskDetails: maskFormCompleted.maskDetails,
-      deliveryDetails: deliveryDetailsObj,
+      deliveryDetails: deliveryDetailsObj
     });
     setDisplaySubmitButton(true);
   };
@@ -70,7 +68,7 @@ export const MaskRequestForm: React.FC<MaskRequestFormProps> = (props) => {
           showArrow={false}
           disabled={disablePanels.includes('1')}
         >
-          <GetStartedForm onFinish={setGetStartedObj} />
+          <GetStartedSection onFinish={setGetStartedObj} />
         </Collapse.Panel>
         <Collapse.Panel
           header="2. Mask details"
@@ -78,7 +76,7 @@ export const MaskRequestForm: React.FC<MaskRequestFormProps> = (props) => {
           showArrow={false}
           disabled={disablePanels.includes('2')}
         >
-          <MaskDetailsForm onFinish={setMaskDetailsObj} />
+          <MaskSection onFinish={setMaskDetailsObj} />
         </Collapse.Panel>
         <Collapse.Panel
           header="3. Delivery details"
@@ -86,7 +84,7 @@ export const MaskRequestForm: React.FC<MaskRequestFormProps> = (props) => {
           showArrow={false}
           disabled={disablePanels.includes('3')}
         >
-          <DeliveryDetailsForm onFinish={setDeliveryDetailsObj} />
+          <DeliverySection onFinish={setDeliveryDetailsObj} />
         </Collapse.Panel>
       </Collapse>
       {displaySubmitButton && (

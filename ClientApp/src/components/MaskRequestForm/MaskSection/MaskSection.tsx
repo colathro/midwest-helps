@@ -3,48 +3,48 @@ import { Form, Button, Typography, Row, Col } from 'antd';
 import { TextField } from '../../FormFields/TextField';
 import {
   CheckboxItem,
-  CheckboxGroup,
+  CheckboxGroup
 } from '../../FormFields/CheckboxGroup/CheckboxGroup';
 import { MASK_TYPE, MaskType } from '../../../types';
 const { Text } = Typography;
 
-export interface MaskDetailsFormProps {
+export interface MaskSectionProps {
   onFinish: (maskRequest: any) => void;
 }
 
-export const MaskDetailsForm: React.FC<MaskDetailsFormProps> = (props) => {
+export const MaskSection: React.FC<MaskSectionProps> = (props) => {
   const [displaySummary, setDisplaySummary] = useState(false);
   const [maskDetails, setMaskDetails] = useState({
     maskType: [],
-    maskRequirements: '',
+    maskRequirements: ''
   });
 
   const checkboxItems: CheckboxItem[] = [
     {
       label: MASK_TYPE['Fabric'],
       value: 'Fabric',
-      checked: false,
+      checked: false
     },
     {
       label: MASK_TYPE['FaceShield'],
       value: 'FaceShield',
-      checked: false,
+      checked: false
     },
     {
       label: MASK_TYPE['EarGuards'],
       value: 'EarGuards',
-      checked: false,
+      checked: false
     },
     {
       label: MASK_TYPE['ScrubCaps'],
       value: 'ScrubCaps',
-      checked: false,
+      checked: false
     },
     {
       label: MASK_TYPE['Others'],
       value: 'Others',
-      checked: false,
-    },
+      checked: false
+    }
   ];
 
   const onFinish = (maskDetailsObj: any) => {

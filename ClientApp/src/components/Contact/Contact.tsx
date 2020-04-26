@@ -6,53 +6,47 @@ import { TextField } from '../FormFields/TextField';
 import { ContributorCards } from './ContributorCards';
 
 import './Contact.scss';
-import { ContributorCard } from './ContributorCards/ContributorCard';
+import { ContactFields } from '../../types';
 
 const { Title } = Typography;
 
+type ContactFormSubmitValues = { [name in keyof ContactFields]: string };
+
 export const Contact: React.FC = () => {
-  let history = useHistory();
+  const history = useHistory();
 
-  const onFinish = (values: any) => {
-    console.log(values);
-    sendMessage(values);
-  };
-
-  function success() {
+  const success = () => {
     Modal.success({
       content: 'Your message was sent successfully.',
-      onOk: () => goHome(),
+      onOk: () => goHome()
     });
-  }
+  };
 
-  function error() {
+  const error = () => {
     Modal.error({
       title: 'Oops',
       content: 'There was a problem sending your message. Try again later.',
-      onOk: () => goHome(),
+      onOk: () => goHome()
     });
-  }
+  };
 
-  function sendMessage(data: any) {
+  const sendMessage = (data: ContactFormSubmitValues) => {
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
+      body: JSON.stringify(data)
     };
     fetch('/api/contact/', requestOptions)
       .then((response) => response)
-      .then((data) => {
-        console.log('RESPONSE', data);
-        if (data.ok) {
+      .then((responseData) => {
+        if (responseData.ok) {
           success();
         } else {
           error();
         }
       })
-      .catch(function () {
-        error();
-      });
-  }
+      .catch(error);
+  };
 
   const goHome = () => {
     history.push('/');
@@ -76,7 +70,10 @@ export const Contact: React.FC = () => {
           other COVID-19 related information, please drop us a quick note below.
           We'll get back to you as soon as possible.
         </Typography>
-        <Form name="contact" onFinish={onFinish}>
+        <Form
+          name="contact"
+          onFinish={(values) => sendMessage(values as ContactFormSubmitValues)}
+        >
           <TextField
             name="name"
             title="Name"

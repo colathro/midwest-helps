@@ -3,19 +3,17 @@ import { Form, Button, Row, Col, Typography } from 'antd';
 import { TextField } from '../../FormFields/TextField';
 import {
   CheckboxItem,
-  CheckboxGroup,
+  CheckboxGroup
 } from '../../FormFields/CheckboxGroup/CheckboxGroup';
 import { RECEIVE_MASK_CHANNEL, ReceiveMaskChannel } from '../../../types';
 
 const { Title, Text } = Typography;
 
-export interface DeliveryDetailsFormProps {
+export interface DeliverySectionProps {
   onFinish: (maskRequest: any) => void;
 }
 
-export const DeliveryDetailsForm: React.FC<DeliveryDetailsFormProps> = (
-  props
-) => {
+export const DeliverySection: React.FC<DeliverySectionProps> = (props) => {
   const [dropOffAddresssVisible, setDropOffAddresssVisible] = useState(false);
   const [mailAddresssVisible, setMailAddresssVisible] = useState(false);
   const [displaySummary, setDisplaySummary] = useState(false);
@@ -31,7 +29,7 @@ export const DeliveryDetailsForm: React.FC<DeliveryDetailsFormProps> = (
     mailAddress2: '',
     mailCity: '',
     mailState: '',
-    mailZipCode: '',
+    mailZipCode: ''
   });
 
   const checkboxItems: CheckboxItem[] = [
@@ -41,7 +39,7 @@ export const DeliveryDetailsForm: React.FC<DeliveryDetailsFormProps> = (
       checked: false,
       onChange: () => {
         setDropOffAddresssVisible(!dropOffAddresssVisible);
-      },
+      }
     },
     {
       label: RECEIVE_MASK_CHANNEL['Mail'],
@@ -49,8 +47,8 @@ export const DeliveryDetailsForm: React.FC<DeliveryDetailsFormProps> = (
       checked: false,
       onChange: () => {
         setMailAddresssVisible(!mailAddresssVisible);
-      },
-    },
+      }
+    }
   ];
 
   const buildAddressForm = (name: string, label: string) => {

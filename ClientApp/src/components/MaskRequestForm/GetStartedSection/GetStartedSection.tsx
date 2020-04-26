@@ -6,40 +6,40 @@ import { MaskFor, MASK_FOR } from '../../../types';
 
 const { Text } = Typography;
 
-export interface GetStartedFormProps {
+export interface GetStartedSectionProps {
   onFinish: (maskRequest: any) => void;
 }
 
-export const GetStartedForm: React.FC<GetStartedFormProps> = (props) => {
+export const GetStartedSection: React.FC<GetStartedSectionProps> = (props) => {
   const [displaySummary, setDisplaySummary] = useState(false);
   const [getStarted, setGetStarted] = useState({
     maskFor: '',
     name: '',
     company: '',
     email: '',
-    phone: '',
+    phone: ''
   });
   const radioItems: RadioItem[] = [
     {
       label: MASK_FOR['MedicalFacility'],
       value: 'MedicalFacility',
-      checked: false,
+      checked: false
     },
     {
       label: MASK_FOR['NonProfit'],
       value: 'NonProfit',
-      checked: false,
+      checked: false
     },
     {
       label: MASK_FOR['EssentialWorker'],
       value: 'EssentialWorker',
-      checked: false,
+      checked: false
     },
     {
       label: MASK_FOR['Myself'],
       value: 'Myself',
-      checked: false,
-    },
+      checked: false
+    }
   ];
 
   const onFinish = (maskRequest: any) => {
