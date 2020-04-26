@@ -168,5 +168,43 @@ export const RECEIVE_MASK_CHANNEL: {
   [key in ReceiveMaskChannel]: string;
 } = {
   DropOff: 'Drop-off',
-  Mail: 'Mail',
+  Mail: 'Mail'
 };
+
+export type MaskRequestChannel = 'Recipient' | 'Mask' | 'Delivery';
+
+export const MASK_REQUEST_SECTION: {
+  [key in MaskRequestChannel]: { label: string; value: string };
+} = {
+  Recipient: { label: '1. Get started', value: 'Recipient' },
+  Mask: { label: '2. Mask details', value: 'Mask' },
+  Delivery: { label: '3. Delivery details', value: 'Delivery' }
+};
+
+export interface IRecipientSection {
+  maskFor: string;
+  name: string;
+  company: string;
+  email: string;
+  phone: string;
+}
+
+export interface IMaskSection {
+  maskType: string[];
+  maskRequirements: string;
+}
+
+export interface IDeliverySection {
+  receiveMaskChannel: string[];
+  deliveryNotes: string;
+  dropOffAddress1: string;
+  dropOffAddress2: string;
+  dropOffCity: string;
+  dropOffState: string;
+  dropOffZipCode: string;
+  mailAddress1: string;
+  mailAddress2: string;
+  mailCity: string;
+  mailState: string;
+  mailZipCode: string;
+}

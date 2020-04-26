@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import { Form, Button, Typography, Row, Col } from 'antd';
 import { TextField } from '../../FormFields/TextField';
 import { RadioGroup, RadioItem } from '../../FormFields/RadioGroup/RadioGroup';
-import { MaskFor, MASK_FOR } from '../../../types';
+import { MaskFor, MASK_FOR, IRecipientSection } from '../../../types';
 
 const { Text } = Typography;
 
-export interface GetStartedSectionProps {
-  onFinish: (maskRequest: any) => void;
+export interface RecipientSectionProps {
+  onFinish: (maskRequest: object) => void;
 }
 
-export const GetStartedSection: React.FC<GetStartedSectionProps> = (props) => {
+export const RecipientSection: React.FC<RecipientSectionProps> = (props) => {
   const [displaySummary, setDisplaySummary] = useState(false);
   const [getStarted, setGetStarted] = useState({
     maskFor: '',
@@ -19,32 +19,18 @@ export const GetStartedSection: React.FC<GetStartedSectionProps> = (props) => {
     email: '',
     phone: ''
   });
-  const radioItems: RadioItem[] = [
-    {
-      label: MASK_FOR['MedicalFacility'],
-      value: 'MedicalFacility',
-      checked: false
-    },
-    {
-      label: MASK_FOR['NonProfit'],
-      value: 'NonProfit',
-      checked: false
-    },
-    {
-      label: MASK_FOR['EssentialWorker'],
-      value: 'EssentialWorker',
-      checked: false
-    },
-    {
-      label: MASK_FOR['Myself'],
-      value: 'Myself',
-      checked: false
-    }
-  ];
 
-  const onFinish = (maskRequest: any) => {
+  const radioItems: RadioItem[] = Object.entries(MASK_FOR).map(
+    ([value, label]) => ({
+      label,
+      value,
+      checked: false
+    })
+  );
+
+  const onFinish = (maskRequest: object) => {
     setDisplaySummary(true);
-    setGetStarted(maskRequest);
+    setGetStarted(maskRequest as IRecipientSection);
     props.onFinish(maskRequest);
   };
 
@@ -92,7 +78,7 @@ export const GetStartedSection: React.FC<GetStartedSectionProps> = (props) => {
     <Form
       form={form}
       layout="vertical"
-      name="get-started-form"
+      name="recipient-form"
       onFinish={onFinish}
       scrollToFirstError
     >

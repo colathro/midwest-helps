@@ -5,12 +5,16 @@ import {
   CheckboxItem,
   CheckboxGroup
 } from '../../FormFields/CheckboxGroup/CheckboxGroup';
-import { RECEIVE_MASK_CHANNEL, ReceiveMaskChannel } from '../../../types';
+import {
+  RECEIVE_MASK_CHANNEL,
+  ReceiveMaskChannel,
+  IDeliverySection
+} from '../../../types';
 
 const { Title, Text } = Typography;
 
 export interface DeliverySectionProps {
-  onFinish: (maskRequest: any) => void;
+  onFinish: (maskRequest: object) => void;
 }
 
 export const DeliverySection: React.FC<DeliverySectionProps> = (props) => {
@@ -18,7 +22,7 @@ export const DeliverySection: React.FC<DeliverySectionProps> = (props) => {
   const [mailAddresssVisible, setMailAddresssVisible] = useState(false);
   const [displaySummary, setDisplaySummary] = useState(false);
   const [deliveryDetails, setDeliveryDetails] = useState({
-    receiveMaskChannel: [],
+    receiveMaskChannel: [] as string[],
     deliveryNotes: '',
     dropOffAddress1: '',
     dropOffAddress2: '',
@@ -32,24 +36,21 @@ export const DeliverySection: React.FC<DeliverySectionProps> = (props) => {
     mailZipCode: ''
   });
 
-  const checkboxItems: CheckboxItem[] = [
-    {
-      label: RECEIVE_MASK_CHANNEL['DropOff'],
-      value: 'DropOff',
-      checked: false,
-      onChange: () => {
-        setDropOffAddresssVisible(!dropOffAddresssVisible);
-      }
-    },
-    {
-      label: RECEIVE_MASK_CHANNEL['Mail'],
-      value: 'Mail',
-      checked: false,
-      onChange: () => {
-        setMailAddresssVisible(!mailAddresssVisible);
-      }
-    }
-  ];
+  const checkboxItems: CheckboxItem[] = Object.entries(
+    RECEIVE_MASK_CHANNEL
+  ).map(([value, label]) => ({
+    label,
+    value,
+    checked: false,
+    onChange:
+      label === RECEIVE_MASK_CHANNEL.DropOff
+        ? () => {
+            setDropOffAddresssVisible(!dropOffAddresssVisible);
+          }
+        : () => {
+            setMailAddresssVisible(!mailAddresssVisible);
+          }
+  }));
 
   const buildAddressForm = (name: string, label: string) => {
     return (
@@ -94,9 +95,9 @@ export const DeliverySection: React.FC<DeliverySectionProps> = (props) => {
     );
   };
 
-  const onFinish = (deliveryDetailsObj: any) => {
+  const onFinish = (deliveryDetailsObj: object) => {
     setDisplaySummary(true);
-    setDeliveryDetails(deliveryDetailsObj);
+    setDeliveryDetails(deliveryDetailsObj as IDeliverySection);
     props.onFinish(deliveryDetailsObj);
   };
 

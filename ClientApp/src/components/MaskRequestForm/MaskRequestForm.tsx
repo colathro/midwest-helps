@@ -1,53 +1,73 @@
 import React, { useState } from 'react';
 import { Button, Collapse, Typography } from 'antd';
-import { GetStartedSection } from '../MaskRequestForm/GetStartedSection';
-import { MaskSection } from '../MaskRequestForm/MaskSection';
-import { DeliverySection } from '../MaskRequestForm/DeliverySection';
+import { RecipientSection } from './RecipientSection';
+import { MaskSection } from './MaskSection';
+import { DeliverySection } from './DeliverySection';
 import './MaskRequestForm.scss';
+import { MASK_REQUEST_SECTION } from '../../types';
 
 const { Title } = Typography;
 
 export const MaskRequestForm: React.FC = () => {
-  const [activePanels, setActivePanels] = useState(['1']);
-  const [disablePanels, setDisablePanels] = useState(['2', '3']);
-  const [displaySubmitButton, setDisplaySubmitButton] = useState(false);
+  const [activePanels, setActivePanels] = useState([
+    MASK_REQUEST_SECTION.Recipient.value
+  ]);
+  const [disablePanels, setDisablePanels] = useState([
+    MASK_REQUEST_SECTION.Mask.value,
+    MASK_REQUEST_SECTION.Delivery.value
+  ]);
+  const [allowSubmit, setAllowSubmit] = useState(false);
   const [maskFormCompleted, setMaskFormCompleted] = useState({
-    getStarted: {},
-    maskDetails: {},
-    deliveryDetails: {}
+    recipient: {},
+    mask: {},
+    delivery: {}
   });
 
-  const onSubmit = (maskRequest: any) => {
+  const onSubmit = () => {
     //TODO
   };
 
-  const setGetStartedObj = (getStartedObj: object) => {
+  const setRecipientObj = (recipientObj: object) => {
     setMaskFormCompleted({
-      getStarted: getStartedObj,
-      maskDetails: maskFormCompleted.maskDetails,
-      deliveryDetails: maskFormCompleted.deliveryDetails
+      recipient: recipientObj,
+      mask: maskFormCompleted.mask,
+      delivery: maskFormCompleted.delivery
     });
-    setActivePanels(['1', '2']);
-    setDisablePanels(['3']);
+    // if user has not gone through all sections set active and disabled sections
+    if (!allowSubmit) {
+      setActivePanels([
+        MASK_REQUEST_SECTION.Recipient.value,
+        MASK_REQUEST_SECTION.Mask.value
+      ]);
+      setDisablePanels([MASK_REQUEST_SECTION.Delivery.value]);
+    }
   };
 
-  const setMaskDetailsObj = (maskDetailsObj: any) => {
+  const setMaskDetailsObj = (maskObj: object) => {
     setMaskFormCompleted({
-      getStarted: maskFormCompleted.getStarted,
-      maskDetails: maskDetailsObj,
-      deliveryDetails: maskFormCompleted.deliveryDetails
+      recipient: maskFormCompleted.recipient,
+      mask: maskObj,
+      delivery: maskFormCompleted.delivery
     });
-    setActivePanels(['1', '2', '3']);
-    setDisablePanels([]);
+    // if user has not gone through all sections set active and disabled sections
+    if (!allowSubmit) {
+      setActivePanels([
+        MASK_REQUEST_SECTION.Recipient.value,
+        MASK_REQUEST_SECTION.Mask.value,
+        MASK_REQUEST_SECTION.Delivery.value
+      ]);
+      setDisablePanels([]);
+    }
   };
 
-  const setDeliveryDetailsObj = (deliveryDetailsObj: any) => {
+  const setDeliveryDetailsObj = (deliverObj: object) => {
     setMaskFormCompleted({
-      getStarted: maskFormCompleted.getStarted,
-      maskDetails: maskFormCompleted.maskDetails,
-      deliveryDetails: deliveryDetailsObj
+      recipient: maskFormCompleted.recipient,
+      mask: maskFormCompleted.mask,
+      delivery: deliverObj
     });
-    setDisplaySubmitButton(true);
+    // once user has set the delivery details user should be able to submit the request
+    setAllowSubmit(true);
   };
 
   const onChangeCollapse = (key: any) => {
@@ -63,32 +83,34 @@ export const MaskRequestForm: React.FC = () => {
       </Typography>
       <Collapse activeKey={activePanels} onChange={onChangeCollapse}>
         <Collapse.Panel
-          header="1. Get started"
-          key="1"
+          header={MASK_REQUEST_SECTION.Recipient.label}
+          key={MASK_REQUEST_SECTION.Recipient.value}
           showArrow={false}
-          disabled={disablePanels.includes('1')}
+          disabled={disablePanels.includes(
+            MASK_REQUEST_SECTION.Recipient.value
+          )}
         >
-          <GetStartedSection onFinish={setGetStartedObj} />
+          <RecipientSection onFinish={setRecipientObj} />
         </Collapse.Panel>
         <Collapse.Panel
-          header="2. Mask details"
-          key="2"
+          header={MASK_REQUEST_SECTION.Mask.label}
+          key={MASK_REQUEST_SECTION.Mask.value}
           showArrow={false}
-          disabled={disablePanels.includes('2')}
+          disabled={disablePanels.includes(MASK_REQUEST_SECTION.Mask.value)}
         >
           <MaskSection onFinish={setMaskDetailsObj} />
         </Collapse.Panel>
         <Collapse.Panel
-          header="3. Delivery details"
-          key="3"
+          header={MASK_REQUEST_SECTION.Delivery.label}
+          key={MASK_REQUEST_SECTION.Delivery.value}
           showArrow={false}
-          disabled={disablePanels.includes('3')}
+          disabled={disablePanels.includes(MASK_REQUEST_SECTION.Delivery.value)}
         >
           <DeliverySection onFinish={setDeliveryDetailsObj} />
         </Collapse.Panel>
       </Collapse>
-      {displaySubmitButton && (
-        <Button type="primary" onClick={() => onSubmit({})}>
+      {allowSubmit && (
+        <Button type="primary" onClick={() => onSubmit()}>
           Submit
         </Button>
       )}

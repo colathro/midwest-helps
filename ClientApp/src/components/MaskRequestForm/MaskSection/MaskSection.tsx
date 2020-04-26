@@ -5,51 +5,31 @@ import {
   CheckboxItem,
   CheckboxGroup
 } from '../../FormFields/CheckboxGroup/CheckboxGroup';
-import { MASK_TYPE, MaskType } from '../../../types';
+import { MASK_TYPE, MaskType, IMaskSection } from '../../../types';
 const { Text } = Typography;
 
 export interface MaskSectionProps {
-  onFinish: (maskRequest: any) => void;
+  onFinish: (maskRequest: object) => void;
 }
 
 export const MaskSection: React.FC<MaskSectionProps> = (props) => {
   const [displaySummary, setDisplaySummary] = useState(false);
   const [maskDetails, setMaskDetails] = useState({
-    maskType: [],
+    maskType: [] as string[],
     maskRequirements: ''
   });
 
-  const checkboxItems: CheckboxItem[] = [
-    {
-      label: MASK_TYPE['Fabric'],
-      value: 'Fabric',
+  const checkboxItems: CheckboxItem[] = Object.entries(MASK_TYPE).map(
+    ([value, label]) => ({
+      label,
+      value,
       checked: false
-    },
-    {
-      label: MASK_TYPE['FaceShield'],
-      value: 'FaceShield',
-      checked: false
-    },
-    {
-      label: MASK_TYPE['EarGuards'],
-      value: 'EarGuards',
-      checked: false
-    },
-    {
-      label: MASK_TYPE['ScrubCaps'],
-      value: 'ScrubCaps',
-      checked: false
-    },
-    {
-      label: MASK_TYPE['Others'],
-      value: 'Others',
-      checked: false
-    }
-  ];
+    })
+  );
 
-  const onFinish = (maskDetailsObj: any) => {
+  const onFinish = (maskDetailsObj: object) => {
     setDisplaySummary(true);
-    setMaskDetails(maskDetailsObj);
+    setMaskDetails(maskDetailsObj as IMaskSection);
     props.onFinish(maskDetailsObj);
   };
 
