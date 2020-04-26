@@ -102,6 +102,10 @@ export const DeliveryDetailsForm: React.FC<DeliveryDetailsFormProps> = (
     props.onFinish(deliveryDetailsObj);
   };
 
+  const onEditClick = () => {
+    setDisplaySummary(false);
+  };
+
   const summaryAddress = (
     title: string,
     address1: string,
@@ -136,38 +140,51 @@ export const DeliveryDetailsForm: React.FC<DeliveryDetailsFormProps> = (
   const summary = () => {
     return (
       <>
-        <Text strong>How do you want to receive masks?</Text>
-        <br />
-        {deliveryDetails.receiveMaskChannel.map((rmc) => (
-          <>
-            <Text type="secondary">
-              {RECEIVE_MASK_CHANNEL[rmc as ReceiveMaskChannel]}
-            </Text>
+        <Row>
+          <Col span={22}>
+            <Text strong>How do you want to receive masks?</Text>
             <br />
-          </>
-        ))}
-        <br />
-        {dropOffAddresssVisible &&
-          summaryAddress(
-            'Drop-off address',
-            deliveryDetails.dropOffAddress1,
-            deliveryDetails.dropOffAddress2,
-            deliveryDetails.dropOffCity,
-            deliveryDetails.dropOffState,
-            deliveryDetails.dropOffZipCode
-          )}
-        {mailAddresssVisible &&
-          summaryAddress(
-            'Mail address',
-            deliveryDetails.mailAddress1,
-            deliveryDetails.mailAddress2,
-            deliveryDetails.mailCity,
-            deliveryDetails.mailState,
-            deliveryDetails.mailZipCode
-          )}
-        <Text strong>Delivery notes</Text>
-        <br />
-        <Text type="secondary">{deliveryDetails.deliveryNotes}</Text>
+            {deliveryDetails.receiveMaskChannel.map((rmc) => (
+              <>
+                <Text type="secondary">
+                  {RECEIVE_MASK_CHANNEL[rmc as ReceiveMaskChannel]}
+                </Text>
+                <br />
+              </>
+            ))}
+            <br />
+            {dropOffAddresssVisible &&
+              summaryAddress(
+                'Drop-off address',
+                deliveryDetails.dropOffAddress1,
+                deliveryDetails.dropOffAddress2,
+                deliveryDetails.dropOffCity,
+                deliveryDetails.dropOffState,
+                deliveryDetails.dropOffZipCode
+              )}
+            {mailAddresssVisible &&
+              summaryAddress(
+                'Mail address',
+                deliveryDetails.mailAddress1,
+                deliveryDetails.mailAddress2,
+                deliveryDetails.mailCity,
+                deliveryDetails.mailState,
+                deliveryDetails.mailZipCode
+              )}
+            <Text strong>Delivery notes</Text>
+            <br />
+            {deliveryDetails.deliveryNotes ? (
+              <Text type="secondary">{deliveryDetails.deliveryNotes}</Text>
+            ) : (
+              <Text type="secondary">None</Text>
+            )}
+          </Col>
+          <Col span={2}>
+            <Button type="link" onClick={() => onEditClick()}>
+              Edit
+            </Button>
+          </Col>
+        </Row>
       </>
     );
   };
@@ -190,6 +207,7 @@ export const DeliveryDetailsForm: React.FC<DeliveryDetailsFormProps> = (
             name="receiveMaskChannel"
             title="How do you want to receive masks?"
             checkboxItems={checkboxItems}
+            required={true}
           />
           {dropOffAddresssVisible &&
             buildAddressForm('dropOff', 'Drop-off address')}

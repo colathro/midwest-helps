@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Button, Typography } from 'antd';
+import { Form, Button, Typography, Row, Col } from 'antd';
 import { TextField } from '../../FormFields/TextField';
 import {
   CheckboxItem,
@@ -53,21 +53,38 @@ export const MaskDetailsForm: React.FC<MaskDetailsFormProps> = (props) => {
     props.onFinish(maskDetailsObj);
   };
 
+  const onEditClick = () => {
+    setDisplaySummary(false);
+  };
+
   const summary = () => {
     return (
       <>
-        <Text strong>What type of masks are you in need of?</Text>
-        <br />
-        {maskDetails.maskType.map((mt) => (
-          <>
-            <Text type="secondary">{MASK_TYPE[mt as MaskType]}</Text>
+        <Row>
+          <Col span={22}>
+            <Text strong>What type of masks are you in need of?</Text>
             <br />
-          </>
-        ))}
-        <br />
-        <Text strong>Mask requirements</Text>
-        <br />
-        <Text type="secondary">{maskDetails.maskRequirements}</Text>
+            {maskDetails.maskType.map((mt) => (
+              <>
+                <Text type="secondary">{MASK_TYPE[mt as MaskType]}</Text>
+                <br />
+              </>
+            ))}
+            <br />
+            <Text strong>Mask requirements</Text>
+            <br />
+            {maskDetails.maskRequirements ? (
+              <Text type="secondary">{maskDetails.maskRequirements}</Text>
+            ) : (
+              <Text type="secondary">None</Text>
+            )}
+          </Col>
+          <Col span={2}>
+            <Button type="link" onClick={() => onEditClick()}>
+              Edit
+            </Button>
+          </Col>
+        </Row>
       </>
     );
   };
@@ -90,6 +107,7 @@ export const MaskDetailsForm: React.FC<MaskDetailsFormProps> = (props) => {
             name="maskType"
             title="What type of masks are you in need of?"
             checkboxItems={checkboxItems}
+            required={true}
           ></CheckboxGroup>
           <TextField
             name="maskRequirements"

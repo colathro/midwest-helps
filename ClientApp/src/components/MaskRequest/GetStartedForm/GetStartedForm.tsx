@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Button, Typography } from 'antd';
+import { Form, Button, Typography, Row, Col } from 'antd';
 import { TextField } from '../../FormFields/TextField';
 import { RadioGroup, RadioItem } from '../../FormFields/RadioGroup/RadioGroup';
 import { MaskFor, MASK_FOR } from '../../../types';
@@ -48,21 +48,40 @@ export const GetStartedForm: React.FC<GetStartedFormProps> = (props) => {
     props.onFinish(maskRequest);
   };
 
+  const onEditClick = () => {
+    setDisplaySummary(false);
+  };
+
   const summary = () => {
     return (
       <>
-        <Text strong>Who are the masks for?</Text>
-        <br />
-        <Text type="secondary">{MASK_FOR[getStarted.maskFor as MaskFor]}</Text>
-        <br />
-        <br />
-        <Text strong>{getStarted.name}</Text>
-        <br />
-        <Text type="secondary">{getStarted.company}</Text>
-        <br />
-        <Text type="secondary">{getStarted.email}</Text>
-        <br />
-        <Text type="secondary">{getStarted.phone}</Text>
+        <Row>
+          <Col span={22}>
+            <Text strong>Who are the masks for?</Text>
+            <br />
+            <Text type="secondary">
+              {MASK_FOR[getStarted.maskFor as MaskFor]}
+            </Text>
+            <br />
+            <br />
+            <Text strong>{getStarted.name}</Text>
+            <br />
+            {getStarted.company && (
+              <>
+                <Text type="secondary">{getStarted.company}</Text>
+                <br />
+              </>
+            )}
+            <Text type="secondary">{getStarted.email}</Text>
+            <br />
+            <Text type="secondary">{getStarted.phone}</Text>
+          </Col>
+          <Col span={2}>
+            <Button type="link" onClick={() => onEditClick()}>
+              Edit
+            </Button>
+          </Col>
+        </Row>
       </>
     );
   };
@@ -85,14 +104,19 @@ export const GetStartedForm: React.FC<GetStartedFormProps> = (props) => {
             name="maskFor"
             title="Who are the masks for?"
             radioItems={radioItems}
-          ></RadioGroup>
+            required={true}
+          />
           <TextField
             name="name"
             type="name"
             placeHolder="Name"
             required={true}
           />
-          <TextField name="company" type="name" placeHolder="Company" />
+          <TextField
+            name="company"
+            type="name"
+            placeHolder="Company (optional)"
+          />
           <TextField
             name="email"
             type="email"

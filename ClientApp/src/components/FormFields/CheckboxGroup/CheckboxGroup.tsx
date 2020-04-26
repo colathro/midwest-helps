@@ -19,14 +19,21 @@ export interface CheckboxItem {
 }
 
 export const CheckboxGroup: React.FC<CheckboxGroupProps> = (props) => {
-  // const defaultValues: string[] = props.checkboxItems
-  //   .filter((c) => c.checked)
-  //   .map((c) => {
-  //     return c.value;
-  //   });
+  let rules = [];
 
+  if (props.required) {
+    rules.push({
+      required: true,
+      message: 'Please, select at least one of the options',
+    });
+  }
   return (
-    <Form.Item name={props.name} label={props.title} className="hotdish-input">
+    <Form.Item
+      name={props.name}
+      label={props.title}
+      rules={rules}
+      className="hotdish-input"
+    >
       <Checkbox.Group>
         <Row>
           {props.checkboxItems.map((item, index) => (
