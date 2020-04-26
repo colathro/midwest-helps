@@ -23,27 +23,27 @@ export const ListingApprovals: React.FC = () => {
     Modal.error({
       title: 'Error fetching pending approvals',
       content: 'something broke, bother colton',
-      onOk: () => goAdmin(),
+      onOk: () => goAdmin()
     });
   };
 
   const approved = () => {
     Modal.success({
       content: 'Successfully Approved.',
-      onOk: () => goAdmin(),
+      onOk: () => goAdmin()
     });
   };
 
   const denied = () => {
     Modal.success({
       content: 'Successfully Denied.',
-      onOk: () => goAdmin(),
+      onOk: () => goAdmin()
     });
   };
 
   const approve = (id: string) => {
     const requestOptions = {
-      method: 'POST',
+      method: 'POST'
     };
     fetch(`/api/listing/approvals/approve/${key}/${id}`, requestOptions)
       .then((response) => response)
@@ -54,14 +54,12 @@ export const ListingApprovals: React.FC = () => {
           error();
         }
       })
-      .catch(() => {
-        error();
-      });
+      .catch(error);
   };
 
   const deny = (id: string) => {
     const requestOptions = {
-      method: 'POST',
+      method: 'POST'
     };
     fetch(`/api/listing/approvals/approve/${key}/${id}`, requestOptions)
       .then((response) => response)
@@ -72,9 +70,7 @@ export const ListingApprovals: React.FC = () => {
           error();
         }
       })
-      .catch(() => {
-        error();
-      });
+      .catch(error);
   };
 
   const getPendingApprovals = () => {
@@ -84,9 +80,7 @@ export const ListingApprovals: React.FC = () => {
           setAllApprovals(data);
           setLoading(false);
         })
-        .catch(() => {
-          error();
-        });
+        .catch(error);
     }
   };
 

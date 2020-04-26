@@ -1,13 +1,6 @@
-import React, {
-  useState,
-  useEffect,
-  ForwardRefExoticComponent,
-  RefAttributes
-} from 'react';
+import React, { useState, useEffect } from 'react';
 import { Layout, Descriptions, Button, Modal, List, Row, Col } from 'antd';
-import { MessageOutlined, LikeOutlined, StarOutlined } from '@ant-design/icons';
-import { useHistory, useLocation } from 'react-router-dom';
-import { PendingApproval } from './PendingApproval';
+import { useLocation } from 'react-router-dom';
 import { MaskRequest } from '../../../../types';
 
 import './MaskRequestApprovals.scss';
@@ -15,16 +8,16 @@ import './MaskRequestApprovals.scss';
 const useQuery = () => new URLSearchParams(useLocation().search);
 
 export const MaskRequestApprovals: React.FC = () => {
-  const history = useHistory();
+  // const history = useHistory();
   const query = useQuery();
   const [allApprovals, setAllApprovals] = useState<MaskRequest[]>([]);
   const [loading, setLoading] = useState(true);
 
   const key = query.get('key');
 
-  const goAdmin = () => {
-    history.push(`/admin?key=${key}`);
-  };
+  // const goAdmin = () => {
+  //   history.push(`/admin?key=${key}`);
+  // };
 
   const refreshPage = () => {
     window.location.reload(false);

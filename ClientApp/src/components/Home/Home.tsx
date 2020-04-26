@@ -117,9 +117,7 @@ export const Home: React.FC = () => {
           setHasMoreBusinesses(false);
         }
       })
-      .catch(() => {
-        setError(true);
-      });
+      .catch(() => setError(true));
   };
 
   let companies;

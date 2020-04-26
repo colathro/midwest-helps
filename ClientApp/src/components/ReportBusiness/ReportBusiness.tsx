@@ -58,9 +58,7 @@ export const ReportBusiness: React.FC<ReportBusinessProps> = (props) => {
           error();
         }
       })
-      .catch(() => {
-        error();
-      });
+      .catch(error);
   };
 
   const radioStyle = {
