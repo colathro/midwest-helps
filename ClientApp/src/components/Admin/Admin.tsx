@@ -1,69 +1,24 @@
 import React from 'react';
-import { Layout, PageHeader, Tabs, Button, Modal } from 'antd';
+import { Layout, PageHeader, Button } from 'antd';
 import { useHistory, Switch, Route, useLocation } from 'react-router-dom';
 import { MaskRequestApprovals } from './Pages/MaskRequestApprovals';
 import { ListingApprovals } from './Pages/ListingApprovals';
-import { FreeMoney } from './Pages/FreeMoney';
 
 import './Admin.scss';
-
-const { TabPane } = Tabs;
 
 const useQuery = () => new URLSearchParams(useLocation().search);
 
 export const Admin: React.FC = () => {
-  let history = useHistory();
+  const history = useHistory();
   const query = useQuery();
+  const key = query.get('key');
 
-  let key = query.get('key');
-
-  const onFinish = (values: any) => {
-    console.log(values);
-    sendMessage(values);
+  const gotoFreeMoney = () => {
+    history.push('/admin/freemoney');
   };
 
-  function gotoMaskRequests() {
+  const gotoMaskRequests = () => {
     history.push(`/admin/maskrequests?key=${key}`);
-  }
-
-  function success() {
-    Modal.success({
-      content: 'Your message was sent successfully.',
-      onOk: () => goHome(),
-    });
-  }
-
-  function error() {
-    Modal.error({
-      title: 'Oops',
-      content: 'There was a problem sending your message. Try again later.',
-      onOk: () => goHome(),
-    });
-  }
-
-  function sendMessage(data: any) {
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    };
-    fetch('/api/contact/', requestOptions)
-      .then((response) => response)
-      .then((data) => {
-        console.log('RESPONSE', data);
-        if (data.ok) {
-          success();
-        } else {
-          error();
-        }
-      })
-      .catch(function () {
-        error();
-      });
-  }
-
-  const goHome = () => {
-    history.push('/');
   };
 
   return (
@@ -73,9 +28,12 @@ export const Admin: React.FC = () => {
         title="Admin Portol"
         subTitle="👨‍🦱 lil louie bert"
         extra={[
-          <Button key="1" onClick={gotoMaskRequests}>
-            Mask Requests
+          <Button key="1" onClick={gotoFreeMoney}>
+            Free Money
           </Button>,
+          <Button key="2" onClick={gotoMaskRequests}>
+            Mask Requests
+          </Button>
         ]}
       ></PageHeader>
       <Switch>

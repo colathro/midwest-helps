@@ -27,7 +27,7 @@ export declare type RuleType =
 const { TextArea } = Input;
 
 export const TextField: React.FC<TextFieldProps> = (props) => {
-  let rules = [];
+  const rules = [];
 
   if (props.type === 'email') {
     rules.push({
@@ -35,7 +35,7 @@ export const TextField: React.FC<TextFieldProps> = (props) => {
       message:
         'The ' + props.title
           ? props.title?.toLowerCase()
-          : 'email' + ' input is not valid.',
+          : 'email' + ' input is not valid.'
     });
   } else if (props.type === 'url') {
     rules.push({
@@ -43,7 +43,7 @@ export const TextField: React.FC<TextFieldProps> = (props) => {
       message:
         'The ' + props.title
           ? props.title?.toLowerCase()
-          : 'url' + ' input is not valid.',
+          : 'url' + ' input is not valid.'
     });
   } else if (props.type === 'phone') {
     rules.push({
@@ -51,7 +51,7 @@ export const TextField: React.FC<TextFieldProps> = (props) => {
       message:
         'The ' + props.title
           ? props.title?.toLowerCase()
-          : 'phone' + ' input is not valid.',
+          : 'phone' + ' input is not valid.'
     });
   } else {
     rules.push({
@@ -59,13 +59,13 @@ export const TextField: React.FC<TextFieldProps> = (props) => {
       message:
         'The ' + props.title
           ? props.title?.toLowerCase()
-          : 'text' + ' input is not valid.',
+          : 'text' + ' input is not valid.'
     });
   }
 
   rules.push({
     required: props.required,
-    message: 'Field must be filled',
+    message: 'Field must be filled'
   });
 
   // const subTitle = props.subTitle ? (

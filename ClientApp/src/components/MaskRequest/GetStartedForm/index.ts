@@ -1,1 +1,0 @@
-export { GetStartedForm } from './GetStartedForm';

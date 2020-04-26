@@ -1,8 +1,16 @@
 import React, { useState } from 'react';
 import { Modal } from 'antd';
 import { useHistory } from 'react-router-dom';
-import { BuildBusinessForm } from '../BuildBusinessForm/BuildBusinessForm';
-import { Business } from '../../../types';
+import {
+  BuildBusinessForm,
+  BusinessFormSubmitValues
+} from '../BusinessForms/BuildBusinessForm/BuildBusinessForm';
+import {
+  Business,
+  BusinessHours,
+  BusinessInteraction,
+  BusinessDeliveryApp
+} from '../../types';
 
 export interface UpdateBusinessProps {
   business: Business;
@@ -10,7 +18,7 @@ export interface UpdateBusinessProps {
 }
 
 export const UpdateBusiness: React.FC<UpdateBusinessProps> = (props) => {
-  let history = useHistory();
+  const history = useHistory();
 
   const [visible, setVisible] = useState(true);
 
@@ -20,7 +28,7 @@ export const UpdateBusiness: React.FC<UpdateBusinessProps> = (props) => {
     setVisible(false);
   };
 
-  const updateBusiness = (business: any) => {
+  const updateBusiness = (business: BusinessFormSubmitValues) => {
     business.id = props.business.id;
     business.category = props.business.category;
     business.name = props.business.name;
@@ -29,7 +37,7 @@ export const UpdateBusiness: React.FC<UpdateBusinessProps> = (props) => {
       id: props.business.id,
       name: props.business.name,
       category: props.business.category,
-      hours: business.hours || 'None',
+      hours: (business.hours || 'None') as BusinessHours,
       phoneNumber: business.phoneNumber
         ? business.phoneNumber.replace(/\D/g, '')
         : '',
@@ -38,38 +46,38 @@ export const UpdateBusiness: React.FC<UpdateBusinessProps> = (props) => {
       liveStreamUrl: business.liveStreamUrl || '',
       orderUrl: business.orderUrl || '',
       giftCardUrl: business.giftCardUrl || '',
-      interactions: business.interactions || [],
-      deliveryApps: business.deliveryApps || [],
+      interactions: (business.interactions || []) as BusinessInteraction[],
+      deliveryApps: (business.deliveryApps || []) as BusinessDeliveryApp[]
     };
 
     put('/api/listing/' + business.id, putRequest);
   };
 
-  function success() {
+  const success = () => {
     Modal.success({
       content: 'Your business was submitted successfully.',
       onOk: () => goHome(),
-      onCancel: () => goHome(),
+      onCancel: () => goHome()
     });
-  }
+  };
 
-  function error() {
+  const error = () => {
     Modal.error({
       title: 'Oops',
       content: 'There was a problem updating your business. Try again later.',
       onOk: () => goHome(),
-      onCancel: () => goHome(),
+      onCancel: () => goHome()
     });
-  }
+  };
 
-  async function put(url: string, body: Business) {
+  const put = async (url: string, body: Business) => {
     const requestOptions = {
       method: 'PUT',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
-      body: JSON.stringify(body),
+      body: JSON.stringify(body)
     };
 
     const response = await fetch(url, requestOptions);
@@ -80,7 +88,7 @@ export const UpdateBusiness: React.FC<UpdateBusinessProps> = (props) => {
       error();
     }
     props.bussinessCardCallback(props.business);
-  }
+  };
 
   const goHome = () => {
     history.push('/');
