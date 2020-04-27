@@ -89,7 +89,7 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = (props) => {
         <TextField
           name="name"
           title="Business name"
-          type="name"
+          type="string"
           placeHolder="Enter the name of your business"
           required={true}
           defaultValue={props.businessModel?.name}
@@ -132,7 +132,7 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = (props) => {
             <TextField
               name="website"
               title="Business website"
-              type="name"
+              type="string"
               placeHolder="www.businessname.com"
               subTitle="If your business has a web page that you would like to share, enter the link here"
               required={false}

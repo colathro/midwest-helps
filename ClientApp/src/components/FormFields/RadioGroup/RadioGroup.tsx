@@ -19,8 +19,22 @@ export interface RadioItem {
 }
 
 export const RadioGroup: React.FC<RadioGroupProps> = (props) => {
+  let rules = [];
+
+  if (props.required) {
+    rules.push({
+      required: true,
+      message: 'Please, select one of the options',
+    });
+  }
+
   return (
-    <Form.Item name={props.name} label={props.title} className="hotdish-input">
+    <Form.Item
+      name={props.name}
+      label={props.title}
+      rules={rules}
+      className="hotdish-input"
+    >
       <Radio.Group>
         <Row>
           {props.radioItems.map((item, index) => (

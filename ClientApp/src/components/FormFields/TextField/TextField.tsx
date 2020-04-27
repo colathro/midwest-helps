@@ -13,7 +13,13 @@ export interface TextFieldProps {
   defaultValue?: string;
 }
 
-export type TextFieldType = 'name' | 'email' | 'phone' | 'url' | 'text';
+export type TextFieldType =
+  | 'string'
+  | 'email'
+  | 'phone'
+  | 'url'
+  | 'zipCode'
+  | 'text';
 
 export declare type RuleType =
   | 'string'
@@ -33,33 +39,41 @@ export const TextField: React.FC<TextFieldProps> = (props) => {
     rules.push({
       type: 'email' as RuleType,
       message:
-        'The ' + props.title
-          ? props.title?.toLowerCase()
-          : 'email' + ' input is not valid.'
+        'The ' +
+        (props.title ? props.title?.toLowerCase() : 'email') +
+        ' input is not valid.'
     });
   } else if (props.type === 'url') {
     rules.push({
       type: 'url' as RuleType,
       message:
-        'The ' + props.title
-          ? props.title?.toLowerCase()
-          : 'url' + ' input is not valid.'
+        'The ' +
+        (props.title ? props.title?.toLowerCase() : 'url') +
+        ' input is not valid.'
     });
   } else if (props.type === 'phone') {
     rules.push({
       pattern: new RegExp(/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/),
       message:
-        'The ' + props.title
-          ? props.title?.toLowerCase()
-          : 'phone' + ' input is not valid.'
+        'The ' +
+        (props.title ? props.title?.toLowerCase() : 'phone') +
+        ' input is not valid.'
+    });
+  } else if (props.type === 'zipCode') {
+    rules.push({
+      pattern: new RegExp(/(^\d{5}$)|(^\d{9}$)|(^\d{5}-\d{4}$)/),
+      message:
+        'The ' +
+        (props.title ? props.title?.toLowerCase() : 'zip code') +
+        ' input is not valid.'
     });
   } else {
     rules.push({
       type: 'string' as RuleType,
       message:
-        'The ' + props.title
-          ? props.title?.toLowerCase()
-          : 'text' + ' input is not valid.'
+        'The ' +
+        (props.title ? props.title?.toLowerCase() : 'field') +
+        ' input is not valid.'
     });
   }
 
@@ -67,14 +81,6 @@ export const TextField: React.FC<TextFieldProps> = (props) => {
     required: props.required,
     message: 'Field must be filled'
   });
-
-  // const subTitle = props.subTitle ? (
-  //   <p className="subtitle" key="subtitle">
-  //     {props.subTitle}
-  //   </p>
-  // ) : (
-  //   <></>
-  // );
 
   return (
     <span>
