@@ -28,7 +28,8 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "^3.0.1",
     "rimraf": "^2.6.2",
-    "tslint": "^6.1.1"
+    "tslint": "^6.1.1",
+    "usa-states": "0.0.5"
   },
   "devDependencies": {
     "ajv": "^6.9.1",

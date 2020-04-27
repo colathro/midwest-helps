@@ -13,7 +13,13 @@ export interface TextFieldProps {
   defaultValue?: string;
 }
 
-export type TextFieldType = 'name' | 'email' | 'phone' | 'url' | 'text';
+export type TextFieldType =
+  | 'string'
+  | 'email'
+  | 'phone'
+  | 'url'
+  | 'zipCode'
+  | 'text';
 
 export declare type RuleType =
   | 'string'
@@ -51,6 +57,14 @@ export const TextField: React.FC<TextFieldProps> = (props) => {
       message:
         'The ' +
         (props.title ? props.title?.toLowerCase() : 'phone') +
+        ' input is not valid.'
+    });
+  } else if (props.type === 'zipCode') {
+    rules.push({
+      pattern: new RegExp(/(^\d{5}$)|(^\d{9}$)|(^\d{5}-\d{4}$)/),
+      message:
+        'The ' +
+        (props.title ? props.title?.toLowerCase() : 'zip code') +
         ' input is not valid.'
     });
   } else {

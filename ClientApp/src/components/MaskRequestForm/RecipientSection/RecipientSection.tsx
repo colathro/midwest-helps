@@ -94,13 +94,13 @@ export const RecipientSection: React.FC<RecipientSectionProps> = (props) => {
           />
           <TextField
             name="name"
-            type="name"
+            type="string"
             placeHolder="Name"
             required={true}
           />
           <TextField
             name="company"
-            type="name"
+            type="string"
             placeHolder="Company (optional)"
           />
           <TextField

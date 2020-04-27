@@ -8,8 +8,12 @@ import {
 import {
   RECEIVE_MASK_CHANNEL,
   ReceiveMaskChannel,
-  IDeliverySection
+  IDeliverySection,
+  IStates
 } from '../../../types';
+import { SelectField } from '../../FormFields/SelectField';
+
+const UsaStates = require('usa-states').UsaStates;
 
 const { Title, Text } = Typography;
 
@@ -36,6 +40,14 @@ export const DeliverySection: React.FC<DeliverySectionProps> = (props) => {
     mailZipCode: ''
   });
 
+  var usStates = new UsaStates();
+  const stateList = usStates.states.map((item: IStates) => {
+    return {
+      label: item.name,
+      value: item.abbreviation
+    };
+  });
+
   const checkboxItems: CheckboxItem[] = Object.entries(
     RECEIVE_MASK_CHANNEL
   ).map(([value, label]) => ({
@@ -58,34 +70,35 @@ export const DeliverySection: React.FC<DeliverySectionProps> = (props) => {
         <Title level={4}>{label}</Title>
         <TextField
           name={name + 'Address1'}
-          type="name"
+          type="string"
           placeHolder="Address 1"
           required={true}
         />
         <TextField
           name={name + 'Address2'}
-          type="name"
+          type="string"
           placeHolder="Address 2 (optional)"
         />
         <TextField
           name={name + 'City'}
-          type="name"
+          type="string"
           placeHolder="City"
           required={true}
         />
         <Row gutter={8}>
           <Col span={12}>
-            <TextField
+            <SelectField
               name={name + 'State'}
-              type="name"
+              items={stateList}
               placeHolder="State"
               required={true}
+              allowSearch={true}
             />
           </Col>
           <Col span={12}>
             <TextField
               name={name + 'ZipCode'}
-              type="name"
+              type="zipCode"
               placeHolder="Zip code"
               required={true}
             />

@@ -77,7 +77,7 @@ export const Contact: React.FC = () => {
           <TextField
             name="name"
             title="Name"
-            type="name"
+            type="string"
             placeHolder="John Doe"
             required={true}
           />
