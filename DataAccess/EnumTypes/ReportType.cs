@@ -2,7 +2,6 @@
 
 namespace getthehotdish.DataAccess
 {
-    [Flags]
     public enum ReportType
     {
         innacurate = 1,
