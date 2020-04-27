@@ -12,8 +12,7 @@ import {
   IStates
 } from '../../../types';
 import { SelectField } from '../../FormFields/SelectField';
-
-const UsaStates = require('usa-states').UsaStates;
+import UsaStates from 'usa-states';
 
 const { Title, Text } = Typography;
 
@@ -40,7 +39,7 @@ export const DeliverySection: React.FC<DeliverySectionProps> = (props) => {
     mailZipCode: ''
   });
 
-  var usStates = new UsaStates();
+  const usStates: UsaStates = new UsaStates();
   const stateList = usStates.states.map((item: IStates) => {
     return {
       label: item.name,
