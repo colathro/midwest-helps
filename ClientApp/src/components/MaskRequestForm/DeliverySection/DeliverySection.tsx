@@ -8,11 +8,12 @@ import {
 import {
   RECEIVE_MASK_CHANNEL,
   ReceiveMaskChannel,
-  IDeliverySection,
-  IStates
+  IDeliverySection
 } from '../../../types';
-import { SelectField } from '../../FormFields/SelectField';
-import UsaStates from 'usa-states';
+import {
+  AddressSection,
+  addressSummary
+} from '../../FormFields/AddressSection';
 
 const { Title, Text } = Typography;
 
@@ -39,14 +40,6 @@ export const DeliverySection: React.FC<DeliverySectionProps> = (props) => {
     mailZipCode: ''
   });
 
-  const usStates: UsaStates = new UsaStates();
-  const stateList = usStates.states.map((item: IStates) => {
-    return {
-      label: item.name,
-      value: item.abbreviation
-    };
-  });
-
   const checkboxItems: CheckboxItem[] = Object.entries(
     RECEIVE_MASK_CHANNEL
   ).map(([value, label]) => ({
@@ -63,50 +56,6 @@ export const DeliverySection: React.FC<DeliverySectionProps> = (props) => {
           }
   }));
 
-  const buildAddressForm = (name: string, label: string) => {
-    return (
-      <>
-        <Title level={4}>{label}</Title>
-        <TextField
-          name={name + 'Address1'}
-          type="string"
-          placeHolder="Address 1"
-          required={true}
-        />
-        <TextField
-          name={name + 'Address2'}
-          type="string"
-          placeHolder="Address 2 (optional)"
-        />
-        <TextField
-          name={name + 'City'}
-          type="string"
-          placeHolder="City"
-          required={true}
-        />
-        <Row gutter={8}>
-          <Col span={12}>
-            <SelectField
-              name={name + 'State'}
-              items={stateList}
-              placeHolder="State"
-              required={true}
-              allowSearch={true}
-            />
-          </Col>
-          <Col span={12}>
-            <TextField
-              name={name + 'ZipCode'}
-              type="zipCode"
-              placeHolder="Zip code"
-              required={true}
-            />
-          </Col>
-        </Row>
-      </>
-    );
-  };
-
   const onFinish = (deliveryDetailsObj: object) => {
     setDisplaySummary(true);
     setDeliveryDetails(deliveryDetailsObj as IDeliverySection);
@@ -115,37 +64,6 @@ export const DeliverySection: React.FC<DeliverySectionProps> = (props) => {
 
   const onEditClick = () => {
     setDisplaySummary(false);
-  };
-
-  const summaryAddress = (
-    title: string,
-    address1: string,
-    address2: string,
-    city: string,
-    state: string,
-    zipCode: string
-  ) => {
-    return (
-      <>
-        <Text strong>{title}</Text>
-        <br />
-        <Text type="secondary">{address1}</Text>
-        <br />
-        {address2 && (
-          <>
-            <Text type="secondary">{address2}</Text>
-            <br />
-          </>
-        )}
-        <Text type="secondary">
-          {city}, {state}
-        </Text>
-        <br />
-        <Text type="secondary">{zipCode}</Text>
-        <br />
-        <br />
-      </>
-    );
   };
 
   const summary = () => {
@@ -165,7 +83,7 @@ export const DeliverySection: React.FC<DeliverySectionProps> = (props) => {
             ))}
             <br />
             {dropOffAddresssVisible &&
-              summaryAddress(
+              addressSummary(
                 'Drop-off address',
                 deliveryDetails.dropOffAddress1,
                 deliveryDetails.dropOffAddress2,
@@ -174,7 +92,7 @@ export const DeliverySection: React.FC<DeliverySectionProps> = (props) => {
                 deliveryDetails.dropOffZipCode
               )}
             {mailAddresssVisible &&
-              summaryAddress(
+              addressSummary(
                 'Mail address',
                 deliveryDetails.mailAddress1,
                 deliveryDetails.mailAddress2,
@@ -220,9 +138,12 @@ export const DeliverySection: React.FC<DeliverySectionProps> = (props) => {
             checkboxItems={checkboxItems}
             required={true}
           />
-          {dropOffAddresssVisible &&
-            buildAddressForm('dropOff', 'Drop-off address')}
-          {mailAddresssVisible && buildAddressForm('mail', 'Mail address')}
+          {dropOffAddresssVisible && (
+            <AddressSection label="Drop-off address" name="dropOff" />
+          )}
+          {mailAddresssVisible && (
+            <AddressSection label="Mail address" name="mail" />
+          )}
           <Title level={4}>Delivery notes</Title>
           <TextField
             name="deliveryNotes"

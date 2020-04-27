@@ -208,11 +208,3 @@ export interface IDeliverySection {
   mailState: string;
   mailZipCode: string;
 }
-
-export interface IStates {
-  name: string;
-  abbreviation: string;
-  territory: boolean;
-  capital: string;
-  contiguous: boolean;
-}
