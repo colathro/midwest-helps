@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using getthehotdish.DataAccess;
 using Microsoft.Extensions.Logging;
+using System.ComponentModel.DataAnnotations;
 
 namespace getthehotdish.Controllers
 {
@@ -31,7 +32,7 @@ namespace getthehotdish.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MaskRequestModel>>> GetMaskRequests()
         {
-            return await _dataContext.MaskRequests.Where(m => m.Approved == true).Select(m => MaskRequestModel.ConvertToDTO(m)).ToListAsync();
+            return await _dataContext.MaskRequests.Where(m => m.Approved == true).Select(m => m.ToMaskRequestModel()).ToListAsync();
         }
 
         [HttpGet("{id}")]
@@ -44,7 +45,7 @@ namespace getthehotdish.Controllers
                 return NotFound();
             }
 
-            return MaskRequestModel.ConvertToDTO(maskRequest);
+            return maskRequest.ToMaskRequestModel();
         }
 
         [HttpPost]
@@ -53,13 +54,24 @@ namespace getthehotdish.Controllers
             maskRequest.PartitionKey = this.partitionKey;
             maskRequest.CreatedOn = DateTime.UtcNow;
 
-            MaskRequest dbo = maskRequest.ConvertToDBO();
+            MaskRequest dbo = maskRequest.ToMaskRequest();
             dbo.EditKey = Guid.NewGuid();
 
-            _dataContext.MaskRequests.Add(dbo);
-            await _dataContext.SaveChangesAsync();
+            try
+            {
+                _dataContext.MaskRequests.Add(dbo);
+                await _dataContext.SaveChangesAsync();
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Data);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
 
-            return CreatedAtAction("GetMaskRequest", new { id = maskRequest.Id }, maskRequest);
+            return Ok();
         }
 
         [HttpPut("{id}")]
@@ -69,7 +81,7 @@ namespace getthehotdish.Controllers
 
             try
             {
-                MaskRequest maskRequest = maskRequestModel.ConvertToDBO();
+                var maskRequest = maskRequestModel.ToMaskRequest();
                 maskRequest.PartitionKey = partitionKey;
                 maskRequest.Approved = false;
                 maskRequest.OriginalId = id;
@@ -93,7 +105,7 @@ namespace getthehotdish.Controllers
             {
                 throw new Exception("bad key");
             }
-            return _dataContext.MaskRequests.Where(l => l.PartitionKey == partitionKey && l.Approved == false).Select(m => MaskRequestModel.ConvertToDTO(m)).ToList();
+            return _dataContext.MaskRequests.Where(l => l.PartitionKey == partitionKey && l.Approved == false).Select(m => m.ToMaskRequestModel()).ToList();
         }
 
         [HttpPost("approvals/approve/{key}/{post}")]
