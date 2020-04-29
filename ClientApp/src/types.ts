@@ -44,7 +44,7 @@ export const BUSINESS_DELIVERY_APP: {
   DoorDash: 'DoorDash',
   Postmates: 'Postmates',
   FoodDudes: 'FoodDudes',
-  BiteSquad: 'BiteSquad',
+  BiteSquad: 'BiteSquad'
 };
 
 export type BusinessInteraction =
@@ -63,7 +63,7 @@ export const BUSINESS_INTERACTIONS: {
   Delivery: 'Delivery',
   LiveStream: 'LiveStream',
   TakeOut: 'TakeOut',
-  DriveThru: 'DriveThru',
+  DriveThru: 'DriveThru'
 };
 
 export const BUSINESS_CATEGORY_STRINGS: {
@@ -79,7 +79,7 @@ export const BUSINESS_CATEGORY_STRINGS: {
   Religion: { name: 'Religion & Spiritual', value: 5 },
   Retail: { name: 'Retail', value: 7 },
   Wellness: { name: 'Wellness', value: 8 },
-  Other: { name: 'Other', value: 4 },
+  Other: { name: 'Other', value: 4 }
 };
 
 export const BUSINESS_HOURS: {
@@ -88,11 +88,123 @@ export const BUSINESS_HOURS: {
   None: '',
   Closed: 'Closed',
   Limited: 'Limited',
-  Regular: 'Regular',
+  Regular: 'Regular'
 };
 
-export enum ReportType {
-  innacurate = 1,
-  spam = 2,
-  offensive = 3,
+export type ContactFields = {
+  Name: string;
+  Email: string;
+  Message: string;
+};
+
+export const REPORT_TYPES = {
+  innacurate: 1,
+  spam: 2,
+  offensive: 3
+};
+
+export type DeliverySectionFields = {
+  name: string;
+  email: string;
+  company: string;
+  phoneNumber: string;
+};
+
+export type MaskSectionFields = {
+  maskFor: MaskFor;
+  maskRequirements: string;
+};
+
+export type GetStartedSectionFields = {
+  maskFor: MaskFor;
+  name: string;
+  company: string;
+  email: string;
+  phoneNumber: string;
+};
+
+// TODO: we should make two types for this. One that has an ID and one that doesn't, otherwise it's not strongly typed
+export interface MaskRequest {
+  id?: string;
+  partitionKey: string;
+  createdOn: string;
+}
+
+export type MaskFor =
+  | 'MedicalFacility'
+  | 'NonProfit'
+  | 'EssentialWorker'
+  | 'Myself';
+
+export const MASK_FOR: {
+  [key in MaskFor]: string;
+} = {
+  MedicalFacility: 'Medical professionals or medical facility',
+  NonProfit: 'Non-profit',
+  EssentialWorker: 'Essential worker',
+  Myself: 'Myself or family'
+};
+
+export type MaskType =
+  | 'Fabric'
+  | 'FaceShield'
+  | 'EarGuards'
+  | 'ScrubCaps'
+  | 'Others';
+
+export const MASK_TYPE: {
+  [key in MaskType]: string;
+} = {
+  Fabric: 'Fabric masks',
+  FaceShield: 'Face shields',
+  EarGuards: 'Ear guards',
+  ScrubCaps: 'Scrub caps',
+  Others: 'Others'
+};
+
+export type ReceiveMaskChannel = 'DropOff' | 'Mail';
+
+export const RECEIVE_MASK_CHANNEL: {
+  [key in ReceiveMaskChannel]: string;
+} = {
+  DropOff: 'Drop-off',
+  Mail: 'Mail'
+};
+
+export type MaskRequestChannel = 'Recipient' | 'Mask' | 'Delivery';
+
+export const MASK_REQUEST_SECTION: {
+  [key in MaskRequestChannel]: { label: string; value: string };
+} = {
+  Recipient: { label: '1. Get started', value: 'Recipient' },
+  Mask: { label: '2. Mask details', value: 'Mask' },
+  Delivery: { label: '3. Delivery details', value: 'Delivery' }
+};
+
+export interface IRecipientSection {
+  maskFor: string;
+  name: string;
+  company: string;
+  email: string;
+  phone: string;
+}
+
+export interface IMaskSection {
+  maskType: string[];
+  maskRequirements: string;
+}
+
+export interface IDeliverySection {
+  receiveMaskChannel: string[];
+  deliveryNotes: string;
+  dropOffAddress1: string;
+  dropOffAddress2: string;
+  dropOffCity: string;
+  dropOffState: string;
+  dropOffZipCode: string;
+  mailAddress1: string;
+  mailAddress2: string;
+  mailCity: string;
+  mailState: string;
+  mailZipCode: string;
 }

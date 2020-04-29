@@ -1,17 +1,26 @@
 import React from 'react';
 import { Modal } from 'antd';
 import { useHistory } from 'react-router-dom';
-import { BuildBusinessForm } from '../BuildBusinessForm/BuildBusinessForm';
-import { Business } from '../../../types';
+import {
+  BuildBusinessForm,
+  BusinessFormSubmitValues
+} from '../BuildBusinessForm/BuildBusinessForm';
+import {
+  Business,
+  BusinessCategory,
+  BusinessHours,
+  BusinessInteraction,
+  BusinessDeliveryApp
+} from '../../../types';
 
-export const CreateBusiness: React.FC = (props) => {
-  let history = useHistory();
+export const CreateBusiness: React.FC = () => {
+  const history = useHistory();
 
-  const createBusiness = (business: any) => {
+  const createBusiness = (business: BusinessFormSubmitValues) => {
     const postRequest: Business = {
       name: business.name,
-      category: business.category,
-      hours: business.hours || 'None',
+      category: business.category as BusinessCategory,
+      hours: (business.hours || 'None') as BusinessHours,
       phoneNumber: business.phoneNumber
         ? business.phoneNumber.replace(/\D/g, '')
         : '',
@@ -20,36 +29,36 @@ export const CreateBusiness: React.FC = (props) => {
       liveStreamUrl: business.liveStreamUrl || '',
       orderUrl: business.orderUrl || '',
       giftCardUrl: business.giftCardUrl || '',
-      interactions: business.interactions || [],
-      deliveryApps: business.deliveryApps || [],
+      interactions: (business.interactions || []) as BusinessInteraction[],
+      deliveryApps: (business.deliveryApps || []) as BusinessDeliveryApp[]
     };
 
     post('/api/listing', postRequest);
   };
 
-  function success() {
+  const success = () => {
     Modal.success({
       content: 'Your business was submitted successfully.',
-      onOk: () => goHome(),
+      onOk: () => goHome()
     });
-  }
+  };
 
-  function error() {
+  const error = () => {
     Modal.error({
       title: 'Oops',
       content: 'There was a problem submitting your business. Try again later.',
-      onOk: () => goHome(),
+      onOk: () => goHome()
     });
-  }
+  };
 
-  async function post(url: string, data: any) {
+  const post = async (url: string, data: Business) => {
     const requestOptions = {
       method: 'POST',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(data)
     };
 
     const response = await fetch(url, requestOptions);
@@ -58,7 +67,7 @@ export const CreateBusiness: React.FC = (props) => {
     } else {
       error();
     }
-  }
+  };
 
   const goHome = () => {
     history.push('/');

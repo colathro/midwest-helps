@@ -6,6 +6,8 @@ import { Home } from './components/Home';
 import { Admin } from './components/Admin';
 import { Contact } from './components/Contact';
 import { List } from './components/List';
+import { Masks } from './components/Masks';
+import { MaskRequest } from './components/MaskRequest';
 import DocumentTitle from 'react-document-title';
 
 import './App.scss';
@@ -19,6 +21,8 @@ export const App: React.FC = () => (
       <Switch>
         <Route path="/admin" component={Admin} />
         <Route exact path="/contact" component={Contact} />
+        <Route exact path="/masks" component={Masks} />
+        <Route exact path="/maskRequest" component={MaskRequest} />
         <Route exact path="/list" component={List} />
         <Route path="/" component={Home} />
       </Switch>

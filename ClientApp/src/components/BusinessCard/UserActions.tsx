@@ -3,15 +3,15 @@ import React, { useState } from 'react';
 import { Button, Dropdown, Menu, Modal } from 'antd';
 import { Business } from '../../types';
 
-import { ReportBusiness } from '../BusinessForms/ReportBusiness';
-import { UpdateBusiness } from '../BusinessForms/UpdateBusiness';
+import { ReportBusiness } from '../ReportBusiness';
+import { UpdateBusiness } from '../UpdateBusiness';
 
 export interface UserActionsProps {
   business: Business;
-  setBusiness: Function;
+  setBusiness: (businessBack: Business) => void;
 }
 
-export const UserActions: React.FC<UserActionsProps> = props => {
+export const UserActions: React.FC<UserActionsProps> = (props) => {
   const [displayReport, setDisplayReport] = useState(false);
   const [displayUpdate, setDisplayUpdate] = useState(false);
 
@@ -45,20 +45,17 @@ export const UserActions: React.FC<UserActionsProps> = props => {
       cancelText: 'No',
       onOk() {
         deleteRequest('/api/listing/' + props.business.id);
-      },
-      onCancel() {
-        console.log('Cancel');
       }
     });
   };
 
-  async function deleteRequest(url: string) {
+  const deleteRequest = async (url: string) => {
     const requestOptions = {
       method: 'DELETE'
     };
 
     await fetch(url, requestOptions);
-  }
+  };
 
   const menu = (
     <Menu>
