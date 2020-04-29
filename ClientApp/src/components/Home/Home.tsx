@@ -181,6 +181,14 @@ export const Home: React.FC = () => {
     </Col>
   );
 
+  /*   <Button
+  onClick={() => history.push('/masks')}
+  type="link"
+  className="nav-link"
+>
+  Masks
+</Button> */
+
   return (
     <div>
       <Header className="header-fixed">
@@ -194,13 +202,6 @@ export const Home: React.FC = () => {
                 className="nav-link"
               >
                 Contact
-              </Button>
-              <Button
-                onClick={() => history.push('/masks')}
-                type="link"
-                className="nav-link"
-              >
-                Masks
               </Button>
               <Button onClick={() => history.push('/list')} type="primary">
                 List a business

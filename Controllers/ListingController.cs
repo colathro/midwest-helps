@@ -244,8 +244,13 @@ namespace getthehotdish.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id, string key)
         {
+            if (!CheckAdmin(key))
+            {
+                return BadRequest();
+            }
+
             var todoItem = await _dataContext.Listings.FindAsync(id);
 
             if (todoItem == null)
