@@ -1,9 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { Layout, Descriptions, Button, Modal, List, Row, Col } from 'antd';
+import {
+  Layout,
+  Descriptions,
+  Button,
+  Modal,
+  List,
+  Row,
+  Col,
+  Typography
+} from 'antd';
 import { useHistory, useLocation } from 'react-router-dom';
 import { Business } from '../../../../types';
 
 import './ListingApprovals.scss';
+
+const { Title, Text } = Typography;
 
 const useQuery = () => new URLSearchParams(useLocation().search);
 
@@ -46,17 +57,36 @@ export const ListingApprovals: React.FC = () => {
       content: (
         <Layout>
           <Row>
-            <Col span={12}>
+            <Col span={11}>
+              <Title>New Listing</Title>
               <List>
                 {Object.keys(current).map((thing, index) => (
-                  <List.Item>{current[thing]}</List.Item>
+                  <List.Item>
+                    <Text>{thing}</Text>
+                    <Text></Text>
+                    <Text
+                      type={
+                        current[thing] === original[thing]
+                          ? 'secondary'
+                          : 'danger'
+                      }
+                    >
+                      {current[thing]}
+                    </Text>
+                  </List.Item>
                 ))}
               </List>
             </Col>
-            <Col span={12}>
+            <Col span={2}></Col>
+            <Col span={11}>
+              <Title>Old Listing</Title>
               <List>
                 {Object.keys(original).map((thing, index) => (
-                  <List.Item>{original[thing]}</List.Item>
+                  <List.Item>
+                    <Text>{thing}</Text>
+                    <Text></Text>
+                    <Text>{original[thing]}</Text>
+                  </List.Item>
                 ))}
               </List>
             </Col>
