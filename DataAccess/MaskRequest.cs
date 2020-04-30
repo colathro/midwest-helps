@@ -1,4 +1,5 @@
 ﻿using getthehotdish.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -57,6 +58,7 @@ namespace getthehotdish.DataAccess
         }
     }
 
+    [Owned]
     public class Recipient
     {
         [Required]
@@ -73,6 +75,7 @@ namespace getthehotdish.DataAccess
         public string Phone { get; set; }
     }
 
+    [Owned]
     public class Mask
     {
         [Required]
@@ -81,6 +84,7 @@ namespace getthehotdish.DataAccess
         public string Requirements { get; set; }
     }
 
+    [Owned]
     public class Delivery
     {
         [StringLength(500, ErrorMessage = "Notes length can't be more than 500 characters.")]
@@ -89,6 +93,7 @@ namespace getthehotdish.DataAccess
         public List<Address> Addresses { get; set; }
     }
 
+    [Owned]
     public class Address
     {
         [Required]

@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
 import React, { useState } from 'react';
-import { Button, Dropdown, Menu, Modal } from 'antd';
+import { Button, Dropdown, Menu } from 'antd';
 import { Business } from '../../types';
 
 import { ReportBusiness } from '../ReportBusiness';
@@ -32,9 +32,9 @@ export const UserActions: React.FC<UserActionsProps> = (props) => {
     setDisplayUpdate(false);
   };
 
-  const { confirm } = Modal;
+  /*   const { confirm } = Modal; */
 
-  const displayDeleteForm = () => {
+  /*   const displayDeleteForm = () => {
     confirm({
       title: 'Are you sure you want to remove this business?',
       icon: '❌',
@@ -47,15 +47,15 @@ export const UserActions: React.FC<UserActionsProps> = (props) => {
         deleteRequest('/api/listing/' + props.business.id);
       }
     });
-  };
+  }; */
 
-  const deleteRequest = async (url: string) => {
+  /*   const deleteRequest = async (url: string) => {
     const requestOptions = {
       method: 'DELETE'
     };
 
     await fetch(url, requestOptions);
-  };
+  }; */
 
   const menu = (
     <Menu>
@@ -63,10 +63,7 @@ export const UserActions: React.FC<UserActionsProps> = (props) => {
         <a onClick={displayUpdateForm}>🖊 - Edit business</a>
       </Menu.Item>
       <Menu.Item>
-        <a onClick={displayReportForm}>❗❗ - Report business</a>
-      </Menu.Item>
-      <Menu.Item>
-        <a onClick={displayDeleteForm}>❌ - Delete business</a>
+        <a onClick={displayReportForm}>❗ - Report business</a>
       </Menu.Item>
     </Menu>
   );
