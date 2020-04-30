@@ -1,9 +1,33 @@
 #admin-page {
   .bg-color {
-    background-color: #582bd9;
+    background-color: #fff;
   }
 
   .ant-page-header-heading-title {
-    color: #fff;
+    color: #000;
+  }
+
+  .logo {
+    height: 32px;
+    background: rgba(255, 255, 255, 0.2);
+    margin: 16px;
+  }
+
+  .site-layout .site-layout-background {
+    background: #fff;
+  }
+
+  .title {
+    margin-top: 12px;
+  }
+
+  .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+    background-color: #b1b1b1;
+  }
+
+  .sider-border-grey {
+    border-right: rgb(158, 158, 158);
+    border-right-width: thin;
+    border-right-style: solid;
   }
 }

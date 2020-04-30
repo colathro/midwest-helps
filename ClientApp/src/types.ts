@@ -11,6 +11,7 @@ export interface Business {
   giftCardUrl?: string;
   interactions: BusinessInteraction[];
   deliveryApps?: BusinessDeliveryApp[];
+  [key: string]: any;
 }
 
 export type BusinessCategory =
@@ -128,6 +129,7 @@ export interface MaskRequest {
   id?: string;
   partitionKey: string;
   createdOn: string;
+  [key: string]: any;
 }
 
 export type MaskFor =

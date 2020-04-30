@@ -1,10 +1,15 @@
 import React from 'react';
-import { Layout, PageHeader, Button } from 'antd';
+import { Layout, Menu, Typography } from 'antd';
 import { useHistory, Switch, Route, useLocation } from 'react-router-dom';
 import { MaskRequestApprovals } from './Pages/MaskRequestApprovals';
 import { ListingApprovals } from './Pages/ListingApprovals';
+import { Home } from './Pages/Home';
 
 import './Admin.scss';
+
+const { Sider } = Layout;
+const { SubMenu } = Menu;
+const { Title } = Typography;
 
 const useQuery = () => new URLSearchParams(useLocation().search);
 
@@ -13,32 +18,48 @@ export const Admin: React.FC = () => {
   const query = useQuery();
   const key = query.get('key');
 
-  const gotoFreeMoney = () => {
-    history.push('/admin/freemoney');
+  const gotoListings = () => {
+    history.push(`/admin/listings?key=${key}`);
   };
 
   const gotoMaskRequests = () => {
     history.push(`/admin/maskrequests?key=${key}`);
   };
 
+  const gotoHome = () => {
+    history.push(`/admin?key=${key}`);
+  };
+
   return (
-    <Layout id="admin-page">
-      <PageHeader
-        className="site-page-header-responsive bg-color"
-        title="Admin Portol"
-        subTitle="👨‍🦱 lil louie bert"
-        extra={[
-          <Button key="1" onClick={gotoFreeMoney}>
-            Free Money
-          </Button>,
-          <Button key="2" onClick={gotoMaskRequests}>
-            Mask Requests
-          </Button>
-        ]}
-      ></PageHeader>
+    <Layout id="admin-page" style={{ height: '100vh' }}>
+      <Sider theme="light" className="sider-border-grey">
+        <div style={{ textAlign: 'center' }}>
+          <Title level={3} className="title">
+            Midwest Helps
+          </Title>
+        </div>
+        <Menu theme="light" defaultSelectedKeys={['1']} mode="inline">
+          <Menu.Item key="1" onClick={gotoHome}>
+            Home
+          </Menu.Item>
+          <SubMenu key="sub1" title="Mask Requests">
+            <Menu.Item key="2" onClick={gotoMaskRequests}>
+              Approvals
+            </Menu.Item>
+            <Menu.Item key="3">Removal</Menu.Item>
+          </SubMenu>
+          <SubMenu key="sub2" title="Businesses">
+            <Menu.Item key="4" onClick={gotoListings}>
+              Approvals
+            </Menu.Item>
+            <Menu.Item key="5">Removal</Menu.Item>
+          </SubMenu>
+        </Menu>
+      </Sider>
       <Switch>
         <Route path="/admin/maskrequests" component={MaskRequestApprovals} />
-        <Route path="/admin" component={ListingApprovals} />
+        <Route path="/admin/listings" component={ListingApprovals} />
+        <Route path="/admin" component={Home} />
       </Switch>
     </Layout>
   );
