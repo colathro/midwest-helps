@@ -57,6 +57,27 @@ export const ContributorCards: React.FC = () => {
             picture={'/images/contributors/colton.jpg'}
           ></ContributorCard>
         </Col>
+        <Col xs={{ span: 8 }} md={{ span: 6 }} className="ContributorCardCol">
+          <ContributorCard
+            name={'Rachel DeHoogh'}
+            role={'Visionary'}
+            picture={'/images/contributors/rachel.jpeg'}
+          ></ContributorCard>
+        </Col>
+        <Col xs={{ span: 8 }} md={{ span: 6 }} className="ContributorCardCol">
+          <ContributorCard
+            name={'William DeHoogh'}
+            role={'Visionary'}
+            picture={'/images/contributors/william.jpg'}
+          ></ContributorCard>
+        </Col>
+        <Col xs={{ span: 8 }} md={{ span: 6 }} className="ContributorCardCol">
+          <ContributorCard
+            name={'Emily Skoglund'}
+            role={'Designer'}
+            picture={'/images/contributors/emily.jpg'}
+          ></ContributorCard>
+        </Col>
       </Row>
     </Layout>
   );
