@@ -54,7 +54,7 @@ namespace getthehotdish.Controllers
             maskRequest.PartitionKey = this.partitionKey;
             maskRequest.CreatedOn = DateTime.UtcNow;
 
-            MaskRequest dbo = maskRequest.ToMaskRequest();
+            var dbo = maskRequest.ToMaskRequest();
             dbo.EditKey = Guid.NewGuid();
 
             try

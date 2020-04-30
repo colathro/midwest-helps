@@ -1,4 +1,6 @@
 ﻿using getthehotdish.DataAccess;
+using getthehotdish.Utils;
+using getthehotdish.Utils.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -69,7 +71,7 @@ namespace getthehotdish.Models
             Name = listing.BusinessName;
             Category = Enum.GetName(typeof(BusinessType), listing.BusinessType);
             Hours = Enum.GetName(typeof(BusinessHoursType), listing.Hours);
-            PhoneNumber = listing.PhoneNumber;
+            PhoneNumber = listing.PhoneNumber.ToPhoneFormat();
             Website = listing.Website;
             Message = listing.MessageToCustomer;
             LiveStreamUrl = listing.LivestreamURL;
@@ -78,71 +80,29 @@ namespace getthehotdish.Models
             Address = listing.Address;
             CreatedOn = listing.CreatedOn;
             OriginalId = listing.OriginalId;
-
-            Interactions = new List<string>();
-            if (listing.BusinessChannels.HasFlag(BusinessChannelType.Appointment))
-            {
-                Interactions.Add(BusinessChannelType.Appointment.ToString());
-            }
-            if (listing.BusinessChannels.HasFlag(BusinessChannelType.CurbSide))
-            {
-                Interactions.Add(BusinessChannelType.CurbSide.ToString());
-            }
-            if (listing.BusinessChannels.HasFlag(BusinessChannelType.LiveStream))
-            {
-                Interactions.Add(BusinessChannelType.LiveStream.ToString());
-            }
-            if (listing.BusinessChannels.HasFlag(BusinessChannelType.TakeOut))
-            {
-                Interactions.Add(BusinessChannelType.TakeOut.ToString());
-            }
-            if (listing.BusinessChannels.HasFlag(BusinessChannelType.Delivery))
-            {
-                Interactions.Add(BusinessChannelType.Delivery.ToString());
-            }
-            if (listing.BusinessChannels.HasFlag(BusinessChannelType.DriveThru))
-            {
-                Interactions.Add(BusinessChannelType.DriveThru.ToString());
-            }
-
-            DeliveryApps = new List<string>();
-            if (listing.DeliveryApps.HasFlag(DeliveryAppType.UberEats))
-            {
-                DeliveryApps.Add(DeliveryAppType.UberEats.ToString());
-            }
-            if (listing.DeliveryApps.HasFlag(DeliveryAppType.Grubhub))
-            {
-                DeliveryApps.Add(DeliveryAppType.Grubhub.ToString());
-            }
-            if (listing.DeliveryApps.HasFlag(DeliveryAppType.DoorDash))
-            {
-                DeliveryApps.Add(DeliveryAppType.DoorDash.ToString());
-            }
-            if (listing.DeliveryApps.HasFlag(DeliveryAppType.Postmates))
-            {
-                DeliveryApps.Add(DeliveryAppType.Postmates.ToString());
-            }
-            if (listing.DeliveryApps.HasFlag(DeliveryAppType.FoodDudes))
-            {
-                DeliveryApps.Add(DeliveryAppType.FoodDudes.ToString());
-            }
-            if (listing.DeliveryApps.HasFlag(DeliveryAppType.BiteSquad))
-            {
-                DeliveryApps.Add(DeliveryAppType.BiteSquad.ToString());
-            }
+            Interactions = EnumUtils.GetEnumNameList(listing.BusinessChannels).ToList();
+            DeliveryApps = EnumUtils.GetEnumNameList(listing.DeliveryApps).ToList();
         }
-        
-        public static implicit operator Listing(BusinessModel b)
+
+        public Listing ToListing()
         {
-            Listing ret = new Listing();
-
-            ret.Id = b.Id;
-            ret.PartitionKey = b.PartitionKey;
-            ret.BusinessName = b.Name;
-            ret.BusinessType = Enum.GetNames(typeof(BusinessType)).Where(h => h.ToLower() == b.Category.ToLower()).Select(c => (BusinessType)Enum.Parse(typeof(BusinessType), c)).FirstOrDefault();
-            ret.Update(b);
-
-            return ret;
+            return new Listing
+            {
+                Id = Id,
+                PartitionKey = PartitionKey,
+                BusinessName = Name,
+                BusinessType = EnumUtils.GetEnum<BusinessType>(Category),
+                Hours = EnumUtils.GetEnum<BusinessHoursType>(Hours),
+                GiftCardUrl = GiftCardUrl,
+                Website = Website,
+                PhoneNumber = PhoneNumber.RemoveNonDigits(),
+                LivestreamURL = LiveStreamUrl,
+                OrderURL = OrderUrl,
+                MessageToCustomer = Message,
+                Address = Address,
+                BusinessChannels = EnumUtils.GetEnumFlag<BusinessChannelType>(Interactions),
+                DeliveryApps = EnumUtils.GetEnumFlag<DeliveryAppType>(DeliveryApps)
+            };
         }
     }
 }

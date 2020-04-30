@@ -1,5 +1,7 @@
 ﻿using getthehotdish.Models;
+using getthehotdish.Utils;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace getthehotdish.DataAccess
@@ -7,35 +9,49 @@ namespace getthehotdish.DataAccess
     public class Listing
     {
 
-        [System.ComponentModel.DataAnnotations.Key]
+        [Key]
         public Guid Id { get; set; }
         public Guid OriginalId { get; set; }
         public string PartitionKey { get; set; }
         public DateTime CreatedOn { get; set; }
+        [Required]
         public string BusinessName { get; set; }
         public string Address { get; set; }
         public bool Approved { get; set; }
-        public string BusinessNameSearch { 
-            get 
+        public string BusinessNameSearch
+        {
+            get
             {
                 return this.BusinessName.ToLower();
             }
             set { }
         }
+        [Required]
         public BusinessType BusinessType { get; set; }
+        [Required]
         public BusinessHoursType Hours { get; set; }
         public string GiftCardUrl { get; set; }
         public string Website { get; set; }
         public string PhoneNumber { get; set; }
         public string LivestreamURL { get; set; }
         public string OrderURL { get; set; }
+        [Required]
+        [StringLength(500, ErrorMessage = "Message length can't be more than 500 characters.")]
         public string MessageToCustomer { get; set; }
         public DeliveryAppType DeliveryApps { get; set; }
         public BusinessChannelType BusinessChannels { get; set; }
 
-        public void Update (BusinessModel business)
+        public Listing()
         {
-            Hours = Enum.GetNames(typeof(BusinessHoursType)).Where(h => h.ToLower() == business.Hours.ToLower()).Select(c => (BusinessHoursType)Enum.Parse(typeof(BusinessHoursType), c)).FirstOrDefault();
+        }
+
+        public Listing(BusinessModel business)
+        {
+            Id = business.Id;
+            PartitionKey = business.PartitionKey;
+            BusinessName = business.Name;
+            BusinessType = EnumUtils.GetEnum<BusinessType>(business.Category);
+            Hours = EnumUtils.GetEnum<BusinessHoursType>(business.Hours);
             GiftCardUrl = business.GiftCardUrl;
             Website = business.Website;
             PhoneNumber = business.PhoneNumber;
@@ -43,58 +59,31 @@ namespace getthehotdish.DataAccess
             OrderURL = business.OrderUrl;
             MessageToCustomer = business.Message;
             Address = business.Address;
+            BusinessChannels = EnumUtils.GetEnumFlag<BusinessChannelType>(business.Interactions);
+            DeliveryApps = EnumUtils.GetEnumFlag<DeliveryAppType>(business.DeliveryApps);
+        }
 
-            BusinessChannels = BusinessChannelType.None;
-            if (business.Interactions.Contains(BusinessChannelType.CurbSide.ToString()))
+        public BusinessModel ToBusinessModel()
+        {
+            return new BusinessModel
             {
-                BusinessChannels = BusinessChannels | BusinessChannelType.CurbSide;
-            }
-            if (business.Interactions.Contains(BusinessChannelType.TakeOut.ToString()))
-            {
-                BusinessChannels = BusinessChannels | BusinessChannelType.TakeOut;
-            }
-            if (business.Interactions.Contains(BusinessChannelType.Delivery.ToString()))
-            {
-                BusinessChannels = BusinessChannels | BusinessChannelType.Delivery;
-            }
-            if (business.Interactions.Contains(BusinessChannelType.LiveStream.ToString()))
-            {
-                BusinessChannels = BusinessChannels | BusinessChannelType.LiveStream;
-            }
-            if (business.Interactions.Contains(BusinessChannelType.Appointment.ToString()))
-            {
-                BusinessChannels = BusinessChannels | BusinessChannelType.Appointment;
-            }
-            if (business.Interactions.Contains(BusinessChannelType.DriveThru.ToString()))
-            {
-                BusinessChannels = BusinessChannels | BusinessChannelType.DriveThru;
-            }
-
-            DeliveryApps = DeliveryAppType.None;
-            if (business.DeliveryApps.Contains(DeliveryAppType.UberEats.ToString()))
-            {
-                DeliveryApps = DeliveryApps | DeliveryAppType.UberEats;
-            }
-            if (business.DeliveryApps.Contains(DeliveryAppType.Grubhub.ToString()))
-            {
-                DeliveryApps = DeliveryApps | DeliveryAppType.Grubhub;
-            }
-            if (business.DeliveryApps.Contains(DeliveryAppType.DoorDash.ToString()))
-            {
-                DeliveryApps = DeliveryApps | DeliveryAppType.DoorDash;
-            }
-            if (business.DeliveryApps.Contains(DeliveryAppType.Postmates.ToString()))
-            {
-                DeliveryApps = DeliveryApps | DeliveryAppType.Postmates;
-            }
-            if (business.DeliveryApps.Contains(DeliveryAppType.FoodDudes.ToString()))
-            {
-                DeliveryApps = DeliveryApps | DeliveryAppType.FoodDudes;
-            }
-            if (business.DeliveryApps.Contains(DeliveryAppType.BiteSquad.ToString()))
-            {
-                DeliveryApps = DeliveryApps | DeliveryAppType.BiteSquad;
-            }
+                Id = Id,
+                PartitionKey = PartitionKey,
+                Name = BusinessName,
+                Category = Enum.GetName(typeof(BusinessType), BusinessType),
+                Hours = Enum.GetName(typeof(BusinessHoursType), Hours),
+                PhoneNumber = PhoneNumber,
+                Website = Website,
+                Message = MessageToCustomer,
+                LiveStreamUrl = LivestreamURL,
+                OrderUrl = OrderURL,
+                GiftCardUrl = GiftCardUrl,
+                Address = Address,
+                CreatedOn = CreatedOn,
+                OriginalId = OriginalId,
+                Interactions = EnumUtils.GetEnumNameList(BusinessChannels).ToList(),
+                DeliveryApps = EnumUtils.GetEnumNameList(DeliveryApps).ToList(),
+            };
         }
     }
 }
