@@ -5,7 +5,9 @@ export interface BusinessInteractionsProps {
   interactions: BusinessInteraction[];
 }
 
-export const BusinessInteractions: React.FC<BusinessInteractionsProps> = props => (
+export const BusinessInteractions: React.FC<BusinessInteractionsProps> = (
+  props
+) => (
   <div className="interaction-tags">
     {props.interactions.includes('Delivery') && (
       <div className="delivery-tag">Delivery</div>

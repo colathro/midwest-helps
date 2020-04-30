@@ -95,7 +95,7 @@ namespace getthehotdish.Controllers
 
             try
             {
-                Listing listing = businessModel;
+                var listing = businessModel.ToListing();
                 listing.PartitionKey = partitionKey;
                 listing.CreatedOn = DateTime.UtcNow;
 
@@ -116,7 +116,7 @@ namespace getthehotdish.Controllers
 
             try
             {
-                Listing listing = businessModel;
+                var listing = businessModel.ToListing();
                 listing.PartitionKey = partitionKey;
                 listing.Approved = false;
                 listing.OriginalId = id;

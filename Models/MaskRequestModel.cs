@@ -1,5 +1,6 @@
 ﻿using getthehotdish.DataAccess;
 using getthehotdish.Utils;
+using getthehotdish.Utils.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,11 +18,19 @@ namespace getthehotdish.Models
         [JsonPropertyName("createdOn")]
         public DateTime CreatedOn { get; set; }
         [JsonPropertyName("recipient")]
-        public RecipientDetails Recipient { get; set; }
+        public RecipientModel Recipient { get; set; }
         [JsonPropertyName("mask")]
-        public MaskDetails Mask { get; set; }
+        public MaskModel Mask { get; set; }
         [JsonPropertyName("delivery")]
-        public DeliveryDetails Delivery { get; set; }
+        public DeliveryModel Delivery { get; set; }
+
+        public MaskRequestModel()
+        {
+        }
+        public MaskRequestModel(MaskRequest maskRequest)
+        {
+            maskRequest.ToMaskRequestModel();
+        }
 
         public MaskRequest ToMaskRequest()
         {
@@ -37,28 +46,28 @@ namespace getthehotdish.Models
         }
     }
 
-    public class RecipientDetails
+    public class RecipientModel
     {
         public string MaskFor { get; set; }
         public string Name { get; set; }
         public string Company { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
-        
+
         public Recipient ToRecipient()
         {
             return new Recipient
             {
-                MaskFor = (MaskForType)Enum.Parse(typeof(MaskForType), MaskFor),
+                MaskFor = EnumUtils.GetEnum<MaskForType>(MaskFor),
                 Name = Name,
                 Company = Company,
                 Email = Email,
-                Phone = Regex.Replace(Phone, "[^.0-9]", "")
+                Phone = Phone.RemoveNonDigits()
             };
         }
     }
 
-    public class MaskDetails
+    public class MaskModel
     {
         public List<string> Types { get; set; }
         public string Requirements { get; set; }
@@ -73,10 +82,10 @@ namespace getthehotdish.Models
         }
     }
 
-    public class DeliveryDetails
+    public class DeliveryModel
     {
         public string Notes { get; set; }
-        public List<AddressDetails> Addresses { get; set; }
+        public List<AddressModel> Addresses { get; set; }
 
         public Delivery ToDelivery()
         {
@@ -88,7 +97,7 @@ namespace getthehotdish.Models
         }
     }
 
-    public class AddressDetails
+    public class AddressModel
     {
         public string Type { get; set; }
         public string Address1 { get; set; }

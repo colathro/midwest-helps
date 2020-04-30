@@ -10,7 +10,8 @@ import {
   BUSINESS_DELIVERY_APP,
   BUSINESS_CATEGORY_STRINGS,
   BUSINESS_HOURS,
-  BUSINESS_INTERACTIONS
+  BUSINESS_INTERACTIONS,
+  BusinessInteraction
 } from '../../../types';
 
 export interface BuildBusinessFormProps {
@@ -180,9 +181,9 @@ export const BuildBusinessForm: React.FC<BuildBusinessFormProps> = (props) => {
               label,
               value,
               checked: props.businessModel
-                ? props.businessModel.deliveryApps
-                  ? props.businessModel.deliveryApps.includes(
-                      value as BusinessDeliveryApp
+                ? props.businessModel.interactions
+                  ? props.businessModel.interactions.includes(
+                      value as BusinessInteraction
                     )
                   : false
                 : false

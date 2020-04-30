@@ -1,4 +1,6 @@
 ﻿using getthehotdish.Models;
+using getthehotdish.Utils;
+using getthehotdish.Utils.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -23,6 +25,28 @@ namespace getthehotdish.DataAccess
         [Required]
         public Delivery Delivery { get; set; }
 
+        public MaskRequest()
+        {
+        }
+
+        public MaskRequest(MaskRequestModel mr)
+        {
+            mr.ToMaskRequest();
+        }
+
+        public MaskRequestModel ToMaskRequestModel()
+        {
+            return new MaskRequestModel
+            {
+                Id = Id,
+                PartitionKey = PartitionKey,
+                CreatedOn = CreatedOn,
+                Recipient = Recipient.ToRecipientDetailsModel(),
+                Mask = Mask.ToMaskModel(),
+                Delivery = Delivery.ToDeliveryModel()
+            };
+        }
+
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if (Delivery.Addresses.Count == 0)
@@ -41,21 +65,6 @@ namespace getthehotdish.DataAccess
                 yield return new ValidationResult("Only one address of each type should be provided.");
             }
         }
-
-        public static MaskRequest CreateMaskRequest(MaskRequestModel mr)
-        {
-            return mr.ToMaskRequest();
-        }
-
-        public MaskRequestModel ToMaskRequestModel()
-        {
-            return new MaskRequestModel
-            {
-                Id = Id,
-                PartitionKey = PartitionKey,
-                CreatedOn = CreatedOn
-            };
-        }
     }
 
     [Owned]
@@ -73,6 +82,18 @@ namespace getthehotdish.DataAccess
         [RegularExpression(@"^\d{10}$",
          ErrorMessage = "Phone not valid.")]
         public string Phone { get; set; }
+
+        public RecipientModel ToRecipientDetailsModel()
+        {
+            return new RecipientModel
+            {
+                MaskFor = EnumUtils.GetName(MaskFor),
+                Name = Name,
+                Company = Company,
+                Email = Email,
+                Phone = Phone.ToPhoneFormat(),
+            };
+        }
     }
 
     [Owned]
@@ -82,6 +103,15 @@ namespace getthehotdish.DataAccess
         public MaskType Type { get; set; }
         [StringLength(500, ErrorMessage = "Requirements length can't be more than 500 characters.")]
         public string Requirements { get; set; }
+
+        public MaskModel ToMaskModel()
+        {
+            return new MaskModel
+            {
+                Types = EnumUtils.GetEnumNameList(Type).ToList(),
+                Requirements = Requirements
+            };
+        }
     }
 
     [Owned]
@@ -91,6 +121,15 @@ namespace getthehotdish.DataAccess
         public string Notes { get; set; }
         [Required]
         public List<Address> Addresses { get; set; }
+
+        public DeliveryModel ToDeliveryModel()
+        {
+            return new DeliveryModel
+            {
+                Notes = Notes,
+                Addresses = Addresses.Select(a => a.ToAddressModel()).ToList()
+            };
+        }
     }
 
     [Owned]
@@ -109,5 +148,18 @@ namespace getthehotdish.DataAccess
         [RegularExpression(@"(^\d{5}$)|(^\d{9}$)|(^\d{5}-\d{4}$)",
          ErrorMessage = "Zip code not valid.")]
         public string ZipCode { get; set; }
+
+        public AddressModel ToAddressModel()
+        {
+            return new AddressModel
+            {
+                Type = EnumUtils.GetName(Type),
+                Address1 = Address1,
+                Address2 = Address2,
+                City = City,
+                State = State,
+                ZipCode = ZipCode
+            };
+        }
     }
 }
