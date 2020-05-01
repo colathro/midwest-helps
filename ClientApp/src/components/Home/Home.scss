@@ -52,7 +52,7 @@ main.header-greeting {
   background-color: $primary-color;
   $vertical-padding: 24px;
   padding-top: $header-height + $vertical-padding;
-  padding-bottom: $vertical-padding + 24px;
+  padding-bottom: $vertical-padding;
   margin-bottom: 12px;
 
   article {

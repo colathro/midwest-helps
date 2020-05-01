@@ -194,7 +194,7 @@ export const Home: React.FC = () => {
       <Header className="header-fixed">
         <Row justify="center">
           <Col xl={18} lg={18} md={20} sm={22} xs={24}>
-            <Title level={3}>Hotdish</Title>
+            <Title level={3}>Midwest Helps</Title>
             <div className="right-nav">
               <Button
                 onClick={() => history.push('/contact')}
@@ -202,9 +202,6 @@ export const Home: React.FC = () => {
                 className="nav-link"
               >
                 Contact
-              </Button>
-              <Button onClick={() => history.push('/list')} type="primary">
-                List a business
               </Button>
             </div>
           </Col>
@@ -228,6 +225,10 @@ export const Home: React.FC = () => {
               independently. If you see a mistake or need to update a post,
               please contact us.
             </Typography>
+            <br />
+            <Button onClick={() => history.push('/list')} type="primary">
+              List a business
+            </Button>
           </Col>
         </Row>
       </Content>
