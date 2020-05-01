@@ -9,20 +9,20 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.ApplicationInsights;
 using getthehotdish.Controllers;
 using getthehotdish.Models;
-using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
+using getthehotdish.Models.Filters;
 
 namespace getthehotdish
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration, IHostingEnvironment environment)
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
             Configuration = configuration;
             Environment = environment;
         }
 
         public IConfiguration Configuration { get; }
-        public IHostingEnvironment Environment { get; }
+        public IWebHostEnvironment Environment { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -31,7 +31,16 @@ namespace getthehotdish
 
             services.AddCors();
 
-            services.AddControllersWithViews();
+            services.AddMvc(
+            config =>
+            {
+                //config.Filters.Add(typeof(ValidateModelStateAttribute));
+                config.Filters.Add(new HttpResponseExceptionFilter());
+            })
+            .ConfigureApiBehaviorOptions(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
 
             services.AddDbContext<DataContext>(options => 
                 options.UseCosmos("https://getthehotdish.documents.azure.com:443/",
