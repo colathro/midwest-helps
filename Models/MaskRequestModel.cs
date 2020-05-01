@@ -3,9 +3,9 @@ using getthehotdish.Utils;
 using getthehotdish.Utils.Extensions;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.Json.Serialization;
-using System.Text.RegularExpressions;
 
 namespace getthehotdish.Models
 {
@@ -18,10 +18,13 @@ namespace getthehotdish.Models
         [JsonPropertyName("createdOn")]
         public DateTime CreatedOn { get; set; }
         [JsonPropertyName("recipient")]
+        [Required]
         public RecipientModel Recipient { get; set; }
         [JsonPropertyName("mask")]
+        [Required]
         public MaskModel Mask { get; set; }
         [JsonPropertyName("delivery")]
+        [Required]
         public DeliveryModel Delivery { get; set; }
 
         public MaskRequestModel()
@@ -48,10 +51,14 @@ namespace getthehotdish.Models
 
     public class RecipientModel
     {
+        [Required]
         public string MaskFor { get; set; }
+        [Required]
         public string Name { get; set; }
         public string Company { get; set; }
+        [Required]
         public string Email { get; set; }
+        [Required]
         public string Phone { get; set; }
 
         public Recipient ToRecipient()
@@ -69,6 +76,7 @@ namespace getthehotdish.Models
 
     public class MaskModel
     {
+        [Required]
         public List<string> Types { get; set; }
         public string Requirements { get; set; }
 
@@ -85,6 +93,7 @@ namespace getthehotdish.Models
     public class DeliveryModel
     {
         public string Notes { get; set; }
+        [Required]
         public List<AddressModel> Addresses { get; set; }
 
         public Delivery ToDelivery()
@@ -99,11 +108,16 @@ namespace getthehotdish.Models
 
     public class AddressModel
     {
+        [Required]
         public string Type { get; set; }
+        [Required]
         public string Address1 { get; set; }
         public string Address2 { get; set; }
+        [Required]
         public string City { get; set; }
+        [Required]
         public string State { get; set; }
+        [Required]
         public string ZipCode { get; set; }
 
         public Address ToAddress()

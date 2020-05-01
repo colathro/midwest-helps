@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using getthehotdish.DataAccess;
 using Microsoft.Extensions.Logging;
 using System.ComponentModel.DataAnnotations;
+using getthehotdish.Models.Exceptions;
 
 namespace getthehotdish.Controllers
 {
@@ -42,6 +43,7 @@ namespace getthehotdish.Controllers
 
             if (maskRequest == null)
             {
+                // TODO: throw not found exception
                 return NotFound();
             }
 
@@ -49,7 +51,7 @@ namespace getthehotdish.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<MaskRequest>> PostMaskRequest(MaskRequestModel maskRequest)
+        public async Task<ActionResult<MaskRequest>> Post(MaskRequestModel maskRequest)
         {
             maskRequest.PartitionKey = this.partitionKey;
             maskRequest.CreatedOn = DateTime.UtcNow;
@@ -57,19 +59,8 @@ namespace getthehotdish.Controllers
             var dbo = maskRequest.ToMaskRequest();
             dbo.EditKey = Guid.NewGuid();
 
-            try
-            {
-                _dataContext.MaskRequests.Add(dbo);
-                await _dataContext.SaveChangesAsync();
-            }
-            catch (ValidationException ex)
-            {
-                return BadRequest(ex.Data);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex);
-            }
+            _dataContext.MaskRequests.Add(dbo);
+            await _dataContext.SaveChangesAsync();
 
             return Ok();
         }
@@ -79,23 +70,16 @@ namespace getthehotdish.Controllers
         {
             _logger.LogInformation($"MASKREQUEST PUT Request: {id}");
 
-            try
-            {
-                var maskRequest = maskRequestModel.ToMaskRequest();
-                maskRequest.PartitionKey = partitionKey;
-                maskRequest.Approved = false;
-                maskRequest.OriginalId = id;
-                maskRequest.Id = Guid.NewGuid();
-                maskRequest.CreatedOn = DateTime.UtcNow;
+            var maskRequest = maskRequestModel.ToMaskRequest();
+            maskRequest.PartitionKey = partitionKey;
+            maskRequest.Approved = false;
+            maskRequest.OriginalId = id;
+            maskRequest.Id = Guid.NewGuid();
+            maskRequest.CreatedOn = DateTime.UtcNow;
 
-                _dataContext.MaskRequests.Add(maskRequest);
-                await _dataContext.SaveChangesAsync();
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            _dataContext.MaskRequests.Add(maskRequest);
+            await _dataContext.SaveChangesAsync();
+            return Ok();
         }
 
         [HttpGet("approvals/get/{key}")]
@@ -103,7 +87,7 @@ namespace getthehotdish.Controllers
         {
             if (!CheckAdmin(key))
             {
-                throw new Exception("bad key");
+                throw new ErrorModelException(ErrorCode.BadKey);
             }
             return _dataContext.MaskRequests.Where(l => l.PartitionKey == partitionKey && l.Approved == false).Select(m => m.ToMaskRequestModel()).ToList();
         }
@@ -113,45 +97,39 @@ namespace getthehotdish.Controllers
         {
             if (!CheckAdmin(key))
             {
-                return BadRequest();
+                throw new ErrorModelException(ErrorCode.BadKey);
             }
-            try
-            {
-                var newMaskRequest = _dataContext.MaskRequests.Where(l => l.Id == Guid.Parse(post)
+
+            var newMaskRequest = _dataContext.MaskRequests.Where(l => l.Id == Guid.Parse(post)
                     && l.PartitionKey == partitionKey
                     && l.Approved == false).FirstOrDefault();
 
-                var oldMaskRequest = _dataContext.MaskRequests.Where(l => l.Id == newMaskRequest.OriginalId
-                     && l.PartitionKey == partitionKey
-                     && l.Approved == true).FirstOrDefault();
+            var oldMaskRequest = _dataContext.MaskRequests.Where(l => l.Id == newMaskRequest.OriginalId
+                 && l.PartitionKey == partitionKey
+                 && l.Approved == true).FirstOrDefault();
 
-                if (newMaskRequest == null)
-                {
-                    return NotFound();
-                }
-
-                if (oldMaskRequest != null)
-                {
-                    var oldRefMaskRequests = _dataContext.MaskRequests.Where(l => l.PartitionKey == partitionKey
-                        && l.OriginalId == oldMaskRequest.Id && l.Id != newMaskRequest.Id);
-
-                    await oldRefMaskRequests.ForEachAsync((maskRequest) =>
-                    {
-                        maskRequest.OriginalId = newMaskRequest.Id;
-                    });
-
-                    _dataContext.Remove(oldMaskRequest);
-                }
-
-                newMaskRequest.Approved = true;
-
-                await _dataContext.SaveChangesAsync();
-                return Ok();
-            }
-            catch (Exception ex)
+            if (newMaskRequest == null)
             {
-                throw ex;
+                return NotFound();
             }
+
+            if (oldMaskRequest != null)
+            {
+                var oldRefMaskRequests = _dataContext.MaskRequests.Where(l => l.PartitionKey == partitionKey
+                    && l.OriginalId == oldMaskRequest.Id && l.Id != newMaskRequest.Id);
+
+                await oldRefMaskRequests.ForEachAsync((maskRequest) =>
+                {
+                    maskRequest.OriginalId = newMaskRequest.Id;
+                });
+
+                _dataContext.Remove(oldMaskRequest);
+            }
+
+            newMaskRequest.Approved = true;
+
+            await _dataContext.SaveChangesAsync();
+            return Ok();
         }
 
         [HttpPost("approvals/deny/{key}/{post}")]
@@ -159,37 +137,25 @@ namespace getthehotdish.Controllers
         {
             if (!CheckAdmin(key))
             {
-                return BadRequest();
+                throw new ErrorModelException(ErrorCode.BadKey);
             }
-            try
-            {
-                var maskRequest = _dataContext.MaskRequests.Where(l => l.Id == Guid.Parse(post)
+
+            var maskRequest = _dataContext.MaskRequests.Where(l => l.Id == Guid.Parse(post)
                     && l.PartitionKey == partitionKey
                     && l.Approved == false).FirstOrDefault();
 
-                if (maskRequest != null)
-                {
-                    _dataContext.Remove(maskRequest);
-                    await _dataContext.SaveChangesAsync();
-                }
-
-                return Ok();
-
-            }
-            catch (Exception ex)
+            if (maskRequest != null)
             {
-                throw ex;
+                _dataContext.Remove(maskRequest);
+                await _dataContext.SaveChangesAsync();
             }
+
+            return Ok();
         }
 
         public bool CheckAdmin(string key)
         {
             return key == _adminSettings.Key;
-        }
-
-        private bool MaskRequestExists(Guid id)
-        {
-            return _dataContext.MaskRequests.Any(e => e.Id == id);
         }
     }
 }
