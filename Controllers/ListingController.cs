@@ -61,7 +61,6 @@ namespace getthehotdish.Controllers
         public async Task<BusinessModel> Get(string id)
         {
             _logger.LogInformation($"ID GET Request: {id}");
-
             var listing = _dataContext.Listings.Where(l => l.Id == Guid.Parse(id) && l.PartitionKey == partitionKey).FirstOrDefault();
 
             if (listing != null)
@@ -70,7 +69,7 @@ namespace getthehotdish.Controllers
             }
             else
             {
-                return null;
+                return new BusinessModel();
             }
         }
 
@@ -113,6 +112,18 @@ namespace getthehotdish.Controllers
                 throw new ErrorModelException(ErrorCode.BadKey);
             }
             return _dataContext.Listings.Where(l => l.PartitionKey == partitionKey && l.Approved == false).Select(l => new BusinessModel(l)).ToList();
+        }
+
+        [HttpGet("approvals/get/approval/{key}")]
+        public async Task<BusinessModel> GetApproval(string key, [FromQuery] Guid id)
+        {
+            if (!CheckAdmin(key))
+            {
+                throw new Exception("bad key");
+            }
+            var record = await _dataContext.Listings.Where(l => l.PartitionKey == partitionKey && l.Approved == false && l.Id == id).FirstAsync();
+
+            return new BusinessModel(record);
         }
 
         [HttpPost("approvals/approve/{key}/{post}")]

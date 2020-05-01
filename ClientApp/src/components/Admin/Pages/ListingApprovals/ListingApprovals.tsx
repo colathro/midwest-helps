@@ -1,9 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { Layout, Descriptions, Button, Modal, List, Row, Col } from 'antd';
+import {
+  Layout,
+  Descriptions,
+  Button,
+  Modal,
+  List,
+  Row,
+  Col,
+  Typography
+} from 'antd';
 import { useHistory, useLocation } from 'react-router-dom';
 import { Business } from '../../../../types';
 
 import './ListingApprovals.scss';
+
+const { Title, Text } = Typography;
 
 const useQuery = () => new URLSearchParams(useLocation().search);
 
@@ -38,6 +49,51 @@ export const ListingApprovals: React.FC = () => {
     Modal.success({
       content: 'Successfully Denied.',
       onOk: () => goAdmin()
+    });
+  };
+
+  const compare = (current: any, original: any) => {
+    Modal.info({
+      content: (
+        <Layout>
+          <Row>
+            <Col span={11}>
+              <Title>New Listing</Title>
+              <List>
+                {Object.keys(current).map((thing, index) => (
+                  <List.Item>
+                    <Text>{thing}</Text>
+                    <Text></Text>
+                    <Text
+                      type={
+                        current[thing] === original[thing]
+                          ? 'secondary'
+                          : 'danger'
+                      }
+                    >
+                      {current[thing]}
+                    </Text>
+                  </List.Item>
+                ))}
+              </List>
+            </Col>
+            <Col span={2}></Col>
+            <Col span={11}>
+              <Title>Old Listing</Title>
+              <List>
+                {Object.keys(original).map((thing, index) => (
+                  <List.Item>
+                    <Text>{thing}</Text>
+                    <Text></Text>
+                    <Text>{original[thing]}</Text>
+                  </List.Item>
+                ))}
+              </List>
+            </Col>
+          </Row>
+        </Layout>
+      ),
+      width: 1200
     });
   };
 
@@ -84,6 +140,33 @@ export const ListingApprovals: React.FC = () => {
     }
   };
 
+  const getPendingApproval = async (id: any) => {
+    var record;
+    await fetchUrl(`api/listing/approvals/get/approval/${key}?id=${id}`).then(
+      (data) => {
+        record = data;
+      }
+    );
+
+    return record;
+  };
+
+  const getListing = async (id: any) => {
+    var record;
+    await fetchUrl(`api/listing/get/${id}`).then((data) => {
+      record = data;
+    });
+
+    return record;
+  };
+
+  const compareRecords = async (current: string, original: string) => {
+    var proposedListing = await getPendingApproval(current);
+    var oldListing = await getListing(original);
+
+    compare(proposedListing, oldListing);
+  };
+
   const fetchUrl = async (url: string) => {
     const response = await fetch(url);
     return await response.json();
@@ -104,53 +187,35 @@ export const ListingApprovals: React.FC = () => {
               <List.Item>
                 <Layout>
                   <Descriptions title={item.name}>
-                    <Descriptions.Item label="Buisness Name">
-                      {item.name}
-                    </Descriptions.Item>
-                    <Descriptions.Item label="Category">
-                      {item.category}
-                    </Descriptions.Item>
-                    <Descriptions.Item label="Hours">
-                      {item.hours}
-                    </Descriptions.Item>
-                    <Descriptions.Item label="Phone Number">
-                      {item.phoneNumber}
-                    </Descriptions.Item>
-                    <Descriptions.Item label="Website">
-                      {item.website}
-                    </Descriptions.Item>
-                    <Descriptions.Item label="Message">
-                      {item.message}
-                    </Descriptions.Item>
-                    <Descriptions.Item label="Livestream Url">
-                      {item.liveStreamUrl}
-                    </Descriptions.Item>
-                    <Descriptions.Item label="Order Url">
-                      {item.orderUrl}
-                    </Descriptions.Item>
-                    <Descriptions.Item label="GiftCard Url">
-                      {item.giftCardUrl}
-                    </Descriptions.Item>
-                    <Descriptions.Item label="Interactions">
-                      {item.interactions}
-                    </Descriptions.Item>
-                    <Descriptions.Item label="Delivery Apps">
-                      {item.deliveryApps}
-                    </Descriptions.Item>
+                    {Object.keys(item).map((thing, index) => (
+                      <Descriptions.Item label={thing}>
+                        {item[thing]}
+                      </Descriptions.Item>
+                    ))}
                   </Descriptions>
                   <Row>
-                    <Col span={8}>
+                    <Col span={4}>
                       <Button type="primary" onClick={() => approve(item.id!)}>
                         Approve
                       </Button>
                     </Col>
-                    <Col span={8} offset={8}>
+                    <Col span={4}>
                       <Button
                         type="primary"
                         danger
                         onClick={() => deny(item.id!)}
                       >
                         Deny
+                      </Button>
+                    </Col>
+                    <Col span={4}>
+                      <Button
+                        type="primary"
+                        onClick={() =>
+                          compareRecords(item.id!, item.originalId)
+                        }
+                      >
+                        Compare
                       </Button>
                     </Col>
                   </Row>
