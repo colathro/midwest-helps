@@ -7,6 +7,7 @@ using MailKit.Net.Smtp;
 using getthehotdish.Models;
 using Microsoft.Extensions.Logging;
 using getthehotdish.DataAccess;
+using MailKit.Security;
 
 namespace getthehotdish.Controllers
 {
@@ -85,7 +86,7 @@ namespace getthehotdish.Controllers
             try
             {
                 using var client = new SmtpClient();
-                client.Connect(_notificationSettings.EmailNotificationSettings.SmtpClient, _notificationSettings.EmailNotificationSettings.Port, false);
+                client.Connect(_notificationSettings.EmailNotificationSettings.SmtpClient, _notificationSettings.EmailNotificationSettings.Port, SecureSocketOptions.StartTls);
 
                 client.Authenticate(_notificationSettings.EmailNotificationSettings.EmailSender, _notificationSettings.EmailNotificationSettings.EmailPassword);
 
