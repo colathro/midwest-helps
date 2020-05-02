@@ -23,7 +23,17 @@ export const MaskSection: React.FC<MaskSectionProps> = (props) => {
     ([value, label]) => ({
       label,
       value,
-      checked: false
+      checked: false,
+      displayFragmentOnChecked: (
+        <>
+          <TextField
+            name={`${value}_Qnt`}
+            title="Qnt:"
+            type="string"
+            required={true}
+          />
+        </>
+      )
     })
   );
 
