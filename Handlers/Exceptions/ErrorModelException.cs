@@ -1,15 +1,17 @@
-﻿using System;
+﻿using getthehotdish.Models;
+using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Net;
 
-namespace getthehotdish.Models.Exceptions
+namespace getthehotdish.Handlers.Exceptions
 {
     /// <summary>
     /// Throw this exception for known issues
     /// </summary>
     public class ErrorModelException : Exception
     {
-        public int Status { get; set; } = (int)HttpStatusCode.InternalServerError;
+        public int Status { get; set; } = StatusCodes.Status422UnprocessableEntity;
 
         public List<ErrorModel> Errors { get; set; }
 

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using getthehotdish.DataAccess;
 using getthehotdish.Models;
-using getthehotdish.Models.Exceptions;
+using getthehotdish.Handlers.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -32,8 +32,6 @@ namespace getthehotdish.Controllers
         [Route("page/{page}")]
         public async Task<ICollection<BusinessModel>> Get(int page, [FromQuery] int? businesstype = null, [FromQuery] string name = null)
         {
-            _logger.LogInformation($"PAGE GET Request: {page}");
-
             if (businesstype != null && name != null)
             {
                 var businesses = _dataContext.Listings.Where(l => l.PartitionKey == partitionKey && l.BusinessType == (BusinessType)businesstype && l.BusinessNameSearch.Contains(name) && l.Approved == true).Select(l => new BusinessModel(l));
@@ -60,7 +58,6 @@ namespace getthehotdish.Controllers
         [Route("get/{id}")]
         public async Task<BusinessModel> Get(string id)
         {
-            _logger.LogInformation($"ID GET Request: {id}");
             var listing = _dataContext.Listings.Where(l => l.Id == Guid.Parse(id) && l.PartitionKey == partitionKey).FirstOrDefault();
 
             if (listing != null)
@@ -76,8 +73,6 @@ namespace getthehotdish.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] BusinessModel businessModel)
         {
-            _logger.LogInformation($"LISTING POST Request: {businessModel.Name}");
-
             var listing = businessModel.ToListing();
             listing.PartitionKey = partitionKey;
             listing.CreatedOn = DateTime.UtcNow;
@@ -90,8 +85,6 @@ namespace getthehotdish.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(Guid id, [FromBody] BusinessModel businessModel)
         {
-            _logger.LogInformation($"LISTING PUT Request: {businessModel.Name}");
-
             var listing = businessModel.ToListing();
             listing.PartitionKey = partitionKey;
             listing.Approved = false;
@@ -198,8 +191,6 @@ namespace getthehotdish.Controllers
         [Route("search/{businessName}")]
         public async Task<ICollection<Listing>> Search(string businessName)
         {
-            _logger.LogInformation($"PAGE Search Request: {businessName}");
-
             return _dataContext.Listings.Where(l => l.PartitionKey == partitionKey && l.BusinessName == businessName).ToList();
         }
 
