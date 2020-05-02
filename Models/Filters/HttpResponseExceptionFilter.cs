@@ -15,7 +15,7 @@ namespace getthehotdish.Models.Filters
             var modelState = context.ModelState;
             if (!modelState.IsValid)
             {
-                var errors = modelState.Values.SelectMany(v => v.Errors.Select(b => b.ErrorMessage)).Select(m => new ErrorModel(m));
+                var errors = modelState.Values.SelectMany(v => v.Errors.Select(b => b.ErrorMessage)).Select(m => new ErrorModel(ErrorCode.InvalidField, m));
                 context.Result = new JsonResult(errors)
                 {
                     StatusCode = (int)HttpStatusCode.BadRequest
