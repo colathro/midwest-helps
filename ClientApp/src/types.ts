@@ -125,6 +125,7 @@ export type GetStartedSectionFields = {
 };
 
 export interface IMaskRequest {
+  id?: string;
   recipient: IRecipient;
   maskDetails: IMaskDetails;
   delivery: IDelivery;
