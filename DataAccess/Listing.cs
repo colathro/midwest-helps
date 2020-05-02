@@ -50,8 +50,8 @@ namespace getthehotdish.DataAccess
             Id = business.Id;
             PartitionKey = business.PartitionKey;
             BusinessName = business.Name;
-            BusinessType = EnumUtils.GetEnum<BusinessType>(business.Category);
-            Hours = EnumUtils.GetEnum<BusinessHoursType>(business.Hours);
+            BusinessType = EnumUtils.GetValue<BusinessType>(business.Category);
+            Hours = EnumUtils.GetValue<BusinessHoursType>(business.Hours);
             GiftCardUrl = business.GiftCardUrl;
             Website = business.Website;
             PhoneNumber = business.PhoneNumber;

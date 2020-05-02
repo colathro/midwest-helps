@@ -124,12 +124,42 @@ export type GetStartedSectionFields = {
   phoneNumber: string;
 };
 
-// TODO: we should make two types for this. One that has an ID and one that doesn't, otherwise it's not strongly typed
-export interface MaskRequest {
-  id?: string;
-  partitionKey: string;
-  createdOn: string;
-  [key: string]: any;
+export interface IMaskRequest {
+  recipient: IRecipient;
+  maskDetails: IMaskDetails;
+  delivery: IDelivery;
+}
+
+export interface IRecipient {
+  maskFor: MaskFor;
+  name: string;
+  company: string;
+  email: string;
+  phone: string;
+}
+
+export interface IMaskDetails {
+  masks: IMaskInfo[];
+  requirements: string;
+}
+
+export interface IMaskInfo {
+  type: MaskType;
+  quantity: number;
+}
+
+export interface IDelivery {
+  addresses: IAddress[];
+  notes: string;
+}
+
+export interface IAddress {
+  type: ReceiveMaskChannel;
+  address1: string;
+  address2: string;
+  city: string;
+  state: string;
+  zipCode: string;
 }
 
 export type MaskFor =

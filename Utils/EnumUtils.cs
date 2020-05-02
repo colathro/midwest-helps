@@ -32,7 +32,7 @@ namespace getthehotdish.Utils
                 .ToList();
         }
 
-        public static T GetEnum<T>(string enumName) where T : struct, Enum
+        public static T GetValue<T>(string enumName) where T : struct, Enum
         {
             return Enum.TryParse<T>(enumName, out var enumValue) ? enumValue : default;
         }
