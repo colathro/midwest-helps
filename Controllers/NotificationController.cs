@@ -95,7 +95,6 @@ namespace getthehotdish.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogInformation($"MESSAGE NOT DELIVERED. Message: {mimeMessage}", ex);
                 throw ex;
             }
         }

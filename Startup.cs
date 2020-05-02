@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.ApplicationInsights;
 using getthehotdish.Controllers;
 using getthehotdish.Models;
-using getthehotdish.Models.Filters;
+using getthehotdish.Handlers.Filters;
 
 namespace getthehotdish
 {
@@ -34,8 +34,8 @@ namespace getthehotdish
             services.AddMvc(
             config =>
             {
-                //config.Filters.Add(typeof(ValidateModelStateAttribute));
-                config.Filters.Add(new HttpResponseExceptionFilter());
+                config.Filters.Add<LogFilter>(1);
+                config.Filters.Add<HttpResponseExceptionFilter>(2);
             })
             .ConfigureApiBehaviorOptions(options =>
             {

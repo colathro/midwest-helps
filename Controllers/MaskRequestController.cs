@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using getthehotdish.DataAccess;
 using Microsoft.Extensions.Logging;
 using System.ComponentModel.DataAnnotations;
-using getthehotdish.Models.Exceptions;
+using getthehotdish.Handlers.Exceptions;
 
 namespace getthehotdish.Controllers
 {
@@ -68,8 +68,6 @@ namespace getthehotdish.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(Guid id, [FromBody] MaskRequestModel maskRequestModel, [FromQuery] Guid editKey)
         {
-            _logger.LogInformation($"MASKREQUEST PUT Request: {id}");
-
             var maskRequest = maskRequestModel.ToMaskRequest();
             maskRequest.PartitionKey = partitionKey;
             maskRequest.Approved = false;

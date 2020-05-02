@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using getthehotdish.DataAccess;
 using getthehotdish.Models;
-using getthehotdish.Models.Exceptions;
+using getthehotdish.Handlers.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;

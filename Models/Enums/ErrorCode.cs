@@ -8,7 +8,7 @@ namespace getthehotdish.Models
     /// </summary>
     public enum ErrorCode
     {
-        [Description("Invalid field")]
+        [Description("{0}")]
         InvalidField = 1,
         [Description("Bad key")]
         BadKey = 2,
