@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Layout, Descriptions, Button, Modal, List, Row, Col } from 'antd';
 import { useLocation } from 'react-router-dom';
-import { MaskRequest } from '../../../../types';
+import { IMaskRequest } from '../../../../types';
 
 import './MaskRequestApprovals.scss';
 
@@ -10,7 +10,7 @@ const useQuery = () => new URLSearchParams(useLocation().search);
 export const MaskRequestApprovals: React.FC = () => {
   // const history = useHistory();
   const query = useQuery();
-  const [allApprovals, setAllApprovals] = useState<MaskRequest[]>([]);
+  const [allApprovals, setAllApprovals] = useState<IMaskRequest[]>([]);
   const [loading, setLoading] = useState(true);
 
   const key = query.get('key');
@@ -109,9 +109,6 @@ export const MaskRequestApprovals: React.FC = () => {
                 <Layout>
                   <Descriptions title={item.id}>
                     <Descriptions.Item label="Id">{item.id}</Descriptions.Item>
-                    <Descriptions.Item label="PartitionKey">
-                      {item.partitionKey}
-                    </Descriptions.Item>
                     <Descriptions.Item label="CreateOn">
                       {item.createdOn}
                     </Descriptions.Item>
