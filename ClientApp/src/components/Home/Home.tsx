@@ -1,6 +1,6 @@
 ﻿import React, { useState, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { Row, Col, Typography, Layout, Button, Spin, Alert } from 'antd';
+import { Row, Col, Typography, Layout, Button, Spin, Alert, Menu } from 'antd';
 import { BusinessCard } from '../BusinessCard';
 import { Business, BUSINESS_CATEGORY_STRINGS } from '../../types';
 import {
@@ -15,6 +15,7 @@ import './Home.scss';
 
 const { Header, Content } = Layout;
 const { Title } = Typography;
+const { SubMenu } = Menu;
 
 const useQuery = () => new URLSearchParams(useLocation().search);
 
@@ -193,19 +194,42 @@ export const Home: React.FC = () => {
     <div>
       <Header className="header-fixed">
         <Row justify="center">
-          <Col xl={18} lg={18} md={20} sm={22} xs={24}>
-            <Title level={3}>Hotdish</Title>
+          <Col xl={14} lg={18} md={20} sm={22} xs={24}>
+            <Title level={3}>Midwest Helps</Title>
             <div className="right-nav">
-              <Button
-                onClick={() => history.push('/contact')}
-                type="link"
-                className="nav-link"
-              >
-                Contact
-              </Button>
-              <Button onClick={() => history.push('/list')} type="primary">
-                List a business
-              </Button>
+              <Menu mode="horizontal">
+                <SubMenu title="Resources">
+                  <Menu.ItemGroup>
+                    <Menu.Item key="setting:1">
+                      <Button
+                        onClick={() => history.push('/masks')}
+                        type="link"
+                        className="nav-link"
+                      >
+                        Masks
+                      </Button>
+                    </Menu.Item>
+                    <Menu.Item key="setting:1">
+                      <Button
+                        onClick={() => history.push('/covid19')}
+                        type="link"
+                        className="nav-link"
+                      >
+                        Covid-19
+                      </Button>
+                    </Menu.Item>
+                    <Menu.Item key="setting:2">
+                      <Button
+                        onClick={() => history.push('/contact')}
+                        type="link"
+                        className="nav-link"
+                      >
+                        Contact
+                      </Button>
+                    </Menu.Item>
+                  </Menu.ItemGroup>
+                </SubMenu>
+              </Menu>
             </div>
           </Col>
         </Row>
@@ -228,6 +252,10 @@ export const Home: React.FC = () => {
               independently. If you see a mistake or need to update a post,
               please contact us.
             </Typography>
+            <br />
+            <Button onClick={() => history.push('/list')} type="primary">
+              List a business
+            </Button>
           </Col>
         </Row>
       </Content>

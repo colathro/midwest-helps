@@ -19,6 +19,15 @@ $header-height: 72px;
   }
 }
 
+.ant-menu-item-group-title {
+  padding: 0px;
+}
+
+.ant-menu-submenu-title {
+  color: #000;
+  font-weight: bold;
+}
+
 .right-nav {
   float: right;
   margin-top: 4px;
@@ -52,7 +61,7 @@ main.header-greeting {
   background-color: $primary-color;
   $vertical-padding: 24px;
   padding-top: $header-height + $vertical-padding;
-  padding-bottom: $vertical-padding + 24px;
+  padding-bottom: $vertical-padding;
   margin-bottom: 12px;
 
   article {

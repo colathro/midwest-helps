@@ -25,6 +25,10 @@ namespace getthehotdish.Models.Filters
 
         public void OnActionExecuted(ActionExecutedContext context)
         {
+            if (context.Exception == null)
+            {
+                return;
+            }
             switch (context.Exception)
             {
                 case ErrorModelException ex:
