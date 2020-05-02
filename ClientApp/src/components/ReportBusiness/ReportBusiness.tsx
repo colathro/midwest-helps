@@ -20,7 +20,7 @@ export const ReportBusiness: React.FC<ReportBusinessProps> = (props) => {
   const onSubmit = (values: ReportFormSubmitValues) => {
     setIsSending(true);
     const data = {
-      Business: props.business,
+      Business: props.business.id!,
       ReportType: parseInt(values.reportType, 10)
     };
     sendMessage(data);
@@ -43,7 +43,7 @@ export const ReportBusiness: React.FC<ReportBusinessProps> = (props) => {
     });
   };
 
-  const sendMessage = (data: { Business: Business; ReportType: number }) => {
+  const sendMessage = (data: { Business: string; ReportType: number }) => {
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
