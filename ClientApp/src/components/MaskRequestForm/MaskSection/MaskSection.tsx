@@ -27,8 +27,8 @@ export const MaskSection: React.FC<MaskSectionProps> = (props) => {
       displayFragmentOnChecked: (
         <>
           <TextField
-            name={`${value}_Qnt`}
-            title="Qnt:"
+            name={`${value}Qnt`}
+            placeHolder="0"
             type="string"
             required={true}
           />

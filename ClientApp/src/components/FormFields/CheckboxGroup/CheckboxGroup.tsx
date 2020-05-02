@@ -2,6 +2,7 @@ import React, { ReactFragment } from 'react';
 import { Form, Checkbox, Row, Col } from 'antd';
 
 import '../FormFields.scss';
+import { useState } from 'react';
 
 export interface CheckboxGroupProps {
   name: string;
@@ -20,10 +21,21 @@ export interface CheckboxItem {
 }
 
 export const CheckboxGroup: React.FC<CheckboxGroupProps> = (props) => {
-  const onChange = (item: CheckboxItem) => {
+  const [checkedItems, setCheckedItems] = useState([] as boolean[]);
+
+  const onChange = (item: CheckboxItem, index: number) => {
     if (item.onChange) {
       item.onChange();
     }
+
+    if (checkedItems.length === 0) {
+      props.checkboxItems.map((i) => {
+        checkedItems.push(false);
+      });
+    }
+
+    checkedItems[index] = !checkedItems[index];
+    setCheckedItems([...checkedItems]);
   };
 
   const rules = [];
@@ -41,24 +53,26 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = (props) => {
       className="hotdish-input"
     >
       <Checkbox.Group>
-        <Row>
-          {props.checkboxItems.map((item, index) => (
+        {props.checkboxItems.map((item, index) => (
+          <Row>
             <>
-              <Col key={index} span={16}>
+              <Col key={index} span={checkedItems[index] ? 10 : 24}>
                 <Checkbox
                   value={item.value}
                   defaultChecked={item.checked}
                   onChange={() => {
-                    onChange(item);
+                    onChange(item, index);
                   }}
                 >
                   {item.label}
                 </Checkbox>
               </Col>
-              <Col span={8}>{item.displayFragmentOnChecked}</Col>
+              <Col span={6} offset={4}>
+                {checkedItems[index] && item.displayFragmentOnChecked}
+              </Col>
             </>
-          ))}
-        </Row>
+          </Row>
+        ))}
       </Checkbox.Group>
     </Form.Item>
   );
