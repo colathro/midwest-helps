@@ -104,28 +104,9 @@ export const REPORT_TYPES = {
   offensive: 3
 };
 
-export type DeliverySectionFields = {
-  name: string;
-  email: string;
-  company: string;
-  phoneNumber: string;
-};
-
-export type MaskSectionFields = {
-  maskFor: MaskFor;
-  maskRequirements: string;
-};
-
-export type GetStartedSectionFields = {
-  maskFor: MaskFor;
-  name: string;
-  company: string;
-  email: string;
-  phoneNumber: string;
-};
-
 export interface IMaskRequest {
   id?: string;
+  createdOn: string;
   recipient: IRecipient;
   maskDetails: IMaskDetails;
   delivery: IDelivery;
