@@ -20,21 +20,23 @@ export interface CheckboxItem {
   displayFragmentOnChecked?: ReactFragment;
 }
 
-export const CheckboxGroup: React.FC<CheckboxGroupProps> = (props) => {
-  const [checkedItems, setCheckedItems] = useState([] as boolean[]);
+interface Target {
+  checked: boolean;
+}
 
-  const onChange = (item: CheckboxItem, index: number) => {
+export const CheckboxGroup: React.FC<CheckboxGroupProps> = (props) => {
+  const [checkedItems, setCheckedItems] = useState(
+    props.checkboxItems.map((i) => {
+      return i.checked;
+    })
+  );
+
+  const onChange = (checked: boolean, item: CheckboxItem, index: number) => {
     if (item.onChange) {
       item.onChange();
     }
 
-    if (checkedItems.length === 0) {
-      props.checkboxItems.map((i) => {
-        checkedItems.push(false);
-      });
-    }
-
-    checkedItems[index] = !checkedItems[index];
+    checkedItems[index] = checked;
     setCheckedItems([...checkedItems]);
   };
 
@@ -54,23 +56,25 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = (props) => {
     >
       <Checkbox.Group>
         {props.checkboxItems.map((item, index) => (
-          <Row>
-            <>
-              <Col key={index} span={checkedItems[index] ? 10 : 24}>
-                <Checkbox
-                  value={item.value}
-                  defaultChecked={item.checked}
-                  onChange={() => {
-                    onChange(item, index);
-                  }}
-                >
-                  {item.label}
-                </Checkbox>
-              </Col>
-              <Col span={6} offset={4}>
-                {checkedItems[index] && item.displayFragmentOnChecked}
-              </Col>
-            </>
+          <Row key={index}>
+            <Col
+              span={
+                checkedItems[index] && item.displayFragmentOnChecked ? 12 : 24
+              }
+            >
+              <Checkbox
+                value={item.value}
+                defaultChecked={item.checked}
+                onChange={(e) => {
+                  onChange(e.target.checked, item, index);
+                }}
+              >
+                {item.label}
+              </Checkbox>
+            </Col>
+            <Col span={6} offset={4}>
+              {checkedItems[index] && item.displayFragmentOnChecked}
+            </Col>
           </Row>
         ))}
       </Checkbox.Group>

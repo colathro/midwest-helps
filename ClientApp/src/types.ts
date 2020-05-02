@@ -204,8 +204,13 @@ export interface IRecipientSection {
 }
 
 export interface IMaskSection {
-  maskType: string[];
+  maskTypes: string[];
   maskRequirements: string;
+  fabricQnt: number;
+  faceShieldQnt: number;
+  earGuardsQnt: number;
+  scrubCapsQnt: number;
+  othersQnt: number;
 }
 
 export interface IDeliverySection {

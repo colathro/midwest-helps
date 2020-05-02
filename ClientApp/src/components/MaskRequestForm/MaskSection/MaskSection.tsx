@@ -1,11 +1,18 @@
 import React, { useState } from 'react';
+import { get as _get, camelCase as _camelCase } from 'lodash';
 import { Form, Button, Typography, Row, Col } from 'antd';
 import { TextField } from '../../FormFields/TextField';
 import {
   CheckboxItem,
   CheckboxGroup
 } from '../../FormFields/CheckboxGroup/CheckboxGroup';
-import { MASK_TYPE, MaskType, IMaskSection } from '../../../types';
+import {
+  MASK_TYPE,
+  MaskType,
+  IMaskSection,
+  IMaskDetails,
+  IMaskInfo
+} from '../../../types';
 const { Text } = Typography;
 
 export interface MaskSectionProps {
@@ -14,33 +21,53 @@ export interface MaskSectionProps {
 
 export const MaskSection: React.FC<MaskSectionProps> = (props) => {
   const [displaySummary, setDisplaySummary] = useState(false);
-  const [maskDetails, setMaskDetails] = useState({
-    maskType: [] as string[],
-    maskRequirements: ''
-  });
+  const [maskSection, setMaskSection] = useState({
+    maskTypes: [] as string[],
+    maskRequirements: '',
+    fabricQnt: 0,
+    faceShieldQnt: 0,
+    earGuardsQnt: 0,
+    scrubCapsQnt: 0,
+    othersQnt: 0
+  } as IMaskSection);
 
   const checkboxItems: CheckboxItem[] = Object.entries(MASK_TYPE).map(
     ([value, label]) => ({
       label,
       value,
-      checked: false,
+      checked: maskSection.maskTypes.includes(value),
       displayFragmentOnChecked: (
-        <>
-          <TextField
-            name={`${value}Qnt`}
-            placeHolder="0"
-            type="string"
-            required={true}
-          />
-        </>
+        <TextField
+          name={_camelCase(`${value}Qnt`)}
+          placeHolder="0"
+          type="string"
+          required={true}
+        />
       )
     })
   );
 
-  const onFinish = (maskDetailsObj: object) => {
+  const onFinish = (obj: object) => {
     setDisplaySummary(true);
-    setMaskDetails(maskDetailsObj as IMaskSection);
-    props.onFinish(maskDetailsObj);
+    const maskSectionObj = obj as IMaskSection;
+    setMaskSection(maskSectionObj);
+    props.onFinish(processMaskSectionObj(maskSectionObj));
+  };
+
+  const processMaskSectionObj = (maskSectionObj: IMaskSection) => {
+    return {
+      requirements: maskSectionObj.maskRequirements,
+      masks: processMaskInfo(maskSectionObj)
+    } as IMaskDetails;
+  };
+
+  const processMaskInfo = (maskSectionObj: IMaskSection) => {
+    return maskSectionObj.maskTypes.map((mt) => {
+      return {
+        type: mt,
+        quantity: _get(maskSectionObj, _camelCase(`${mt}Qnt`), 0)
+      } as IMaskInfo;
+    });
   };
 
   const onEditClick = () => {
@@ -54,17 +81,27 @@ export const MaskSection: React.FC<MaskSectionProps> = (props) => {
           <Col span={22}>
             <Text strong>What type of masks are you in need of?</Text>
             <br />
-            {maskDetails.maskType.map((mt) => (
-              <>
-                <Text type="secondary">{MASK_TYPE[mt as MaskType]}</Text>
-                <br />
-              </>
+            {maskSection.maskTypes.map((mt, index) => (
+              <Row key={index}>
+                <Col span={12}>
+                  <Text type="secondary">{MASK_TYPE[mt as MaskType]}</Text>
+                </Col>
+                <Col span={8}>
+                  <Text type="secondary">
+                    {`Quantity: ${_get(
+                      maskSection,
+                      _camelCase(`${mt}Qnt`),
+                      0
+                    )}`}
+                  </Text>
+                </Col>
+              </Row>
             ))}
             <br />
             <Text strong>Mask requirements</Text>
             <br />
-            {maskDetails.maskRequirements ? (
-              <Text type="secondary">{maskDetails.maskRequirements}</Text>
+            {maskSection.maskRequirements ? (
+              <Text type="secondary">{maskSection.maskRequirements}</Text>
             ) : (
               <Text type="secondary">None</Text>
             )}
@@ -94,7 +131,7 @@ export const MaskSection: React.FC<MaskSectionProps> = (props) => {
       ) : (
         <>
           <CheckboxGroup
-            name="maskType"
+            name="maskTypes"
             title="What type of masks are you in need of?"
             checkboxItems={checkboxItems}
             required={true}
