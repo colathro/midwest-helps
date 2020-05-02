@@ -21,7 +21,7 @@ namespace getthehotdish.DataAccess
         [Required]
         public Recipient Recipient { get; set; }
         [Required]
-        public Mask Mask { get; set; }
+        public MaskDetails MaskDetails { get; set; }
         [Required]
         public Delivery Delivery { get; set; }
 
@@ -42,7 +42,7 @@ namespace getthehotdish.DataAccess
                 PartitionKey = PartitionKey,
                 CreatedOn = CreatedOn,
                 Recipient = Recipient.ToRecipientDetailsModel(),
-                Mask = Mask.ToMaskModel(),
+                MaskDetails = MaskDetails.ToMaskDetailsModel(),
                 Delivery = Delivery.ToDeliveryModel()
             };
         }
@@ -73,14 +73,18 @@ namespace getthehotdish.DataAccess
         [Required]
         public MaskForType MaskFor { get; set; }
         [Required]
+        [StringLength(50, ErrorMessage = "Name length can't be more than 50 characters.")]
         public string Name { get; set; }
+        [StringLength(50, ErrorMessage = "Name length can't be more than 50 characters.")]
         public string Company { get; set; }
         [Required]
         [EmailAddress]
+        [StringLength(50, ErrorMessage = "Email length can't be more than 50 characters.")]
         public string Email { get; set; }
         [Required]
         [RegularExpression(@"^\d{10}$",
          ErrorMessage = "Phone not valid.")]
+        [StringLength(20, ErrorMessage = "Phone length can't be more than 50 characters.")]
         public string Phone { get; set; }
 
         public RecipientModel ToRecipientDetailsModel()
@@ -97,19 +101,38 @@ namespace getthehotdish.DataAccess
     }
 
     [Owned]
-    public class Mask
+    public class MaskDetails
     {
         [Required]
-        public MaskType Type { get; set; }
+        public List<MaskInfo> Masks { get; set; }
+
         [StringLength(500, ErrorMessage = "Requirements length can't be more than 500 characters.")]
         public string Requirements { get; set; }
 
-        public MaskModel ToMaskModel()
+        public MaskDetailsModel ToMaskDetailsModel()
         {
-            return new MaskModel
+            return new MaskDetailsModel
             {
-                Types = EnumUtils.GetEnumNameList(Type).ToList(),
+                Masks = Masks.Select(m => m.ToMaskInfoModel()).ToList(),
                 Requirements = Requirements
+            };
+        }
+    }
+
+    [Owned]
+    public class MaskInfo
+    {
+        [Required]
+        public MaskType Type { get; set; }
+        [Required]
+        public int Quantity { get; set; }
+
+        public MaskInfoModel ToMaskInfoModel()
+        {
+            return new MaskInfoModel
+            {
+                Type = EnumUtils.GetName(Type),
+                Quantity = Quantity
             };
         }
     }
@@ -117,10 +140,11 @@ namespace getthehotdish.DataAccess
     [Owned]
     public class Delivery
     {
-        [StringLength(500, ErrorMessage = "Notes length can't be more than 500 characters.")]
-        public string Notes { get; set; }
         [Required]
         public List<Address> Addresses { get; set; }
+
+        [StringLength(500, ErrorMessage = "Notes length can't be more than 500 characters.")]
+        public string Notes { get; set; }
 
         public DeliveryModel ToDeliveryModel()
         {

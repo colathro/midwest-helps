@@ -20,9 +20,9 @@ namespace getthehotdish.Models
         [JsonPropertyName("recipient")]
         [Required]
         public RecipientModel Recipient { get; set; }
-        [JsonPropertyName("mask")]
+        [JsonPropertyName("maskDetails")]
         [Required]
-        public MaskModel Mask { get; set; }
+        public MaskDetailsModel MaskDetails { get; set; }
         [JsonPropertyName("delivery")]
         [Required]
         public DeliveryModel Delivery { get; set; }
@@ -43,7 +43,7 @@ namespace getthehotdish.Models
                 PartitionKey = PartitionKey,
                 CreatedOn = CreatedOn,
                 Recipient = Recipient.ToRecipient(),
-                Mask = Mask.ToMask(),
+                MaskDetails = MaskDetails.ToMaskDetails(),
                 Delivery = Delivery.ToDelivery()
             };
         }
@@ -65,7 +65,7 @@ namespace getthehotdish.Models
         {
             return new Recipient
             {
-                MaskFor = EnumUtils.GetEnum<MaskForType>(MaskFor),
+                MaskFor = EnumUtils.GetValue<MaskForType>(MaskFor),
                 Name = Name,
                 Company = Company,
                 Email = Email,
@@ -74,27 +74,46 @@ namespace getthehotdish.Models
         }
     }
 
-    public class MaskModel
+    public class MaskDetailsModel
     {
         [Required]
-        public List<string> Types { get; set; }
+        public List<MaskInfoModel> Masks { get; set; }
+        [StringLength(500, ErrorMessage = "Requirements length can't be more than 500 characters.")]
         public string Requirements { get; set; }
 
-        public Mask ToMask()
+        public MaskDetails ToMaskDetails()
         {
-            return new Mask
+            return new MaskDetails
             {
-                Type = EnumUtils.GetEnumFlag<MaskType>(Types),
+                Masks = Masks.Select(m => m.ToMaskInfo()).ToList(),
                 Requirements = Requirements
+            };
+        }
+    }
+
+    public class MaskInfoModel
+    {
+        [Required]
+        public string Type { get; set; }
+        public int Quantity { get; set; }
+
+        public MaskInfo ToMaskInfo()
+        {
+            return new MaskInfo
+            {
+                Type = EnumUtils.GetValue<MaskType>(Type),
+                Quantity = Quantity
             };
         }
     }
 
     public class DeliveryModel
     {
-        public string Notes { get; set; }
         [Required]
         public List<AddressModel> Addresses { get; set; }
+
+        [StringLength(500, ErrorMessage = "Notes length can't be more than 500 characters.")]
+        public string Notes { get; set; }
 
         public Delivery ToDelivery()
         {
@@ -124,7 +143,7 @@ namespace getthehotdish.Models
         {
             return new Address
             {
-                Type = EnumUtils.GetEnum<AddressType>(Type),
+                Type = EnumUtils.GetValue<AddressType>(Type),
                 Address1 = Address1,
                 Address2 = Address2,
                 City = City,
