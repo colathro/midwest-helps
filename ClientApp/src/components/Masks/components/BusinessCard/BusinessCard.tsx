@@ -11,15 +11,20 @@ export const BusinessCard: React.FC<IMaskRequest> = (props) => {
   return (
     <div>
       <Card
-        title={maskRequest.recipient}
+        title={
+          <div>
+            <span>{maskRequest.recipient.company}</span>
+            <span>{maskRequest.createdOn}</span>
+          </div>
+        }
         className="business-card"
         bordered={false}
       >
         <p>{maskRequest.delivery.notes}</p>
         <div>
           <BusinessLinks
-            phone={maskRequest.recipient.phone}
-            webUrl={maskRequest.recipient.email}
+            phone={maskRequest.recipient.email}
+            webUrl={maskRequest.recipient.phone}
           />
         </div>
       </Card>

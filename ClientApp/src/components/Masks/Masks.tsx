@@ -40,6 +40,7 @@ const createParamString = (filter: number) => {
 
   let paramString = '';
   if (filterParam) {
+    paramString += '?';
     paramString += filterParam;
   }
 
@@ -74,7 +75,7 @@ export const Masks: React.FC = () => {
 
     setLoading(true);
     setHasMoreBusinesses(true);
-    fetchUrl(`/api/listing/page/1${paramString}`)
+    fetchUrl(`/api/maskrequest/page/1${paramString}`)
       .then((data) => {
         setAllBusiness(data);
         setLoading(false);
@@ -111,9 +112,11 @@ export const Masks: React.FC = () => {
   };
 
   let companies;
+
   const loader = (
     <Spin className="companies-loading" size="large" tip="Loading..." />
   );
+
   if (loading) {
     companies = loader;
   } else if (error) {
@@ -132,8 +135,8 @@ export const Masks: React.FC = () => {
         hasMore={hasMoreBusinesses}
         loader={loader}
       >
-        {allBusiness.map((business) => (
-          <BusinessCard {...business} key={business.id} />
+        {allBusiness.map((maskRequest) => (
+          <BusinessCard {...maskRequest} key={maskRequest.id} />
         ))}
       </InfiniteScroll>
     );
@@ -146,6 +149,9 @@ export const Masks: React.FC = () => {
           filter={params.filter}
           setFilter={(filter) => setParams({ ...params, filter })}
         />
+      </Col>
+      <Col xl={10} lg={12}>
+        {companies}
       </Col>
     </>
   ) : (

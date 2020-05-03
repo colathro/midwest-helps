@@ -74,10 +74,10 @@ namespace getthehotdish.DataAccess
         public async static Task<MaskRequestModel> Create(DataContext dataContext, MaskRequestModel maskRequestModel)
         {
             maskRequestModel.PartitionKey = partitionKey;
-            maskRequestModel.CreatedOn = DateTime.UtcNow;
 
             var maskRequest = maskRequestModel.ToMaskRequest();
             maskRequest.EditKey = Guid.NewGuid();
+            maskRequest.CreatedOn = DateTime.UtcNow;
 
             dataContext.MaskRequests.Add(maskRequest);
             await dataContext.SaveChangesAsync();
@@ -145,7 +145,12 @@ namespace getthehotdish.DataAccess
 
             MaskType type = (MaskType)maskType;
 
-            var filterMaskRequests = maskRequests.Where(m => m.MaskDetails.Masks.Where(mi => mi.Type == Enum.GetName(MaskType, type)).Any());
+            if (maskType == -1)
+            {
+                return await PaginatedList<MaskRequestModel>.CreateAsync(maskRequests, page, 10);
+            }
+
+            var filterMaskRequests = maskRequests.Where(m => m.MaskDetails.Masks.Where(mi => mi.Type == Enum.GetName(typeof(MaskType), type)).Any());
 
             return await PaginatedList<MaskRequestModel>.CreateAsync(filterMaskRequests, page, 10);
         }
