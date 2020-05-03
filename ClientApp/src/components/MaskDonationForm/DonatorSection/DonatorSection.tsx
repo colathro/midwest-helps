@@ -3,15 +3,15 @@ import { get as _get, camelCase as _camelCase } from 'lodash';
 import { Form, Button, Typography, Row, Col } from 'antd';
 import { TextField } from '../../FormFields/TextField';
 import { RadioGroup, RadioItem } from '../../FormFields/RadioGroup/RadioGroup';
-import { MaskFor, MASK_FOR, IRecipient } from '../../../types';
+import { MaskFor, MASK_FOR, IRecipient, IDonator } from '../../../types';
 
 const { Text } = Typography;
 
-export interface RecipientSectionProps {
-  onFinish: (maskRequest: IRecipient) => void;
+export interface DonatorSectionProps {
+  onFinish: (maskRequest: IDonator) => void;
 }
 
-export const RecipientSection: React.FC<RecipientSectionProps> = (props) => {
+export const DonatorSection: React.FC<DonatorSectionProps> = (props) => {
   const [displaySummary, setDisplaySummary] = useState(false);
   const [recipientSection, setRecipientSection] = useState({
     maskFor: '',

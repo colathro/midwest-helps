@@ -15,11 +15,11 @@ import {
 } from '../../../types';
 const { Text } = Typography;
 
-export interface MaskSectionProps {
-  onFinish: (maskRequest: IMaskDetails) => void;
+export interface DonationSectionProps {
+  onFinish: (maskRequest: IMaskInfo[]) => void;
 }
 
-export const MaskSection: React.FC<MaskSectionProps> = (props) => {
+export const DonationSection: React.FC<DonationSectionProps> = (props) => {
   const [displaySummary, setDisplaySummary] = useState(false);
   const [maskSection, setMaskSection] = useState({
     maskTypes: [] as string[],
@@ -130,12 +130,6 @@ export const MaskSection: React.FC<MaskSectionProps> = (props) => {
         summary()
       ) : (
         <>
-          <CheckboxGroup
-            name="maskTypes"
-            title="What type of masks are you in need of?"
-            checkboxItems={checkboxItems}
-            required={true}
-          ></CheckboxGroup>
           <TextField
             name="maskRequirements"
             title="Mask requirements"

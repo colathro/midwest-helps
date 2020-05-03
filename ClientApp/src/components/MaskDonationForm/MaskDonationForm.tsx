@@ -1,54 +1,53 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Button, Collapse, Typography, Modal } from 'antd';
-import { RecipientSection } from './RecipientSection';
-import { MaskSection } from './MaskSection';
-import { DeliverySection } from './DeliverySection';
-import './MaskRequestForm.scss';
+import { DonationSection } from './DonationSection';
+import './MaskDonationForm.scss';
 import {
-  MASK_REQUEST_SECTION,
-  IMaskRequest,
-  IRecipient,
-  IMaskDetails,
-  IDelivery
+  MASK_DONATION_SECTION,
+  IMaskDonationRequest,
+  IMaskInfo,
+  IDonator
 } from '../../types';
+import { BeforeStartSection } from './BeforeStartSection';
+import { DonatorSection } from './DonatorSection';
 
 const { Title } = Typography;
 
-export const MaskRequestForm: React.FC = () => {
+export interface MaskDonationFormProps {
+  requestId: string;
+}
+
+export const MaskDonationForm: React.FC<MaskDonationFormProps> = (props) => {
   const [activePanels, setActivePanels] = useState([
-    MASK_REQUEST_SECTION.Recipient.value
+    MASK_DONATION_SECTION.BeforeStart.value
   ]);
   const [disabledPanels, setDisabledPanels] = useState([
-    MASK_REQUEST_SECTION.Mask.value,
-    MASK_REQUEST_SECTION.Delivery.value
+    MASK_DONATION_SECTION.Donator.value,
+    MASK_DONATION_SECTION.Donation.value
   ]);
   const [allowSubmit, setAllowSubmit] = useState(false);
-  const [maskRequest, setMaskRequest] = useState<IMaskRequest>({
-    recipient: {
-      maskFor: 'Myself',
+  const [maskDonationRequest, setMaskDonationRequest] = useState<
+    IMaskDonationRequest
+  >({
+    donator: {
+      bestContactType: 'Email',
       name: '',
       company: '',
       email: '',
       phone: ''
     },
-    maskDetails: {
-      masks: [],
-      requirements: ''
-    },
-    delivery: {
-      addresses: [],
-      notes: ''
-    }
+    donation: [],
+    requestId: ''
   });
 
   const history = useHistory();
 
   const onSubmit = () => {
-    post('/api/maskRequest', maskRequest);
+    post('/api/maskDonation', maskDonationRequest);
   };
 
-  const post = async (url: string, data: IMaskRequest) => {
+  const post = async (url: string, data: IMaskDonationRequest) => {
     const requestOptions = {
       method: 'POST',
       headers: {
@@ -84,44 +83,44 @@ export const MaskRequestForm: React.FC = () => {
     history.push('/masks');
   };
 
-  const setRecipient = (recipient: IRecipient) => {
-    setMaskRequest({
-      recipient,
-      maskDetails: maskRequest.maskDetails,
-      delivery: maskRequest.delivery
+  const setRequest = () => {
+    setMaskDonationRequest({
+      requestId: props.requestId,
+      donator: maskDonationRequest.donator,
+      donation: maskDonationRequest.donation
     });
     // if user has not gone through all sections set active and disabled sections
     if (!allowSubmit) {
       setActivePanels([
-        MASK_REQUEST_SECTION.Recipient.value,
-        MASK_REQUEST_SECTION.Mask.value
+        MASK_DONATION_SECTION.BeforeStart.value,
+        MASK_DONATION_SECTION.Donator.value
       ]);
-      setDisabledPanels([MASK_REQUEST_SECTION.Delivery.value]);
+      setDisabledPanels([MASK_DONATION_SECTION.Donation.value]);
     }
   };
 
-  const setMaskDetails = (maskDetails: IMaskDetails) => {
-    setMaskRequest({
-      recipient: maskRequest.recipient,
-      maskDetails,
-      delivery: maskRequest.delivery
+  const setDonator = (donator: IDonator) => {
+    setMaskDonationRequest({
+      requestId: maskDonationRequest.requestId,
+      donator,
+      donation: maskDonationRequest.donation
     });
     // if user has not gone through all sections set active and disabled sections
     if (!allowSubmit) {
       setActivePanels([
-        MASK_REQUEST_SECTION.Recipient.value,
-        MASK_REQUEST_SECTION.Mask.value,
-        MASK_REQUEST_SECTION.Delivery.value
+        MASK_DONATION_SECTION.BeforeStart.value,
+        MASK_DONATION_SECTION.Donator.value,
+        MASK_DONATION_SECTION.Donation.value
       ]);
       setDisabledPanels([]);
     }
   };
 
-  const setDeliveryDetails = (delivery: IDelivery) => {
-    setMaskRequest({
-      recipient: maskRequest.recipient,
-      maskDetails: maskRequest.maskDetails,
-      delivery
+  const setDonation = (donation: IMaskInfo[]) => {
+    setMaskDonationRequest({
+      requestId: maskDonationRequest.requestId,
+      donator: maskDonationRequest.donator,
+      donation
     });
     // once user has set the delivery details user should be able to submit the request
     setAllowSubmit(true);
@@ -133,39 +132,41 @@ export const MaskRequestForm: React.FC = () => {
 
   return (
     <>
-      <Title level={2}>Request masks</Title>
+      <Title level={2}>Donate masks</Title>
       <Typography>
         These masks are not regulated by the FDA and are community-sourced. They
         may not provide protection against splashes and sprays.
       </Typography>
       <Collapse activeKey={activePanels} onChange={onChangeCollapse}>
         <Collapse.Panel
-          header={MASK_REQUEST_SECTION.Recipient.label}
-          key={MASK_REQUEST_SECTION.Recipient.value}
+          header={MASK_DONATION_SECTION.BeforeStart.label}
+          key={MASK_DONATION_SECTION.BeforeStart.value}
           showArrow={false}
           disabled={disabledPanels.includes(
-            MASK_REQUEST_SECTION.Recipient.value
+            MASK_DONATION_SECTION.BeforeStart.value
           )}
         >
-          <RecipientSection onFinish={setRecipient} />
+          <BeforeStartSection onFinish={setRequest} />
         </Collapse.Panel>
         <Collapse.Panel
-          header={MASK_REQUEST_SECTION.Mask.label}
-          key={MASK_REQUEST_SECTION.Mask.value}
-          showArrow={false}
-          disabled={disabledPanels.includes(MASK_REQUEST_SECTION.Mask.value)}
-        >
-          <MaskSection onFinish={setMaskDetails} />
-        </Collapse.Panel>
-        <Collapse.Panel
-          header={MASK_REQUEST_SECTION.Delivery.label}
-          key={MASK_REQUEST_SECTION.Delivery.value}
+          header={MASK_DONATION_SECTION.Donator.label}
+          key={MASK_DONATION_SECTION.Donator.value}
           showArrow={false}
           disabled={disabledPanels.includes(
-            MASK_REQUEST_SECTION.Delivery.value
+            MASK_DONATION_SECTION.Donator.value
           )}
         >
-          <DeliverySection onFinish={setDeliveryDetails} />
+          <DonatorSection onFinish={setDonator} />
+        </Collapse.Panel>
+        <Collapse.Panel
+          header={MASK_DONATION_SECTION.Donation.label}
+          key={MASK_DONATION_SECTION.Donation.value}
+          showArrow={false}
+          disabled={disabledPanels.includes(
+            MASK_DONATION_SECTION.Donation.value
+          )}
+        >
+          <DonationSection onFinish={setDonation} />
         </Collapse.Panel>
       </Collapse>
       {allowSubmit && (

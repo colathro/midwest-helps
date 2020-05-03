@@ -21,7 +21,7 @@ import {
 const { Title, Text } = Typography;
 
 export interface DeliverySectionProps {
-  onFinish: (maskRequest: IDelivery) => void;
+  onFinish: (maskRequest: object) => void;
 }
 
 export const DeliverySection: React.FC<DeliverySectionProps> = (props) => {

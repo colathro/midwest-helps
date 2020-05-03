@@ -144,6 +144,27 @@ export interface IAddress {
   zipCode: string;
 }
 
+export interface IMaskDonationRequest {
+  requestId: string;
+  donator: IDonator;
+  donation: IMaskInfo[];
+}
+
+export interface IMaskDonationDetails {
+  //TODO: Add all information relevant to be displayed on admin portal
+  requestId: string;
+  donator: IDonator;
+  donation: IRecipient;
+}
+
+export interface IDonator {
+  bestContactType: BestContactType;
+  name: string;
+  company: string;
+  email: string;
+  phone: string;
+}
+
 export type MaskFor =
   | 'MedicalFacility'
   | 'NonProfit'
@@ -195,14 +216,33 @@ export const RECEIVE_MASK_CHANNEL: {
   Mail: 'Mail'
 };
 
-export type MaskRequestChannel = 'Recipient' | 'Mask' | 'Delivery';
+export type MaskRequestSection = 'Recipient' | 'Mask' | 'Delivery';
 
 export const MASK_REQUEST_SECTION: {
-  [key in MaskRequestChannel]: { label: string; value: string };
+  [key in MaskRequestSection]: { label: string; value: string };
 } = {
   Recipient: { label: '1. Get started', value: 'Recipient' },
   Mask: { label: '2. Mask details', value: 'Mask' },
   Delivery: { label: '3. Delivery details', value: 'Delivery' }
+};
+
+export type MaskDonationSection = 'BeforeStart' | 'Donator' | 'Donation';
+
+export const MASK_DONATION_SECTION: {
+  [key in MaskDonationSection]: { label: string; value: string };
+} = {
+  BeforeStart: { label: '1. Before you start', value: 'BeforeStart' },
+  Donator: { label: '2. Contact information', value: 'Donator' },
+  Donation: { label: '3. Donation', value: 'Donation' }
+};
+
+export type BestContactType = 'Email' | 'Phone';
+
+export const BEST_CONTACT_TYPE: {
+  [key in BestContactType]: string;
+} = {
+  Email: 'Email',
+  Phone: 'Phone'
 };
 
 export interface IRecipientSection {
