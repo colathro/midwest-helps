@@ -12,5 +12,7 @@ namespace getthehotdish.Models
         InvalidField = 1,
         [Description("Bad key")]
         BadKey = 2,
+        [Description("{0} not found")]
+        NotFound = 3,
     }
 }

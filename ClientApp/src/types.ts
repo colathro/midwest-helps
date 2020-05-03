@@ -106,7 +106,7 @@ export const REPORT_TYPES = {
 
 export interface IMaskRequest {
   id?: string;
-  createdOn: string;
+  createdOn?: string;
   recipient: IRecipient;
   maskDetails: IMaskDetails;
   delivery: IDelivery;
@@ -204,8 +204,13 @@ export interface IRecipientSection {
 }
 
 export interface IMaskSection {
-  maskType: string[];
+  maskTypes: string[];
   maskRequirements: string;
+  fabricQnt: number;
+  faceShieldQnt: number;
+  earGuardsQnt: number;
+  scrubCapsQnt: number;
+  othersQnt: number;
 }
 
 export interface IDeliverySection {

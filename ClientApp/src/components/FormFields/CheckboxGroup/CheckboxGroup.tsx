@@ -2,6 +2,7 @@ import React, { ReactFragment } from 'react';
 import { Form, Checkbox, Row, Col } from 'antd';
 
 import '../FormFields.scss';
+import { useState } from 'react';
 
 export interface CheckboxGroupProps {
   name: string;
@@ -20,10 +21,19 @@ export interface CheckboxItem {
 }
 
 export const CheckboxGroup: React.FC<CheckboxGroupProps> = (props) => {
-  const onChange = (item: CheckboxItem) => {
+  const [checkedItems, setCheckedItems] = useState(
+    props.checkboxItems.map((i) => {
+      return i.checked;
+    })
+  );
+
+  const onChange = (checked: boolean, item: CheckboxItem, index: number) => {
     if (item.onChange) {
       item.onChange();
     }
+
+    checkedItems[index] = checked;
+    setCheckedItems([...checkedItems]);
   };
 
   const rules = [];
@@ -41,24 +51,28 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = (props) => {
       className="hotdish-input"
     >
       <Checkbox.Group>
-        <Row>
-          {props.checkboxItems.map((item, index) => (
-            <>
-              <Col key={index} span={16}>
-                <Checkbox
-                  value={item.value}
-                  defaultChecked={item.checked}
-                  onChange={() => {
-                    onChange(item);
-                  }}
-                >
-                  {item.label}
-                </Checkbox>
-              </Col>
-              <Col span={8}>{item.displayFragmentOnChecked}</Col>
-            </>
-          ))}
-        </Row>
+        {props.checkboxItems.map((item, index) => (
+          <Row key={index}>
+            <Col
+              span={
+                checkedItems[index] && item.displayFragmentOnChecked ? 12 : 24
+              }
+            >
+              <Checkbox
+                value={item.value}
+                defaultChecked={item.checked}
+                onChange={(e) => {
+                  onChange(e.target.checked, item, index);
+                }}
+              >
+                {item.label}
+              </Checkbox>
+            </Col>
+            <Col span={6} offset={4}>
+              {checkedItems[index] && item.displayFragmentOnChecked}
+            </Col>
+          </Row>
+        ))}
       </Checkbox.Group>
     </Form.Item>
   );

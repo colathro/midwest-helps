@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import { get as _get, camelCase as _camelCase } from 'lodash';
 import { Form, Button, Typography, Row, Col } from 'antd';
 import { TextField } from '../../FormFields/TextField';
 import { RadioGroup, RadioItem } from '../../FormFields/RadioGroup/RadioGroup';
-import { MaskFor, MASK_FOR, IRecipientSection } from '../../../types';
+import { MaskFor, MASK_FOR, IRecipient } from '../../../types';
 
 const { Text } = Typography;
 
@@ -12,7 +13,7 @@ export interface RecipientSectionProps {
 
 export const RecipientSection: React.FC<RecipientSectionProps> = (props) => {
   const [displaySummary, setDisplaySummary] = useState(false);
-  const [getStarted, setGetStarted] = useState({
+  const [recipientSection, setRecipientSection] = useState({
     maskFor: '',
     name: '',
     company: '',
@@ -28,10 +29,11 @@ export const RecipientSection: React.FC<RecipientSectionProps> = (props) => {
     })
   );
 
-  const onFinish = (maskRequest: object) => {
+  const onFinish = (obj: object) => {
     setDisplaySummary(true);
-    setGetStarted(maskRequest as IRecipientSection);
-    props.onFinish(maskRequest);
+    const recipientSectionObj = obj as IRecipient;
+    setRecipientSection(recipientSectionObj);
+    props.onFinish(recipientSectionObj);
   };
 
   const onEditClick = () => {
@@ -46,21 +48,21 @@ export const RecipientSection: React.FC<RecipientSectionProps> = (props) => {
             <Text strong>Who are the masks for?</Text>
             <br />
             <Text type="secondary">
-              {MASK_FOR[getStarted.maskFor as MaskFor]}
+              {MASK_FOR[recipientSection.maskFor as MaskFor]}
             </Text>
             <br />
             <br />
-            <Text strong>{getStarted.name}</Text>
+            <Text strong>{recipientSection.name}</Text>
             <br />
-            {getStarted.company && (
+            {recipientSection.company && (
               <>
-                <Text type="secondary">{getStarted.company}</Text>
+                <Text type="secondary">{recipientSection.company}</Text>
                 <br />
               </>
             )}
-            <Text type="secondary">{getStarted.email}</Text>
+            <Text type="secondary">{recipientSection.email}</Text>
             <br />
-            <Text type="secondary">{getStarted.phone}</Text>
+            <Text type="secondary">{recipientSection.phone}</Text>
           </Col>
           <Col span={2}>
             <Button type="link" onClick={() => onEditClick()}>
