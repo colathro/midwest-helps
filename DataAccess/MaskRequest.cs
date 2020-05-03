@@ -2,7 +2,6 @@
 using getthehotdish.Models;
 using getthehotdish.Utils;
 using getthehotdish.Utils.Extensions;
-using Microsoft.Azure.Cosmos;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -75,10 +74,10 @@ namespace getthehotdish.DataAccess
         public async static Task<MaskRequestModel> Create(DataContext dataContext, MaskRequestModel maskRequestModel)
         {
             maskRequestModel.PartitionKey = partitionKey;
-            maskRequestModel.CreatedOn = DateTime.UtcNow;
 
             var maskRequest = maskRequestModel.ToMaskRequest();
             maskRequest.EditKey = Guid.NewGuid();
+            maskRequest.CreatedOn = DateTime.UtcNow;
 
             dataContext.MaskRequests.Add(maskRequest);
             await dataContext.SaveChangesAsync();
@@ -131,6 +130,29 @@ namespace getthehotdish.DataAccess
                 throw new ErrorModelException(ErrorCode.NotFound, "Request");
             }
             return maskRequest;
+        }
+
+        public async static Task<IEnumerable<MaskRequestModel>> GetAll(DataContext dataContext)
+        {
+            var records = dataContext.MaskRequests.Where(m => m.Approved == true).ToList();
+
+            return records.Select(m => new MaskRequestModel(m));
+        }
+
+        public async static Task<ICollection<MaskRequestModel>> GetPagedMaskType(DataContext dataContext, int maskType, int page)
+        {
+            var maskRequests = await GetAll(dataContext);
+
+            MaskType type = (MaskType)maskType;
+
+            if (maskType == -1)
+            {
+                return await PaginatedList<MaskRequestModel>.CreateAsync(maskRequests, page, 10);
+            }
+
+            var filterMaskRequests = maskRequests.Where(m => m.MaskDetails.Masks.Where(mi => mi.Type == Enum.GetName(typeof(MaskType), type)).Any());
+
+            return await PaginatedList<MaskRequestModel>.CreateAsync(filterMaskRequests, page, 10);
         }
 
         public async static Task<MaskRequestModel> Approve(DataContext dataContext, Guid id)

@@ -1,0 +1,39 @@
+.business-search .ant-input-search {
+  border-radius: 8px;
+}
+
+#business-filter-group-vertical {
+  margin-top: 4px;
+  border: none;
+
+  li {
+    font-weight: bold;
+    font-size: 16px;
+    color: #abb0bf;
+    background: none;
+
+    &:hover {
+      color: darken(#abb0bf, 15%);
+    }
+
+    &.ant-menu-item-selected {
+      color: black;
+
+      &:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 12%;
+        background-color: black;
+        width: 4px;
+        border-radius: 4px;
+        height: 75%;
+        display: inline-block;
+      }
+    }
+  }
+}
+
+.business-filter-dropdown {
+  min-width: 200px;
+}

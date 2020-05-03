@@ -1,26 +1,80 @@
-#contact-page {
-  padding-top: 20px;
+$primary-color: #eff2f8;
+$header-height: 72px;
 
-  .back-link {
-    margin-left: -18px;
-    margin-bottom: 24px;
+.header-fixed {
+  position: fixed;
+  z-index: 1;
+  width: 100%;
+  height: $header-height;
+  background-color: white;
+
+  @media screen and (max-width: 768px) {
+    padding: 0 12px;
   }
 
-  form {
-    margin-top: 24px;
+  h3 {
+    display: inline-block;
+    margin-top: 20px;
+    margin-bottom: 20px;
   }
+}
 
-  .ant-form-item-label {
-    flex: 0 0 100%;
-    text-align: left;
+.ant-menu-item-group-title {
+  padding: 0px;
+}
+
+.ant-menu-submenu-title {
+  color: #000;
+  font-weight: bold;
+}
+
+.right-nav {
+  float: right;
+  margin-top: 4px;
+  .nav-link {
+    color: black;
     font-weight: bold;
-
-    ::after {
-      display: none;
+    &:hover {
+      color: lighten(black, 15%);
     }
   }
 
-  .contact-submit:hover {
-    background-color: lighten(black, 20%);
+  .ant-btn-primary {
+    background-color: black;
+    color: white;
+    font-weight: bold;
+    border: none;
+
+    &:hover {
+      background-color: lighten(black, 20%);
+    }
   }
+
+  @media screen and (max-width: 768px) {
+    button {
+      padding: 4px 10px;
+    }
+  }
+}
+
+main.header-greeting {
+  background-color: $primary-color;
+  $vertical-padding: 24px;
+  padding-top: $header-height + $vertical-padding;
+  padding-bottom: $vertical-padding;
+  margin-bottom: 12px;
+
+  article {
+    font-size: 16px;
+  }
+}
+
+.company-content {
+  position: relative;
+}
+
+.companies-loading {
+  margin-top: 40px;
+  margin-bottom: 24px;
+  width: 100%;
 }

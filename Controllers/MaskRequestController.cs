@@ -38,6 +38,13 @@ namespace getthehotdish.Controllers
             return await MaskRequest.GetModel(_dataContext, id);
         }
 
+        [HttpGet]
+        [Route("page/{page}")]
+        public async Task<ICollection<MaskRequestModel>> Get(int page, [FromQuery] int maskType = -1)
+        {
+            return await MaskRequest.GetPagedMaskType(_dataContext, maskType, page);
+        }
+
         [HttpPost]
         public async Task<ActionResult<MaskRequestModel>> Post(MaskRequestModel maskRequestModel)
         {
