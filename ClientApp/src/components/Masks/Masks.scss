@@ -82,3 +82,24 @@ main.header-greeting {
   margin-bottom: 24px;
   width: 100%;
 }
+
+.background-people {
+  position: fixed;
+
+  .woman {
+    -webkit-transform: translate(1000px, 0px);
+  }
+
+  .man {
+    -webkit-transform: translate(-1000px, 400px);
+  }
+
+  @media screen and (max-width: 768px) {
+    .woman {
+      -webkit-transform: translate(50px, 0px);
+    }
+
+    .man {
+    }
+  }
+}
