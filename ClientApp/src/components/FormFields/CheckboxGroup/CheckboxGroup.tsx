@@ -20,10 +20,6 @@ export interface CheckboxItem {
   displayFragmentOnChecked?: ReactFragment;
 }
 
-interface Target {
-  checked: boolean;
-}
-
 export const CheckboxGroup: React.FC<CheckboxGroupProps> = (props) => {
   const [checkedItems, setCheckedItems] = useState(
     props.checkboxItems.map((i) => {
