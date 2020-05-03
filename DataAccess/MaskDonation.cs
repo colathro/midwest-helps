@@ -98,7 +98,7 @@ namespace getthehotdish.DataAccess
             }
             return maskDonation.ToMaskDonationModel();
         }
-        public async static Task<List<MaskDonationModel>> GetAllApprovedModel(DataContext dataContext)
+        public async static Task<List<MaskDonationModel>> GetAllModel(DataContext dataContext)
         {
             return await dataContext.MaskDonations.Where(m => m.Approved == false).Select(m => m.ToMaskDonationModel()).ToListAsync();
         }

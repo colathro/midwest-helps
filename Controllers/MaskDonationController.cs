@@ -15,29 +15,25 @@ namespace getthehotdish.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MaskRequestController : ControllerBase
+    public class MaskDonationController : ControllerBase
     {
         private readonly DataContext _dataContext;
-        private AdminSettings _adminSettings;
-        private readonly ILogger<MaskRequestController> _logger;
 
-        public MaskRequestController(ILogger<MaskRequestController> logger, DataContext dataContext, AdminSettings adminSettings)
+        public MaskDonationController(DataContext dataContext)
         {
-            _logger = logger;
             _dataContext = dataContext;
-            _adminSettings = adminSettings;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MaskRequestModel>>> GetMaskRequests()
+        public async Task<ActionResult<IEnumerable<MaskDonationModel>>> List()
         {
-            return await MaskRequest.GetAllApprovedModel(_dataContext, true);
+            return await MaskDonation.GetAllModel(_dataContext);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<MaskRequestModel>> GetMaskRequest(Guid id)
+        public async Task<ActionResult<MaskDonationModel>> Get(Guid id)
         {
-            return await MaskRequest.GetModel(_dataContext, id);
+            return await MaskDonation.GetModel(_dataContext, id);
         }
 
         [HttpPost]
@@ -50,41 +46,6 @@ namespace getthehotdish.Controllers
         public async Task<ActionResult<MaskRequestModel>> Put(Guid id, [FromBody] MaskRequestModel maskRequestModel, [FromQuery] Guid editKey)
         {
             return await MaskRequest.Update(_dataContext, id, maskRequestModel);
-        }
-
-        [HttpGet("approvals/get/{key}")]
-        public async Task<ICollection<MaskRequestModel>> GetApprovals(string key)
-        {
-            if (!CheckAdmin(key))
-            {
-                throw new ErrorModelException(ErrorCode.BadKey);
-            }
-            return await MaskRequest.GetAllApprovedModel(_dataContext, false);
-        }
-
-        [HttpPost("approvals/approve/{key}/{post}")]
-        public async Task<ActionResult<MaskRequestModel>> Approve(string key, string post)
-        {
-            if (!CheckAdmin(key))
-            {
-                throw new ErrorModelException(ErrorCode.BadKey);
-            }
-            return await MaskRequest.Approve(_dataContext, Guid.Parse(post));
-        }
-
-        [HttpPost("approvals/deny/{key}/{post}")]
-        public async Task<ActionResult<bool>> Deny(string key, string post)
-        {
-            if (!CheckAdmin(key))
-            {
-                throw new ErrorModelException(ErrorCode.BadKey);
-            }
-            return await MaskRequest.Deny(_dataContext, Guid.Parse(post));
-        }
-
-        private bool CheckAdmin(string key)
-        {
-            return key == _adminSettings.Key;
         }
     }
 }

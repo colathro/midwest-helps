@@ -15,27 +15,25 @@ namespace getthehotdish.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MaskDonationController : ControllerBase
+    public class MaskRequestController : ControllerBase
     {
         private readonly DataContext _dataContext;
         private AdminSettings _adminSettings;
-        private readonly ILogger<MaskRequestController> _logger;
 
-        public MaskDonationController(ILogger<MaskRequestController> logger, DataContext dataContext, AdminSettings adminSettings)
+        public MaskRequestController(DataContext dataContext, AdminSettings adminSettings)
         {
-            _logger = logger;
             _dataContext = dataContext;
             _adminSettings = adminSettings;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MaskRequestModel>>> GetMaskRequests()
+        public async Task<ActionResult<IEnumerable<MaskRequestModel>>> List()
         {
             return await MaskRequest.GetAllApprovedModel(_dataContext, true);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<MaskRequestModel>> GetMaskRequest(Guid id)
+        public async Task<ActionResult<MaskRequestModel>> Get(Guid id)
         {
             return await MaskRequest.GetModel(_dataContext, id);
         }

@@ -1,5 +1,6 @@
 ﻿using getthehotdish.Models;
 using getthehotdish.Utils;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace getthehotdish.DataAccess
 {
+    [Owned]
     public class MaskInfo
     {
         [Required]
