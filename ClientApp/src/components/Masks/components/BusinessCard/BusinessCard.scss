@@ -1,0 +1,56 @@
+.business-card {
+  margin-top: 8px;
+  border: 1px solid #c3d2e0;
+  .ant-card-head {
+    border-bottom: none;
+  }
+  .ant-card-head-title {
+    font-size: 16px;
+    font-weight: 700;
+  }
+}
+
+.category-tag {
+  margin-top: -40px;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: -0.1px;
+}
+
+.business-links {
+  float: right;
+
+  a:not(:last-child) {
+    margin-right: 4px;
+  }
+}
+
+.user-action-links {
+  float: right;
+}
+
+.interaction-tags {
+  display: inline-block;
+  & > div {
+    border-radius: 4px;
+    display: inline-block;
+    padding: 4px 8px;
+    margin-right: 4px;
+    margin-top: 4px;
+  }
+  .delivery-tag {
+    background-color: #f1d4fc;
+  }
+  .takeout-tag {
+    background-color: #fce2d4;
+  }
+  .curbside-tag {
+    background-color: #d4fcda;
+  }
+  .appointment-tag {
+    background-color: #d4d8fc;
+  }
+  .livestream-tag {
+    background-color: #fcd4d4;
+  }
+}

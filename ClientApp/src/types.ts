@@ -176,6 +176,16 @@ export const MASK_TYPE: {
   Others: 'Others'
 };
 
+export const MASK_TYPE_STRINGS: {
+  [key in MaskType]: { name: string; value: number };
+} = {
+  Fabric: { name: 'Fabric masks', value: 0 },
+  FaceShield: { name: 'Face shields', value: 1 },
+  EarGuards: { name: 'Ear guards', value: 2 },
+  ScrubCaps: { name: 'Scrub caps', value: 3 },
+  Others: { name: 'Others', value: 4 }
+};
+
 export type ReceiveMaskChannel = 'DropOff' | 'Mail';
 
 export const RECEIVE_MASK_CHANNEL: {

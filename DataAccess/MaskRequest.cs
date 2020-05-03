@@ -2,7 +2,6 @@
 using getthehotdish.Models;
 using getthehotdish.Utils;
 using getthehotdish.Utils.Extensions;
-using Microsoft.Azure.Cosmos;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -131,6 +130,24 @@ namespace getthehotdish.DataAccess
                 throw new ErrorModelException(ErrorCode.NotFound, "Request");
             }
             return maskRequest;
+        }
+
+        public async static Task<IEnumerable<MaskRequestModel>> GetAll(DataContext dataContext)
+        {
+            var records = dataContext.MaskRequests.Where(m => m.Approved == true).ToList();
+
+            return records.Select(m => new MaskRequestModel(m));
+        }
+
+        public async static Task<ICollection<MaskRequestModel>> GetPagedMaskType(DataContext dataContext, int maskType, int page)
+        {
+            var maskRequests = await GetAll(dataContext);
+
+            MaskType type = (MaskType)maskType;
+
+            var filterMaskRequests = maskRequests.Where(m => m.MaskDetails.Masks.Where(mi => mi.Type == Enum.GetName(MaskType, type)).Any());
+
+            return await PaginatedList<MaskRequestModel>.CreateAsync(filterMaskRequests, page, 10);
         }
 
         public async static Task<MaskRequestModel> Approve(DataContext dataContext, Guid id)
