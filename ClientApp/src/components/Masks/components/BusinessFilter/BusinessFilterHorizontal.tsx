@@ -12,8 +12,9 @@ export const BusinessFilterHorizontal: React.FC<BusinessFilterProps> = ({
 }) => (
   <Select
     value={filter}
-    onChange={value => setFilter(value)}
+    onChange={(value) => setFilter(value)}
     dropdownClassName="business-filter-dropdown"
+    className="filter-drop"
   >
     {Object.entries(filterOptions).map(([_, vals]) => (
       <Option value={vals.value} key={vals.value}>

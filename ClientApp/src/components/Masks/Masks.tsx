@@ -150,7 +150,7 @@ export const Masks: React.FC = () => {
           setFilter={(filter) => setParams({ ...params, filter })}
         />
       </Col>
-      <Col xl={10} lg={12}>
+      <Col xl={16} lg={18} offset={2}>
         {companies}
       </Col>
     </>
@@ -173,79 +173,42 @@ export const Masks: React.FC = () => {
 </Button> */
 
   return (
-    <div>
-      <Header className="header-fixed">
-        <Row justify="center">
-          <Col xl={14} lg={18} md={20} sm={22} xs={24}>
-            <Title level={3}>Midwest Helps</Title>
-            <div className="right-nav">
-              <Menu mode="horizontal">
-                <SubMenu title="Resources">
-                  <Menu.ItemGroup>
-                    <Menu.Item key="setting:1">
-                      <Button
-                        onClick={() => history.push('/masks')}
-                        type="link"
-                        className="nav-link"
-                      >
-                        Masks
-                      </Button>
-                    </Menu.Item>
-                    <Menu.Item key="setting:1">
-                      <Button
-                        onClick={() => history.push('/covid19')}
-                        type="link"
-                        className="nav-link"
-                      >
-                        Covid-19
-                      </Button>
-                    </Menu.Item>
-                    <Menu.Item key="setting:2">
-                      <Button
-                        onClick={() => history.push('/contact')}
-                        type="link"
-                        className="nav-link"
-                      >
-                        Contact
-                      </Button>
-                    </Menu.Item>
-                  </Menu.ItemGroup>
-                </SubMenu>
-              </Menu>
-            </div>
-          </Col>
-        </Row>
-      </Header>
-      <Content className="header-greeting">
-        <Row justify="center">
-          <Col xl={14} lg={17} md={16} sm={18} xs={22}>
-            <Title level={1}>
-              Dishin' out hot updates for businesses in Fargo
-            </Title>
-            <Typography>
-              The temporary shut down of Fargo/Moorhead businesses due to
-              COVID-19 has many folks struggling. This site is meant to be a
-              resource for the people of this city to dish up on the latest info
-              and continue to support their favorite local spots.
-            </Typography>
-            <br />
-            <Typography>
-              This information is crowdsourced, so please verify the accuracy
-              independently. If you see a mistake or need to update a post,
-              please contact us.
-            </Typography>
-            <br />
-            <Button onClick={() => history.push('/list')} type="primary">
-              List a business
+    <Row justify="center">
+      <Col xl={14} lg={18} md={20} sm={22} xs={24}>
+        <Header className="header-fixed">
+          <Title level={4}>Midwest Helps</Title>
+          <div className="right-nav">
+            <Button
+              onClick={() => history.push('/contact')}
+              type="link"
+              className="nav-link"
+            >
+              About
             </Button>
-          </Col>
-        </Row>
-      </Content>
-      <Content className="company-content">
-        <Row justify="center" gutter={8} style={{ margin: '0' }}>
-          {companiesGroup}
-        </Row>
-      </Content>
-    </div>
+            <Button
+              onClick={() => history.push('/contact')}
+              type="link"
+              className="nav-link"
+            >
+              Contact
+            </Button>
+          </div>
+        </Header>
+        <Content className="header-greeting">
+          <Title level={1}>In need of masks</Title>
+          <Typography>
+            Donate masks to local business who face shortages while doing
+            essential work.
+          </Typography>
+          <br />
+          <Button onClick={() => history.push('/maskrequest')} type="primary">
+            Request masks
+          </Button>
+        </Content>
+        <Content className="company-content">
+          <Row>{companiesGroup}</Row>
+        </Content>
+      </Col>
+    </Row>
   );
 };
