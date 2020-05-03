@@ -3,11 +3,38 @@
   border: 1px solid #c3d2e0;
   .ant-card-head {
     border-bottom: none;
+    padding-left: 16px;
+    padding-right: 16px;
   }
   .ant-card-head-title {
     font-size: 16px;
     font-weight: 700;
   }
+}
+
+.ant-card-body {
+  padding-top: 0px;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-bottom: 16px;
+}
+
+.in-search {
+  padding-bottom: 8px;
+  font-size: 14px;
+  color: #aaaaaa;
+}
+
+.created-on {
+  font-weight: lighter;
+  font-size: 14px;
+  float: right;
+  color: #949494;
+}
+.city-state {
+  font-weight: lighter;
+  font-size: 14px;
+  color: #949494;
 }
 
 .category-tag {
@@ -18,15 +45,27 @@
 }
 
 .business-links {
-  float: right;
-
+  display: inline-block;
   a:not(:last-child) {
     margin-right: 4px;
   }
 }
 
-.user-action-links {
-  float: right;
+.action-buttons {
+  .user-action-links {
+    float: right;
+  }
+
+  .business-links {
+    display: inline-block;
+    a:not(:last-child) {
+      margin-right: 4px;
+    }
+  }
+
+  .donate-button {
+    float: right;
+  }
 }
 
 .interaction-tags {

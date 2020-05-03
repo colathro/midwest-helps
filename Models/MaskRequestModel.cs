@@ -27,6 +27,7 @@ namespace getthehotdish.Models
         {
             var m = maskRequest.ToMaskRequestModel();
             this.Id = m.Id;
+            this.CreatedOn = m.CreatedOn;
             this.PartitionKey = m.PartitionKey;
             this.Recipient = m.Recipient;
             this.MaskDetails = m.MaskDetails;
