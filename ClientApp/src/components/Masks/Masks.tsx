@@ -174,6 +174,10 @@ export const Masks: React.FC = () => {
 
   return (
     <Row justify="center">
+      <div className="background-people">
+        <img className="woman" src="/images/avatars/doctor-woman.svg"></img>
+        <img className="man" src="/images/avatars/doctor-man.svg"></img>
+      </div>
       <Col xl={14} lg={18} md={20} sm={22} xs={24}>
         <Header className="header-fixed">
           <Title level={4}>Midwest Helps</Title>
