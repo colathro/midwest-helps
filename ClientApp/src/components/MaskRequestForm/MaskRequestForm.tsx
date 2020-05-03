@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Button, Collapse, Typography } from 'antd';
+import { useHistory } from 'react-router-dom';
+import { Button, Collapse, Typography, Modal } from 'antd';
 import { RecipientSection } from './RecipientSection';
 import { MaskSection } from './MaskSection';
 import { DeliverySection } from './DeliverySection';
 import './MaskRequestForm.scss';
-import { MASK_REQUEST_SECTION } from '../../types';
+import { MASK_REQUEST_SECTION, IMaskRequest } from '../../types';
 
 const { Title } = Typography;
 
@@ -19,18 +20,56 @@ export const MaskRequestForm: React.FC = () => {
   const [allowSubmit, setAllowSubmit] = useState(false);
   const [maskFormCompleted, setMaskFormCompleted] = useState({
     recipient: {},
-    mask: {},
+    maskDetails: {},
     delivery: {}
   });
 
+  const history = useHistory();
+
   const onSubmit = () => {
-    //TODO
+    post('/api/maskRequest', maskFormCompleted as IMaskRequest);
+  };
+
+  const post = async (url: string, data: IMaskRequest) => {
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    };
+
+    const response = await fetch(url, requestOptions);
+    if (response.ok) {
+      success();
+    } else {
+      error();
+    }
+  };
+
+  const success = () => {
+    Modal.success({
+      content: 'Your request was submitted successfully.',
+      onOk: () => goToMasks()
+    });
+  };
+
+  const error = () => {
+    Modal.error({
+      title: 'Oops',
+      content: 'There was a problem submitting your request. Try again later.'
+    });
+  };
+
+  const goToMasks = () => {
+    history.push('/masks');
   };
 
   const setRecipientObj = (recipientObj: object) => {
     setMaskFormCompleted({
       recipient: recipientObj,
-      mask: maskFormCompleted.mask,
+      maskDetails: maskFormCompleted.maskDetails,
       delivery: maskFormCompleted.delivery
     });
     // if user has not gone through all sections set active and disabled sections
@@ -46,7 +85,7 @@ export const MaskRequestForm: React.FC = () => {
   const setMaskDetailsObj = (maskObj: object) => {
     setMaskFormCompleted({
       recipient: maskFormCompleted.recipient,
-      mask: maskObj,
+      maskDetails: maskObj,
       delivery: maskFormCompleted.delivery
     });
     // if user has not gone through all sections set active and disabled sections
@@ -63,7 +102,7 @@ export const MaskRequestForm: React.FC = () => {
   const setDeliveryDetailsObj = (deliverObj: object) => {
     setMaskFormCompleted({
       recipient: maskFormCompleted.recipient,
-      mask: maskFormCompleted.mask,
+      maskDetails: maskFormCompleted.maskDetails,
       delivery: deliverObj
     });
     // once user has set the delivery details user should be able to submit the request

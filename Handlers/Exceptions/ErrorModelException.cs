@@ -33,5 +33,10 @@ namespace getthehotdish.Handlers.Exceptions
         {
             Errors = new List<ErrorModel> { new ErrorModel(errorCode) };
         }
+
+        public ErrorModelException(ErrorCode errorCode, params string[] parameters)
+        {
+            Errors = new List<ErrorModel> { new ErrorModel(errorCode, parameters) };
+        }
     }
 }

@@ -1,16 +1,21 @@
-﻿using getthehotdish.Models;
+﻿using getthehotdish.Handlers.Exceptions;
+using getthehotdish.Models;
 using getthehotdish.Utils;
 using getthehotdish.Utils.Extensions;
+using Microsoft.Azure.Cosmos;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace getthehotdish.DataAccess
 {
     public class MaskRequest : IValidatableObject
     {
+        private static readonly string partitionKey = "MR";
+
         [Key]
         public Guid Id { get; set; }
         public string PartitionKey { get; set; }
@@ -64,6 +69,104 @@ namespace getthehotdish.DataAccess
             {
                 yield return new ValidationResult("Only one address of each type should be provided.");
             }
+        }
+
+        public async static Task<MaskRequestModel> Create(DataContext dataContext, MaskRequestModel maskRequestModel)
+        {
+            maskRequestModel.PartitionKey = partitionKey;
+            maskRequestModel.CreatedOn = DateTime.UtcNow;
+
+            var maskRequest = maskRequestModel.ToMaskRequest();
+            maskRequest.EditKey = Guid.NewGuid();
+
+            dataContext.MaskRequests.Add(maskRequest);
+            await dataContext.SaveChangesAsync();
+
+            return maskRequest.ToMaskRequestModel();
+        }
+
+        public async static Task<MaskRequestModel> Update(DataContext dataContext, Guid id, MaskRequestModel maskRequestModel)
+        {
+            var maskRequest = maskRequestModel.ToMaskRequest();
+            maskRequest.PartitionKey = partitionKey;
+            maskRequest.Approved = false;
+            maskRequest.OriginalId = id;
+            maskRequest.Id = Guid.NewGuid();
+            maskRequest.CreatedOn = DateTime.UtcNow;
+
+            dataContext.MaskRequests.Add(maskRequest);
+            await dataContext.SaveChangesAsync();
+
+            return maskRequest.ToMaskRequestModel();
+        }
+
+        public async static Task<List<MaskRequestModel>> GetAllApprovedModel(DataContext dataContext, bool approved = false)
+        {
+            return await dataContext.MaskRequests.Where(m => m.Approved == approved).Select(m => m.ToMaskRequestModel()).ToListAsync();
+        }
+
+        public async static Task<List<MaskRequest>> GetAllApproved(DataContext dataContext, bool approved = false)
+        {
+            return await dataContext.MaskRequests.Where(m => m.Approved == approved).ToListAsync();
+        }
+
+        public async static Task<MaskRequest> GetApproved(DataContext dataContext, Guid id, bool approved = false)
+        {
+            return await dataContext.MaskRequests.Where(l => l.Id == id
+                    && l.PartitionKey == partitionKey
+                    && l.Approved == approved).FirstOrDefaultAsync();
+        }
+
+        public async static Task<MaskRequestModel> GetModel(DataContext dataContext, Guid id)
+        {
+            var maskRequest = await dataContext.MaskRequests.FindAsync(id);
+            if (maskRequest == null)
+            {
+                throw new ErrorModelException(ErrorCode.NotFound, "Request");
+            }
+            return maskRequest.ToMaskRequestModel();
+        }
+
+        public async static Task<MaskRequestModel> Approve(DataContext dataContext, Guid id)
+        {
+            var newMaskRequest = await GetApproved(dataContext, id, false);
+            if (newMaskRequest == null)
+            {
+                throw new ErrorModelException(ErrorCode.NotFound, "Request");
+            }
+
+            var oldMaskRequest = await GetApproved(dataContext, newMaskRequest.OriginalId, true);
+            if (oldMaskRequest != null)
+            {
+                var oldRefMaskRequests = dataContext.MaskRequests.Where(l => l.PartitionKey == partitionKey
+                    && l.OriginalId == oldMaskRequest.Id && l.Id != newMaskRequest.Id);
+
+                await oldRefMaskRequests.ForEachAsync((maskRequest) =>
+                {
+                    maskRequest.OriginalId = newMaskRequest.Id;
+                });
+
+                dataContext.Remove(oldMaskRequest);
+            }
+
+            newMaskRequest.Approved = true;
+
+            await dataContext.SaveChangesAsync();
+
+            return newMaskRequest.ToMaskRequestModel();
+        }
+
+        public async static Task<bool> Deny(DataContext dataContext, Guid id)
+        {
+            var maskRequest = await GetApproved(dataContext, id, false);
+
+            if (maskRequest != null)
+            {
+                dataContext.Remove(maskRequest);
+                await dataContext.SaveChangesAsync();
+            }
+
+            return true;
         }
     }
 

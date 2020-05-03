@@ -106,7 +106,7 @@ export const REPORT_TYPES = {
 
 export interface IMaskRequest {
   id?: string;
-  createdOn: string;
+  createdOn?: string;
   recipient: IRecipient;
   maskDetails: IMaskDetails;
   delivery: IDelivery;
