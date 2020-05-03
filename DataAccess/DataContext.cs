@@ -7,6 +7,7 @@ namespace getthehotdish.DataAccess
         public DbSet<Listing> Listings { get; set; }
 
         public DbSet<MaskRequest> MaskRequests { get; set; }
+        public DbSet<MaskDonation> MaskDonations { get; set; }
         public DbSet<Report> Reports { get; set; }
         public DbSet<Contact> Contacts { get; set; }
 
@@ -22,6 +23,14 @@ namespace getthehotdish.DataAccess
             modelBuilder.Entity<MaskRequest>().ToContainer("MaskRequests");
             modelBuilder.Entity<MaskRequest>().HasAlternateKey(l => l.Id);
             modelBuilder.Entity<MaskRequest>().HasPartitionKey(o => o.PartitionKey);
+
+            modelBuilder.Entity<MaskDonation>().ToContainer("MaskDonations");
+            modelBuilder.Entity<MaskDonation>().HasAlternateKey(l => l.Id);
+            modelBuilder.Entity<MaskDonation>().HasPartitionKey(o => o.PartitionKey);
+            modelBuilder.Entity<MaskDonation>()
+            .HasOne(md => md.Request)
+            .WithMany(mr => mr.Donations)
+            .HasForeignKey(md => md.RequestId);
 
             modelBuilder.Entity<Report>().ToContainer("Reports");
             modelBuilder.Entity<Report>().HasAlternateKey(l => l.Id);

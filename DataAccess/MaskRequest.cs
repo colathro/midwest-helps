@@ -23,6 +23,7 @@ namespace getthehotdish.DataAccess
         public Guid EditKey { get; set; }
         public Guid OriginalId { get; set; }
         public bool Approved { get; set; }
+        public List<MaskDonation> Donations { get; set; }
         [Required]
         public Recipient Recipient { get; set; }
         [Required]
@@ -119,12 +120,17 @@ namespace getthehotdish.DataAccess
 
         public async static Task<MaskRequestModel> GetModel(DataContext dataContext, Guid id)
         {
+            return (await Get(dataContext, id)).ToMaskRequestModel();
+        }
+
+        public async static Task<MaskRequest> Get(DataContext dataContext, Guid id)
+        {
             var maskRequest = await dataContext.MaskRequests.FindAsync(id);
             if (maskRequest == null)
             {
                 throw new ErrorModelException(ErrorCode.NotFound, "Request");
             }
-            return maskRequest.ToMaskRequestModel();
+            return maskRequest;
         }
 
         public async static Task<MaskRequestModel> Approve(DataContext dataContext, Guid id)
@@ -171,24 +177,10 @@ namespace getthehotdish.DataAccess
     }
 
     [Owned]
-    public class Recipient
+    public class Recipient : PersonContact
     {
         [Required]
         public MaskForType MaskFor { get; set; }
-        [Required]
-        [StringLength(50, ErrorMessage = "Name length can't be more than 50 characters.")]
-        public string Name { get; set; }
-        [StringLength(50, ErrorMessage = "Name length can't be more than 50 characters.")]
-        public string Company { get; set; }
-        [Required]
-        [EmailAddress]
-        [StringLength(50, ErrorMessage = "Email length can't be more than 50 characters.")]
-        public string Email { get; set; }
-        [Required]
-        [RegularExpression(@"^\d{10}$",
-         ErrorMessage = "Phone not valid.")]
-        [StringLength(20, ErrorMessage = "Phone length can't be more than 50 characters.")]
-        public string Phone { get; set; }
 
         public RecipientModel ToRecipientDetailsModel()
         {
@@ -218,24 +210,6 @@ namespace getthehotdish.DataAccess
             {
                 Masks = Masks.Select(m => m.ToMaskInfoModel()).ToList(),
                 Requirements = Requirements
-            };
-        }
-    }
-
-    [Owned]
-    public class MaskInfo
-    {
-        [Required]
-        public MaskType Type { get; set; }
-        [Required]
-        public int Quantity { get; set; }
-
-        public MaskInfoModel ToMaskInfoModel()
-        {
-            return new MaskInfoModel
-            {
-                Type = EnumUtils.GetName(Type),
-                Quantity = Quantity
             };
         }
     }
