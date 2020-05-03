@@ -15,13 +15,13 @@ namespace getthehotdish.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MaskDonationController : ControllerBase
+    public class MaskRequestController : ControllerBase
     {
         private readonly DataContext _dataContext;
         private AdminSettings _adminSettings;
         private readonly ILogger<MaskRequestController> _logger;
 
-        public MaskDonationController(ILogger<MaskRequestController> logger, DataContext dataContext, AdminSettings adminSettings)
+        public MaskRequestController(ILogger<MaskRequestController> logger, DataContext dataContext, AdminSettings adminSettings)
         {
             _logger = logger;
             _dataContext = dataContext;
