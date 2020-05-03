@@ -150,7 +150,7 @@ export const Masks: React.FC = () => {
           setFilter={(filter) => setParams({ ...params, filter })}
         />
       </Col>
-      <Col xl={16} lg={18} offset={2}>
+      <Col xl={16} lg={17} offset={2}>
         {companies}
       </Col>
     </>

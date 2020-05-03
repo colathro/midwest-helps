@@ -86,20 +86,33 @@ main.header-greeting {
 .background-people {
   position: fixed;
 
-  .woman {
-    -webkit-transform: translate(1000px, 0px);
-  }
+  @media screen and (min-width: 768px) {
+    .woman {
+      -webkit-transform: translate(1000px, 0px);
+    }
 
-  .man {
-    -webkit-transform: translate(-1000px, 400px);
+    .man {
+      -webkit-transform: translate(-900px, 400px);
+    }
   }
 
   @media screen and (max-width: 768px) {
     .woman {
-      -webkit-transform: translate(50px, 0px);
+      -webkit-transform: scale(0.7) translate(150px, -140px);
     }
 
     .man {
+      -webkit-transform: translate(-900px, 400px);
+    }
+  }
+
+  @media screen and (max-width: 1024px) and (min-width: 768px) {
+    .woman {
+      -webkit-transform: scale(0.7) translate(800px, -250px);
+    }
+
+    .man {
+      -webkit-transform: scale(0.7) translate(-200px, -450px);
     }
   }
 }
