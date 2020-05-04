@@ -7,7 +7,8 @@ import {
   MASK_DONATION_SECTION,
   IMaskDonationRequest,
   IMaskInfo,
-  IDonator
+  IDonator,
+  IMaskRequest
 } from '../../types';
 import { BeforeStartSection } from './BeforeStartSection';
 import { DonatorSection } from './DonatorSection';
@@ -15,7 +16,7 @@ import { DonatorSection } from './DonatorSection';
 const { Title } = Typography;
 
 export interface MaskDonationFormProps {
-  requestId: string;
+  request: IMaskRequest;
 }
 
 export const MaskDonationForm: React.FC<MaskDonationFormProps> = (props) => {
@@ -85,7 +86,7 @@ export const MaskDonationForm: React.FC<MaskDonationFormProps> = (props) => {
 
   const setRequest = () => {
     setMaskDonationRequest({
-      requestId: props.requestId,
+      requestId: props.request.id,
       donator: maskDonationRequest.donator,
       donation: maskDonationRequest.donation
     });
@@ -166,7 +167,10 @@ export const MaskDonationForm: React.FC<MaskDonationFormProps> = (props) => {
             MASK_DONATION_SECTION.Donation.value
           )}
         >
-          <DonationSection onFinish={setDonation} />
+          <DonationSection
+            masksRequested={props.request.maskDetails.masks}
+            onFinish={setDonation}
+          />
         </Collapse.Panel>
       </Collapse>
       {allowSubmit && (

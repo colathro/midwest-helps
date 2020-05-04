@@ -16,6 +16,7 @@ import {
 const { Text } = Typography;
 
 export interface DonationSectionProps {
+  masksRequested: IMaskInfo[];
   onFinish: (maskRequest: IMaskInfo[]) => void;
 }
 
