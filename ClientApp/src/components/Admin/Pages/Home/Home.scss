@@ -6,6 +6,10 @@
 
   overflow-y: auto;
   -ms-overflow-style: none;
+
+  .admin-title {
+    margin-top: 4em;
+  }
 }
 
 #adminhome::-webkit-scrollbar {

@@ -1,14 +1,19 @@
 import React from 'react';
 import { Layout, Typography, Row, Col } from 'antd';
+import { PendingActions } from '../../components/pending-actions';
 
 import './Home.scss';
+import { PendingApproval } from '../MaskRequestApprovals/PendingApproval';
 
 const { Title } = Typography;
 
 export const Home: React.FC = () => {
   return (
     <Layout id="adminhome" style={{ textAlign: 'left' }}>
-      <Row justify="center">
+      <Row>
+        <PendingActions></PendingActions>
+      </Row>
+      <Row justify="center" className="admin-title">
         <Col span={16}>
           <Title>Welcome to the Midwest Helps Admin Portal!</Title>
         </Col>
@@ -37,7 +42,7 @@ export const Home: React.FC = () => {
         </Col>
         <Col xs={{ span: 8 }} md={{ span: 8 }} style={{ textAlign: 'center' }}>
           <img
-            src="/images/avatars/doctor-woman.svg"
+            src="/images/avatars/remote-work-man.svg"
             style={{ maxHeight: '400px' }}
           ></img>
         </Col>

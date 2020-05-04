@@ -2,7 +2,6 @@ import React from 'react';
 import { Layout, Menu, Typography } from 'antd';
 import { useHistory, Switch, Route, useLocation } from 'react-router-dom';
 import { MaskRequestApprovals } from './Pages/MaskRequestApprovals';
-import { ListingApprovals } from './Pages/ListingApprovals';
 import { Contacts } from './Pages/Contacts';
 import { Reports } from './Pages/Reports';
 import { Home } from './Pages/Home';
@@ -19,10 +18,6 @@ export const Admin: React.FC = () => {
   const history = useHistory();
   const query = useQuery();
   const key = query.get('key');
-
-  const gotoListings = () => {
-    history.push(`/admin/listings?key=${key}`);
-  };
 
   const gotoMaskRequests = () => {
     history.push(`/admin/maskrequests?key=${key}`);
@@ -48,7 +43,12 @@ export const Admin: React.FC = () => {
             Midwest Helps
           </Title>
         </div>
-        <Menu theme="light" defaultSelectedKeys={['1']} mode="inline">
+        <Menu
+          theme="light"
+          defaultSelectedKeys={['1']}
+          mode="inline"
+          defaultOpenKeys={['sub1']}
+        >
           <Menu.Item key="1" onClick={gotoHome}>
             Home
           </Menu.Item>
@@ -64,17 +64,10 @@ export const Admin: React.FC = () => {
             </Menu.Item>
             <Menu.Item key="5">Removal</Menu.Item>
           </SubMenu>
-          <SubMenu key="sub2" title="Businesses">
-            <Menu.Item key="6" onClick={gotoListings}>
-              Approvals
-            </Menu.Item>
-            <Menu.Item key="7">Removal</Menu.Item>
-          </SubMenu>
         </Menu>
       </Sider>
       <Switch>
         <Route path="/admin/maskrequests" component={MaskRequestApprovals} />
-        <Route path="/admin/listings" component={ListingApprovals} />
         <Route path="/admin/contacts" component={Contacts} />
         <Route path="/admin/reports" component={Reports} />
         <Route path="/admin" component={Home} />

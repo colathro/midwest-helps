@@ -101,19 +101,66 @@ export const MaskRequestApprovals: React.FC = () => {
     <Layout id="listingapprovals">
       <Row justify="center">
         <Col md={16} sm={18} xs={24}>
+          <br />
           <List
             itemLayout="horizontal"
             dataSource={allApprovals}
             renderItem={(item) => (
               <List.Item>
-                <Layout>
-                  <Descriptions title={item.id}>
-                    <Descriptions.Item label="Id">{item.id}</Descriptions.Item>
-                    <Descriptions.Item label="CreateOn">
-                      {item.createdOn}
+                <Layout className="approval-item">
+                  <Descriptions bordered title="Delivery Contact">
+                    <Descriptions.Item span={3} label="Company">
+                      {item.recipient.company}
+                    </Descriptions.Item>
+                    <Descriptions.Item span={3} label="Name">
+                      {item.recipient.name}
+                    </Descriptions.Item>
+                    <Descriptions.Item span={3} label="Phone">
+                      {item.recipient.phone}
+                    </Descriptions.Item>
+                    <Descriptions.Item span={3} label="Email">
+                      {item.recipient.email}
                     </Descriptions.Item>
                   </Descriptions>
-                  <Row>
+                  <Descriptions bordered title="Mask Information">
+                    <Descriptions.Item span={3} label="Masks For">
+                      {item.recipient.maskFor}
+                    </Descriptions.Item>
+                    {item.maskDetails.masks.map((mask) => {
+                      return (
+                        <Descriptions.Item span={3} label="Mask Type Request">
+                          {mask.type} - Quantitity: {mask.quantity}
+                        </Descriptions.Item>
+                      );
+                    })}
+                    <Descriptions.Item span={3} label="Mask Requirements">
+                      {item.maskDetails.requirements}
+                    </Descriptions.Item>
+                  </Descriptions>
+                  <Descriptions bordered title="Address">
+                    <Descriptions.Item span={3} label="How Received">
+                      {item.delivery.addresses[0].type}
+                    </Descriptions.Item>
+                    <Descriptions.Item span={3} label="Delivery Notes">
+                      {item.delivery.notes}
+                    </Descriptions.Item>
+                    <Descriptions.Item span={3} label="Address Line 1">
+                      {item.delivery.addresses[0].address1}
+                    </Descriptions.Item>
+                    <Descriptions.Item span={3} label="Address Line 2">
+                      {item.delivery.addresses[0].address2}
+                    </Descriptions.Item>
+                    <Descriptions.Item span={3} label="City">
+                      {item.delivery.addresses[0].city}
+                    </Descriptions.Item>
+                    <Descriptions.Item span={3} label="State">
+                      {item.delivery.addresses[0].state}
+                    </Descriptions.Item>
+                    <Descriptions.Item span={3} label="Zipcode">
+                      {item.delivery.addresses[0].zipCode}
+                    </Descriptions.Item>
+                  </Descriptions>
+                  <Row className="approval-buttons">
                     <Col span={8}>
                       <Button type="primary" onClick={() => approve(item.id!)}>
                         Approve

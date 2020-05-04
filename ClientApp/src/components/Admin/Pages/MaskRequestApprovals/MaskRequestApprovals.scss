@@ -1,5 +1,14 @@
 #listingapprovals {
   .ant-list-split .ant-list-item {
-    border-bottom: 1px solid #cecece;
+    border: 1px solid #cecece;
+    border-radius: 5px;
+  }
+
+  .approval-item {
+    padding: 12px;
+  }
+
+  .approval-buttons {
+    padding-top: 24px;
   }
 }

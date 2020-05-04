@@ -196,6 +196,12 @@ namespace getthehotdish.DataAccess
 
             return true;
         }
+
+        public async static Task<int> PendingApprovalCount(DataContext dataContext)
+        {
+            var all = await GetAllApproved(dataContext);
+            return all.Count;
+        }
     }
 
     [Owned]
