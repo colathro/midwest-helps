@@ -11,7 +11,7 @@ import {
   IRecipient,
   IMaskDetails,
   IDelivery
-} from '../../types';
+} from '../../../types';
 
 const { Title } = Typography;
 

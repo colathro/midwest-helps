@@ -2,13 +2,13 @@
 import React from 'react';
 import { Button, Tooltip } from 'antd';
 
-export interface BusinessLinksProps {
+export interface MaskRequestLinksProps {
   giftCardUrl?: string;
   phone?: string;
   webUrl?: string;
 }
 
-export const BusinessLinks: React.FC<BusinessLinksProps> = (props) => (
+export const MaskRequestLinks: React.FC<MaskRequestLinksProps> = (props) => (
   <div className="business-links">
     {props.giftCardUrl && (
       <Tooltip placement="bottom" title="Gift card">

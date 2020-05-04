@@ -3,15 +3,15 @@ import { useHistory } from 'react-router-dom';
 import { Button, Collapse, Typography, Modal } from 'antd';
 import { DonationSection } from './DonationSection';
 import './MaskDonationForm.scss';
-import {
-  MASK_DONATION_SECTION,
-  IMaskDonationRequest,
-  IMaskInfo,
-  IDonator,
-  IMaskRequest
-} from '../../types';
 import { BeforeStartSection } from './BeforeStartSection';
 import { DonatorSection } from './DonatorSection';
+import {
+  MASK_DONATION_SECTION,
+  IMaskRequest,
+  IMaskDonationRequest,
+  IDonator,
+  IMaskInfo
+} from '../../../types';
 
 const { Title } = Typography;
 
@@ -86,7 +86,7 @@ export const MaskDonationForm: React.FC<MaskDonationFormProps> = (props) => {
 
   const setRequest = () => {
     setMaskDonationRequest({
-      requestId: props.request.id,
+      requestId: props.request.id || '',
       donator: maskDonationRequest.donator,
       donation: maskDonationRequest.donation
     });

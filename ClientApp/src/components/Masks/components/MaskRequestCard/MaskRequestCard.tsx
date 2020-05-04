@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Card, Button, Tag } from 'antd';
-import { BusinessLinks } from './BusinessLinks';
+import { MaskRequestLinks } from './MaskRequestLinks';
 import { IMaskRequest, MASK_TYPE } from '../../../../types';
 
-import './BusinessCard.scss';
+import './MaskRequestCard.scss';
 
 const months = [
   'Jan',
@@ -20,11 +20,11 @@ const months = [
   'Dec'
 ];
 
-export const BusinessCard: React.FC<IMaskRequest> = (props) => {
+export const MaskRequestCard: React.FC<IMaskRequest> = (props) => {
   const [maskRequest, setMaskRequest] = useState(props);
 
-  var createdOn = new Date(maskRequest.createdOn!);
-  var address = maskRequest.delivery.addresses[0];
+  const createdOn = new Date(maskRequest.createdOn!);
+  const address = maskRequest.delivery.addresses[0];
 
   return (
     <div>
@@ -56,7 +56,7 @@ export const BusinessCard: React.FC<IMaskRequest> = (props) => {
           })}
         </div>
         <div className="action-buttons">
-          <BusinessLinks
+          <MaskRequestLinks
             phone={maskRequest.recipient.email}
             webUrl={maskRequest.recipient.phone}
           />

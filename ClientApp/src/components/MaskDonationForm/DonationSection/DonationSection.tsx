@@ -2,10 +2,7 @@ import React, { useState } from 'react';
 import { get as _get, camelCase as _camelCase } from 'lodash';
 import { Form, Button, Typography, Row, Col } from 'antd';
 import { TextField } from '../../FormFields/TextField';
-import {
-  CheckboxItem,
-  CheckboxGroup
-} from '../../FormFields/CheckboxGroup/CheckboxGroup';
+import { CheckboxItem } from '../../FormFields/CheckboxGroup/CheckboxGroup';
 import {
   MASK_TYPE,
   MaskType,

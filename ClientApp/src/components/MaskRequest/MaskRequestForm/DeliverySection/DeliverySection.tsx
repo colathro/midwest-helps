@@ -1,22 +1,22 @@
 import React, { useState } from 'react';
 import { get as _get, camelCase as _camelCase } from 'lodash';
 import { Form, Button, Row, Col, Typography } from 'antd';
-import { TextField } from '../../FormFields/TextField';
+import { TextField } from '../../../FormFields/TextField';
 import {
   CheckboxItem,
   CheckboxGroup
-} from '../../FormFields/CheckboxGroup/CheckboxGroup';
+} from '../../../FormFields/CheckboxGroup/CheckboxGroup';
 import {
   RECEIVE_MASK_CHANNEL,
   ReceiveMaskChannel,
   IDeliverySection,
   IAddress,
   IDelivery
-} from '../../../types';
+} from '../../../../types';
 import {
   AddressSection,
   addressSummary
-} from '../../FormFields/AddressSection';
+} from '../../../FormFields/AddressSection';
 
 const { Title, Text } = Typography;
 
