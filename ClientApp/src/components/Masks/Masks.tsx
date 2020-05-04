@@ -1,20 +1,19 @@
 ﻿import React, { useState, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { Row, Col, Typography, Layout, Button, Spin, Alert, Menu } from 'antd';
-import { BusinessCard } from './components/BusinessCard';
-import { IMaskRequest, MaskType, MASK_TYPE } from '../../types';
-import {
-  BusinessFilterVertical,
-  BusinessFilterHorizontal
-} from './components/BusinessFilter';
+import { MaskRequestCard } from './components/MaskRequestCard';
+import { IMaskRequest, MASK_TYPE } from '../../types';
 import { useWindowSize } from '../../globalHooks';
 import InfiniteScroll from 'react-infinite-scroller';
 
 import './Masks.scss';
+import {
+  MaskRequestFilterVertical,
+  MaskRequestFilterHorizontal
+} from './components/MaskRequestFilter';
 
 const { Header, Content } = Layout;
 const { Title } = Typography;
-const { SubMenu } = Menu;
 
 const useQuery = () => new URLSearchParams(useLocation().search);
 
@@ -136,7 +135,7 @@ export const Masks: React.FC = () => {
         loader={loader}
       >
         {allBusiness.map((maskRequest) => (
-          <BusinessCard {...maskRequest} key={maskRequest.id} />
+          <MaskRequestCard {...maskRequest} key={maskRequest.id} />
         ))}
       </InfiniteScroll>
     );
@@ -145,7 +144,7 @@ export const Masks: React.FC = () => {
   const companiesGroup = isLargeWindowSize ? (
     <>
       <Col xl={4} lg={5}>
-        <BusinessFilterVertical
+        <MaskRequestFilterVertical
           filter={params.filter}
           setFilter={(filter) => setParams({ ...params, filter })}
         />
@@ -156,7 +155,7 @@ export const Masks: React.FC = () => {
     </>
   ) : (
     <Col md={16} sm={18} xs={24}>
-      <BusinessFilterHorizontal
+      <MaskRequestFilterHorizontal
         filter={params.filter}
         setFilter={(filter) => setParams({ ...params, filter })}
       />

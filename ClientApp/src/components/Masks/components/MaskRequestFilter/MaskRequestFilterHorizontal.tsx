@@ -1,12 +1,15 @@
 import React from 'react';
 import { Select } from 'antd';
-import { filterOptions, BusinessFilterProps } from './BusinessFilterShared';
+import {
+  filterOptions,
+  MaskRequestFilterProps
+} from './MaskRequestFilterShared';
 
-import './BusinessFilter.scss';
+import './MaskRequestFilter.scss';
 
 const { Option } = Select;
 
-export const BusinessFilterHorizontal: React.FC<BusinessFilterProps> = ({
+export const MaskRequestFilterHorizontal: React.FC<MaskRequestFilterProps> = ({
   filter,
   setFilter
 }) => (

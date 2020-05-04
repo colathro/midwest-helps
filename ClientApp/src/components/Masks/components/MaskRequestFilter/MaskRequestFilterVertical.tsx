@@ -1,10 +1,13 @@
 import React from 'react';
 import { Menu, Affix } from 'antd';
-import { filterOptions, BusinessFilterProps } from './BusinessFilterShared';
+import {
+  filterOptions,
+  MaskRequestFilterProps
+} from './MaskRequestFilterShared';
 
-import './BusinessFilter.scss';
+import './MaskRequestFilter.scss';
 
-export const BusinessFilterVertical: React.FC<BusinessFilterProps> = ({
+export const MaskRequestFilterVertical: React.FC<MaskRequestFilterProps> = ({
   filter,
   setFilter
 }) => (

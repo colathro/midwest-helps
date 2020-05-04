@@ -5,7 +5,13 @@ import { RecipientSection } from './RecipientSection';
 import { MaskSection } from './MaskSection';
 import { DeliverySection } from './DeliverySection';
 import './MaskRequestForm.scss';
-import { MASK_REQUEST_SECTION, IMaskRequest } from '../../types';
+import {
+  MASK_REQUEST_SECTION,
+  IMaskRequest,
+  IRecipient,
+  IMaskDetails,
+  IDelivery
+} from '../../../types';
 
 const { Title } = Typography;
 
@@ -13,21 +19,33 @@ export const MaskRequestForm: React.FC = () => {
   const [activePanels, setActivePanels] = useState([
     MASK_REQUEST_SECTION.Recipient.value
   ]);
-  const [disablePanels, setDisablePanels] = useState([
+  const [disabledPanels, setDisabledPanels] = useState([
     MASK_REQUEST_SECTION.Mask.value,
     MASK_REQUEST_SECTION.Delivery.value
   ]);
   const [allowSubmit, setAllowSubmit] = useState(false);
-  const [maskFormCompleted, setMaskFormCompleted] = useState({
-    recipient: {},
-    maskDetails: {},
-    delivery: {}
+  const [maskRequest, setMaskRequest] = useState<IMaskRequest>({
+    recipient: {
+      maskFor: 'Myself',
+      name: '',
+      company: '',
+      email: '',
+      phone: ''
+    },
+    maskDetails: {
+      masks: [],
+      requirements: ''
+    },
+    delivery: {
+      addresses: [],
+      notes: ''
+    }
   });
 
   const history = useHistory();
 
   const onSubmit = () => {
-    post('/api/maskRequest', maskFormCompleted as IMaskRequest);
+    post('/api/maskRequest', maskRequest);
   };
 
   const post = async (url: string, data: IMaskRequest) => {
@@ -66,11 +84,11 @@ export const MaskRequestForm: React.FC = () => {
     history.push('/masks');
   };
 
-  const setRecipientObj = (recipientObj: object) => {
-    setMaskFormCompleted({
-      recipient: recipientObj,
-      maskDetails: maskFormCompleted.maskDetails,
-      delivery: maskFormCompleted.delivery
+  const setRecipient = (recipient: IRecipient) => {
+    setMaskRequest({
+      recipient,
+      maskDetails: maskRequest.maskDetails,
+      delivery: maskRequest.delivery
     });
     // if user has not gone through all sections set active and disabled sections
     if (!allowSubmit) {
@@ -78,15 +96,15 @@ export const MaskRequestForm: React.FC = () => {
         MASK_REQUEST_SECTION.Recipient.value,
         MASK_REQUEST_SECTION.Mask.value
       ]);
-      setDisablePanels([MASK_REQUEST_SECTION.Delivery.value]);
+      setDisabledPanels([MASK_REQUEST_SECTION.Delivery.value]);
     }
   };
 
-  const setMaskDetailsObj = (maskObj: object) => {
-    setMaskFormCompleted({
-      recipient: maskFormCompleted.recipient,
-      maskDetails: maskObj,
-      delivery: maskFormCompleted.delivery
+  const setMaskDetails = (maskDetails: IMaskDetails) => {
+    setMaskRequest({
+      recipient: maskRequest.recipient,
+      maskDetails,
+      delivery: maskRequest.delivery
     });
     // if user has not gone through all sections set active and disabled sections
     if (!allowSubmit) {
@@ -95,22 +113,22 @@ export const MaskRequestForm: React.FC = () => {
         MASK_REQUEST_SECTION.Mask.value,
         MASK_REQUEST_SECTION.Delivery.value
       ]);
-      setDisablePanels([]);
+      setDisabledPanels([]);
     }
   };
 
-  const setDeliveryDetailsObj = (deliverObj: object) => {
-    setMaskFormCompleted({
-      recipient: maskFormCompleted.recipient,
-      maskDetails: maskFormCompleted.maskDetails,
-      delivery: deliverObj
+  const setDeliveryDetails = (delivery: IDelivery) => {
+    setMaskRequest({
+      recipient: maskRequest.recipient,
+      maskDetails: maskRequest.maskDetails,
+      delivery
     });
     // once user has set the delivery details user should be able to submit the request
     setAllowSubmit(true);
   };
 
-  const onChangeCollapse = (key: any) => {
-    setActivePanels(key);
+  const onChangeCollapse = (key: string | string[]) => {
+    setActivePanels(Array.isArray(key) ? key : [key]);
   };
 
   return (
@@ -125,27 +143,29 @@ export const MaskRequestForm: React.FC = () => {
           header={MASK_REQUEST_SECTION.Recipient.label}
           key={MASK_REQUEST_SECTION.Recipient.value}
           showArrow={false}
-          disabled={disablePanels.includes(
+          disabled={disabledPanels.includes(
             MASK_REQUEST_SECTION.Recipient.value
           )}
         >
-          <RecipientSection onFinish={setRecipientObj} />
+          <RecipientSection onFinish={setRecipient} />
         </Collapse.Panel>
         <Collapse.Panel
           header={MASK_REQUEST_SECTION.Mask.label}
           key={MASK_REQUEST_SECTION.Mask.value}
           showArrow={false}
-          disabled={disablePanels.includes(MASK_REQUEST_SECTION.Mask.value)}
+          disabled={disabledPanels.includes(MASK_REQUEST_SECTION.Mask.value)}
         >
-          <MaskSection onFinish={setMaskDetailsObj} />
+          <MaskSection onFinish={setMaskDetails} />
         </Collapse.Panel>
         <Collapse.Panel
           header={MASK_REQUEST_SECTION.Delivery.label}
           key={MASK_REQUEST_SECTION.Delivery.value}
           showArrow={false}
-          disabled={disablePanels.includes(MASK_REQUEST_SECTION.Delivery.value)}
+          disabled={disabledPanels.includes(
+            MASK_REQUEST_SECTION.Delivery.value
+          )}
         >
-          <DeliverySection onFinish={setDeliveryDetailsObj} />
+          <DeliverySection onFinish={setDeliveryDetails} />
         </Collapse.Panel>
       </Collapse>
       {allowSubmit && (

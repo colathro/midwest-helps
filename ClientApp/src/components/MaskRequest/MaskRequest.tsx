@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { LeftOutlined } from '@ant-design/icons';
 
 import './MaskRequest.scss';
-import { MaskRequestForm } from '../MaskRequestForm';
+import { MaskRequestForm } from './MaskRequestForm';
 
 const { Content } = Layout;
 

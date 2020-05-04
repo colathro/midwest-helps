@@ -1,22 +1,22 @@
 import React, { useState } from 'react';
 import { get as _get, camelCase as _camelCase } from 'lodash';
 import { Form, Button, Typography, Row, Col } from 'antd';
-import { TextField } from '../../FormFields/TextField';
+import { TextField } from '../../../FormFields/TextField';
 import {
   CheckboxItem,
   CheckboxGroup
-} from '../../FormFields/CheckboxGroup/CheckboxGroup';
+} from '../../../FormFields/CheckboxGroup/CheckboxGroup';
 import {
   MASK_TYPE,
   MaskType,
   IMaskSection,
   IMaskDetails,
   IMaskInfo
-} from '../../../types';
+} from '../../../../types';
 const { Text } = Typography;
 
 export interface MaskSectionProps {
-  onFinish: (maskRequest: object) => void;
+  onFinish: (maskRequest: IMaskDetails) => void;
 }
 
 export const MaskSection: React.FC<MaskSectionProps> = (props) => {
@@ -40,7 +40,7 @@ export const MaskSection: React.FC<MaskSectionProps> = (props) => {
         <TextField
           name={_camelCase(`${value}Qnt`)}
           placeHolder="0"
-          type="string"
+          type="number"
           required={true}
         />
       )

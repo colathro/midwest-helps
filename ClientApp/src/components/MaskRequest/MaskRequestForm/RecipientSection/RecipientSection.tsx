@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import { get as _get, camelCase as _camelCase } from 'lodash';
 import { Form, Button, Typography, Row, Col } from 'antd';
-import { TextField } from '../../FormFields/TextField';
-import { RadioGroup, RadioItem } from '../../FormFields/RadioGroup/RadioGroup';
-import { MaskFor, MASK_FOR, IRecipient } from '../../../types';
+import { TextField } from '../../../FormFields/TextField';
+import {
+  RadioGroup,
+  RadioItem
+} from '../../../FormFields/RadioGroup/RadioGroup';
+import { MaskFor, MASK_FOR, IRecipient } from '../../../../types';
 
 const { Text } = Typography;
 
 export interface RecipientSectionProps {
-  onFinish: (maskRequest: object) => void;
+  onFinish: (maskRequest: IRecipient) => void;
 }
 
 export const RecipientSection: React.FC<RecipientSectionProps> = (props) => {
