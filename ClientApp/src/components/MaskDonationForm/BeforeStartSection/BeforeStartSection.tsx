@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Typography, Row, Col } from 'antd';
 
 const { Text, Title } = Typography;
@@ -10,28 +10,35 @@ export interface BeforeStartSectionProps {
 export const BeforeStartSection: React.FC<BeforeStartSectionProps> = (
   props
 ) => {
+  const [displayContinueButton, setDisplayContinueButton] = useState(true);
   const onContinueClick = () => {
+    setDisplayContinueButton(false);
     props.onFinish();
   };
 
   return (
     <>
-      <Row>
-        <Col span={22}>
-          <Title level={2}>Who are the masks for?</Title>
-          <br />
-          <Text type="secondary">Testing 1</Text>
-          <br />
-          <br />
-          <Text strong>Testing 2</Text>
-          <br />
-        </Col>
-        <Col span={2}>
-          <Button type="link" onClick={() => onContinueClick()}>
-            Continue
-          </Button>
+      <Row gutter={[8, 48]}>
+        <Col span={1}>✔</Col>
+        <Col span={22} offset={1}>
+          <Text strong>Make sure your masks are clean</Text>
         </Col>
       </Row>
+      <Row gutter={[8, 48]}>
+        <Col span={1}>✔</Col>
+        <Col span={22} offset={1}>
+          <Text strong>
+            Make sure you masks match the requirements for this medical provider
+          </Text>
+        </Col>
+      </Row>
+      {displayContinueButton && (
+        <Row>
+          <Button type="primary" onClick={() => onContinueClick()}>
+            Continue
+          </Button>
+        </Row>
+      )}
     </>
   );
 };

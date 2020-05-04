@@ -1,16 +1,10 @@
 import React, { useState } from 'react';
-import { get as _get, camelCase as _camelCase } from 'lodash';
-import { Form, Button, Typography, Row, Col } from 'antd';
+import { get as _get, set as _set, camelCase as _camelCase } from 'lodash';
+import { Form, Button, Typography, Row, Col, Layout } from 'antd';
 import { TextField } from '../../FormFields/TextField';
-import { CheckboxItem } from '../../FormFields/CheckboxGroup/CheckboxGroup';
-import {
-  MASK_TYPE,
-  MaskType,
-  IMaskSection,
-  IMaskDetails,
-  IMaskInfo
-} from '../../../types';
+import { MASK_TYPE, MaskType, IMaskSection, IMaskInfo } from '../../../types';
 const { Text } = Typography;
+const { Content } = Layout;
 
 export interface DonationSectionProps {
   masksRequested: IMaskInfo[];
@@ -20,7 +14,9 @@ export interface DonationSectionProps {
 export const DonationSection: React.FC<DonationSectionProps> = (props) => {
   const [displaySummary, setDisplaySummary] = useState(false);
   const [maskSection, setMaskSection] = useState({
-    maskTypes: [] as string[],
+    maskTypes: props.masksRequested.map((mr) => {
+      return mr.type;
+    }),
     maskRequirements: '',
     fabricQnt: 0,
     faceShieldQnt: 0,
@@ -29,34 +25,22 @@ export const DonationSection: React.FC<DonationSectionProps> = (props) => {
     othersQnt: 0
   } as IMaskSection);
 
-  const checkboxItems: CheckboxItem[] = Object.entries(MASK_TYPE).map(
-    ([value, label]) => ({
-      label,
-      value,
-      checked: maskSection.maskTypes.includes(value),
-      displayFragmentOnChecked: (
-        <TextField
-          name={_camelCase(`${value}Qnt`)}
-          placeHolder="0"
-          type="string"
-          required={true}
-        />
-      )
-    })
-  );
-
   const onFinish = (obj: object) => {
-    setDisplaySummary(true);
+    _set(
+      obj,
+      'maskTypes',
+      props.masksRequested.map((mr) => {
+        return mr.type;
+      })
+    );
     const maskSectionObj = obj as IMaskSection;
     setMaskSection(maskSectionObj);
+    setDisplaySummary(true);
     props.onFinish(processMaskSectionObj(maskSectionObj));
   };
 
   const processMaskSectionObj = (maskSectionObj: IMaskSection) => {
-    return {
-      requirements: maskSectionObj.maskRequirements,
-      masks: processMaskInfo(maskSectionObj)
-    } as IMaskDetails;
+    return processMaskInfo(maskSectionObj);
   };
 
   const processMaskInfo = (maskSectionObj: IMaskSection) => {
@@ -77,32 +61,18 @@ export const DonationSection: React.FC<DonationSectionProps> = (props) => {
       <>
         <Row>
           <Col span={22}>
-            <Text strong>What type of masks are you in need of?</Text>
-            <br />
             {maskSection.maskTypes.map((mt, index) => (
               <Row key={index}>
-                <Col span={12}>
-                  <Text type="secondary">{MASK_TYPE[mt as MaskType]}</Text>
-                </Col>
-                <Col span={8}>
-                  <Text type="secondary">
-                    {`Quantity: ${_get(
-                      maskSection,
-                      _camelCase(`${mt}Qnt`),
-                      0
-                    )}`}
+                <Col span={2}>
+                  <Text strong>
+                    {_get(maskSection, _camelCase(`${mt}Qnt`), 0)}
                   </Text>
+                </Col>
+                <Col span={22}>
+                  <Text type="secondary">{MASK_TYPE[mt as MaskType]}</Text>
                 </Col>
               </Row>
             ))}
-            <br />
-            <Text strong>Mask requirements</Text>
-            <br />
-            {maskSection.maskRequirements ? (
-              <Text type="secondary">{maskSection.maskRequirements}</Text>
-            ) : (
-              <Text type="secondary">None</Text>
-            )}
           </Col>
           <Col span={2}>
             <Button type="link" onClick={() => onEditClick()}>
@@ -128,12 +98,15 @@ export const DonationSection: React.FC<DonationSectionProps> = (props) => {
         summary()
       ) : (
         <>
-          <TextField
-            name="maskRequirements"
-            title="Mask requirements"
-            type="text"
-            placeHolder="Provide any details, instructions, or links for those making the masks"
-          />
+          <Text>How many masks are being donated?</Text>
+          {props.masksRequested.map((mr, index) => (
+            <TextField
+              name={_camelCase(`${mr.type}Qnt`)}
+              type="number"
+              placeHolder={`${mr.quantity} - requested`}
+              addonAfter={MASK_TYPE[mr.type]}
+            />
+          ))}
           <Form.Item>
             <Button type="primary" htmlType="submit">
               Continue

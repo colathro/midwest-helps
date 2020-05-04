@@ -11,7 +11,7 @@ import {
   IMaskDonationRequest,
   IDonator,
   IMaskInfo
-} from '../../../types';
+} from '../../types';
 
 const { Title } = Typography;
 

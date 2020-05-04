@@ -40,7 +40,7 @@ export const MaskSection: React.FC<MaskSectionProps> = (props) => {
         <TextField
           name={_camelCase(`${value}Qnt`)}
           placeHolder="0"
-          type="string"
+          type="number"
           required={true}
         />
       )

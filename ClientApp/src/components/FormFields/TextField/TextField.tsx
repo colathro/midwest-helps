@@ -11,11 +11,13 @@ export interface TextFieldProps {
   placeHolder?: string;
   required?: boolean;
   defaultValue?: string;
+  addonAfter?: string;
 }
 
 export type TextFieldType =
   | 'string'
   | 'email'
+  | 'number'
   | 'phone'
   | 'url'
   | 'zipCode'
@@ -67,6 +69,14 @@ export const TextField: React.FC<TextFieldProps> = (props) => {
         (props.title ? props.title?.toLowerCase() : 'zip code') +
         ' input is not valid.'
     });
+  } else if (props.type === 'number') {
+    rules.push({
+      pattern: new RegExp(/^\d+$/),
+      message:
+        'The ' +
+        (props.title ? props.title?.toLowerCase() : 'number') +
+        ' input is not valid.'
+    });
   } else {
     rules.push({
       type: 'string' as RuleType,
@@ -104,6 +114,7 @@ export const TextField: React.FC<TextFieldProps> = (props) => {
             placeholder={props.placeHolder}
             allowClear
             defaultValue={props.defaultValue}
+            addonAfter={props.addonAfter}
           />
         )}
       </Form.Item>

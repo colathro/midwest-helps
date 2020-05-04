@@ -3,25 +3,32 @@ import { get as _get, camelCase as _camelCase } from 'lodash';
 import { Form, Button, Typography, Row, Col } from 'antd';
 import { TextField } from '../../FormFields/TextField';
 import { RadioGroup, RadioItem } from '../../FormFields/RadioGroup/RadioGroup';
-import { MaskFor, MASK_FOR, IRecipient, IDonator } from '../../../types';
+import {
+  MaskFor,
+  MASK_FOR,
+  IRecipient,
+  IDonator,
+  BestContactType,
+  BEST_CONTACT_TYPE
+} from '../../../types';
 
 const { Text } = Typography;
 
 export interface DonatorSectionProps {
-  onFinish: (maskRequest: IDonator) => void;
+  onFinish: (donator: IDonator) => void;
 }
 
 export const DonatorSection: React.FC<DonatorSectionProps> = (props) => {
   const [displaySummary, setDisplaySummary] = useState(false);
-  const [recipientSection, setRecipientSection] = useState({
-    maskFor: '',
+  const [donatorSection, setDonatorSection] = useState<IDonator>({
+    bestContactType: 'Email',
     name: '',
     company: '',
     email: '',
     phone: ''
   });
 
-  const radioItems: RadioItem[] = Object.entries(MASK_FOR).map(
+  const radioItems: RadioItem[] = Object.entries(BEST_CONTACT_TYPE).map(
     ([value, label]) => ({
       label,
       value,
@@ -31,8 +38,8 @@ export const DonatorSection: React.FC<DonatorSectionProps> = (props) => {
 
   const onFinish = (obj: object) => {
     setDisplaySummary(true);
-    const recipientSectionObj = obj as IRecipient;
-    setRecipientSection(recipientSectionObj);
+    const recipientSectionObj = obj as IDonator;
+    setDonatorSection(recipientSectionObj);
     props.onFinish(recipientSectionObj);
   };
 
@@ -48,21 +55,25 @@ export const DonatorSection: React.FC<DonatorSectionProps> = (props) => {
             <Text strong>Who are the masks for?</Text>
             <br />
             <Text type="secondary">
-              {MASK_FOR[recipientSection.maskFor as MaskFor]}
+              {
+                BEST_CONTACT_TYPE[
+                  donatorSection.bestContactType as BestContactType
+                ]
+              }
             </Text>
             <br />
             <br />
-            <Text strong>{recipientSection.name}</Text>
+            <Text strong>{donatorSection.name}</Text>
             <br />
-            {recipientSection.company && (
+            {donatorSection.company && (
               <>
-                <Text type="secondary">{recipientSection.company}</Text>
+                <Text type="secondary">{donatorSection.company}</Text>
                 <br />
               </>
             )}
-            <Text type="secondary">{recipientSection.email}</Text>
+            <Text type="secondary">{donatorSection.email}</Text>
             <br />
-            <Text type="secondary">{recipientSection.phone}</Text>
+            <Text type="secondary">{donatorSection.phone}</Text>
           </Col>
           <Col span={2}>
             <Button type="link" onClick={() => onEditClick()}>
@@ -89,8 +100,8 @@ export const DonatorSection: React.FC<DonatorSectionProps> = (props) => {
       ) : (
         <>
           <RadioGroup
-            name="maskFor"
-            title="Who are the masks for?"
+            name="bestContactType"
+            title="What is the best way to reach you?"
             radioItems={radioItems}
             required={true}
           />

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Card, Button, Tag } from 'antd';
+import { Card, Button, Tag, Modal } from 'antd';
 import { MaskRequestLinks } from './MaskRequestLinks';
 import { IMaskRequest, MASK_TYPE } from '../../../../types';
 
 import './MaskRequestCard.scss';
+import { MaskDonationForm } from '../../../MaskDonationForm';
 
 const months = [
   'Jan',
@@ -22,6 +23,7 @@ const months = [
 
 export const MaskRequestCard: React.FC<IMaskRequest> = (props) => {
   const [maskRequest, setMaskRequest] = useState(props);
+  const [donateModalVisible, setDonateModalVisible] = useState(false);
 
   const createdOn = new Date(maskRequest.createdOn!);
   const address = maskRequest.delivery.addresses[0];
@@ -60,11 +62,26 @@ export const MaskRequestCard: React.FC<IMaskRequest> = (props) => {
             phone={maskRequest.recipient.email}
             webUrl={maskRequest.recipient.phone}
           />
-          <Button className="donate-button" type="primary">
+          <Button
+            className="donate-button"
+            type="primary"
+            onClick={() => setDonateModalVisible(true)}
+          >
             Donate masks
           </Button>
         </div>
       </Card>
+      {donateModalVisible && (
+        <Modal
+          title="Midwest Helps"
+          visible={donateModalVisible}
+          footer={null}
+          onOk={() => setDonateModalVisible(false)}
+          onCancel={() => setDonateModalVisible(false)}
+        >
+          <MaskDonationForm request={maskRequest} />
+        </Modal>
+      )}
     </div>
   );
 };
