@@ -184,11 +184,15 @@ export const MaskRequestForm: React.FC = () => {
         </Row>
         <Row justify="center" gutter={[0, 48]}>
           <Title level={2}>Masks requested</Title>
-          <Typography>
-            Your mask request is being processed and will be posted for makers
-            to see shortly. We hope you are staying safe and healthy during
-            these difficult times.
-          </Typography>
+        </Row>
+        <Row justify="center" gutter={[0, 48]}>
+          <Col span={12}>
+            <Typography>
+              Your mask request is being processed and will be posted for makers
+              to see shortly. We hope you are staying safe and healthy during
+              these difficult times.
+            </Typography>
+          </Col>
         </Row>
         <Row justify="center">
           <Button onClick={() => goToMasks()}>Done</Button>
