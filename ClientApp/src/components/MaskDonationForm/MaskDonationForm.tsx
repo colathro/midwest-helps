@@ -180,14 +180,17 @@ export const MaskDonationForm: React.FC<MaskDonationFormProps> = (props) => {
   const displaySuccessPage = () => {
     return (
       <>
-        <Title level={2}>Thank you</Title>
-        <Typography>
-          The medical facility has been notified on you donation. Please deliver
-          your masks in a timely manner. Thank you again for you donation.
-        </Typography>
-        <Title level={4}>Delivery details</Title>
-        <Row>
+        <Row gutter={[0, 48]}>
+          <Col>
+            <Title level={2}>Thank you</Title>
+            <Typography>
+              The medical facility has been notified on you donation. Please
+              deliver your masks in a timely manner. Thank you again for you
+              donation.
+            </Typography>
+          </Col>
           <Col span={12}>
+            <Title level={4}>Delivery details</Title>
             {props.request.delivery.addresses.map((a) =>
               addressSummary(
                 a.type === ('DropOff' as ReceiveMaskChannel)
@@ -202,23 +205,8 @@ export const MaskDonationForm: React.FC<MaskDonationFormProps> = (props) => {
                 a.zipCode
               )
             )}
-            <Row>
-              <Button>Print a copy</Button>
-            </Row>
-            <Row>
-              <Button type="primary">Email a copy</Button>
-            </Row>
-            <Row>
-              <Button onClick={() => props.onSuccess()}>Done</Button>
-            </Row>
           </Col>
           <Col span={12}>
-            <Row justify="end">
-              <Button>Copy</Button>
-            </Row>
-            <Row justify="end">
-              <Button>Directions</Button>
-            </Row>
             <Row justify="end">
               <img
                 src="/images/avatars/remote-work-woman.svg"
@@ -226,6 +214,9 @@ export const MaskDonationForm: React.FC<MaskDonationFormProps> = (props) => {
               ></img>
             </Row>
           </Col>
+        </Row>
+        <Row>
+          <Button onClick={() => props.onSuccess()}>Done</Button>
         </Row>
       </>
     );
