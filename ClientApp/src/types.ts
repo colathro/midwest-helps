@@ -185,7 +185,7 @@ export type MaskType =
   | 'FaceShield'
   | 'EarGuards'
   | 'ScrubCaps'
-  | 'Others';
+  | 'Other';
 
 export const MASK_TYPE: {
   [key in MaskType]: string;
@@ -194,7 +194,7 @@ export const MASK_TYPE: {
   FaceShield: 'Face shields',
   EarGuards: 'Ear guards',
   ScrubCaps: 'Scrub caps',
-  Others: 'Others'
+  Other: 'Other'
 };
 
 export const MASK_TYPE_STRINGS: {
@@ -204,7 +204,7 @@ export const MASK_TYPE_STRINGS: {
   FaceShield: { name: 'Face shields', value: 2 },
   EarGuards: { name: 'Ear guards', value: 3 },
   ScrubCaps: { name: 'Scrub caps', value: 4 },
-  Others: { name: 'Others', value: 5 }
+  Other: { name: 'Other', value: 5 }
 };
 
 export type ReceiveMaskChannel = 'DropOff' | 'Mail';
@@ -277,3 +277,13 @@ export interface IDeliverySection {
   mailState: string;
   mailZipCode: string;
 }
+
+export type pageDisplayType = 'Form' | 'Success' | 'Fail';
+
+export const PAGE_DISPLAY_TYPE: {
+  [key in pageDisplayType]: number;
+} = {
+  Form: 1,
+  Success: 2,
+  Fail: 3
+};

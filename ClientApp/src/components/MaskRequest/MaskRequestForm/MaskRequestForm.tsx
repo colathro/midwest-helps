@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Button, Collapse, Typography, Modal } from 'antd';
+import { Button, Collapse, Typography, Modal, Row, Col } from 'antd';
 import { RecipientSection } from './RecipientSection';
 import { MaskSection } from './MaskSection';
 import { DeliverySection } from './DeliverySection';
@@ -10,12 +10,14 @@ import {
   IMaskRequest,
   IRecipient,
   IMaskDetails,
-  IDelivery
+  IDelivery,
+  PAGE_DISPLAY_TYPE
 } from '../../../types';
 
 const { Title } = Typography;
 
 export const MaskRequestForm: React.FC = () => {
+  const [pageDisplay, setPageDisplay] = useState(PAGE_DISPLAY_TYPE.Form);
   const [activePanels, setActivePanels] = useState([
     MASK_REQUEST_SECTION.Recipient.value
   ]);
@@ -60,17 +62,10 @@ export const MaskRequestForm: React.FC = () => {
 
     const response = await fetch(url, requestOptions);
     if (response.ok) {
-      success();
+      setPageDisplay(PAGE_DISPLAY_TYPE.Success);
     } else {
       error();
     }
-  };
-
-  const success = () => {
-    Modal.success({
-      content: 'Your request was submitted successfully.',
-      onOk: () => goToMasks()
-    });
   };
 
   const error = () => {
@@ -131,48 +126,88 @@ export const MaskRequestForm: React.FC = () => {
     setActivePanels(Array.isArray(key) ? key : [key]);
   };
 
-  return (
-    <>
-      <Title level={2}>Request masks</Title>
-      <Typography>
-        These masks are not regulated by the FDA and are community-sourced. They
-        may not provide protection against splashes and sprays.
-      </Typography>
-      <Collapse activeKey={activePanels} onChange={onChangeCollapse}>
-        <Collapse.Panel
-          header={MASK_REQUEST_SECTION.Recipient.label}
-          key={MASK_REQUEST_SECTION.Recipient.value}
-          showArrow={false}
-          disabled={disabledPanels.includes(
-            MASK_REQUEST_SECTION.Recipient.value
-          )}
-        >
-          <RecipientSection onFinish={setRecipient} />
-        </Collapse.Panel>
-        <Collapse.Panel
-          header={MASK_REQUEST_SECTION.Mask.label}
-          key={MASK_REQUEST_SECTION.Mask.value}
-          showArrow={false}
-          disabled={disabledPanels.includes(MASK_REQUEST_SECTION.Mask.value)}
-        >
-          <MaskSection onFinish={setMaskDetails} />
-        </Collapse.Panel>
-        <Collapse.Panel
-          header={MASK_REQUEST_SECTION.Delivery.label}
-          key={MASK_REQUEST_SECTION.Delivery.value}
-          showArrow={false}
-          disabled={disabledPanels.includes(
-            MASK_REQUEST_SECTION.Delivery.value
-          )}
-        >
-          <DeliverySection onFinish={setDeliveryDetails} />
-        </Collapse.Panel>
-      </Collapse>
-      {allowSubmit && (
-        <Button type="primary" onClick={() => onSubmit()}>
-          Submit
-        </Button>
-      )}
-    </>
-  );
+  const displayFormPage = () => {
+    return (
+      <>
+        <Title level={2}>Request masks</Title>
+        <Typography>
+          These masks are not regulated by the FDA and are community-sourced.
+          They may not provide protection against splashes and sprays.
+        </Typography>
+        <Collapse activeKey={activePanels} onChange={onChangeCollapse}>
+          <Collapse.Panel
+            header={MASK_REQUEST_SECTION.Recipient.label}
+            key={MASK_REQUEST_SECTION.Recipient.value}
+            showArrow={false}
+            disabled={disabledPanels.includes(
+              MASK_REQUEST_SECTION.Recipient.value
+            )}
+          >
+            <RecipientSection onFinish={setRecipient} />
+          </Collapse.Panel>
+          <Collapse.Panel
+            header={MASK_REQUEST_SECTION.Mask.label}
+            key={MASK_REQUEST_SECTION.Mask.value}
+            showArrow={false}
+            disabled={disabledPanels.includes(MASK_REQUEST_SECTION.Mask.value)}
+          >
+            <MaskSection onFinish={setMaskDetails} />
+          </Collapse.Panel>
+          <Collapse.Panel
+            header={MASK_REQUEST_SECTION.Delivery.label}
+            key={MASK_REQUEST_SECTION.Delivery.value}
+            showArrow={false}
+            disabled={disabledPanels.includes(
+              MASK_REQUEST_SECTION.Delivery.value
+            )}
+          >
+            <DeliverySection onFinish={setDeliveryDetails} />
+          </Collapse.Panel>
+        </Collapse>
+        {allowSubmit && (
+          <Button type="primary" onClick={() => onSubmit()}>
+            Submit
+          </Button>
+        )}
+      </>
+    );
+  };
+
+  const displaySuccessPage = () => {
+    return (
+      <>
+        <Row justify="center" gutter={[0, 48]}>
+          <img
+            src="/images/avatars/man.svg"
+            style={{ maxHeight: '500px' }}
+          ></img>
+        </Row>
+        <Row justify="center" gutter={[0, 48]}>
+          <Title level={2}>Masks requested</Title>
+        </Row>
+        <Row justify="center" gutter={[0, 48]}>
+          <Col span={12}>
+            <Typography>
+              Your mask request is being processed and will be posted for makers
+              to see shortly. We hope you are staying safe and healthy during
+              these difficult times.
+            </Typography>
+          </Col>
+        </Row>
+        <Row justify="center">
+          <Button onClick={() => goToMasks()}>Done</Button>
+        </Row>
+      </>
+    );
+  };
+
+  const displayFailPage = () => {
+    return <></>;
+  };
+
+  return pageDisplay === PAGE_DISPLAY_TYPE.Form
+    ? displayFormPage()
+    : pageDisplay === PAGE_DISPLAY_TYPE.Success
+    ? displaySuccessPage()
+    : displayFailPage();
 };
