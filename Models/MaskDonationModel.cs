@@ -39,7 +39,7 @@ namespace getthehotdish.Models
                 CreatedOn = CreatedOn,
                 Donator = Donator.ToDonator(),
                 Donation = Donation.Select(d => d.ToMaskInfo()).ToList(),
-                Request = Request.ToMaskRequest(),
+                Request = Request != null ? Request.ToMaskRequest() : null,
                 RequestId = Guid.Parse(RequestId)
             };
         }

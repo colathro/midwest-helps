@@ -37,9 +37,9 @@ namespace getthehotdish.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<MaskRequestModel>> Post(MaskRequestModel maskRequestModel)
+        public async Task<ActionResult<MaskDonationModel>> Post(MaskDonationModel maskDonationModel)
         {
-            return await MaskRequest.Create(_dataContext, maskRequestModel);
+            return await MaskDonation.Create(_dataContext, maskDonationModel);
         }
 
         [HttpPut("{id}")]
