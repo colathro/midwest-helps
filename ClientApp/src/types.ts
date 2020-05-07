@@ -277,3 +277,13 @@ export interface IDeliverySection {
   mailState: string;
   mailZipCode: string;
 }
+
+export type pageDisplayType = 'Form' | 'Success' | 'Fail';
+
+export const PAGE_DISPLAY_TYPE: {
+  [key in pageDisplayType]: number;
+} = {
+  Form: 1,
+  Success: 2,
+  Fail: 3
+};
