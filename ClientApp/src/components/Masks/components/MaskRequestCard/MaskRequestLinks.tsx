@@ -1,35 +1,63 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
-import React from 'react';
-import { Button, Tooltip } from 'antd';
+import React, { useState } from 'react';
+import { Button, Modal, Descriptions } from 'antd';
+import { PhoneOutlined, MailOutlined } from '@ant-design/icons';
+import { IMaskRequest } from '../../../../types';
 
 export interface MaskRequestLinksProps {
-  giftCardUrl?: string;
-  phone?: string;
-  webUrl?: string;
+  maskRequest?: IMaskRequest;
 }
 
-export const MaskRequestLinks: React.FC<MaskRequestLinksProps> = (props) => (
-  <div className="business-links">
-    {props.giftCardUrl && (
-      <Tooltip placement="bottom" title="Gift card">
-        <Button shape="circle" href={props.giftCardUrl}>
-          🎁
-        </Button>
-      </Tooltip>
-    )}
-    {props.phone && (
-      <Tooltip placement="bottom" title="Call">
-        <Button shape="circle" href={`tel:${props.phone}`}>
-          📞
-        </Button>
-      </Tooltip>
-    )}
-    {props.webUrl && (
-      <Tooltip placement="bottom" title="Website">
-        <Button shape="circle" href={props.webUrl}>
-          🌐
-        </Button>
-      </Tooltip>
-    )}
-  </div>
-);
+export const MaskRequestLinks: React.FC<MaskRequestLinksProps> = (props) => {
+  const maskRequest = props.maskRequest;
+
+  const info = () =>
+    Modal.info({
+      content: (
+        <Descriptions title="Contact Info">
+          <Descriptions.Item span={3} label="Company">
+            {maskRequest?.recipient.company}
+          </Descriptions.Item>
+          <Descriptions.Item span={3} label="Contact Name">
+            {maskRequest?.recipient.name}
+          </Descriptions.Item>
+          <Descriptions.Item span={3} label="Email">
+            {maskRequest?.recipient.email}
+          </Descriptions.Item>
+          <Descriptions.Item span={3} label="Phone">
+            {maskRequest?.recipient.phone}
+          </Descriptions.Item>
+          <Descriptions.Item span={3} label={`Needed Masks`}>
+            {maskRequest?.maskDetails.masks.map((mask, index) => {
+              return (
+                <div>
+                  {mask.type} - {mask.quantity}
+                </div>
+              );
+            })}
+          </Descriptions.Item>
+          {maskRequest?.delivery.addresses.map((address, index) => {
+            return (
+              <Descriptions.Item span={3} label={`${address.type} Address`}>
+                <div>{address.address1}</div>
+                <div>{address.address2}</div>
+                <div>
+                  {address.city}, {address.state} {address.zipCode}
+                </div>
+              </Descriptions.Item>
+            );
+          })}
+        </Descriptions>
+      ),
+      maskClosable: true,
+      icon: <div></div>
+    });
+
+  return (
+    <div className="business-links">
+      <Button type="primary" onClick={info}>
+        Info
+      </Button>
+    </div>
+  );
+};

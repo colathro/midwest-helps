@@ -58,10 +58,7 @@ export const MaskRequestCard: React.FC<IMaskRequest> = (props) => {
           })}
         </div>
         <div className="action-buttons">
-          <MaskRequestLinks
-            phone={maskRequest.recipient.email}
-            webUrl={maskRequest.recipient.phone}
-          />
+          <MaskRequestLinks maskRequest={maskRequest} />
           <Button
             className="donate-button"
             type="primary"
