@@ -17,6 +17,7 @@ const { Title } = Typography;
 
 export interface MaskDonationFormProps {
   request: IMaskRequest;
+  onSuccess: () => void;
 }
 
 export const MaskDonationForm: React.FC<MaskDonationFormProps> = (props) => {
@@ -60,6 +61,7 @@ export const MaskDonationForm: React.FC<MaskDonationFormProps> = (props) => {
 
     const response = await fetch(url, requestOptions);
     if (response.ok) {
+      props.onSuccess();
       success();
     } else {
       error();

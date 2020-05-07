@@ -79,7 +79,10 @@ export const MaskRequestCard: React.FC<IMaskRequest> = (props) => {
           onOk={() => setDonateModalVisible(false)}
           onCancel={() => setDonateModalVisible(false)}
         >
-          <MaskDonationForm request={maskRequest} />
+          <MaskDonationForm
+            request={maskRequest}
+            onSuccess={() => setDonateModalVisible(false)}
+          />
         </Modal>
       )}
     </div>

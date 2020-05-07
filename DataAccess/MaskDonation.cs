@@ -62,9 +62,9 @@ namespace getthehotdish.DataAccess
         {
             maskDonationModel.PartitionKey = partitionKey;
             maskDonationModel.CreatedOn = DateTime.UtcNow;
-            maskDonationModel.Request = await MaskRequest.GetModel(dataContext, Guid.Parse(maskDonationModel.RequestId));
 
             var maskDonation = maskDonationModel.ToMaskDonation();
+            maskDonation.Request = await MaskRequest.Get(dataContext, maskDonation.RequestId);
             maskDonation.EditKey = Guid.NewGuid();
 
             dataContext.MaskDonations.Add(maskDonation);
