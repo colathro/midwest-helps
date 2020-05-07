@@ -11,21 +11,12 @@ import {
   IMaskDonationRequest,
   IDonator,
   IMaskInfo,
-  ReceiveMaskChannel
+  ReceiveMaskChannel,
+  PAGE_DISPLAY_TYPE
 } from '../../types';
 import { addressSummary } from '../FormFields/AddressSection';
 
 const { Title } = Typography;
-
-type pageDisplayType = 'Form' | 'Success' | 'Fail';
-
-const PAGE_DISPLAY_TYPE: {
-  [key in pageDisplayType]: number;
-} = {
-  Form: 1,
-  Success: 2,
-  Fail: 3
-};
 
 export interface MaskDonationFormProps {
   request: IMaskRequest;
@@ -74,7 +65,6 @@ export const MaskDonationForm: React.FC<MaskDonationFormProps> = (props) => {
 
     const response = await fetch(url, requestOptions);
     if (response.ok) {
-      //props.onSuccess();
       setPageDisplay(PAGE_DISPLAY_TYPE.Success);
     } else {
       error();
@@ -86,10 +76,6 @@ export const MaskDonationForm: React.FC<MaskDonationFormProps> = (props) => {
       title: 'Oops',
       content: 'There was a problem submitting your request. Try again later.'
     });
-  };
-
-  const goToMasks = () => {
-    history.push('/masks');
   };
 
   const setRequest = () => {
@@ -221,6 +207,9 @@ export const MaskDonationForm: React.FC<MaskDonationFormProps> = (props) => {
             </Row>
             <Row>
               <Button type="primary">Email a copy</Button>
+            </Row>
+            <Row>
+              <Button onClick={() => props.onSuccess()}>Done</Button>
             </Row>
           </Col>
           <Col span={12}>
