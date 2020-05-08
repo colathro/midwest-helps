@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Typography, Row, Col } from 'antd';
 
-const { Text, Title } = Typography;
+const { Text } = Typography;
 
 export interface BeforeStartSectionProps {
   onFinish: () => void;
@@ -28,7 +28,8 @@ export const BeforeStartSection: React.FC<BeforeStartSectionProps> = (
         <Col span={1}>✔</Col>
         <Col span={22} offset={1}>
           <Text strong>
-            Make sure you masks match the requirements for this medical provider
+            Make sure your masks match the requirements for this medical
+            provider
           </Text>
         </Col>
       </Row>
