@@ -3,6 +3,8 @@ import { Card, Button, Tag, Modal } from 'antd';
 import { MaskRequestLinks } from './MaskRequestLinks';
 import { IMaskRequest, MASK_TYPE } from '../../../../types';
 
+import CopyText from './copytext';
+
 import './MaskRequestCard.scss';
 import { MaskDonationForm } from '../../../MaskDonationForm';
 

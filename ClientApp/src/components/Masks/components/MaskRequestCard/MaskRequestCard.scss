@@ -12,6 +12,40 @@
   }
 }
 
+.info-modal {
+  .ant-modal-body {
+    padding: 4px;
+  }
+  .ant-collapse {
+    margin-top: 4px;
+    margin-bottom: 4px;
+  }
+}
+
+.contact-info {
+  .ant-descriptions-item-label {
+    font-weight: bold;
+  }
+}
+
+.address-box {
+  .ant-descriptions-item-content {
+    width: 100%;
+  }
+  .ant-descriptions-item-label {
+    font-weight: bold;
+  }
+}
+
+.masks-needed {
+  .ant-descriptions-item-content {
+    width: 100%;
+  }
+  .ant-descriptions-item-label {
+    font-weight: bold;
+  }
+}
+
 .ant-card-body {
   padding-top: 0px;
   padding-left: 16px;
