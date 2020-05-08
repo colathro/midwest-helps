@@ -3,6 +3,8 @@ import { Card, Button, Tag, Modal } from 'antd';
 import { MaskRequestLinks } from './MaskRequestLinks';
 import { IMaskRequest, MASK_TYPE } from '../../../../types';
 
+import CopyText from './copytext';
+
 import './MaskRequestCard.scss';
 import { MaskDonationForm } from '../../../MaskDonationForm';
 
@@ -58,10 +60,7 @@ export const MaskRequestCard: React.FC<IMaskRequest> = (props) => {
           })}
         </div>
         <div className="action-buttons">
-          <MaskRequestLinks
-            phone={maskRequest.recipient.email}
-            webUrl={maskRequest.recipient.phone}
-          />
+          <MaskRequestLinks maskRequest={maskRequest} />
           <Button
             className="donate-button"
             type="primary"
