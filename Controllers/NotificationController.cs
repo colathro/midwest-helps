@@ -13,13 +13,11 @@ namespace getthehotdish.Controllers
 {
     public class NotificationController : Controller
     {
-        private readonly ILogger<ListingController> _logger;
-        private readonly NotificationSettings _notificationSettings;
+        private readonly EmailSettings _emailSettings;
 
-        public NotificationController(ILogger<ListingController> logger, IOptions<NotificationSettings> notificationSettingsAccessor)
+        public NotificationController(IOptions<EmailSettings> notificationSettingsAccessor)
         {
-            _logger = logger;
-            _notificationSettings = notificationSettingsAccessor.Value;
+            _emailSettings = notificationSettingsAccessor.Value;
         }
 
         /// <summary>
@@ -31,7 +29,7 @@ namespace getthehotdish.Controllers
         /// <returns>True, if the message was sent. False, otherwise.</returns>
         public Task<bool> SendMessageReceivedEmailAsync(string senderName, string senderEmail,  string message)
         {
-            SendEmail($"Your have a message from {senderName}", BuildMessageReceivedMessage(senderName, senderEmail, message), _notificationSettings.EmailNotificationSettings.Name, _notificationSettings.EmailNotificationSettings.EmailSender);
+            SendEmail($"Your have a message from {senderName}", BuildMessageReceivedMessage(senderName, senderEmail, message), _emailSettings.Name, _emailSettings.EmailSender);
             return Task.FromResult(true);
         }
 
@@ -43,7 +41,7 @@ namespace getthehotdish.Controllers
         /// <returns>True, if the message was sent. False, otherwise.</returns>
         public Task<bool> SendReportReceivedEmailAsync(BusinessModel business, ReportType reportType)
         {
-            SendEmail($"You have a report about {business.Name} ({business.Id}) of type {reportType}", BuildReportReceivedMessage(business, reportType), _notificationSettings.EmailNotificationSettings.Name, _notificationSettings.EmailNotificationSettings.EmailSender);
+            SendEmail($"You have a report about {business.Name} ({business.Id}) of type {reportType}", BuildReportReceivedMessage(business, reportType), _emailSettings.Name, _emailSettings.EmailSender);
             return Task.FromResult(true);
         }
 
@@ -78,7 +76,7 @@ namespace getthehotdish.Controllers
         private void SendEmail(string subject, MimeEntity mimeEntity, string toName, string toEmail)
         {
             var mimeMessage = new MimeMessage();
-            mimeMessage.From.Add(new MailboxAddress(_notificationSettings.EmailNotificationSettings.Name, _notificationSettings.EmailNotificationSettings.EmailSender));
+            mimeMessage.From.Add(new MailboxAddress(_emailSettings.Name, _emailSettings.EmailSender));
             mimeMessage.To.Add(new MailboxAddress(toName, toEmail));
             mimeMessage.Subject = subject;
             mimeMessage.Body = mimeEntity;
@@ -86,9 +84,9 @@ namespace getthehotdish.Controllers
             try
             {
                 using var client = new SmtpClient();
-                client.Connect(_notificationSettings.EmailNotificationSettings.SmtpClient, _notificationSettings.EmailNotificationSettings.Port, SecureSocketOptions.StartTls);
+                client.Connect(_emailSettings.SmtpClient, _emailSettings.Port, SecureSocketOptions.StartTls);
 
-                client.Authenticate(_notificationSettings.EmailNotificationSettings.EmailSender, _notificationSettings.EmailNotificationSettings.EmailPassword);
+                client.Authenticate(_emailSettings.EmailSender, _emailSettings.EmailPassword);
 
                 client.Send(mimeMessage);
                 client.Disconnect(true);
