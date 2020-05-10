@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using getthehotdish.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using getthehotdish.DataAccess;
-using Microsoft.Extensions.Logging;
-using System.ComponentModel.DataAnnotations;
 using getthehotdish.Handlers.Exceptions;
+using getthehotdish.Utils;
+using getthehotdish.Utils.Enums;
 
 namespace getthehotdish.Controllers
 {
@@ -19,11 +16,13 @@ namespace getthehotdish.Controllers
     {
         private readonly DataContext _dataContext;
         private AdminSettings _adminSettings;
+        private EmailSettings _emailSettings;
 
-        public MaskRequestController(DataContext dataContext, AdminSettings adminSettings)
+        public MaskRequestController(DataContext dataContext, AdminSettings adminSettings, EmailSettings emailSettings)
         {
             _dataContext = dataContext;
             _adminSettings = adminSettings;
+            _emailSettings = emailSettings;
         }
 
         [HttpGet]
@@ -48,11 +47,13 @@ namespace getthehotdish.Controllers
         [HttpPost]
         public async Task<ActionResult<MaskRequestModel>> Post(MaskRequestModel maskRequestModel)
         {
-            return await MaskRequest.Create(_dataContext, maskRequestModel);
+            var toReturn = await MaskRequest.Create(_dataContext, maskRequestModel);
+            _ = EmailUtils.SendEmailAsync(_emailSettings, EmailMessageType.MaskRequestSubmitted, "Your mask request is in review", "Request in review", maskRequestModel.Recipient.Email, maskRequestModel.Recipient.Name);
+            return toReturn;
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<MaskRequestModel>> Put(Guid id, [FromBody] MaskRequestModel maskRequestModel, [FromQuery] Guid editKey)
+        public async Task<ActionResult<MaskRequestModel>> Put(Guid id, [FromBody] MaskRequestModel maskRequestModel)
         {
             return await MaskRequest.Update(_dataContext, id, maskRequestModel);
         }
@@ -74,7 +75,9 @@ namespace getthehotdish.Controllers
             {
                 throw new ErrorModelException(ErrorCode.BadKey);
             }
-            return await MaskRequest.Approve(_dataContext, Guid.Parse(post));
+            var maskRequestModel = await MaskRequest.Approve(_dataContext, Guid.Parse(post));
+            _ = EmailUtils.SendEmailAsync(_emailSettings, EmailMessageType.MaskRequestApproved, "Your mask request is approved!", "Request approved", maskRequestModel.Recipient.Email, maskRequestModel.Recipient.Name);
+            return maskRequestModel;
         }
 
         [HttpPost("approvals/deny/{key}/{post}")]

@@ -22,6 +22,7 @@ namespace getthehotdish.DataAccess
         public Guid EditKey { get; set; }
         public Guid OriginalId { get; set; }
         public bool Approved { get; set; }
+        public DonationStatus Status { get; set; }
         [Required]
         public Guid RequestId { get; set; }
         [Required]
@@ -47,6 +48,7 @@ namespace getthehotdish.DataAccess
                 Id = Id,
                 PartitionKey = PartitionKey,
                 CreatedOn = CreatedOn,
+                Status = EnumUtils.GetName(Status),
                 Donator = Donator.ToDonatorModel(),
                 Donation = Donation.Select(d => d.ToMaskInfoModel()).ToList(),
                 Request = Request.ToMaskRequestModel()

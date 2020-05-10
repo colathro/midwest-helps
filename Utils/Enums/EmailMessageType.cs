@@ -5,13 +5,13 @@ namespace getthehotdish.Utils.Enums
 {
     public enum EmailMessageType
     {
-        [Description("Your mask request is in review")]
+        [Description("MaskRequestSubmitted.html")]
         MaskRequestSubmitted = 1,
-        [Description("Your mask request is approved")]
+        [Description("MaskRequestApproved.html")]
         MaskRequestApproved = 2,
-        [Description("We're sorry, we're not able to list your request")]
+        [Description("MaskRequestDenied.html")]
         MaskRequestDenied = 3,
-        [Description("{0} has a donation")]
+        [Description("DonationOnItsWay.html")]
         DonationOnItsWay = 4
     }
 }
