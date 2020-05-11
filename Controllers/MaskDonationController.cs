@@ -65,7 +65,7 @@ namespace getthehotdish.Controllers
             htmlMessageSB.Replace("{DonatorEmail}", donator.Email)
                 .Replace("{DonatorPhone}", donator.Phone)
                 .Replace("{MaskDetails}", maskDetailsSB.ToString());
-            await EmailUtils.SendEmailAsync(_emailSettings, htmlMessageSB.ToString(), $"{maskDonationModel.Donator.Name} has a donation!", "Donation on its way", recipient.Email, recipient.Name);
+            await EmailUtils.SendEmailAsync(_emailSettings, htmlMessageSB.ToString(), $"{maskDonationModel.Donator.Name} has a donation!", "Donation on its way", recipient.Email);
         }
     }
 }

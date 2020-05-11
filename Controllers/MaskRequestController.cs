@@ -48,7 +48,7 @@ namespace getthehotdish.Controllers
         public async Task<ActionResult<MaskRequestModel>> Post(MaskRequestModel maskRequestModel)
         {
             var toReturn = await MaskRequest.Create(_dataContext, maskRequestModel);
-            _ = EmailUtils.SendEmailAsync(_emailSettings, EmailMessageType.MaskRequestSubmitted, "Your mask request is in review", "Request in review", maskRequestModel.Recipient.Email, maskRequestModel.Recipient.Name);
+            _ = EmailUtils.SendEmailAsync(_emailSettings, EmailMessageType.MaskRequestSubmitted, "Your mask request is in review", "Request in review", maskRequestModel.Recipient.Email);
             return toReturn;
         }
 
@@ -76,7 +76,7 @@ namespace getthehotdish.Controllers
                 throw new ErrorModelException(ErrorCode.BadKey);
             }
             var maskRequestModel = await MaskRequest.Approve(_dataContext, Guid.Parse(post));
-            _ = EmailUtils.SendEmailAsync(_emailSettings, EmailMessageType.MaskRequestApproved, "Your mask request is approved!", "Request approved", maskRequestModel.Recipient.Email, maskRequestModel.Recipient.Name);
+            _ = EmailUtils.SendEmailAsync(_emailSettings, EmailMessageType.MaskRequestApproved, "Your mask request is approved!", "Request approved", maskRequestModel.Recipient.Email);
             return maskRequestModel;
         }
 
