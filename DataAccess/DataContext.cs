@@ -10,6 +10,7 @@ namespace getthehotdish.DataAccess
         public DbSet<MaskDonation> MaskDonations { get; set; }
         public DbSet<Report> Reports { get; set; }
         public DbSet<Contact> Contacts { get; set; }
+        public DbSet<User> Users { get; set; }
 
         public DataContext(DbContextOptions<DataContext> options)
         : base(options) { }
@@ -39,6 +40,10 @@ namespace getthehotdish.DataAccess
             modelBuilder.Entity<Contact>().ToContainer("Contacts");
             modelBuilder.Entity<Contact>().HasAlternateKey(l => l.Id);
             modelBuilder.Entity<Contact>().HasPartitionKey(o => o.PartitionKey);
+
+            modelBuilder.Entity<User>().ToContainer("Users");
+            modelBuilder.Entity<User>().HasAlternateKey(l => l.Id);
+            modelBuilder.Entity<User>().HasPartitionKey(o => o.PartitionKey);
         }
     }
 }

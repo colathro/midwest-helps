@@ -5,6 +5,7 @@ import { MaskRequestApprovals } from './Pages/MaskRequestApprovals';
 import { Contacts } from './Pages/Contacts';
 import { Reports } from './Pages/Reports';
 import { Home } from './Pages/Home';
+import { PrivateRoute} from '../AdminLogin/PrivateRoute';
 
 import './Admin.scss';
 
@@ -32,7 +33,7 @@ export const Admin: React.FC = () => {
   };
 
   const gotoHome = () => {
-    history.push(`/admin?key=${key}`);
+    history.push(`/admin/home?key=${key}`);
   };
 
   return (
@@ -67,10 +68,10 @@ export const Admin: React.FC = () => {
         </Menu>
       </Sider>
       <Switch>
-        <Route path="/admin/maskrequests" component={MaskRequestApprovals} />
-        <Route path="/admin/contacts" component={Contacts} />
-        <Route path="/admin/reports" component={Reports} />
-        <Route path="/admin" component={Home} />
+        <PrivateRoute path="/admin/maskrequests" component={MaskRequestApprovals} />
+        <PrivateRoute path="/admin/contacts" component={Contacts} />
+        <PrivateRoute path="/admin/reports" component={Reports} />
+        <PrivateRoute path="/admin/home" component={Home} />
       </Switch>
     </Layout>
   );

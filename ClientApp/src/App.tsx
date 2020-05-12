@@ -8,6 +8,7 @@ import { List } from './components/List';
 import { Masks } from './components/Masks';
 import { MaskRequest } from './components/MaskRequest';
 import { Covid19 } from './components/Covid19';
+import { PrivateRoute } from './components/AdminLogin/PrivateRoute'
 import DocumentTitle from 'react-document-title';
 
 import './App.scss';
@@ -19,7 +20,7 @@ export const App: React.FC = () => (
     <DocumentTitle title="Midwest Helps - Make a Difference" />
     <Content className="main-content">
       <Switch>
-        <Route path="/admin" component={Admin} />
+        <PrivateRoute path="/admin" component={Admin} />
         <Route exact path="/contact" component={Contact} />
         <Route exact path="/maskRequest" component={MaskRequest} />
         <Route exact path="/list" component={List} />

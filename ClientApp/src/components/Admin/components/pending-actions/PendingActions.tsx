@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Layout, Modal, Button, Typography, Statistic, Row, Col } from 'antd';
-import { useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { Layout, Modal, Button, Typography, Statistic, Row, Col } from "antd";
+import { useLocation } from "react-router-dom";
 
-import './PendingActions.scss';
+import "./PendingActions.scss";
 
 const useQuery = () => new URLSearchParams(useLocation().search);
 
@@ -16,14 +16,23 @@ type ActionCounts = {
 
 export const PendingActions: React.FC = () => {
   const query = useQuery();
-  const key = query.get('key');
+  const key = query.get("key");
 
   const [pendingActions, setAllPendingActions] = useState<ActionCounts>();
   const [loading, setLoading] = useState(true);
 
   const getPendingActions = () => {
     if (loading) {
-      fetchUrl(`/api/pendingaction/${key}`)
+      const auth = localStorage.getItem("user");
+
+      let authObject = JSON.parse(auth!);
+
+      const requestOptions = {
+        method: "Get",
+        headers: { Authorization: "Bearer " + authObject.token },
+      };
+
+      fetchUrl(`/api/pendingaction`, requestOptions)
         .then((data) => {
           setAllPendingActions(data);
           setLoading(false);
@@ -34,9 +43,9 @@ export const PendingActions: React.FC = () => {
 
   const error = () => {
     Modal.error({
-      title: 'Error fetching pending actions',
-      content: 'something broke, bother colton',
-      onOk: () => refreshPage()
+      title: "Error fetching pending actions",
+      content: "something broke, bother colton",
+      onOk: () => refreshPage(),
     });
   };
 
@@ -44,8 +53,8 @@ export const PendingActions: React.FC = () => {
     window.location.reload(false);
   };
 
-  const fetchUrl = async (url: string) => {
-    const response = await fetch(url);
+  const fetchUrl = async (url: string, requestOptions: any) => {
+    const response = await fetch(url, requestOptions);
     return await response.json();
   };
 
