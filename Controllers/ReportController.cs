@@ -8,6 +8,7 @@ using getthehotdish.Handlers.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
 
 namespace getthehotdish.Controllers
@@ -18,15 +19,13 @@ namespace getthehotdish.Controllers
     {
         private readonly ILogger<ReportController> _logger;
         private DataContext _dataContext;
-        private AdminSettings _adminSettings;
 
         private const string partitionKey = "RP";
 
-        public ReportController(ILogger<ReportController> logger, DataContext dataContext, AdminSettings adminSettings)
+        public ReportController(ILogger<ReportController> logger, DataContext dataContext)
         {
             _logger = logger;
             _dataContext = dataContext;
-            _adminSettings = adminSettings;
         }
 
         [HttpPost]
@@ -54,24 +53,16 @@ namespace getthehotdish.Controllers
         }
 
         [HttpGet]
-        public async Task<List<Report>> GetReports([FromQuery] string key)
+        [Authorize]
+        public async Task<List<Report>> GetReports()
         {
-            if (!CheckAdmin(key))
-            {
-                throw new ErrorModelException(ErrorCode.BadKey);
-            }
-
             return await _dataContext.Reports.Where(r => r.Dismissed == false).ToListAsync();
         }
 
         [HttpPut]
-        public async Task<IActionResult> DismissReport([FromQuery] Guid id, [FromQuery] string key)
+        [Authorize]
+        public async Task<IActionResult> DismissReport([FromQuery] Guid id)
         {
-            if (!CheckAdmin(key))
-            {
-                throw new ErrorModelException(ErrorCode.BadKey);
-            }
-
             var report =  _dataContext.Reports.Where(r => r.Id == id).First();
 
             report.Dismissed = true;
@@ -89,11 +80,6 @@ namespace getthehotdish.Controllers
             }
 
             return true;
-        }
-
-        private bool CheckAdmin(string key)
-        {
-            return key == _adminSettings.Key;
         }
     }
 }

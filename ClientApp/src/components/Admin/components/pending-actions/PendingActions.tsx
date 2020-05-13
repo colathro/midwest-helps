@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Layout, Modal, Button, Typography, Statistic, Row, Col } from "antd";
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 
 import "./PendingActions.scss";
 
@@ -15,9 +15,7 @@ type ActionCounts = {
 };
 
 export const PendingActions: React.FC = () => {
-  const query = useQuery();
-  const key = query.get("key");
-
+  const history = useHistory();
   const [pendingActions, setAllPendingActions] = useState<ActionCounts>();
   const [loading, setLoading] = useState(true);
 
@@ -55,6 +53,12 @@ export const PendingActions: React.FC = () => {
 
   const fetchUrl = async (url: string, requestOptions: any) => {
     const response = await fetch(url, requestOptions);
+
+    if (response.status === 401){
+      localStorage.removeItem('user');
+
+      history.push(`/admin`);
+    }
     return await response.json();
   };
 

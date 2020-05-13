@@ -13,10 +13,10 @@ namespace getthehotdish.Controllers
 {
     public class NotificationController : Controller
     {
-        private readonly ILogger<ListingController> _logger;
+        private readonly ILogger<NotificationController> _logger;
         private readonly NotificationSettings _notificationSettings;
 
-        public NotificationController(ILogger<ListingController> logger, IOptions<NotificationSettings> notificationSettingsAccessor)
+        public NotificationController(ILogger<NotificationController> logger, IOptions<NotificationSettings> notificationSettingsAccessor)
         {
             _logger = logger;
             _notificationSettings = notificationSettingsAccessor.Value;

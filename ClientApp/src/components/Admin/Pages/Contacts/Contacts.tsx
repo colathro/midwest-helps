@@ -33,7 +33,16 @@ export const Contacts: React.FC = () => {
 
   const getContacts = () => {
     if (loading) {
-      fetchUrl(`/api/contact?key=${key}`)
+      const auth = localStorage.getItem("user");
+
+      let authObject = JSON.parse(auth!);
+
+      const requestOptions = {
+        method: "Get",
+        headers: { Authorization: "Bearer " + authObject.token },
+      };
+
+      fetchUrl(`/api/contact`, requestOptions)
         .then((data) => {
           setAllContacts(data);
           setLoading(false);
@@ -51,10 +60,19 @@ export const Contacts: React.FC = () => {
   };
 
   const dismiss = (id: string) => {
-    const requestOptions = {
-      method: 'PUT'
-    };
-    fetch(`/api/contact/?key=${key}&id=${id}`, requestOptions).then(() => {
+    const auth = localStorage.getItem("user");
+
+      let authObject = JSON.parse(auth!);
+
+      const requestOptions = {
+        method: "Put",
+        headers: { Authorization: "Bearer " + authObject.token },
+      };
+    fetch(`/api/contact?id=${id}`, requestOptions).then((response) => {
+      if (response.status === 401){
+        localStorage.removeItem('user');
+        history.push(`/admin`);
+      }
       refreshPage();
     });
   };
@@ -63,8 +81,12 @@ export const Contacts: React.FC = () => {
     window.location.reload(false);
   };
 
-  const fetchUrl = async (url: string) => {
-    const response = await fetch(url);
+  const fetchUrl = async (url: string, requestOptions: any) => {
+    const response = await fetch(url, requestOptions);
+    if (response.status === 401){
+      localStorage.removeItem('user');
+      history.push(`/admin`);
+    }
     return await response.json();
   };
 

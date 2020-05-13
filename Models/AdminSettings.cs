@@ -7,7 +7,6 @@ namespace getthehotdish.Models
 {
     public class AdminSettings
     {
-        public string Key { get; set; }
         public string SymKey { get; set; }
     }
 }

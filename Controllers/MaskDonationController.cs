@@ -41,11 +41,5 @@ namespace getthehotdish.Controllers
         {
             return await MaskDonation.Create(_dataContext, maskDonationModel);
         }
-
-        [HttpPut("{id}")]
-        public async Task<ActionResult<MaskRequestModel>> Put(Guid id, [FromBody] MaskRequestModel maskRequestModel, [FromQuery] Guid editKey)
-        {
-            return await MaskRequest.Update(_dataContext, id, maskRequestModel);
-        }
     }
 }

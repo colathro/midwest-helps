@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using getthehotdish.DataAccess;
 using Microsoft.Extensions.Logging;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Authorization;
 using getthehotdish.Handlers.Exceptions;
 
 namespace getthehotdish.Controllers
@@ -18,12 +19,10 @@ namespace getthehotdish.Controllers
     public class MaskRequestController : ControllerBase
     {
         private readonly DataContext _dataContext;
-        private AdminSettings _adminSettings;
 
-        public MaskRequestController(DataContext dataContext, AdminSettings adminSettings)
+        public MaskRequestController(DataContext dataContext)
         {
             _dataContext = dataContext;
-            _adminSettings = adminSettings;
         }
 
         [HttpGet]
@@ -57,39 +56,25 @@ namespace getthehotdish.Controllers
             return await MaskRequest.Update(_dataContext, id, maskRequestModel);
         }
 
-        [HttpGet("approvals/get/{key}")]
-        public async Task<ICollection<MaskRequestModel>> GetApprovals(string key)
+        [HttpGet("approvals/get")]
+        [Authorize]
+        public async Task<ICollection<MaskRequestModel>> GetApprovals()
         {
-            if (!CheckAdmin(key))
-            {
-                throw new ErrorModelException(ErrorCode.BadKey);
-            }
             return await MaskRequest.GetAllApprovedModel(_dataContext, false);
         }
 
-        [HttpPost("approvals/approve/{key}/{post}")]
-        public async Task<ActionResult<MaskRequestModel>> Approve(string key, string post)
+        [HttpPost("approvals/approve/{post}")]
+        [Authorize]
+        public async Task<ActionResult<MaskRequestModel>> Approve(string post)
         {
-            if (!CheckAdmin(key))
-            {
-                throw new ErrorModelException(ErrorCode.BadKey);
-            }
             return await MaskRequest.Approve(_dataContext, Guid.Parse(post));
         }
 
-        [HttpPost("approvals/deny/{key}/{post}")]
-        public async Task<ActionResult<bool>> Deny(string key, string post)
+        [HttpPost("approvals/deny/{post}")]
+        [Authorize]
+        public async Task<ActionResult<bool>> Deny(string post)
         {
-            if (!CheckAdmin(key))
-            {
-                throw new ErrorModelException(ErrorCode.BadKey);
-            }
             return await MaskRequest.Deny(_dataContext, Guid.Parse(post));
-        }
-
-        private bool CheckAdmin(string key)
-        {
-            return key == _adminSettings.Key;
         }
     }
 }

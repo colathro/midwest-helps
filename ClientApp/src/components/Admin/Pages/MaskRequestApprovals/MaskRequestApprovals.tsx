@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Layout, Descriptions, Button, Modal, List, Row, Col } from 'antd';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import { IMaskRequest } from '../../../../types';
 
 import './MaskRequestApprovals.scss';
@@ -8,16 +8,10 @@ import './MaskRequestApprovals.scss';
 const useQuery = () => new URLSearchParams(useLocation().search);
 
 export const MaskRequestApprovals: React.FC = () => {
-  // const history = useHistory();
-  const query = useQuery();
+  const history = useHistory();
+
   const [allApprovals, setAllApprovals] = useState<IMaskRequest[]>([]);
   const [loading, setLoading] = useState(true);
-
-  const key = query.get('key');
-
-  // const goAdmin = () => {
-  //   history.push(`/admin?key=${key}`);
-  // };
 
   const refreshPage = () => {
     window.location.reload(false);
@@ -46,11 +40,20 @@ export const MaskRequestApprovals: React.FC = () => {
   };
 
   const approve = (id: string) => {
-    const requestOptions = {
-      method: 'POST'
-    };
-    fetch(`/api/maskrequest/approvals/approve/${key}/${id}`, requestOptions)
-      .then((response) => response)
+    const auth = localStorage.getItem("user");
+
+      let authObject = JSON.parse(auth!);
+
+      const requestOptions = {
+        method: "POST",
+        headers: { Authorization: "Bearer " + authObject.token },
+      };
+    fetch(`/api/maskrequest/approvals/approve/${id}`, requestOptions)
+      .then((response) => {    
+        if (response.status === 401){
+        localStorage.removeItem('user');
+        history.push(`/admin`);
+      } return response;})
       .then((data) => {
         if (data.ok) {
           approved();
@@ -62,10 +65,15 @@ export const MaskRequestApprovals: React.FC = () => {
   };
 
   const deny = (id: string) => {
-    const requestOptions = {
-      method: 'POST'
-    };
-    fetch(`/api/maskrequest/approvals/approve/${key}/${id}`, requestOptions)
+    const auth = localStorage.getItem("user");
+
+      let authObject = JSON.parse(auth!);
+
+      const requestOptions = {
+        method: "POST",
+        headers: { Authorization: "Bearer " + authObject.token },
+      };
+    fetch(`/api/maskrequest/approvals/deny/${id}`, requestOptions)
       .then((response) => response)
       .then((data) => {
         if (data.ok) {
@@ -79,7 +87,16 @@ export const MaskRequestApprovals: React.FC = () => {
 
   const getPendingApprovals = () => {
     if (loading) {
-      fetchUrl(`api/maskrequest/approvals/get/${key}`)
+      const auth = localStorage.getItem("user");
+
+      let authObject = JSON.parse(auth!);
+
+      const requestOptions = {
+        method: "GET",
+        headers: { Authorization: "Bearer " + authObject.token },
+      };
+
+      fetchUrl(`api/maskrequest/approvals/get`, requestOptions)
         .then((data) => {
           setAllApprovals(data);
           setLoading(false);
@@ -88,8 +105,12 @@ export const MaskRequestApprovals: React.FC = () => {
     }
   };
 
-  const fetchUrl = async (url: string) => {
-    const response = await fetch(url);
+  const fetchUrl = async (url: string, requestOptions: any) => {
+    const response = await fetch(url, requestOptions);
+    if (response.status === 401){
+      localStorage.removeItem('user');
+      history.push(`/admin`);
+    }
     return await response.json();
   };
 

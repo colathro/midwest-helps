@@ -8,6 +8,7 @@ using getthehotdish.Handlers.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
 
 namespace getthehotdish.Controllers
@@ -18,15 +19,13 @@ namespace getthehotdish.Controllers
     {
         private readonly ILogger<ContactController> _logger;
         private DataContext _dataContext;
-        private AdminSettings _adminSettings;
 
         private const string partitionKey = "CN";
 
-        public ContactController(ILogger<ContactController> logger, DataContext dataContext, AdminSettings adminSettings)
+        public ContactController(ILogger<ContactController> logger, DataContext dataContext)
         {
             _logger = logger;
             _dataContext = dataContext;
-            _adminSettings = adminSettings;
         }
 
         [HttpPost]
@@ -46,7 +45,7 @@ namespace getthehotdish.Controllers
                 await _dataContext.SaveChangesAsync();
 
                 return Ok();
-            } 
+            }
             catch
             {
                 return BadRequest();
@@ -54,24 +53,16 @@ namespace getthehotdish.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<List<Contact>> GetContacts([FromQuery] string key)
         {
-            if (!CheckAdmin(key))
-            {
-                throw new ErrorModelException(ErrorCode.BadKey);
-            }
-
             return await _dataContext.Contacts.Where(c => c.Dismissed == false).ToListAsync();
         }
 
         [HttpPut]
+        [Authorize]
         public async Task<IActionResult> DismissContact([FromQuery] Guid id, [FromQuery] string key)
         {
-            if (!CheckAdmin(key))
-            {
-                throw new ErrorModelException(ErrorCode.BadKey);
-            }
-
             var contact = _dataContext.Contacts.Where(r => r.Id == id).First();
 
             contact.Dismissed = true;
@@ -99,11 +90,6 @@ namespace getthehotdish.Controllers
             }
 
             return true;
-        }
-
-        private bool CheckAdmin(string key)
-        {
-            return key == _adminSettings.Key;
         }
     }
 }

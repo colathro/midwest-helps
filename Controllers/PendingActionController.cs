@@ -18,12 +18,10 @@ namespace getthehotdish.Controllers
     {
 
         private readonly DataContext _dataContext;
-        private AdminSettings _adminSettings;
 
-        public PendingActionController(DataContext dataContext, AdminSettings adminSettings)
+        public PendingActionController(DataContext dataContext)
         {
             _dataContext = dataContext;
-            _adminSettings = adminSettings;
         }
 
         [HttpGet]

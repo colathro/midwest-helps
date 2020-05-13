@@ -105,7 +105,6 @@ namespace getthehotdish
 
             services.AddSingleton<AdminSettings>(new AdminSettings
             {
-                Key = Configuration["ADMIN_KEY"],
                 SymKey = Configuration["SYM_KEY"]
             });
 

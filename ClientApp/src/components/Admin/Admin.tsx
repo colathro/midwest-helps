@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Menu, Typography } from 'antd';
+import { Layout, Menu, Typography, Button } from 'antd';
 import { useHistory, Switch, Route, useLocation } from 'react-router-dom';
 import { MaskRequestApprovals } from './Pages/MaskRequestApprovals';
 import { Contacts } from './Pages/Contacts';
@@ -17,23 +17,28 @@ const useQuery = () => new URLSearchParams(useLocation().search);
 
 export const Admin: React.FC = () => {
   const history = useHistory();
-  const query = useQuery();
-  const key = query.get('key');
 
   const gotoMaskRequests = () => {
-    history.push(`/admin/maskrequests?key=${key}`);
+    history.push(`/admin/maskrequests`);
   };
 
   const gotoContacts = () => {
-    history.push(`/admin/contacts?key=${key}`);
+    history.push(`/admin/contacts`);
   };
 
   const gotoReports = () => {
-    history.push(`/admin/reports?key=${key}`);
+    history.push(`/admin/reports`);
   };
 
   const gotoHome = () => {
-    history.push(`/admin/home?key=${key}`);
+    history.push(`/admin`);
+  };
+
+  const logout = () => {
+
+    localStorage.removeItem('user');
+
+    history.push(`/admin`);
   };
 
   return (
@@ -43,6 +48,9 @@ export const Admin: React.FC = () => {
           <Title level={3} className="title">
             Midwest Helps
           </Title>
+          <Button type="primary" onClick={logout}>
+            Logout
+          </Button>
         </div>
         <Menu
           theme="light"
@@ -71,7 +79,7 @@ export const Admin: React.FC = () => {
         <PrivateRoute path="/admin/maskrequests" component={MaskRequestApprovals} />
         <PrivateRoute path="/admin/contacts" component={Contacts} />
         <PrivateRoute path="/admin/reports" component={Reports} />
-        <PrivateRoute path="/admin/home" component={Home} />
+        <PrivateRoute path="/admin/" component={Home} />
       </Switch>
     </Layout>
   );
