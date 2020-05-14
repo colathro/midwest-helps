@@ -60,6 +60,11 @@ export const Masks: React.FC = () => {
 
   const isLargeWindowSize = windowSize?.width && windowSize.width >= 992;
 
+  const gotoHome = () => {
+    history.push("/");
+    window.location.reload(false);
+  }
+
   useEffect(() => {
     const { filterQuery, searchQuery } = parseUrl(query);
     setParams({
@@ -163,14 +168,6 @@ export const Masks: React.FC = () => {
     </Col>
   );
 
-  /*   <Button
-  onClick={() => history.push('/masks')}
-  type="link"
-  className="nav-link"
->
-  Masks
-</Button> */
-
   return (
     <Row justify="center">
       <div className="background-people">
@@ -179,7 +176,7 @@ export const Masks: React.FC = () => {
       </div>
       <Col xl={14} lg={18} md={20} sm={22} xs={24}>
         <Header className="header-fixed">
-          <Title level={4}>Midwest Helps</Title>
+          <Title id="title-button" level={4}><a onClick={gotoHome}>Midwest Helps</a></Title>
           <div className="right-nav">
             <Button
               onClick={() => history.push('/contact')}

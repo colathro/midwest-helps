@@ -35,7 +35,6 @@ export const Admin: React.FC = () => {
   };
 
   const logout = () => {
-
     localStorage.removeItem('user');
 
     history.push(`/admin`);

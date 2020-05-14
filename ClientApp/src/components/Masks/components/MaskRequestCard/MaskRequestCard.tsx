@@ -1,26 +1,26 @@
-import React, { useState } from 'react';
-import { Card, Button, Tag, Modal } from 'antd';
-import { MaskRequestLinks } from './MaskRequestLinks';
-import { IMaskRequest, MASK_TYPE } from '../../../../types';
+import React, { useState } from "react";
+import { Card, Button, Tag, Modal, Row, Col } from "antd";
+import { MaskRequestLinks } from "./MaskRequestLinks";
+import { IMaskRequest, MASK_TYPE } from "../../../../types";
 
-import CopyText from './copytext';
+import CopyText from "./copytext";
 
-import './MaskRequestCard.scss';
-import { MaskDonationForm } from '../../../MaskDonationForm';
+import "./MaskRequestCard.scss";
+import { MaskDonationForm } from "../../../MaskDonationForm";
 
 const months = [
-  'Jan',
-  'Feb',
-  'Mar',
-  'Apr',
-  'May',
-  'Jun',
-  'Jul',
-  'Aug',
-  'Sep',
-  'Oct',
-  'Nov',
-  'Dec'
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
 ];
 
 export const MaskRequestCard: React.FC<IMaskRequest> = (props) => {
@@ -37,14 +37,14 @@ export const MaskRequestCard: React.FC<IMaskRequest> = (props) => {
           <div>
             <span>{maskRequest.recipient.company}</span>
             <span className="created-on">
-              {months[createdOn.getUTCMonth()] + ' '}
+              {months[createdOn.getUTCMonth()] + " "}
               {createdOn.getUTCDate()}
             </span>
             <div className="city-state">
               {address.city}
-              {', '}
+              {", "}
               {address.state}
-              {' • '}
+              {" • "}
               {address.type}
             </div>
           </div>
@@ -52,22 +52,34 @@ export const MaskRequestCard: React.FC<IMaskRequest> = (props) => {
         className="business-card"
         bordered={false}
       >
-        <p>{maskRequest.delivery.notes}</p>
-        <div className="in-search">
-          In search of:{' '}
-          {maskRequest.maskDetails.masks.map((needed) => {
-            return <Tag>{MASK_TYPE[needed.type]}</Tag>;
-          })}
-        </div>
-        <div className="action-buttons">
+        <p>
+          {maskRequest.delivery.notes}{" "}
           <MaskRequestLinks maskRequest={maskRequest} />
-          <Button
-            className="donate-button"
-            type="primary"
-            onClick={() => setDonateModalVisible(true)}
-          >
-            Donate masks
-          </Button>
+        </p>
+        <div className="action-buttons">
+          <Row>
+            <Col span={16}>
+              <div className="in-search">
+                In search of:{" "}
+                {maskRequest.maskDetails.masks.map((needed) => {
+                  if (needed.type! in MASK_TYPE) {
+                    return <Tag>{MASK_TYPE[needed.type]}</Tag>;
+                  } else {
+                    return <></>;
+                  }
+                })}
+              </div>
+            </Col>
+            <Col span={8}>
+              <Button
+                className="donate-button"
+                type="primary"
+                onClick={() => setDonateModalVisible(true)}
+              >
+                Donate masks
+              </Button>
+            </Col>
+          </Row>
         </div>
       </Card>
       {donateModalVisible && (
