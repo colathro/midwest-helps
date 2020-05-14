@@ -184,8 +184,7 @@ export type MaskType =
   | 'Fabric'
   | 'FaceShield'
   | 'EarGuards'
-  | 'ScrubCaps'
-  | 'Other';
+  | 'ScrubCaps';
 
 export const MASK_TYPE: {
   [key in MaskType]: string;
@@ -193,8 +192,7 @@ export const MASK_TYPE: {
   Fabric: 'Fabric masks',
   FaceShield: 'Face shields',
   EarGuards: 'Ear guards',
-  ScrubCaps: 'Scrub caps',
-  Other: 'Other'
+  ScrubCaps: 'Scrub caps'
 };
 
 export const MASK_TYPE_STRINGS: {
@@ -203,8 +201,7 @@ export const MASK_TYPE_STRINGS: {
   Fabric: { name: 'Fabric masks', value: 1 },
   FaceShield: { name: 'Face shields', value: 2 },
   EarGuards: { name: 'Ear guards', value: 3 },
-  ScrubCaps: { name: 'Scrub caps', value: 4 },
-  Other: { name: 'Other', value: 5 }
+  ScrubCaps: { name: 'Scrub caps', value: 4 }
 };
 
 export type ReceiveMaskChannel = 'DropOff' | 'Mail';
