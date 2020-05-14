@@ -3,11 +3,13 @@ import { Layout, Descriptions, Button, Modal, List, Row, Col } from "antd";
 import { useLocation, useHistory } from "react-router-dom";
 import { IMaskRequest } from "../../../../types";
 
-import "./MaskRequestApprovals.scss";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
+
+import "./MaskRequestRemovals.scss";
 
 const useQuery = () => new URLSearchParams(useLocation().search);
 
-export const MaskRequestApprovals: React.FC = () => {
+export const MaskRequestRemovals: React.FC = () => {
   const history = useHistory();
 
   const [allApprovals, setAllApprovals] = useState<IMaskRequest[]>([]);
@@ -25,30 +27,37 @@ export const MaskRequestApprovals: React.FC = () => {
     });
   };
 
-  const approved = () => {
+  const success = () => {
     Modal.success({
-      content: "Successfully Approved.",
+      content: "Successfully Removed.",
       onOk: () => refreshPage(),
     });
   };
 
-  const denied = () => {
-    Modal.success({
-      content: "Successfully Denied.",
-      onOk: () => refreshPage(),
+  const yousure = (id: string) => {
+    Modal.confirm({
+      title: "Are you sure you want to delete this mask request?",
+      icon: <ExclamationCircleOutlined />,
+      okText: "Yes",
+      cancelText: "No",
+      onOk() {
+        remove(id);
+      },
+      onCancel() {},
     });
   };
 
-  const approve = (id: string) => {
+  const remove = (id: string) => {
     const auth = localStorage.getItem("user");
 
     let authObject = JSON.parse(auth!);
 
     const requestOptions = {
-      method: "POST",
+      method: "DELETE",
       headers: { Authorization: "Bearer " + authObject.token },
     };
-    fetch(`/api/maskrequest/approvals/approve/${id}`, requestOptions)
+
+    fetch(`/api/maskrequest/${id}`, requestOptions)
       .then((response) => {
         if (response.status === 401) {
           localStorage.removeItem("user");
@@ -58,28 +67,7 @@ export const MaskRequestApprovals: React.FC = () => {
       })
       .then((data) => {
         if (data.ok) {
-          approved();
-        } else {
-          error();
-        }
-      })
-      .catch(error);
-  };
-
-  const deny = (id: string) => {
-    const auth = localStorage.getItem("user");
-
-    let authObject = JSON.parse(auth!);
-
-    const requestOptions = {
-      method: "POST",
-      headers: { Authorization: "Bearer " + authObject.token },
-    };
-    fetch(`/api/maskrequest/approvals/deny/${id}`, requestOptions)
-      .then((response) => response)
-      .then((data) => {
-        if (data.ok) {
-          denied();
+          success();
         } else {
           error();
         }
@@ -98,7 +86,7 @@ export const MaskRequestApprovals: React.FC = () => {
         headers: { Authorization: "Bearer " + authObject.token },
       };
 
-      fetchUrl(`api/maskrequest/approvals/get`, requestOptions)
+      fetchUrl(`api/maskrequest/`, requestOptions)
         .then((data) => {
           setAllApprovals(data);
           setLoading(false);
@@ -137,8 +125,6 @@ export const MaskRequestApprovals: React.FC = () => {
                     </Descriptions.Item>
                     <Descriptions.Item span={3} label="Name">
                       {item.recipient.name}
-                    </Descriptions.Item>
-                    <Descriptions.Item span={3} label="Phone">
                       {item.recipient.phone}
                     </Descriptions.Item>
                     <Descriptions.Item span={3} label="Email">
@@ -189,17 +175,8 @@ export const MaskRequestApprovals: React.FC = () => {
                   })}
                   <Row className="approval-buttons">
                     <Col span={8}>
-                      <Button type="primary" onClick={() => approve(item.id!)}>
-                        Approve
-                      </Button>
-                    </Col>
-                    <Col span={8} offset={8}>
-                      <Button
-                        type="primary"
-                        danger
-                        onClick={() => deny(item.id!)}
-                      >
-                        Deny
+                      <Button type="danger" onClick={() => yousure(item.id!)}>
+                        Remove
                       </Button>
                     </Col>
                   </Row>

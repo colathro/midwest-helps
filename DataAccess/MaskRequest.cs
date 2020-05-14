@@ -132,6 +132,13 @@ namespace getthehotdish.DataAccess
             return maskRequest;
         }
 
+        public async static Task Delete(DataContext dataContext, Guid id)
+        {
+            var maskRequest = await dataContext.MaskRequests.FindAsync(id);
+            dataContext.MaskRequests.Remove(maskRequest);
+            await dataContext.SaveChangesAsync();
+        }
+
         public async static Task<IEnumerable<MaskRequestModel>> GetAll(DataContext dataContext)
         {
             var records = dataContext.MaskRequests.Where(m => m.Approved == true).ToList();

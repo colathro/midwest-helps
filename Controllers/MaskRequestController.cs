@@ -56,6 +56,14 @@ namespace getthehotdish.Controllers
             return await MaskRequest.Update(_dataContext, id, maskRequestModel);
         }
 
+        [HttpDelete("{id}")]
+        [Authorize]
+        public async Task<ActionResult> Delete(Guid id)
+        {
+            await MaskRequest.Delete(_dataContext, id);
+            return Ok();
+        }
+
         [HttpGet("approvals/get")]
         [Authorize]
         public async Task<ICollection<MaskRequestModel>> GetApprovals()
