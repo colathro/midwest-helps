@@ -189,7 +189,7 @@ export type MaskType =
 export const MASK_TYPE: {
   [key in MaskType]: string;
 } = {
-  Fabric: 'Fabric masks',
+  Fabric: 'Fabric facemasks',
   FaceShield: 'Face shields',
   EarGuards: 'Ear guards',
   ScrubCaps: 'Scrub caps'
@@ -198,7 +198,7 @@ export const MASK_TYPE: {
 export const MASK_TYPE_STRINGS: {
   [key in MaskType]: { name: string; value: number };
 } = {
-  Fabric: { name: 'Fabric masks', value: 1 },
+  Fabric: { name: 'Fabric facemasks', value: 1 },
   FaceShield: { name: 'Face shields', value: 2 },
   EarGuards: { name: 'Ear guards', value: 3 },
   ScrubCaps: { name: 'Scrub caps', value: 4 }
