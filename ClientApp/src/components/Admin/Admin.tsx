@@ -1,12 +1,14 @@
-import React from 'react';
-import { Layout, Menu, Typography } from 'antd';
-import { useHistory, Switch, Route, useLocation } from 'react-router-dom';
-import { MaskRequestApprovals } from './Pages/MaskRequestApprovals';
-import { Contacts } from './Pages/Contacts';
-import { Reports } from './Pages/Reports';
-import { Home } from './Pages/Home';
+import React from "react";
+import { Layout, Menu, Typography, Button } from "antd";
+import { useHistory, Switch, Route, useLocation } from "react-router-dom";
+import { MaskRequestApprovals } from "./Pages/MaskRequestApprovals";
+import { Contacts } from "./Pages/Contacts";
+import { Reports } from "./Pages/Reports";
+import { Home } from "./Pages/Home";
+import { PrivateRoute } from "../AdminLogin/PrivateRoute";
 
-import './Admin.scss';
+import "./Admin.scss";
+import { MaskRequestRemovals } from "./Pages/MaskRequestRemovals";
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
@@ -16,38 +18,49 @@ const useQuery = () => new URLSearchParams(useLocation().search);
 
 export const Admin: React.FC = () => {
   const history = useHistory();
-  const query = useQuery();
-  const key = query.get('key');
 
   const gotoMaskRequests = () => {
-    history.push(`/admin/maskrequests?key=${key}`);
+    history.push(`/admin/maskrequests`);
+  };
+
+  const gotoMaskRequestRemovals = () => {
+    history.push(`/admin/maskrequestremovals`);
   };
 
   const gotoContacts = () => {
-    history.push(`/admin/contacts?key=${key}`);
+    history.push(`/admin/contacts`);
   };
 
   const gotoReports = () => {
-    history.push(`/admin/reports?key=${key}`);
+    history.push(`/admin/reports`);
   };
 
   const gotoHome = () => {
-    history.push(`/admin?key=${key}`);
+    history.push(`/admin`);
+  };
+
+  const logout = () => {
+    localStorage.removeItem("user");
+
+    history.push(`/admin`);
   };
 
   return (
-    <Layout id="admin-page" style={{ height: '100vh' }}>
+    <Layout id="admin-page" style={{ height: "100vh" }}>
       <Sider theme="light" className="sider-border-grey">
-        <div style={{ textAlign: 'center' }}>
+        <div style={{ textAlign: "center" }}>
           <Title level={3} className="title">
             Midwest Helps
           </Title>
+          <Button type="primary" onClick={logout}>
+            Logout
+          </Button>
         </div>
         <Menu
           theme="light"
-          defaultSelectedKeys={['1']}
+          defaultSelectedKeys={["1"]}
           mode="inline"
-          defaultOpenKeys={['sub1']}
+          defaultOpenKeys={["sub1"]}
         >
           <Menu.Item key="1" onClick={gotoHome}>
             Home
@@ -62,15 +75,24 @@ export const Admin: React.FC = () => {
             <Menu.Item key="4" onClick={gotoMaskRequests}>
               Approvals
             </Menu.Item>
-            <Menu.Item key="5">Removal</Menu.Item>
+            <Menu.Item key="5" onClick={gotoMaskRequestRemovals}>
+              Removals
+            </Menu.Item>
           </SubMenu>
         </Menu>
       </Sider>
       <Switch>
-        <Route path="/admin/maskrequests" component={MaskRequestApprovals} />
-        <Route path="/admin/contacts" component={Contacts} />
-        <Route path="/admin/reports" component={Reports} />
-        <Route path="/admin" component={Home} />
+        <PrivateRoute
+          path="/admin/maskrequests"
+          component={MaskRequestApprovals}
+        />
+        <PrivateRoute
+          path="/admin/maskrequestremovals"
+          component={MaskRequestRemovals}
+        />
+        <PrivateRoute path="/admin/contacts" component={Contacts} />
+        <PrivateRoute path="/admin/reports" component={Reports} />
+        <PrivateRoute path="/admin/" component={Home} />
       </Switch>
     </Layout>
   );

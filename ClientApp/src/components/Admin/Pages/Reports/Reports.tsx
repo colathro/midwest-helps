@@ -27,15 +27,21 @@ interface Report {
 
 export const Reports: React.FC = () => {
   const history = useHistory();
-  const query = useQuery();
-  const key = query.get('key');
-
   const [allReports, setAllReports] = useState<Report[]>([]);
   const [loading, setLoading] = useState(true);
 
   const getContacts = () => {
     if (loading) {
-      fetchUrl(`/api/report?key=${key}`)
+      const auth = localStorage.getItem("user");
+
+      let authObject = JSON.parse(auth!);
+
+      const requestOptions = {
+        method: "Get",
+        headers: { Authorization: "Bearer " + authObject.token },
+      };
+
+      fetchUrl(`/api/report`, requestOptions)
         .then((data) => {
           setAllReports(data);
           setLoading(false);
@@ -53,10 +59,19 @@ export const Reports: React.FC = () => {
   };
 
   const dismiss = (id: string) => {
-    const requestOptions = {
-      method: 'PUT'
-    };
-    fetch(`/api/report/?key=${key}&id=${id}`, requestOptions).then(() => {
+    const auth = localStorage.getItem("user");
+
+      let authObject = JSON.parse(auth!);
+
+      const requestOptions = {
+        method: "Put",
+        headers: { Authorization: "Bearer " + authObject.token },
+      };
+    fetch(`/api/report?id=${id}`, requestOptions).then((response) => {
+      if (response.status === 401){
+        localStorage.removeItem('user');
+        history.push(`/admin`);
+      }
       refreshPage();
     });
   };
@@ -65,8 +80,13 @@ export const Reports: React.FC = () => {
     window.location.reload(false);
   };
 
-  const fetchUrl = async (url: string) => {
-    const response = await fetch(url);
+  const fetchUrl = async (url: string, requestOptions: any) => {
+    const response = await fetch(url, requestOptions);
+    if (response.status === 401){
+      localStorage.removeItem('user');
+
+      history.push(`/admin`);
+    }
     return await response.json();
   };
 

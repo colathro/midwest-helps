@@ -122,7 +122,7 @@ export const MaskRequestLinks: React.FC<MaskRequestLinksProps> = (props) => {
 
   return (
     <div className="business-links">
-      <Button onClick={info} icon={<InfoCircleOutlined />}></Button>
+      <a onClick={info}>More Info...</a>
     </div>
   );
 };

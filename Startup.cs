@@ -7,8 +7,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.ApplicationInsights;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using getthehotdish.Controllers;
 using getthehotdish.Models;
 using getthehotdish.Handlers.Filters;
+using System.Text;
 
 namespace getthehotdish
 {
@@ -56,6 +60,24 @@ namespace getthehotdish
 
             services.AddControllers().AddNewtonsoftJson();
 
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["SYM_KEY"])),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
+
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -70,7 +92,7 @@ namespace getthehotdish
 
             services.AddSingleton(new AdminSettings
             {
-                Key = Configuration["ADMIN_KEY"]
+                SymKey = Configuration["SYM_KEY"]
             });
 
         }
@@ -98,6 +120,9 @@ namespace getthehotdish
             app.UseSpaStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
