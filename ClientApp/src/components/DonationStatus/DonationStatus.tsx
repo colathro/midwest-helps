@@ -3,7 +3,7 @@ import { Button, Row, Col, Typography, Spin } from 'antd';
 import { LeftOutlined } from '@ant-design/icons';
 import { useHistory, RouteComponentProps } from 'react-router-dom';
 
-import './Contact.scss';
+import './DonationStatus.scss';
 
 const { Title } = Typography;
 

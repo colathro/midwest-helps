@@ -73,17 +73,7 @@ namespace getthehotdish.Controllers
         [Authorize]
         public async Task<ICollection<MaskRequestModel>> GetApprovals()
         {
-<<<<<<< HEAD
-            if (!CheckAdmin(key))
-            {
-                throw new ErrorModelException(ErrorCode.BadKey);
-            }
-            var maskRequestModel = await MaskRequest.Approve(_dataContext, Guid.Parse(post));
-            _ = EmailUtils.SendEmailAsync(_emailSettings, EmailMessageType.MaskRequestApproved, "Your mask request is approved!", "Request approved", maskRequestModel.Recipient.Email);
-            return maskRequestModel;
-=======
             return await MaskRequest.GetAllApprovedModel(_dataContext, false);
->>>>>>> master
         }
 
         [HttpPost("approvals/approve/{post}")]
