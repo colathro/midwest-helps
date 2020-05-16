@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Row, Col, Typography, Spin } from 'antd';
 import { LeftOutlined } from '@ant-design/icons';
 import { useHistory, RouteComponentProps } from 'react-router-dom';
@@ -17,10 +17,14 @@ export const DonationStatus: React.FC<RouteComponentProps> = (props) => {
   const receivedMessage = () => {
     return (
       <>
-        <Title level={2}>Thank you!</Title>
-        <Typography>
-          We appreciate you confirming your donation has been received.
-        </Typography>
+        <Row justify="center">
+          <Title level={2}>Thank you!</Title>
+        </Row>
+        <Row justify="center">
+          <Typography>
+            We appreciate you confirming your donation has been received.
+          </Typography>
+        </Row>
       </>
     );
   };
@@ -28,10 +32,14 @@ export const DonationStatus: React.FC<RouteComponentProps> = (props) => {
   const noStatusProvidedMessage = () => {
     return (
       <>
-        <Title level={2}>Sorry!</Title>
-        <Typography>
-          No status was provided. No action can be taken here.
-        </Typography>
+        <Row justify="center">
+          <Title level={2}>Sorry!</Title>
+        </Row>
+        <Row justify="center">
+          <Typography>
+            No status was provided. No action can be taken here.
+          </Typography>
+        </Row>
       </>
     );
   };
@@ -39,10 +47,14 @@ export const DonationStatus: React.FC<RouteComponentProps> = (props) => {
   const statusDoesNotExistentMessage = () => {
     return (
       <>
-        <Title level={2}>Sorry!</Title>
-        <Typography>
-          The status provided does not exists. No action can be taken here.
-        </Typography>
+        <Row justify="center">
+          <Title level={2}>Sorry!</Title>
+        </Row>
+        <Row justify="center">
+          <Typography>
+            The status provided does not exists. No action can be taken here.
+          </Typography>
+        </Row>
       </>
     );
   };
@@ -50,10 +62,14 @@ export const DonationStatus: React.FC<RouteComponentProps> = (props) => {
   const errorProcessingRequestMessage = () => {
     return (
       <>
-        <Title level={2}>Sorry!</Title>
-        <Typography>
-          There was an error processing your request. Try again later.
-        </Typography>
+        <Row justify="center">
+          <Title level={2}>Sorry!</Title>
+        </Row>
+        <Row justify="center">
+          <Typography>
+            There was an error processing your request. Try again later.
+          </Typography>
+        </Row>
       </>
     );
   };
@@ -69,22 +85,21 @@ export const DonationStatus: React.FC<RouteComponentProps> = (props) => {
     }
   };
 
-  const fetchUrl = async (url: string) => {
-    const response = await fetch(url);
-    return await response.json();
-  };
-
-  fetchUrl(`/api/maskDonation/updateStatus/${status}/${id}`)
-    .then((response) => {
-      if (response.ok) {
-        setMessage(getMessage());
-      } else {
-        setMessage(errorProcessingRequestMessage());
-      }
+  useEffect(() => {
+    fetch(`/api/maskDonation/updateStatus/${status}/${id}`, {
+      method: 'POST'
     })
-    .catch(() => {
-      setMessage(errorProcessingRequestMessage());
-    });
+      .then((response) => {
+        if (response.ok) {
+          setMessage(getMessage());
+        } else {
+          setMessage(errorProcessingRequestMessage());
+        }
+      })
+      .catch(() => {
+        setMessage(errorProcessingRequestMessage());
+      });
+  }, []);
 
   const goHome = () => {
     history.push('/');
