@@ -85,10 +85,22 @@ namespace getthehotdish.DataAccess
             maskDonation.CreatedOn = DateTime.UtcNow;
             maskDonation.Request = await MaskRequest.Get(dataContext, Guid.Parse(maskDonationModel.RequestId));
 
-            dataContext.MaskDonations.Add(maskDonation);
             await dataContext.SaveChangesAsync();
 
             return maskDonation.ToMaskDonationModel();
+        }
+
+        public async static Task<MaskDonationModel> UpdateStatus(DataContext dataContext, Guid id, DonationStatus donationStatus)
+        {
+            var maskDonation = await Get(dataContext, id);
+            maskDonation.Status = donationStatus;
+            await dataContext.SaveChangesAsync();
+
+            return maskDonation.ToMaskDonationModel();
+        }
+        public async static Task<MaskDonation> Get(DataContext dataContext, Guid id)
+        {
+            return await dataContext.MaskDonations.FindAsync(id);
         }
 
         public async static Task<MaskDonationModel> GetModel(DataContext dataContext, Guid id)

@@ -44,9 +44,15 @@ namespace getthehotdish.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<MaskRequestModel>> Put(Guid id, [FromBody] MaskRequestModel maskRequestModel)
+        public async Task<ActionResult<MaskDonationModel>> Put(Guid id, [FromBody] MaskDonationModel maskDonationModel)
         {
-            return await MaskRequest.Update(_dataContext, id, maskRequestModel);
+            return await MaskDonation.Update(_dataContext, id, maskDonationModel);
+        }
+
+        [HttpPost("updateStatus/{status}/{id}")]
+        public async Task<ActionResult<MaskDonationModel>> UpdateStatus(string status, Guid id)
+        {
+            return await MaskDonation.UpdateStatus(_dataContext, id, EnumUtils.GetValue<DonationStatus>(status));
         }
 
         private async Task SendDonationOnItsWayEmail(MaskDonationModel maskDonationModel)
