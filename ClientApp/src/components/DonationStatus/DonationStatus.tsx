@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 import { Button, Row, Col, Typography, Spin } from 'antd';
 import { LeftOutlined } from '@ant-design/icons';
 import { useHistory, RouteComponentProps } from 'react-router-dom';
-
 import './DonationStatus.scss';
-
 const { Title } = Typography;
 
 export const DonationStatus: React.FC<RouteComponentProps> = (props) => {
