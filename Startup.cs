@@ -84,26 +84,13 @@ namespace getthehotdish
                 configuration.RootPath = "ClientApp/build";
             });
 
-            services.AddSingleton<NotificationController>();
+            // Email Settings.
+            var emailSettings = new EmailSettings();
+            Configuration.Bind("EmailSettings", emailSettings);
 
-            // Notification Settings.
-            var notificationSettingsSection =
-                Configuration.GetSection("NotificationSettings");
+            services.AddSingleton(new EmailSettings(emailSettings.SmtpClient, emailSettings.Port, emailSettings.Name, emailSettings.EmailSender, Configuration["NOTIFICATION_EMAIL_PASSWORD"]));
 
-            var notificationSettings = new NotificationSettings();
-            Configuration.Bind("NotificationSettings", notificationSettings);
-            notificationSettings.EmailNotificationSettings.EmailPassword = Configuration["NOTIFICATION_EMAIL_PASSWORD"];
-
-            services.Configure<NotificationSettings>(settings => {
-                settings.EmailNotificationSettings = new EmailNotificationSettings(
-                    notificationSettings.EmailNotificationSettings.SmtpClient,
-                    notificationSettings.EmailNotificationSettings.Port,
-                    notificationSettings.EmailNotificationSettings.Name,
-                    notificationSettings.EmailNotificationSettings.EmailSender,
-                    Configuration["NOTIFICATION_EMAIL_PASSWORD"]);
-            });
-
-            services.AddSingleton<AdminSettings>(new AdminSettings
+            services.AddSingleton(new AdminSettings
             {
                 SymKey = Configuration["SYM_KEY"]
             });

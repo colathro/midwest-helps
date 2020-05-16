@@ -22,6 +22,7 @@ namespace getthehotdish.DataAccess
         public Guid EditKey { get; set; }
         public Guid OriginalId { get; set; }
         public bool Approved { get; set; }
+        public DonationStatus Status { get; set; }
         [Required]
         public Guid RequestId { get; set; }
         [Required]
@@ -47,6 +48,7 @@ namespace getthehotdish.DataAccess
                 Id = Id,
                 PartitionKey = PartitionKey,
                 CreatedOn = CreatedOn,
+                Status = EnumUtils.GetName(Status),
                 Donator = Donator.ToDonatorModel(),
                 Donation = Donation.Select(d => d.ToMaskInfoModel()).ToList(),
                 Request = Request.ToMaskRequestModel()
@@ -83,10 +85,22 @@ namespace getthehotdish.DataAccess
             maskDonation.CreatedOn = DateTime.UtcNow;
             maskDonation.Request = await MaskRequest.Get(dataContext, Guid.Parse(maskDonationModel.RequestId));
 
-            dataContext.MaskDonations.Add(maskDonation);
             await dataContext.SaveChangesAsync();
 
             return maskDonation.ToMaskDonationModel();
+        }
+
+        public async static Task<MaskDonationModel> UpdateStatus(DataContext dataContext, Guid id, DonationStatus donationStatus)
+        {
+            var maskDonation = await Get(dataContext, id);
+            maskDonation.Status = donationStatus;
+            await dataContext.SaveChangesAsync();
+
+            return maskDonation.ToMaskDonationModel();
+        }
+        public async static Task<MaskDonation> Get(DataContext dataContext, Guid id)
+        {
+            return await dataContext.MaskDonations.FindAsync(id);
         }
 
         public async static Task<MaskDonationModel> GetModel(DataContext dataContext, Guid id)
