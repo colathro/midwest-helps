@@ -1,16 +1,16 @@
-﻿import React, { useState, useEffect } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
-import { Row, Col, Typography, Layout, Button, Spin, Alert, Menu } from 'antd';
-import { MaskRequestCard } from './components/MaskRequestCard';
-import { IMaskRequest, MASK_TYPE } from '../../types';
-import { useWindowSize } from '../../globalHooks';
-import InfiniteScroll from 'react-infinite-scroller';
+﻿import React, { useState, useEffect } from "react";
+import { useHistory, useLocation } from "react-router-dom";
+import { Row, Col, Typography, Layout, Button, Spin, Alert, Menu } from "antd";
+import { MaskRequestCard } from "./components/MaskRequestCard";
+import { IMaskRequest, MASK_TYPE } from "../../types";
+import { useWindowSize } from "../../globalHooks";
+import InfiniteScroll from "react-infinite-scroller";
 
-import './Masks.scss';
+import "./Masks.scss";
 import {
   MaskRequestFilterVertical,
-  MaskRequestFilterHorizontal
-} from './components/MaskRequestFilter';
+  MaskRequestFilterHorizontal,
+} from "./components/MaskRequestFilter";
 
 const { Header, Content } = Layout;
 const { Title } = Typography;
@@ -18,7 +18,7 @@ const { Title } = Typography;
 const useQuery = () => new URLSearchParams(useLocation().search);
 
 const parseUrl = (query: URLSearchParams) => {
-  let filterQuery = parseInt(query.get('businesstype') || '-1', 10);
+  let filterQuery = parseInt(query.get("businesstype") || "-1", 10);
   if (
     filterQuery < -1 ||
     filterQuery >= Object.entries(MASK_TYPE).length ||
@@ -26,20 +26,20 @@ const parseUrl = (query: URLSearchParams) => {
   ) {
     filterQuery = -1;
   }
-  const searchQuery = query.get('name') || '';
+  const searchQuery = query.get("name") || "";
 
   return {
     filterQuery,
-    searchQuery
+    searchQuery,
   };
 };
 
 const createParamString = (filter: number) => {
-  const filterParam = filter >= 0 ? `masktype=${filter}` : '';
+  const filterParam = filter >= 0 ? `masktype=${filter}` : "";
 
-  let paramString = '';
+  let paramString = "";
   if (filterParam) {
-    paramString += '?';
+    paramString += "?";
     paramString += filterParam;
   }
 
@@ -54,7 +54,7 @@ export const Masks: React.FC = () => {
   const [allBusiness, setAllBusiness] = useState<IMaskRequest[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [params, setParams] = useState({ filter: -1, searchText: '' });
+  const [params, setParams] = useState({ filter: -1, searchText: "" });
   const [hasMoreBusinesses, setHasMoreBusinesses] = useState(true);
   const windowSize = useWindowSize();
 
@@ -63,13 +63,13 @@ export const Masks: React.FC = () => {
   const gotoHome = () => {
     history.push("/");
     window.location.reload(false);
-  }
+  };
 
   useEffect(() => {
     const { filterQuery, searchQuery } = parseUrl(query);
     setParams({
       filter: filterQuery,
-      searchText: searchQuery
+      searchText: searchQuery,
     });
   }, []);
 
@@ -176,17 +176,19 @@ export const Masks: React.FC = () => {
       </div>
       <Col xl={14} lg={18} md={20} sm={22} xs={24}>
         <Header className="header-fixed">
-          <Title id="title-button" level={4}><a onClick={gotoHome}>Midwest Helps</a></Title>
+          <Title id="title-button" level={4}>
+            <a onClick={gotoHome}>Midwest Helps</a>
+          </Title>
           <div className="right-nav">
             <Button
-              onClick={() => history.push('/contact')}
+              onClick={() => history.push("/contact")}
               type="link"
               className="nav-link"
             >
               About
             </Button>
             <Button
-              onClick={() => history.push('/contact')}
+              onClick={() => history.push("/contact")}
               type="link"
               className="nav-link"
             >
@@ -197,11 +199,35 @@ export const Masks: React.FC = () => {
         <Content className="header-greeting">
           <Title level={1}>In need of masks</Title>
           <Typography>
-            Donate masks to local business who face shortages while doing
-            essential work.
+            Midwest Helps is focused on Personal Protective Equipment (PPE)
+            needed by medical professionals and essential organizations.
+            <br />
+            In partnership with:{" "}
+            <div className="partners">
+              <div className="bordered-logo">
+                <img
+                  className="business-logo"
+                  src="/images/company/microsoft.png"
+                ></img>
+              </div>
+              <div className="bordered-logo">
+                {" "}
+                <img
+                  className="logo-color business-logo"
+                  src="/images/company/concordia.png"
+                ></img>
+              </div>
+              <div className="bordered-logo">
+                {" "}
+                <img
+                  className="business-logo"
+                  src="/images/company/plainsart.png"
+                ></img>
+              </div>
+            </div>
           </Typography>
           <br />
-          <Button onClick={() => history.push('/maskrequest')} type="primary">
+          <Button onClick={() => history.push("/maskrequest")} type="primary">
             Request masks
           </Button>
         </Content>

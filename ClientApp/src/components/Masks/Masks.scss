@@ -28,6 +28,24 @@ $header-height: 72px;
   font-weight: bold;
 }
 
+.business-logo {
+  height: 28px;
+  margin: 12px;
+}
+
+.bordered-logo {
+  border-color: #c4c4c4;
+  border-style: solid;
+  border-width: 1px;
+  display: inline-block;
+  border-radius: 20%;
+  margin: 10px;
+}
+
+.partners {
+  display: inline-block;
+}
+
 .right-nav {
   float: right;
   margin-top: 4px;
