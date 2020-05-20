@@ -9,7 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Options;
+using getthehotdish.Utils;
+using getthehotdish.Utils.Enums;
 
 namespace getthehotdish.Controllers
 {
@@ -19,13 +20,15 @@ namespace getthehotdish.Controllers
     {
         private readonly ILogger<ContactController> _logger;
         private DataContext _dataContext;
+        private EmailSettings _emailSettings;
 
         private const string partitionKey = "CN";
 
-        public ContactController(ILogger<ContactController> logger, DataContext dataContext)
+        public ContactController(ILogger<ContactController> logger, DataContext dataContext, EmailSettings emailSettings)
         {
             _logger = logger;
             _dataContext = dataContext;
+            _emailSettings = emailSettings;
         }
 
         [HttpPost]
@@ -43,6 +46,8 @@ namespace getthehotdish.Controllers
 
                 _dataContext.Contacts.Add(contact);
                 await _dataContext.SaveChangesAsync();
+
+                _ = EmailUtils.SendEmailAsync(_emailSettings, EmailMessageType.MaskRequestSubmitted, "Your mask request is in review", "Request in review", "colton.r.lathrop@gmail.com");
 
                 return Ok();
             }
