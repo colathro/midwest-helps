@@ -93,6 +93,10 @@ namespace getthehotdish.DataAccess
         public async static Task<MaskDonationModel> UpdateStatus(DataContext dataContext, Guid id, DonationStatus donationStatus)
         {
             var maskDonation = await Get(dataContext, id);
+            if (maskDonation == null)
+            {
+                throw new ErrorModelException(ErrorCode.NotFound, "Donation");
+            }
             maskDonation.Status = donationStatus;
             await dataContext.SaveChangesAsync();
 
@@ -105,7 +109,7 @@ namespace getthehotdish.DataAccess
 
         public async static Task<MaskDonationModel> GetModel(DataContext dataContext, Guid id)
         {
-            var maskDonation = await dataContext.MaskDonations.FindAsync(id);
+            var maskDonation = await Get(dataContext, id);
             if (maskDonation == null)
             {
                 throw new ErrorModelException(ErrorCode.NotFound, "Donation");
