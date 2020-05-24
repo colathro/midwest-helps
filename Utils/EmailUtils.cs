@@ -7,16 +7,13 @@ using getthehotdish.Utils.Enums;
 using System.Threading.Tasks;
 using System.Net.Mail;
 using System.Net;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Security.Cryptography.X509Certificates;
 
 namespace getthehotdish.Utils
 {
     public class EmailUtils
     {
-        private const string messageTemplatesPath = @"\Utils\HtmlTemplates\MessageTemplates\";
-        private const string emailBodyFileName = @"\Utils\HtmlTemplates\EmailBody.html";
+        private static readonly string messageTemplatesPath = $"{Path.DirectorySeparatorChar}Utils{Path.DirectorySeparatorChar}HtmlTemplates{Path.DirectorySeparatorChar}MessageTemplates{Path.DirectorySeparatorChar}";
+        private static readonly string emailBodyFileName = $"{Path.DirectorySeparatorChar}Utils{Path.DirectorySeparatorChar}HtmlTemplates{Path.DirectorySeparatorChar}EmailBody.html";
         private const string contactUsLinkKey = @"{ContactUsLink}";
         private const string siteLinkKey = @"{SiteLink}";
         private const string contactUsLink = @"https://midwesthelps.com/contact";

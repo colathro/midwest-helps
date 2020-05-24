@@ -117,7 +117,7 @@ export const Reports: React.FC = () => {
                   </Descriptions>
                   <Row>
                     <Col span={4}>
-                      <Button type="danger" onClick={() => dismiss(item.id!)}>
+                      <Button danger onClick={() => dismiss(item.id!)}>
                         Dismiss
                       </Button>
                     </Col>

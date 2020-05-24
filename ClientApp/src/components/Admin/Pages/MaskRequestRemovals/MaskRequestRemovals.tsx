@@ -175,7 +175,7 @@ export const MaskRequestRemovals: React.FC = () => {
                   })}
                   <Row className="approval-buttons">
                     <Col span={8}>
-                      <Button type="danger" onClick={() => yousure(item.id!)}>
+                      <Button danger onClick={() => yousure(item.id!)}>
                         Remove
                       </Button>
                     </Col>
