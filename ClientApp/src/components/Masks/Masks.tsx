@@ -2,6 +2,7 @@
 import { useHistory, useLocation } from "react-router-dom";
 import { Row, Col, Typography, Layout, Button, Spin, Alert, Menu } from "antd";
 import { MaskRequestCard } from "./components/MaskRequestCard";
+import { NavBar } from "../NavBar";
 import { IMaskRequest, MASK_TYPE } from "../../types";
 import { useWindowSize } from "../../globalHooks";
 import InfiniteScroll from "react-infinite-scroller";
@@ -63,6 +64,10 @@ export const Masks: React.FC = () => {
   const gotoHome = () => {
     history.push("/");
     window.location.reload(false);
+  };
+
+  const goFolks = () => {
+    history.push("/folks");
   };
 
   useEffect(() => {
@@ -169,72 +174,60 @@ export const Masks: React.FC = () => {
   );
 
   return (
-    <Row justify="center">
-      <div className="background-people">
-        <img className="woman" src="/images/avatars/doctor-woman.svg"></img>
-        <img className="man" src="/images/avatars/doctor-man.svg"></img>
-      </div>
-      <Col xl={14} lg={18} md={20} sm={22} xs={24}>
-        <Header className="header-fixed">
-          <Title id="title-button" level={4}>
-            <a onClick={gotoHome}>Midwest Helps</a>
-          </Title>
-          <div className="right-nav">
-            <Button
-              onClick={() => history.push("/contact")}
-              type="link"
-              className="nav-link"
-            >
-              About
-            </Button>
-            <Button
-              onClick={() => history.push("/contact")}
-              type="link"
-              className="nav-link"
-            >
-              Contact
-            </Button>
-          </div>
-        </Header>
-        <Content className="header-greeting">
-          <Title level={1}>In need of masks</Title>
-          <Typography>
-            Midwest Helps is focused on Personal Protective Equipment (PPE)
-            needed by medical professionals and essential organizations.
+    <NavBar>
+      <Row justify="center">
+        <div className="background-people">
+          <img className="woman" src="/images/avatars/doctor-woman.svg"></img>
+          <img className="man" src="/images/avatars/doctor-man.svg"></img>
+        </div>
+        <Col>
+          <Content className="header-greeting">
+            <Title level={1}>In need of masks</Title>
+            <Typography>
+              Midwest Helps is focused on Personal Protective Equipment (PPE)
+              needed by medical professionals and essential organizations.
+              <br />
+              In partnership with:{" "}
+              <div className="partners">
+                <div className="bordered-logo">
+                  <img
+                    className="business-logo"
+                    src="/images/company/microsoft.png"
+                  ></img>
+                </div>
+                <div className="bordered-logo">
+                  {" "}
+                  <img
+                    className="logo-color business-logo"
+                    src="/images/company/concordia.png"
+                  ></img>
+                </div>
+                <div className="bordered-logo">
+                  {" "}
+                  <img
+                    className="business-logo"
+                    src="/images/company/plainsart.png"
+                  ></img>
+                </div>
+              </div>
+            </Typography>
             <br />
-            In partnership with:{" "}
-            <div className="partners">
-              <div className="bordered-logo">
-                <img
-                  className="business-logo"
-                  src="/images/company/microsoft.png"
-                ></img>
-              </div>
-              <div className="bordered-logo">
-                {" "}
-                <img
-                  className="logo-color business-logo"
-                  src="/images/company/concordia.png"
-                ></img>
-              </div>
-              <div className="bordered-logo">
-                {" "}
-                <img
-                  className="business-logo"
-                  src="/images/company/plainsart.png"
-                ></img>
-              </div>
-            </div>
+            <Button onClick={() => history.push("/maskrequest")} type="primary">
+              Request masks
+            </Button>
+          </Content>
+          <Content className="company-content">
+            <Row>{companiesGroup}</Row>
+          </Content>
+          <Typography className="title">
+            <span className="made-by">Made by these </span>{" "}
+            <span className="cool-folks" onClick={goFolks}>
+              cool folks
+            </span>{" "}
+            💛
           </Typography>
-          <br />
-          <Button onClick={() => history.push("/maskrequest")} type="primary">
-            Request masks
-          </Button>
-        </Content>
-        <Content className="company-content">
-          <Row>{companiesGroup}</Row>
-        </Content>
-      </Col>
-    </Row>
+        </Col>
+      </Row>
+    </NavBar>
   );
 };

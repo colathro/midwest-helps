@@ -23,4 +23,18 @@
   .contact-submit:hover {
     background-color: lighten(black, 20%);
   }
+
+  .title {
+    font-size: 0.9em;
+    text-align: center;
+  }
+
+  .made-by {
+    color: grey;
+  }
+
+  .cool-folks {
+    text-decoration: underline;
+    cursor: pointer;
+  }
 }
