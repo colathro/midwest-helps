@@ -51,8 +51,9 @@ namespace getthehotdish.Controllers
 
                 return Ok();
             }
-            catch
+            catch (Exception ex)
             {
+                this._logger.LogError(ex, "Error sending contact email");
                 return BadRequest();
             }
         }
