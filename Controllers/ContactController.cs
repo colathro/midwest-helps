@@ -47,7 +47,7 @@ namespace getthehotdish.Controllers
                 _dataContext.Contacts.Add(contact);
                 await _dataContext.SaveChangesAsync();
 
-                _ = EmailUtils.SendEmailAsync(_emailSettings, EmailMessageType.MaskRequestSubmitted, "Your mask request is in review", "Request in review", "colton.r.lathrop@gmail.com");
+                _ = EmailUtils.SendEmailAsync(_emailSettings, EmailMessageType.Contact, "Thanks for contacting us!", "Thanks for contacting us!", contact.Email, contact.Name);
 
                 return Ok();
             }

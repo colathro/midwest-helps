@@ -12,6 +12,8 @@ namespace getthehotdish.Utils.Enums
         [Description("MaskRequestDenied.html")]
         MaskRequestDenied = 3,
         [Description("DonationOnItsWay.html")]
-        DonationOnItsWay = 4
+        DonationOnItsWay = 4,
+        [Description("Contact.html")]
+        Contact = 5
     }
 }

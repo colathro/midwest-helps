@@ -1,5 +1,6 @@
 ﻿using System;
-using MimeKit;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 using getthehotdish.Models;
 using System.Text;
 using System.IO;
@@ -20,13 +21,13 @@ namespace getthehotdish.Utils
         private const string siteLink = @"https://midwesthelps.com/";
         private const string messageReplaceKey = @"{Message}";
         private const string titleReplaceKey = @"{Title}";
-        public static async Task SendEmailAsync(EmailSettings emailSettings, string messageHtml, string title, string subject, string toEmail)
+        public static async Task SendEmailAsync(EmailSettings emailSettings, string messageHtml, string title, string subject, string toEmail, string name = "Valued User")
         {
-            SendEmail(emailSettings, subject, await BuildHtmlMessage(messageHtml, title), toEmail);
+            await SendEmail(emailSettings, subject, await BuildHtmlMessage(messageHtml, title), toEmail, name);
         }
-        public static async Task SendEmailAsync(EmailSettings emailSettings, EmailMessageType messageType, string title, string subject, string toEmail)
+        public static async Task SendEmailAsync(EmailSettings emailSettings, EmailMessageType messageType, string title, string subject, string toEmail, string name = "Valued User")
         {
-            SendEmail(emailSettings, subject, await BuildHtmlMessage(messageType, title), toEmail);
+            await SendEmail(emailSettings, subject, await BuildHtmlMessage(messageType, title), toEmail, name);
         }
         public static async Task<string> GetEmailHTMLTemplate(EmailMessageType messageType)
         {
@@ -54,24 +55,15 @@ namespace getthehotdish.Utils
 
             return sb.ToString();
         }
-        private static void SendEmail(EmailSettings emailSettings, string subject, string htmlMessage, string toEmail)
+        private static async Task SendEmail(EmailSettings emailSettings, string subject, string htmlMessage, string toEmail, string name)
         {
-            var message = new MailMessage(emailSettings.EmailSender, toEmail, subject, htmlMessage);
-            message.BodyEncoding = Encoding.UTF8;
-            message.IsBodyHtml = true;
-
             try
             {
-                using var client = new SmtpClient(emailSettings.SmtpClient)
-                {
-                    Host = emailSettings.SmtpClient,
-                    Port = emailSettings.Port,
-                    EnableSsl = false,
-                    UseDefaultCredentials = false,
-                    Credentials = new NetworkCredential(emailSettings.EmailSender, emailSettings.EmailPassword),
-                };
-
-                client.Send(message);
+                var client = new SendGridClient(emailSettings.EmailPassword);
+                var from = new EmailAddress(emailSettings.EmailSender, "MidwestHelps Support");
+                var to = new EmailAddress(toEmail, name);
+                var msg = MailHelper.CreateSingleEmail(from, to, subject, "", htmlMessage);
+                var response = await client.SendEmailAsync(msg);
             }
             catch (Exception ex)
             {
