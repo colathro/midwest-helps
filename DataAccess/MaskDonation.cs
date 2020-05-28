@@ -51,7 +51,7 @@ namespace getthehotdish.DataAccess
                 Status = EnumUtils.GetName(Status),
                 Donator = Donator.ToDonatorModel(),
                 Donation = Donation.Select(d => d.ToMaskInfoModel()).ToList(),
-                Request = Request.ToMaskRequestModel()
+                Request = Request?.ToMaskRequestModel()
             };
         }
 

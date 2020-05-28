@@ -67,10 +67,15 @@ namespace getthehotdish.Controllers
                 maskDetailsSB.Append($"<b>• {maskInfo.Quantity} {EnumUtils.GetDescription(maskInfo.Type)}</b><br />");
             }
 
+            var updateStatusLink = "midwesthelps.com/donationStatus";
+
             var htmlMessageSB = new StringBuilder(await EmailUtils.GetEmailHTMLTemplate(EmailMessageType.DonationOnItsWay));
             htmlMessageSB.Replace("{DonatorEmail}", donator.Email)
                 .Replace("{DonatorPhone}", donator.Phone)
-                .Replace("{MaskDetails}", maskDetailsSB.ToString());
+                .Replace("{MaskDetails}", maskDetailsSB.ToString())
+                .Replace("{Status}", "Received")
+                .Replace("{Id}", maskDonationModel.Id.ToString())
+                .Replace("{UpdateStatusLink}", updateStatusLink);
             await EmailUtils.SendEmailAsync(_emailSettings, htmlMessageSB.ToString(), $"{maskDonationModel.Donator.Name} has a donation!", "Donation on its way", recipient.Email);
         }
     }
