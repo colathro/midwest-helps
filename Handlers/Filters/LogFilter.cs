@@ -103,6 +103,12 @@ namespace getthehotdish.Handlers.Filters
                 statusMessage = statusMessage + JsonConvert.SerializeObject(_actionArguments, Formatting.Indented);
             }
 
+            if (context.Exception != null)
+            {
+                statusMessage = statusMessage + Environment.NewLine;
+                statusMessage = statusMessage + context.Exception.ToString();
+            }
+
             if (!context.ModelState.IsValid)
             {
                 statusMessage = statusMessage + Environment.NewLine;
