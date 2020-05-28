@@ -190,12 +190,6 @@ export const Masks: React.FC = () => {
               In partnership with:{" "}
               <div className="partners">
                 <div className="bordered-logo">
-                  <img
-                    className="business-logo"
-                    src="/images/company/microsoft.png"
-                  ></img>
-                </div>
-                <div className="bordered-logo">
                   {" "}
                   <img
                     className="logo-color business-logo"
