@@ -14,7 +14,7 @@ export const Folks: React.FC = () => {
         <Col xl={18} lg={18} md={20} sm={22} xs={24}>
           <Title level={4} className="title">
             <span className="made-by">Made by these </span>{" "}
-            <span className="cool-folks">cool folks</span> 💛
+            <span className="cool-folks">community-minded folks</span> 💛
           </Title>
           <ContributorCards></ContributorCards>
         </Col>

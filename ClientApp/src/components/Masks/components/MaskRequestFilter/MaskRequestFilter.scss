@@ -5,22 +5,24 @@
 #business-filter-group-vertical {
   margin-top: 4px;
   border: none;
-
+  background-color: rgba(0, 0, 0, 0);
   li {
     font-weight: bold;
     font-size: 16px;
-    color: #abb0bf;
+    color: #8e929e;
     background: none;
 
     &:hover {
       color: darken(#abb0bf, 15%);
+      transform: scale(1.1);
+      transition: transform 0.6s;
     }
 
     &.ant-menu-item-selected {
       color: black;
 
       &:before {
-        content: '';
+        content: "";
         position: absolute;
         left: 0;
         top: 12%;
@@ -40,4 +42,5 @@
 
 .filter-drop {
   margin-left: 12px;
+  font-size: 16px;
 }

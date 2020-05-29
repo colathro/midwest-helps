@@ -1,7 +1,18 @@
 ﻿import React, { useState, useEffect } from "react";
 import { useHistory, useLocation } from "react-router-dom";
-import { Row, Col, Typography, Layout, Button, Spin, Alert, Menu } from "antd";
+import {
+  Row,
+  Col,
+  Typography,
+  Layout,
+  Button,
+  Spin,
+  Alert,
+  Menu,
+  Skeleton,
+} from "antd";
 import { MaskRequestCard } from "./components/MaskRequestCard";
+import { Aggregates } from "./components/Aggregates";
 import { NavBar } from "../NavBar";
 import { IMaskRequest, MASK_TYPE } from "../../types";
 import { useWindowSize } from "../../globalHooks";
@@ -122,9 +133,7 @@ export const Masks: React.FC = () => {
 
   let companies;
 
-  const loader = (
-    <Spin className="companies-loading" size="large" tip="Loading..." />
-  );
+  const loader = <Skeleton active className="loader" />;
 
   if (loading) {
     companies = loader;
@@ -182,33 +191,24 @@ export const Masks: React.FC = () => {
         </div>
         <Col>
           <Content className="header-greeting">
-            <Title level={1}>In need of masks</Title>
+            <Title level={2}>Protective Equipment Bulletin</Title>
             <Typography>
-              Midwest Helps is focused on Personal Protective Equipment (PPE)
-              needed by medical professionals and essential organizations.
+              Midwest Helps is focused on providing a bulletin board for
+              businesses and organizations to get connected to awesome makers.
+              Please check out our about page for resources and more
+              information!
               <br />
-              In partnership with:{" "}
-              <div className="partners">
-                <div className="bordered-logo">
-                  {" "}
-                  <img
-                    className="logo-color business-logo"
-                    src="/images/company/concordia.png"
-                  ></img>
-                </div>
-                <div className="bordered-logo">
-                  {" "}
-                  <img
-                    className="business-logo"
-                    src="/images/company/plainsart.png"
-                  ></img>
-                </div>
-              </div>
+              <Aggregates></Aggregates>
             </Typography>
             <br />
-            <Button onClick={() => history.push("/maskrequest")} type="primary">
-              Request masks
-            </Button>
+            <span>
+              <Button
+                onClick={() => history.push("/maskrequest")}
+                type="primary"
+              >
+                Request masks
+              </Button>
+            </span>
           </Content>
           <Content className="company-content">
             <Row>{companiesGroup}</Row>
@@ -216,7 +216,7 @@ export const Masks: React.FC = () => {
           <Typography className="title">
             <span className="made-by">Made by these </span>{" "}
             <span className="cool-folks" onClick={goFolks}>
-              cool folks
+              community-minded folks
             </span>{" "}
             💛
           </Typography>
