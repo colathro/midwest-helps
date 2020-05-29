@@ -61,6 +61,12 @@ namespace getthehotdish.Controllers
             return await MaskRequest.Update(_dataContext, id, maskRequestModel);
         }
 
+        [HttpGet("total")]
+        public async Task<ActionResult<int>> GetAggregate()
+        {
+            return await MaskRequest.GetRequestAggregateCount(this._dataContext);
+        }
+
         [HttpDelete("{id}")]
         [Authorize]
         public async Task<ActionResult> Delete(Guid id)

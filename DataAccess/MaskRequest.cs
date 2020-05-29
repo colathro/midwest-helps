@@ -188,6 +188,8 @@ namespace getthehotdish.DataAccess
 
             await dataContext.SaveChangesAsync();
 
+            await AddRequestedMasksToAggregate(dataContext, newMaskRequest);
+
             return newMaskRequest.ToMaskRequestModel();
         }
 
@@ -208,6 +210,29 @@ namespace getthehotdish.DataAccess
         {
             var all = await GetAllApproved(dataContext);
             return all.Count;
+        }
+
+        public static async Task AddRequestedMasksToAggregate(DataContext dataContext, MaskRequest maskRequest)
+        {
+            foreach (var mask in maskRequest.MaskDetails.Masks)
+            {
+                await Aggregate.AddToAggregate(dataContext, "Requested " + mask.Type.ToString(), mask.Quantity);
+            }
+        }
+
+        public async static Task<int> GetRequestAggregateCount(DataContext dataContext)
+        {
+            var maskTypes = Enum.GetValues(typeof(MaskType)).Cast<MaskType>().Select(m => "Requested " + m.ToString());
+
+            var aggs = await dataContext.Aggregates.Where(a => maskTypes.Contains(a.Name)).ToListAsync();
+            int total = 0;
+
+            foreach (var agg in aggs)
+            {
+                total += agg.Value;
+            }
+
+            return total;
         }
     }
 

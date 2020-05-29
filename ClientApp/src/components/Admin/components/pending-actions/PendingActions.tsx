@@ -54,8 +54,8 @@ export const PendingActions: React.FC = () => {
   const fetchUrl = async (url: string, requestOptions: any) => {
     const response = await fetch(url, requestOptions);
 
-    if (response.status === 401){
-      localStorage.removeItem('user');
+    if (response.status === 401) {
+      localStorage.removeItem("user");
 
       history.push(`/admin`);
     }

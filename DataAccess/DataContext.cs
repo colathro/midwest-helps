@@ -12,6 +12,8 @@ namespace getthehotdish.DataAccess
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<User> Users { get; set; }
 
+        public DbSet<Aggregate> Aggregates { get; set; }
+
         public DataContext(DbContextOptions<DataContext> options)
         : base(options) { }
 
@@ -44,6 +46,10 @@ namespace getthehotdish.DataAccess
             modelBuilder.Entity<User>().ToContainer("Users");
             modelBuilder.Entity<User>().HasAlternateKey(l => l.Id);
             modelBuilder.Entity<User>().HasPartitionKey(o => o.PartitionKey);
+
+            modelBuilder.Entity<Aggregate>().ToContainer("Aggregates");
+            modelBuilder.Entity<Aggregate>().HasAlternateKey(l => l.Id);
+            modelBuilder.Entity<Aggregate>().HasPartitionKey(o => o.PartitionKey);
         }
     }
 }
