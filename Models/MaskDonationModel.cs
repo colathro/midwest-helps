@@ -16,7 +16,7 @@ namespace getthehotdish.Models
         public DateTime CreatedOn { get; set; }
         public string Status { get; set; }
         [Required]
-        public DonatorModel Donator { get; set; }
+        public DonatorModel Donor { get; set; }
         [Required]
         public List<MaskInfoModel> Donation { get; set; }
         [Required]
@@ -39,7 +39,7 @@ namespace getthehotdish.Models
                 PartitionKey = PartitionKey,
                 CreatedOn = CreatedOn,
                 Status = EnumUtils.GetValue<DonationStatus>(Status),
-                Donator = Donator.ToDonator(),
+                Donor = Donor.ToDonator(),
                 Donation = Donation.Select(d => d.ToMaskInfo()).ToList(),
                 Request = Request != null ? Request.ToMaskRequest() : null,
                 RequestId = Guid.Parse(RequestId)

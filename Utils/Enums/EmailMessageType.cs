@@ -14,6 +14,8 @@ namespace getthehotdish.Utils.Enums
         [Description("DonationOnItsWay.html")]
         DonationOnItsWay = 4,
         [Description("Contact.html")]
-        Contact = 5
+        Contact = 5,
+        [Description("MaskDonationApproved.html")]
+        MaskDonationApproved = 6
     }
 }

@@ -1,97 +1,3 @@
-export interface Business {
-  id?: string;
-  name: string;
-  category: BusinessCategory;
-  hours?: BusinessHours;
-  phoneNumber?: string;
-  website?: string;
-  message?: string;
-  liveStreamUrl?: string;
-  orderUrl?: string;
-  giftCardUrl?: string;
-  interactions: BusinessInteraction[];
-  deliveryApps?: BusinessDeliveryApp[];
-  [key: string]: any;
-}
-
-export type BusinessCategory =
-  | 'Brewery'
-  | 'Coffee'
-  | 'Entertainment'
-  | 'Grocery'
-  | 'Other'
-  | 'Religion'
-  | 'Restaurant'
-  | 'Retail'
-  | 'Wellness'
-  | 'Art'
-  | 'Beauty';
-
-export type BusinessHours = 'None' | 'Closed' | 'Limited' | 'Regular';
-
-export type BusinessDeliveryApp =
-  | 'UberEats'
-  | 'Grubhub'
-  | 'DoorDash'
-  | 'Postmates'
-  | 'FoodDudes'
-  | 'BiteSquad';
-
-export const BUSINESS_DELIVERY_APP: {
-  [key in BusinessDeliveryApp]: string;
-} = {
-  UberEats: 'UberEats',
-  Grubhub: 'Grubhub',
-  DoorDash: 'DoorDash',
-  Postmates: 'Postmates',
-  FoodDudes: 'FoodDudes',
-  BiteSquad: 'BiteSquad'
-};
-
-export type BusinessInteraction =
-  | 'Appointment'
-  | 'CurbSide'
-  | 'Delivery'
-  | 'LiveStream'
-  | 'TakeOut'
-  | 'DriveThru';
-
-export const BUSINESS_INTERACTIONS: {
-  [key in BusinessInteraction]: string;
-} = {
-  Appointment: 'Appointment',
-  CurbSide: 'CurbSide',
-  Delivery: 'Delivery',
-  LiveStream: 'LiveStream',
-  TakeOut: 'TakeOut',
-  DriveThru: 'DriveThru'
-};
-
-export const BUSINESS_CATEGORY_STRINGS: {
-  [key in BusinessCategory]: { name: string; value: number };
-} = {
-  Brewery: { name: 'Brewery & Distillery', value: 0 },
-  Coffee: { name: 'Coffee', value: 1 },
-  Restaurant: { name: 'Restaurant & Bar', value: 6 },
-  Art: { name: 'Art & Culture', value: 9 },
-  Beauty: { name: 'Beauty', value: 10 },
-  Entertainment: { name: 'Entertainment', value: 2 },
-  Grocery: { name: 'Grocery', value: 3 },
-  Religion: { name: 'Religion & Spiritual', value: 5 },
-  Retail: { name: 'Retail', value: 7 },
-  Wellness: { name: 'Wellness', value: 8 },
-  Other: { name: 'Other', value: 4 }
-};
-
-export const BUSINESS_HOURS: {
-  [key in BusinessHours]: string;
-} = {
-  None: '',
-  Closed: 'Closed',
-  Limited: 'Limited',
-  Regular: 'Regular'
-};
-
 export type ContactFields = {
   Name: string;
   Email: string;
@@ -146,18 +52,18 @@ export interface IAddress {
 
 export interface IMaskDonationRequest {
   requestId: string;
-  donator: IDonator;
+  donor: IDonor;
   donation: IMaskInfo[];
 }
 
 export interface IMaskDonationDetails {
   //TODO: Add all information relevant to be displayed on admin portal
   requestId: string;
-  donator: IDonator;
+  donor: IDonor;
   donation: IRecipient;
 }
 
-export interface IDonator {
+export interface IDonor {
   bestContactType: BestContactType;
   name: string;
   company: string;
@@ -180,11 +86,7 @@ export const MASK_FOR: {
   Myself: 'Myself or family'
 };
 
-export type MaskType =
-  | 'Fabric'
-  | 'FaceShield'
-  | 'EarGuards'
-  | 'ScrubCaps';
+export type MaskType = 'Fabric' | 'FaceShield' | 'EarGuards' | 'ScrubCaps';
 
 export const MASK_TYPE: {
   [key in MaskType]: string;
@@ -223,13 +125,13 @@ export const MASK_REQUEST_SECTION: {
   Delivery: { label: '3. Delivery details', value: 'Delivery' }
 };
 
-export type MaskDonationSection = 'BeforeStart' | 'Donator' | 'Donation';
+export type MaskDonationSection = 'BeforeStart' | 'Donor' | 'Donation';
 
 export const MASK_DONATION_SECTION: {
   [key in MaskDonationSection]: { label: string; value: string };
 } = {
   BeforeStart: { label: '1. Before you start', value: 'BeforeStart' },
-  Donator: { label: '2. Contact information', value: 'Donator' },
+  Donor: { label: '2. Contact information', value: 'Donor' },
   Donation: { label: '3. Donation', value: 'Donation' }
 };
 
