@@ -3,10 +3,11 @@ import { Form, Modal, Button, Row, Col, Typography } from "antd";
 import { LeftOutlined } from "@ant-design/icons";
 import { useHistory } from "react-router-dom";
 import { TextField } from "../FormFields/TextField";
-
+import { FolksLinker } from "../Folks/components/FolksLinker";
 import "./Contact.scss";
 import { ContactFields } from "../../types";
 import { NavBar } from "../NavBar";
+import { Folks } from "../Folks";
 
 const { Title } = Typography;
 
@@ -104,13 +105,7 @@ export const Contact: React.FC = () => {
               </Button>
             </Form.Item>
           </Form>
-          <Typography className="title">
-            <span className="made-by">Made by these </span>{" "}
-            <span className="cool-folks" onClick={goFolks}>
-              cool folks
-            </span>{" "}
-            💛
-          </Typography>
+          <FolksLinker />
         </Col>
       </Row>
     </NavBar>

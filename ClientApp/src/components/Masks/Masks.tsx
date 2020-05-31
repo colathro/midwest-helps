@@ -23,6 +23,7 @@ import {
   MaskRequestFilterVertical,
   MaskRequestFilterHorizontal,
 } from "./components/MaskRequestFilter";
+import { FolksLinker } from "../Folks/components/FolksLinker";
 
 const { Header, Content } = Layout;
 const { Title } = Typography;
@@ -213,13 +214,7 @@ export const Masks: React.FC = () => {
           <Content className="company-content">
             <Row>{companiesGroup}</Row>
           </Content>
-          <Typography className="title">
-            <span className="made-by">Made by these </span>{" "}
-            <span className="cool-folks" onClick={goFolks}>
-              community-minded folks
-            </span>{" "}
-            💛
-          </Typography>
+          <FolksLinker />
         </Col>
       </Row>
     </NavBar>
