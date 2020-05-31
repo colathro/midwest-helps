@@ -27,17 +27,16 @@ export const About: React.FC = () => {
               protective equipment during the Covid-19 crisis. The site,
               midwesthelps.com, is a virtual bulletin board where users can both
               submit and fulfill requests. Midwest Helps is focused on Personal
-              Protective Equipment (PPE) needed by medical professionals and
-              essential organizations.
+              Protective Equipment (PPE) needed by essential businesses
+              including non-profits and state run organizations.
             </p>
             <p>
-              The website is designed to make organization and collaborations
-              easier statewide. Organizations can request cloth face masks, face
-              shields, ear guards, and scrub caps. Volunteers, who have been so
-              helpful in offering their time and talents throughout the crisis,
-              can now easily find a central hub of requests and needs. Midwest
-              Helps is designed to connect those with great need and those in
-              their community who can help.
+              The website is designed as a bulletin board for organizations to
+              request cloth face masks, face shields, ear guards, and scrub
+              caps. Volunteers, who have been so helpful in offering their time
+              and talents throughout the crisis, can now easily find a central
+              hub of requests and needs. Midwest Helps is designed to connect
+              those with great need and those in their community who can help.
             </p>
             <p>
               Midwest Helps is currently focused on mask making but is designed

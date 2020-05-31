@@ -9,6 +9,7 @@ import { List } from "./components/List";
 import { About } from "./components/About";
 import { Masks } from "./components/Masks";
 import { Folks } from "./components/Folks";
+import { Resources } from "./components/Resources";
 import { MaskRequest } from "./components/MaskRequest";
 import { Covid19 } from "./components/Covid19";
 import { PrivateRoute } from "./components/AdminLogin/PrivateRoute";
@@ -26,6 +27,7 @@ export const App: React.FC = () => (
         <PrivateRoute path="/admin" component={Admin} />
         <Route exact path="/contact" component={Contact} />
         <Route exact path="/folks" component={Folks} />
+        <Route exact path="/resources" component={Resources} />
         <Route exact path="/about" component={About} />
         <Route exact path="/maskRequest" component={MaskRequest} />
         <Route exact path="/list" component={List} />

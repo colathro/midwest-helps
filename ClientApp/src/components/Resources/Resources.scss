@@ -1,0 +1,25 @@
+#resources {
+  margin-top: 1em;
+  margin-left: 8px;
+  margin-right: 8px;
+
+  .text {
+    margin-top: 3em;
+  }
+
+  .citation {
+    list-style-type: none;
+  }
+
+  .citation-title {
+    font-size: 1.3em;
+  }
+
+  .donation-info {
+    margin-top: 1em;
+
+    a {
+      text-decoration: underline;
+    }
+  }
+}

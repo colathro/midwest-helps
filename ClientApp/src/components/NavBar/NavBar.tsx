@@ -24,11 +24,11 @@ export const NavBar: React.FC = (props) => {
           </Title>
           <div className="right-nav">
             <Button
-              onClick={() => history.push("/about")}
+              onClick={() => history.push("/resources")}
               type="link"
               className="nav-link"
             >
-              About
+              Resources
             </Button>
             <Button
               onClick={() => history.push("/contact")}
