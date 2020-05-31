@@ -1,6 +1,7 @@
 ﻿using getthehotdish.DataAccess;
 using getthehotdish.Utils;
 using System.ComponentModel.DataAnnotations;
+using System.Text;
 
 namespace getthehotdish.Models
 {
@@ -29,6 +30,22 @@ namespace getthehotdish.Models
                 State = State,
                 ZipCode = ZipCode
             };
+        }
+        public string ToUSFormat()
+        {
+            var sb = new StringBuilder();
+            sb.Append(Address1);
+            if (!string.IsNullOrEmpty(Address2))
+            {
+                sb.Append($" {Address2}, ");
+            } else
+            {
+                sb.Append(", ");
+            }
+            sb.Append($"{City}, ");
+            sb.Append($"{State} ");
+            sb.Append($"{ZipCode}");
+            return sb.ToString();
         }
     }
 }

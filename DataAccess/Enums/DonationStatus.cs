@@ -1,10 +1,8 @@
-﻿using System;
-
-namespace getthehotdish.DataAccess
+﻿namespace getthehotdish.DataAccess
 {
     public enum DonationStatus
     {
-        Initial = 0,
+        Created = 0,
         Approved,
         Rejected,
         Received,

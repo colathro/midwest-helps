@@ -28,7 +28,7 @@ namespace getthehotdish.DataAccess
         [Required]
         public MaskRequest Request { get; set; }
         [Required]
-        public Donator Donor { get; set; }
+        public Donor Donor { get; set; }
         [Required]
         public List<MaskInfo> Donation { get; set; }
 
@@ -49,7 +49,7 @@ namespace getthehotdish.DataAccess
                 PartitionKey = PartitionKey,
                 CreatedOn = CreatedOn,
                 Status = EnumUtils.GetName(Status),
-                Donor = Donor.ToDonatorModel(),
+                Donor = Donor.ToDonorModel(),
                 Donation = Donation.Select(d => d.ToMaskInfoModel()).ToList(),
                 Request = Request?.ToMaskRequestModel()
             };
@@ -114,6 +114,12 @@ namespace getthehotdish.DataAccess
             {
                 throw new ErrorModelException(ErrorCode.NotFound, "Donation");
             }
+
+            if (maskDonation.Request == null)
+            {
+                maskDonation.Request = await MaskRequest.Get(dataContext, maskDonation.RequestId);
+            }
+
             return maskDonation.ToMaskDonationModel();
         }
         public async static Task<List<MaskDonationModel>> GetAllModel(DataContext dataContext)
@@ -123,13 +129,13 @@ namespace getthehotdish.DataAccess
     }
 
     [Owned]
-    public class Donator : PersonContact
+    public class Donor : PersonContact
     {
         [Required]
         public ContactType BestContactType { get; set; }
-        public DonatorModel ToDonatorModel()
+        public DonorModel ToDonorModel()
         {
-            return new DonatorModel
+            return new DonorModel
             {
                 BestContactType = EnumUtils.GetName(BestContactType),
                 Name = Name,

@@ -1,7 +1,7 @@
 ﻿<table border="0" cellpadding="0" cellspacing="0" width="100%">
     <tr>
         <td style="color: #000000; font-family: Arial; font-size: 16px; line-height: 20px;">
-            {DonorEmail} - {DonorPhone}
+            Donor: {DonorName}, {DonorEmail} - {DonorPhone}
         </td>
     </tr>
     <tr>
@@ -11,19 +11,19 @@
     </tr>
     <tr>
         <td style="padding: 10px 0 0 0; color: #000000; font-family: Arial; font-size: 16px; line-height: 20px;">
-            Please, let the donor knows if masks are still needed.
+            Please, let us know when you receive these items.
             <br />
-            If you no longer need masks, please <a href="{RejectDonationLink}" style="color: #000000;">reject donation</a>.
+            If you do not receive the items in 1 week, please let us know here:<a href="{NotReceivedDonationLink}" style="color: #000000;">I did not receive my donation</a>.
         </td>
     </tr>
 </table>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" style="padding: 20px 0px 0px 0px;">
     <tr>
         <td style="color: #000000; font-family: Arial; font-size: 14px;" width="50%">
-            <form action="{AcceptDonationLink}">
+            <form action="{ReceivedDonationLink}">
                 <input type="hidden" name="status" value="{Status}" />
                 <input type="hidden" name="id" value="{Id}" />
-                <button type="submit" style="border-radius: 10px; background-color: #000000; border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer;">Accept donation</button>
+                <button type="submit" style="border-radius: 10px; background-color: #000000; border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer;">Confirm donation</button>
             </form>
         </td>
         <td style="color: #000000; font-family: Arial, sans-serif; font-size: 14px;" width="50%">

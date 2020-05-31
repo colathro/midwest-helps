@@ -16,7 +16,7 @@ namespace getthehotdish.Models
         public DateTime CreatedOn { get; set; }
         public string Status { get; set; }
         [Required]
-        public DonatorModel Donor { get; set; }
+        public DonorModel Donor { get; set; }
         [Required]
         public List<MaskInfoModel> Donation { get; set; }
         [Required]
@@ -39,7 +39,7 @@ namespace getthehotdish.Models
                 PartitionKey = PartitionKey,
                 CreatedOn = CreatedOn,
                 Status = EnumUtils.GetValue<DonationStatus>(Status),
-                Donor = Donor.ToDonator(),
+                Donor = Donor.ToDonor(),
                 Donation = Donation.Select(d => d.ToMaskInfo()).ToList(),
                 Request = Request != null ? Request.ToMaskRequest() : null,
                 RequestId = Guid.Parse(RequestId)
@@ -47,14 +47,14 @@ namespace getthehotdish.Models
         }
     }
 
-    public class DonatorModel : PersonContactModel
+    public class DonorModel : PersonContactModel
     {
         [Required]
         public string BestContactType { get; set; }
 
-        public Donator ToDonator()
+        public Donor ToDonor()
         {
-            return new Donator
+            return new Donor
             {
                 BestContactType = EnumUtils.GetValue<ContactType>(BestContactType),
                 Name = Name,
