@@ -7,20 +7,20 @@ import {
   MaskFor,
   MASK_FOR,
   IRecipient,
-  IDonator,
+  IDonor,
   BestContactType,
   BEST_CONTACT_TYPE
 } from '../../../types';
 
 const { Text } = Typography;
 
-export interface DonatorSectionProps {
-  onFinish: (donator: IDonator) => void;
+export interface DonorSectionProps {
+  onFinish: (donor: IDonor) => void;
 }
 
-export const DonatorSection: React.FC<DonatorSectionProps> = (props) => {
+export const DonorSection: React.FC<DonorSectionProps> = (props) => {
   const [displaySummary, setDisplaySummary] = useState(false);
-  const [donatorSection, setDonatorSection] = useState<IDonator>({
+  const [donorSection, setDonorSection] = useState<IDonor>({
     bestContactType: 'Email',
     name: '',
     company: '',
@@ -38,8 +38,8 @@ export const DonatorSection: React.FC<DonatorSectionProps> = (props) => {
 
   const onFinish = (obj: object) => {
     setDisplaySummary(true);
-    const recipientSectionObj = obj as IDonator;
-    setDonatorSection(recipientSectionObj);
+    const recipientSectionObj = obj as IDonor;
+    setDonorSection(recipientSectionObj);
     props.onFinish(recipientSectionObj);
   };
 
@@ -57,23 +57,23 @@ export const DonatorSection: React.FC<DonatorSectionProps> = (props) => {
             <Text type="secondary">
               {
                 BEST_CONTACT_TYPE[
-                  donatorSection.bestContactType as BestContactType
+                  donorSection.bestContactType as BestContactType
                 ]
               }
             </Text>
             <br />
             <br />
-            <Text strong>{donatorSection.name}</Text>
+            <Text strong>{donorSection.name}</Text>
             <br />
-            {donatorSection.company && (
+            {donorSection.company && (
               <>
-                <Text type="secondary">{donatorSection.company}</Text>
+                <Text type="secondary">{donorSection.company}</Text>
                 <br />
               </>
             )}
-            <Text type="secondary">{donatorSection.email}</Text>
+            <Text type="secondary">{donorSection.email}</Text>
             <br />
-            <Text type="secondary">{donatorSection.phone}</Text>
+            <Text type="secondary">{donorSection.phone}</Text>
           </Col>
           <Col span={2}>
             <Button type="link" onClick={() => onEditClick()}>

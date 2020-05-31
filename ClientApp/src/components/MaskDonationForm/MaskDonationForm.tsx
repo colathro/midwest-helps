@@ -4,12 +4,12 @@ import { Button, Collapse, Typography, Modal, Row, Col } from 'antd';
 import { DonationSection } from './DonationSection';
 import './MaskDonationForm.scss';
 import { BeforeStartSection } from './BeforeStartSection';
-import { DonatorSection } from './DonatorSection';
+import { DonorSection } from './DonorSection';
 import {
   MASK_DONATION_SECTION,
   IMaskRequest,
   IMaskDonationRequest,
-  IDonator,
+  IDonor,
   IMaskInfo,
   ReceiveMaskChannel,
   PAGE_DISPLAY_TYPE
@@ -29,14 +29,14 @@ export const MaskDonationForm: React.FC<MaskDonationFormProps> = (props) => {
     MASK_DONATION_SECTION.BeforeStart.value
   ]);
   const [disabledPanels, setDisabledPanels] = useState([
-    MASK_DONATION_SECTION.Donator.value,
+    MASK_DONATION_SECTION.Donor.value,
     MASK_DONATION_SECTION.Donation.value
   ]);
   const [allowSubmit, setAllowSubmit] = useState(false);
   const [maskDonationRequest, setMaskDonationRequest] = useState<
     IMaskDonationRequest
   >({
-    donator: {
+    donor: {
       bestContactType: 'Email',
       name: '',
       company: '',
@@ -81,30 +81,30 @@ export const MaskDonationForm: React.FC<MaskDonationFormProps> = (props) => {
   const setRequest = () => {
     setMaskDonationRequest({
       requestId: props.request.id || '',
-      donator: maskDonationRequest.donator,
+      donor: maskDonationRequest.donor,
       donation: maskDonationRequest.donation
     });
     // if user has not gone through all sections set active and disabled sections
     if (!allowSubmit) {
       setActivePanels([
         MASK_DONATION_SECTION.BeforeStart.value,
-        MASK_DONATION_SECTION.Donator.value
+        MASK_DONATION_SECTION.Donor.value
       ]);
       setDisabledPanels([MASK_DONATION_SECTION.Donation.value]);
     }
   };
 
-  const setDonator = (donator: IDonator) => {
+  const setDonor = (donor: IDonor) => {
     setMaskDonationRequest({
       requestId: maskDonationRequest.requestId,
-      donator,
+      donor: donor,
       donation: maskDonationRequest.donation
     });
     // if user has not gone through all sections set active and disabled sections
     if (!allowSubmit) {
       setActivePanels([
         MASK_DONATION_SECTION.BeforeStart.value,
-        MASK_DONATION_SECTION.Donator.value,
+        MASK_DONATION_SECTION.Donor.value,
         MASK_DONATION_SECTION.Donation.value
       ]);
       setDisabledPanels([]);
@@ -114,7 +114,7 @@ export const MaskDonationForm: React.FC<MaskDonationFormProps> = (props) => {
   const setDonation = (donation: IMaskInfo[]) => {
     setMaskDonationRequest({
       requestId: maskDonationRequest.requestId,
-      donator: maskDonationRequest.donator,
+      donor: maskDonationRequest.donor,
       donation
     });
     // once user has set the delivery details user should be able to submit the request
@@ -145,14 +145,14 @@ export const MaskDonationForm: React.FC<MaskDonationFormProps> = (props) => {
             <BeforeStartSection onFinish={setRequest} />
           </Collapse.Panel>
           <Collapse.Panel
-            header={MASK_DONATION_SECTION.Donator.label}
-            key={MASK_DONATION_SECTION.Donator.value}
+            header={MASK_DONATION_SECTION.Donor.label}
+            key={MASK_DONATION_SECTION.Donor.value}
             showArrow={false}
             disabled={disabledPanels.includes(
-              MASK_DONATION_SECTION.Donator.value
+              MASK_DONATION_SECTION.Donor.value
             )}
           >
-            <DonatorSection onFinish={setDonator} />
+            <DonorSection onFinish={setDonor} />
           </Collapse.Panel>
           <Collapse.Panel
             header={MASK_DONATION_SECTION.Donation.label}

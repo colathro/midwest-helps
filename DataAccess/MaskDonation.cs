@@ -28,7 +28,7 @@ namespace getthehotdish.DataAccess
         [Required]
         public MaskRequest Request { get; set; }
         [Required]
-        public Donator Donator { get; set; }
+        public Donator Donor { get; set; }
         [Required]
         public List<MaskInfo> Donation { get; set; }
 
@@ -49,7 +49,7 @@ namespace getthehotdish.DataAccess
                 PartitionKey = PartitionKey,
                 CreatedOn = CreatedOn,
                 Status = EnumUtils.GetName(Status),
-                Donator = Donator.ToDonatorModel(),
+                Donor = Donor.ToDonatorModel(),
                 Donation = Donation.Select(d => d.ToMaskInfoModel()).ToList(),
                 Request = Request?.ToMaskRequestModel()
             };

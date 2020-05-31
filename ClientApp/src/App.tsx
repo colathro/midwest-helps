@@ -5,7 +5,6 @@ import { Layout } from "antd";
 import { Admin } from "./components/Admin";
 import { Contact } from "./components/Contact";
 import { DonationStatus } from "./components/DonationStatus";
-import { List } from "./components/List";
 import { About } from "./components/About";
 import { Masks } from "./components/Masks";
 import { Folks } from "./components/Folks";
@@ -30,7 +29,6 @@ export const App: React.FC = () => (
         <Route exact path="/resources" component={Resources} />
         <Route exact path="/about" component={About} />
         <Route exact path="/maskRequest" component={MaskRequest} />
-        <Route exact path="/list" component={List} />
         <Route exact path="/covid19" component={Covid19} />
         <Route exact path="/donationStatus" component={DonationStatus} />
         <Route path="/" component={Masks} />
