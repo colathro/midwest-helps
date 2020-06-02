@@ -37,7 +37,7 @@ export const DonationStatus: React.FC<RouteComponentProps> = (props) => {
         </Row>
         <Row justify="center">
           <Typography>
-            No status was provided. No action can be taken here.
+            No status provided. No action can be taken here.
           </Typography>
         </Row>
       </>

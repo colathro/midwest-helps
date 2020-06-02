@@ -91,7 +91,7 @@ namespace getthehotdish.Controllers
 
         [HttpPost("approvals/deny/{post}")]
         [Authorize]
-        public async Task<ActionResult<bool>> Deny(string post)
+        public async Task<ActionResult<bool>> Deny(string post, string? reason)
         {
             return await MaskRequest.Deny(_dataContext, Guid.Parse(post));
         }
