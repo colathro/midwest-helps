@@ -162,62 +162,10 @@ namespace getthehotdish.DataAccess
             return await PaginatedList<MaskRequestModel>.CreateAsync(filterMaskRequests, page, 10);
         }
 
-        public async static Task<MaskRequestModel> Approve(DataContext dataContext, Guid id)
-        {
-            var newMaskRequest = await GetApproved(dataContext, id, false);
-            if (newMaskRequest == null)
-            {
-                throw new ErrorModelException(ErrorCode.NotFound, "Request");
-            }
-
-            var oldMaskRequest = await GetApproved(dataContext, newMaskRequest.OriginalId, true);
-            if (oldMaskRequest != null)
-            {
-                var oldRefMaskRequests = dataContext.MaskRequests.Where(l => l.PartitionKey == partitionKey
-                    && l.OriginalId == oldMaskRequest.Id && l.Id != newMaskRequest.Id);
-
-                await oldRefMaskRequests.ForEachAsync((maskRequest) =>
-                {
-                    maskRequest.OriginalId = newMaskRequest.Id;
-                });
-
-                dataContext.Remove(oldMaskRequest);
-            }
-
-            newMaskRequest.Approved = true;
-
-            await dataContext.SaveChangesAsync();
-
-            await AddRequestedMasksToAggregate(dataContext, newMaskRequest);
-
-            return newMaskRequest.ToMaskRequestModel();
-        }
-
-        public async static Task<bool> Deny(DataContext dataContext, Guid id)
-        {
-            var maskRequest = await GetApproved(dataContext, id, false);
-
-            if (maskRequest != null)
-            {
-                dataContext.Remove(maskRequest);
-                await dataContext.SaveChangesAsync();
-            }
-
-            return true;
-        }
-
         public async static Task<int> PendingApprovalCount(DataContext dataContext)
         {
             var all = await GetAllApproved(dataContext);
             return all.Count;
-        }
-
-        public static async Task AddRequestedMasksToAggregate(DataContext dataContext, MaskRequest maskRequest)
-        {
-            foreach (var mask in maskRequest.MaskDetails.Masks)
-            {
-                await Aggregate.AddToAggregate(dataContext, "Requested " + mask.Type.ToString(), mask.Quantity);
-            }
         }
 
         public async static Task<int> GetRequestAggregateCount(DataContext dataContext)
@@ -233,6 +181,38 @@ namespace getthehotdish.DataAccess
             }
 
             return total;
+        }
+
+        public async static Task<int> GetDonatedAggregateCount(DataContext dataContext)
+        {
+            var maskTypes = Enum.GetValues(typeof(MaskType)).Cast<MaskType>().Select(m => "Donated " + m.ToString());
+
+            var aggs = await dataContext.Aggregates.Where(a => maskTypes.Contains(a.Name)).ToListAsync();
+            int total = 0;
+
+            foreach (var agg in aggs)
+            {
+                total += agg.Value;
+            }
+
+            return total;
+        }
+
+        public async static Task UpdateOriginalId(DataContext dataContext, Guid originalId, Guid newId)
+        {
+            var oldMaskRequest = await MaskRequest.GetApproved(dataContext, originalId, true);
+            if (oldMaskRequest != null)
+            {
+                var oldRefMaskRequests = dataContext.MaskRequests.Where(l => l.PartitionKey == partitionKey
+                    && l.OriginalId == oldMaskRequest.Id && l.Id != newId);
+
+                await oldRefMaskRequests.ForEachAsync((maskRequest) =>
+                {
+                    maskRequest.OriginalId = newId;
+                });
+
+                dataContext.Remove(oldMaskRequest);
+            }
         }
     }
 

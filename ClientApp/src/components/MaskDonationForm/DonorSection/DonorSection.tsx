@@ -52,7 +52,7 @@ export const DonorSection: React.FC<DonorSectionProps> = (props) => {
       <>
         <Row>
           <Col span={22}>
-            <Text strong>Who are the masks for?</Text>
+            <Text strong>What is the best way to reach you?</Text>
             <br />
             <Text type="secondary">
               {

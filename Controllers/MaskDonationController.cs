@@ -48,7 +48,7 @@ namespace getthehotdish.Controllers
         [HttpPost("updateStatus/{status}/{id}")]
         public async Task<ActionResult<MaskDonationModel>> UpdateStatus(string status, Guid id)
         {
-            return await Donation.UpdateMaskDonationStatus(dataContext, emailSettings, status, id);
+            return await Donation.UpdateMaskDonationStatus(dataContext, status, id);
         }
     }
 }

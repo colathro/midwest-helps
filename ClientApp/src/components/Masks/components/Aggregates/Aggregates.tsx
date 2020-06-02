@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { Statistic, Layout, Row, Col } from "antd";
+import React, { useState, useEffect } from 'react';
+import { Statistic, Layout, Row, Col } from 'antd';
 
-import "./Aggregates.scss";
+import './Aggregates.scss';
 
 export const Aggregates: React.FC = () => {
   const [aggregateRequests, setAllAggregateRequests] = useState<number>();
@@ -11,11 +11,12 @@ export const Aggregates: React.FC = () => {
   const getMaskRequestAggregate = () => {
     if (loading) {
       const requestOptions = {
-        method: "Get",
+        method: 'Get'
       };
 
       fetchUrl(`/api/maskrequest/total`, requestOptions).then((data) => {
-        setAllAggregateRequests(+data);
+        setAllAggregateRequests(+data.requested);
+        setAllAggregateDonations(+data.donated);
         setLoading(false);
       });
     }

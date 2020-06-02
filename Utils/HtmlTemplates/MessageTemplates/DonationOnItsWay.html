@@ -6,32 +6,35 @@
         </td>
     </tr>
     <tr>
-        <td style="padding: 20px 0 10px 0; color: #000000; font-family: Arial; font-size: 16px;">
+        <td style="padding: 10px 0 10px 0; color: #000000; font-family: Arial; font-size: 14px;">
             {MaskDetails}
         </td>
     </tr>
     <tr>
-        <td style="padding: 10px 0 0 0; color: #000000; font-family: Arial; font-size: 16px; line-height: 20px;">
-            Please, if this is a potential match, contact {DonorName} for further information regarding the details the donation.
+        <td style="padding: 10px 0 0 0; color: #000000; font-family: Arial; font-size: 14px; line-height: 20px;">
+            Please, if this is a potential match, contact {DonorName} for further information regarding the donation details.
+            <br />
             <br />
             If you no longer need masks, please <a href="{ContactUsLink}" style="color: #000000;">contact us</a>.
             <br />
             <br />
-
+            Please, confirm you have received the donation by clicking on the button bellow.
+            <br />
+            <br />
         </td>
     </tr>
 </table>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" style="padding: 20px 0px 0px 0px;">
     <tr>
-        <td style="color: #000000; font-family: Arial; font-size: 14px;" width="50%">
+        <td style="color: #000000; font-family: Arial; font-size: 16px;" width="50%">
             <form action="{ReceivedDonationLink}">
                 <input type="hidden" name="status" value="{Status}" />
                 <input type="hidden" name="id" value="{Id}" />
-                <button type="submit" style="border-radius: 10px; background-color: #000000; border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer;">Accept donation</button>
+                <button type="submit" style="border-radius: 10px; background-color: #000000; border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer;">Received donation</button>
             </form>
         </td>
-        <td style="color: #000000; font-family: Arial, sans-serif; font-size: 14px;" width="50%">
-            <a href="mailto:{DonorEmail}" style="color: #000000;">Say thanks</a>
+        <td style="color: #000000; font-family: Arial, sans-serif; font-size: 16px;" width="50%">
+            <a href="mailto:{DonorEmail}?subject=Thank you for your donation&body=Hi {DonorName}," style="color: #000000;">Contact donor</a>
         </td>
     </tr>
 </table>

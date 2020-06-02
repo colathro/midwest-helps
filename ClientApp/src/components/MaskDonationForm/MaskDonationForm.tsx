@@ -97,7 +97,7 @@ export const MaskDonationForm: React.FC<MaskDonationFormProps> = (props) => {
   const setDonor = (donor: IDonor) => {
     setMaskDonationRequest({
       requestId: maskDonationRequest.requestId,
-      donor: donor,
+      donor,
       donation: maskDonationRequest.donation
     });
     // if user has not gone through all sections set active and disabled sections
@@ -184,8 +184,8 @@ export const MaskDonationForm: React.FC<MaskDonationFormProps> = (props) => {
           <Col>
             <Title level={2}>Thank you</Title>
             <Typography>
-              The medical facility has been notified on you donation. Please
-              deliver your masks in a timely manner. Thank you again for you
+              The medical facility has been notified about you donation. Please,
+              deliver your masks in a timely manner. Thank you again for your
               donation.
             </Typography>
           </Col>

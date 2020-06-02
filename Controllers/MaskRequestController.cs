@@ -4,12 +4,10 @@ using System.Threading.Tasks;
 using getthehotdish.Models;
 using Microsoft.AspNetCore.Mvc;
 using getthehotdish.DataAccess;
-using Microsoft.Extensions.Logging;
-using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Authorization;
-using getthehotdish.Handlers.Exceptions;
 using getthehotdish.Utils;
 using getthehotdish.Utils.Enums;
+using getthehotdish.BusinessLogic;
 
 namespace getthehotdish.Controllers
 {
@@ -18,13 +16,11 @@ namespace getthehotdish.Controllers
     public class MaskRequestController : ControllerBase
     {
         private readonly DataContext _dataContext;
-        private AdminSettings _adminSettings;
         private EmailSettings _emailSettings;
 
-        public MaskRequestController(DataContext dataContext, AdminSettings adminSettings, EmailSettings emailSettings)
+        public MaskRequestController(DataContext dataContext, EmailSettings emailSettings)
         {
             _dataContext = dataContext;
-            _adminSettings = adminSettings;
             _emailSettings = emailSettings;
         }
 
@@ -62,9 +58,13 @@ namespace getthehotdish.Controllers
         }
 
         [HttpGet("total")]
-        public async Task<ActionResult<int>> GetAggregate()
+        public async Task<ActionResult<AggregateTotalModel>> GetAggregate()
         {
-            return await MaskRequest.GetRequestAggregateCount(this._dataContext);
+            return new AggregateTotalModel
+            {
+                Requested = await MaskRequest.GetRequestAggregateCount(this._dataContext),
+                Donated = await MaskRequest.GetDonatedAggregateCount(this._dataContext)
+            };
         }
 
         [HttpDelete("{id}")]
@@ -86,14 +86,14 @@ namespace getthehotdish.Controllers
         [Authorize]
         public async Task<ActionResult<MaskRequestModel>> Approve(string post)
         {
-            return await MaskRequest.Approve(_dataContext, Guid.Parse(post));
+            return await Admin.ApproveMaskRequest(_emailSettings, _dataContext, Guid.Parse(post));
         }
 
         [HttpPost("approvals/deny/{post}")]
         [Authorize]
-        public async Task<ActionResult<bool>> Deny(string post, string? reason)
+        public async Task<ActionResult<bool>> Deny(string post, string reason = "")
         {
-            return await MaskRequest.Deny(_dataContext, Guid.Parse(post));
+            return await Admin.DenyMaskRequest(_emailSettings, _dataContext, Guid.Parse(post), reason);
         }
     }
 }

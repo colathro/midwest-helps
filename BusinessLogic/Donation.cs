@@ -1,4 +1,4 @@
-﻿using DB = getthehotdish.DataAccess;
+﻿using getthehotdish.DataAccess;
 using getthehotdish.Models;
 using getthehotdish.Utils;
 using getthehotdish.Utils.Enums;
@@ -11,17 +11,21 @@ namespace getthehotdish.BusinessLogic
 {
     public class Donation
     {
-        public static async Task<MaskDonationModel> CreateMaskDonation (DB.DataContext dataContext, EmailSettings emailSettings, MaskDonationModel maskDonationModel)
+        public static async Task<MaskDonationModel> CreateMaskDonation (DataContext dataContext, EmailSettings emailSettings, MaskDonationModel maskDonationModel)
         {
-            var maskDonation = await DB.MaskDonation.Create(dataContext, maskDonationModel);
+            var maskDonation = await MaskDonation.Create(dataContext, maskDonationModel);
             await SendDonationOnItsWayEmail(emailSettings, maskDonation);
-            await EmailUtils.SendEmailAsync(emailSettings, EmailMessageType.MaskDonationSubmitted, "Your was submitted successfully", "Donation offer received", maskDonationModel.Donor.Email);
+            await EmailUtils.SendEmailAsync(emailSettings, EmailMessageType.MaskDonationSubmitted, "Your donation was submitted successfully", "Donation offer received", maskDonationModel.Donor.Email);
             return maskDonation;
         }
-        public static async Task<MaskDonationModel> UpdateMaskDonationStatus(DB.DataContext dataContext, EmailSettings emailSettings, string status, Guid id)
+        public static async Task<MaskDonationModel> UpdateMaskDonationStatus(DataContext dataContext, string status, Guid id)
         {
-            var statusEnum = EnumUtils.GetValue<DB.DonationStatus>(status);
-            var maskDonation = await DB.MaskDonation.UpdateStatus(dataContext, id, statusEnum);
+            var statusEnum = EnumUtils.GetValue<DonationStatus>(status);
+            var maskDonation = await MaskDonation.UpdateStatus(dataContext, id, statusEnum);
+            if (statusEnum == DonationStatus.Received)
+            {
+                await AddDonatedMasksToAggregate(dataContext, maskDonation);
+            }
             return maskDonation;
         }
         private static async Task SendDonationOnItsWayEmail(EmailSettings emailSettings, MaskDonationModel maskDonationModel)
@@ -33,15 +37,22 @@ namespace getthehotdish.BusinessLogic
             var donorCompany = !string.IsNullOrEmpty(donor.Company) ? $"<br />{donor.Company}" : "";
 
             var htmlMessageSB = new StringBuilder(await EmailUtils.GetEmailHTMLTemplate(EmailMessageType.DonationOnItsWay));
-            htmlMessageSB.Replace("{DonorName}", donor.Email)
+            htmlMessageSB.Replace("{DonorName}", donor.Name)
                 .Replace("{DonorEmail}", donor.Email)
                 .Replace("{DonorPhone}", donor.Phone)
                 .Replace("{DonorCompany}", donorCompany)
                 .Replace("{MaskDetails}", getMaskDetailsForEmail(maskDonationModel.Donation))
-                .Replace("{Status}", EnumUtils.GetName(DB.DonationStatus.Received))
+                .Replace("{Status}", EnumUtils.GetName(DonationStatus.Received))
                 .Replace("{Id}", maskDonationModel.Id.ToString())
                 .Replace("{ReceivedDonationLink}", updateStatusLink);
             await EmailUtils.SendEmailAsync(emailSettings, htmlMessageSB.ToString(), $"{maskDonationModel.Donor.Name} has a donation!", "You got a donation offer", recipient.Email);
+        }
+        private static async Task AddDonatedMasksToAggregate(DataContext dataContext, MaskDonationModel maskDonationModel)
+        {
+            foreach (var mask in maskDonationModel.Donation)
+            {
+                await Aggregate.AddToAggregate(dataContext, "Donated " + mask.Type, mask.Quantity);
+            }
         }
 
         private static string getMaskDetailsForEmail(List<MaskInfoModel> masks)
