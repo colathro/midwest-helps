@@ -1,0 +1,1 @@
+export { GDPR } from "./GDPR";

@@ -1,0 +1,40 @@
+#contact-page {
+  padding-top: 20px;
+
+  .back-link {
+    margin-left: -18px;
+    margin-bottom: 24px;
+  }
+
+  form {
+    margin-top: 24px;
+  }
+
+  .ant-form-item-label {
+    flex: 0 0 100%;
+    text-align: left;
+    font-weight: bold;
+
+    ::after {
+      display: none;
+    }
+  }
+
+  .contact-submit:hover {
+    background-color: lighten(black, 20%);
+  }
+
+  .title {
+    font-size: 0.9em;
+    text-align: center;
+  }
+
+  .made-by {
+    color: grey;
+  }
+
+  .cool-folks {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
