@@ -22,10 +22,7 @@ namespace getthehotdish.BusinessLogic
         {
             var statusEnum = EnumUtils.GetValue<DonationStatus>(status);
             var maskDonation = await MaskDonation.UpdateStatus(dataContext, id, statusEnum);
-            if (statusEnum == DonationStatus.Received)
-            {
-                await AddDonatedMasksToAggregate(dataContext, maskDonation);
-            }
+            await dataContext.SaveChangesAsync();
             return maskDonation;
         }
         private static async Task SendDonationOnItsWayEmail(EmailSettings emailSettings, MaskDonationModel maskDonationModel)
@@ -46,13 +43,6 @@ namespace getthehotdish.BusinessLogic
                 .Replace("{Id}", maskDonationModel.Id.ToString())
                 .Replace("{ReceivedDonationLink}", updateStatusLink);
             await EmailUtils.SendEmailAsync(emailSettings, htmlMessageSB.ToString(), $"{maskDonationModel.Donor.Name} has a donation!", "You got a donation offer", recipient.Email);
-        }
-        private static async Task AddDonatedMasksToAggregate(DataContext dataContext, MaskDonationModel maskDonationModel)
-        {
-            foreach (var mask in maskDonationModel.Donation)
-            {
-                await Aggregate.AddToAggregate(dataContext, "Donated " + mask.Type, mask.Quantity);
-            }
         }
 
         private static string getMaskDetailsForEmail(List<MaskInfoModel> masks)

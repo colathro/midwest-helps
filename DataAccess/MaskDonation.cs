@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
 namespace getthehotdish.DataAccess
@@ -97,8 +98,25 @@ namespace getthehotdish.DataAccess
             {
                 throw new ErrorModelException(ErrorCode.NotFound, "Donation");
             }
-            maskDonation.Status = donationStatus;
-            await dataContext.SaveChangesAsync();
+
+            if (maskDonation.Status != donationStatus)
+            {
+                maskDonation.Status = donationStatus;
+                if (maskDonation.Status == DonationStatus.Received)
+                {
+                    var maskRequest = await MaskRequest.Get(dataContext, maskDonation.RequestId);
+                    maskRequest.MaskDetails.Masks = maskRequest.MaskDetails.Masks.Join(maskDonation.Donation, m => m.Type, d => d.Type, (m, d) => {
+                        var quantity = m.Quantity - d.Quantity;
+                        return new MaskInfo
+                        {
+                            Type = m.Type,
+                            Quantity = quantity >= 0 ? quantity : 0
+                        };
+                    }).ToList();
+
+                    await AddDonatedMasksToAggregate(dataContext, maskDonation);
+                }
+            }
 
             return maskDonation.ToMaskDonationModel();
         }
@@ -125,6 +143,13 @@ namespace getthehotdish.DataAccess
         public async static Task<List<MaskDonationModel>> GetAllModel(DataContext dataContext)
         {
             return await dataContext.MaskDonations.Where(m => m.Approved == false).Select(m => m.ToMaskDonationModel()).ToListAsync();
+        }
+        private static async Task AddDonatedMasksToAggregate(DataContext dataContext, MaskDonation maskDonation)
+        {
+            foreach (var mask in maskDonation.Donation)
+            {
+                await Aggregate.AddToAggregate(dataContext, "Donated " + mask.Type, mask.Quantity);
+            }
         }
     }
 

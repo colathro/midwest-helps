@@ -34,8 +34,6 @@ namespace getthehotdish.DataAccess
             }
 
             agg.Value += amount;
-
-            await dataContext.SaveChangesAsync();
         }
     }
 }

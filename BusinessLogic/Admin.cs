@@ -24,9 +24,9 @@ namespace getthehotdish.BusinessLogic
 
             newMaskRequest.Approved = true;
 
-            await dataContext.SaveChangesAsync();
-
             await AddRequestedMasksToAggregate(dataContext, newMaskRequest);
+            
+            await dataContext.SaveChangesAsync();
 
             var maskRequestModel = newMaskRequest.ToMaskRequestModel();
 
