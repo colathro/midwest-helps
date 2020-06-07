@@ -13,6 +13,9 @@ import { MaskRequest } from "./components/MaskRequest";
 import { Covid19 } from "./components/Covid19";
 import { PrivateRoute } from "./components/AdminLogin/PrivateRoute";
 import DocumentTitle from "react-document-title";
+import { Cookie } from "./components/Cookie";
+import { GDPR } from "./components/GDPR";
+import { TOS } from "./components/TOS";
 
 import "./App.scss";
 
@@ -31,6 +34,9 @@ export const App: React.FC = () => (
         <Route exact path="/maskRequest" component={MaskRequest} />
         <Route exact path="/covid19" component={Covid19} />
         <Route exact path="/donationStatus" component={DonationStatus} />
+        <Route exact path="/cookie" component={Cookie} />
+        <Route exact path="/gdpr" component={GDPR} />
+        <Route exact path="/tos" component={TOS} />
         <Route path="/" component={Masks} />
       </Switch>
     </Content>
