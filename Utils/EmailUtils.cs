@@ -25,7 +25,7 @@ namespace getthehotdish.Utils
         {
             await SendEmail(emailSettings, subject, await BuildHtmlMessage(messageHtml, title), toEmail, name);
         }
-        public static async Task SendEmailAsync(EmailSettings emailSettings, EmailMessageType messageType, string title, string subject, string toEmail, string name = "Valued User")
+        public static async Task SendEmailAsync(EmailSettings emailSettings, EmailMessageType messageType, string title, string subject, string toEmail, string name = "Valued User", int titleFontSize = 30)
         {
             await SendEmail(emailSettings, subject, await BuildHtmlMessage(messageType, title), toEmail, name);
         }
@@ -36,13 +36,7 @@ namespace getthehotdish.Utils
         private static async Task<string> BuildHtmlMessage(EmailMessageType messageType, string title)
         {
             var htmlMessage = await GetEmailHTMLTemplate(messageType);
-            var sb = new StringBuilder(await File.ReadAllTextAsync(Directory.GetCurrentDirectory() + emailBodyFileName));
-            sb.Replace(messageReplaceKey, htmlMessage)
-                .Replace(titleReplaceKey, title)
-                .Replace(contactUsLinkKey, contactUsLink)
-                .Replace(siteLinkKey, siteLink);
-
-            return sb.ToString();
+            return await BuildHtmlMessage(htmlMessage, title);
         }
 
         private static async Task<string> BuildHtmlMessage(string htmlMessage, string title)
@@ -57,18 +51,11 @@ namespace getthehotdish.Utils
         }
         private static async Task SendEmail(EmailSettings emailSettings, string subject, string htmlMessage, string toEmail, string name)
         {
-            try
-            {
-                var client = new SendGridClient(emailSettings.EmailPassword);
-                var from = new EmailAddress(emailSettings.EmailSender, "MidwestHelps Support");
-                var to = new EmailAddress(toEmail, name);
-                var msg = MailHelper.CreateSingleEmail(from, to, subject, "", htmlMessage);
-                var response = await client.SendEmailAsync(msg);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            var client = new SendGridClient(emailSettings.EmailPassword);
+            var from = new EmailAddress(emailSettings.EmailSender, "MidwestHelps Support");
+            var to = new EmailAddress(toEmail, name);
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, "", htmlMessage);
+            var response = await client.SendEmailAsync(msg);
         }
 
     }
