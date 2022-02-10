@@ -22,7 +22,7 @@
     "less-loader": "^5.0.0",
     "lodash": "^4.17.15",
     "merge": "^1.2.1",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "oidc-client": "^1.9.0",
     "react": "^16.0.0",
     "react-app-rewired": "^2.1.5",
