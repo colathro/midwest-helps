@@ -36,7 +36,7 @@
     "usa-states": "0.0.5"
   },
   "devDependencies": {
-    "ajv": "^6.9.1",
+    "ajv": "^6.12.3",
     "cross-env": "^5.2.0",
     "typescript": "^3.8.3"
   },
